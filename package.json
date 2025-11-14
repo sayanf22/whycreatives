@@ -69,6 +69,9 @@
     "vaul": "^0.9.9",
     "zod": "^3.25.76"
   },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.28.1"
+  },
   "devDependencies": {
     "@eslint/js": "^9.32.0",
     "@tailwindcss/typography": "^0.5.16",
