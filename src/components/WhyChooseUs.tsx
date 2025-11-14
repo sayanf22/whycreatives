@@ -51,14 +51,14 @@ export const WhyChooseUs = () => {
   return (
     <section 
       ref={ref}
-      className={`py-12 sm:py-20 md:py-32 px-4 sm:px-6 bg-background transition-all duration-1000 ${
+      className={`py-12 sm:py-20 md:py-32 px-5 sm:px-6 bg-background transition-all duration-1000 overflow-x-hidden ${
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
       }`}
     >
-      <div className="container mx-auto max-w-7xl">
-        <div className="grid lg:grid-cols-2 gap-10 sm:gap-16 lg:gap-20 items-center">
+      <div className="w-full max-w-7xl mx-auto">
+        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-10 sm:gap-16 lg:gap-20 items-center">
           {/* Left side - Text content */}
-          <div className="order-2 lg:order-1">
+          <div className="order-2 lg:order-1 w-full">
             <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black mb-4 sm:mb-6 leading-tight">
               Why Choose <br />
               <span className="text-muted-foreground">WhyCreatives?</span>
@@ -99,8 +99,8 @@ export const WhyChooseUs = () => {
             </div>
           </div>
 
-          {/* Right side - Display Cards */}
-          <div className="order-1 lg:order-2 flex items-center justify-center min-h-[350px] sm:min-h-[500px] lg:min-h-[600px]">
+          {/* Right side - Display Cards - Hidden on mobile to prevent overflow */}
+          <div className="order-1 lg:order-2 hidden lg:flex items-center justify-center min-h-[600px] w-full">
             <DisplayCards cards={cards} />
           </div>
         </div>

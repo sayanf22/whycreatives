@@ -64,43 +64,43 @@ export const Hero = () => {
   ];
 
   return (
-    <section className="min-h-screen flex flex-col justify-center px-4 sm:px-6 pt-24 sm:pt-32 md:pt-36 pb-8 sm:pb-12 relative overflow-hidden">
+    <section className="min-h-screen flex flex-col justify-start md:justify-center px-5 sm:px-6 pt-28 sm:pt-32 md:pt-36 pb-10 sm:pb-12 relative overflow-x-hidden">
       <Spotlight
-        className="-top-40 left-0 md:left-60 md:-top-20 opacity-30"
+        className="hidden md:block -top-40 left-0 md:left-60 md:-top-20 opacity-20"
         fill="white"
       />
       
-      <div className="container mx-auto max-w-7xl">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+      <div className="w-full max-w-7xl mx-auto">
+        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-6 lg:gap-12 items-center">
           {/* Left content */}
-          <div className="relative z-10 animate-fade-in-up">
-            <h1 className="text-[2.5rem] sm:text-5xl md:text-7xl lg:text-8xl font-black text-foreground mb-4 sm:mb-6 leading-[1.1] tracking-tight">
+          <div className="relative z-10 w-full animate-fade-in-up">
+            <h1 className="text-[2.2rem] leading-[1.15] sm:text-5xl md:text-7xl lg:text-8xl font-black text-foreground mb-4 sm:mb-6 tracking-tight">
               Creative
               <br />
               Excellence
               <br />
               <span className="text-muted-foreground">at 90% Less</span>
             </h1>
-            <p className="text-sm sm:text-xl md:text-2xl text-muted-foreground mb-6 sm:mb-12 max-w-2xl leading-relaxed">
+            <p className="text-sm sm:text-xl md:text-2xl text-muted-foreground mb-5 sm:mb-12 leading-relaxed">
               Professional video editing, web design, and social media management. 
               Transparent pricing. Zero hidden fees.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-6 sm:mb-0">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <Button
                 size="lg"
                 asChild
-                className="bg-foreground text-background hover:bg-muted-foreground text-base sm:text-lg px-8 py-6 font-bold w-full sm:w-auto h-auto"
+                className="bg-foreground text-background hover:bg-muted-foreground text-base sm:text-lg px-8 py-5 sm:py-6 font-bold w-full sm:w-auto"
               >
-                <Link to="/contact" className="flex items-center justify-center">
+                <Link to="/contact" className="flex items-center justify-center gap-2">
                   Get a Quote
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                  <ArrowRight className="h-5 w-5" />
                 </Link>
               </Button>
               <Button
                 size="lg"
                 variant="outline"
                 asChild
-                className="border-2 border-foreground text-foreground hover:bg-foreground hover:text-background text-base sm:text-lg px-8 py-6 font-bold w-full sm:w-auto h-auto"
+                className="border-2 border-foreground text-foreground hover:bg-foreground hover:text-background text-base sm:text-lg px-8 py-5 sm:py-6 font-bold w-full sm:w-auto"
               >
                 <Link to="/what-we-do" className="flex items-center justify-center">
                   See Our Services
@@ -109,32 +109,30 @@ export const Hero = () => {
             </div>
           </div>
 
-          {/* Right content - Orbital Timeline */}
+          {/* Right content - Orbital Timeline - Hidden on mobile */}
           <div 
-            className="relative h-[350px] sm:h-[500px] lg:h-[600px] animate-fade-in rounded-lg flex items-center justify-center mt-6 lg:mt-0" 
+            className="hidden lg:flex relative h-[600px] animate-fade-in rounded-lg items-center justify-center" 
             style={{ animationDelay: "0.2s" }}
           >
-            <div className="w-full h-full flex items-center justify-center">
-              <div className="w-[280px] h-[280px] sm:w-full sm:h-full">
-                <RadialOrbitalTimeline timelineData={timelineData} />
-              </div>
+            <div className="w-full h-full">
+              <RadialOrbitalTimeline timelineData={timelineData} />
             </div>
           </div>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-3 gap-4 sm:gap-8 mt-12 sm:mt-20 pt-12 sm:pt-20 border-t border-border animate-fade-in" style={{ animationDelay: "0.6s" }}>
-          <div className="text-center px-2">
-            <div className="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mb-2">90%</div>
-            <div className="text-xs sm:text-sm text-muted-foreground uppercase tracking-wide">SAVINGS</div>
+        <div className="grid grid-cols-3 gap-3 sm:gap-8 mt-10 sm:mt-20 pt-10 sm:pt-20 border-t border-border animate-fade-in" style={{ animationDelay: "0.6s" }}>
+          <div className="text-center">
+            <div className="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mb-1 sm:mb-2">90%</div>
+            <div className="text-[11px] sm:text-sm text-muted-foreground uppercase tracking-wide font-medium">SAVINGS</div>
           </div>
-          <div className="text-center px-2">
-            <div className="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mb-2">500+</div>
-            <div className="text-xs sm:text-sm text-muted-foreground uppercase tracking-wide">PROJECTS</div>
+          <div className="text-center">
+            <div className="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mb-1 sm:mb-2">500+</div>
+            <div className="text-[11px] sm:text-sm text-muted-foreground uppercase tracking-wide font-medium">PROJECTS</div>
           </div>
-          <div className="text-center px-2">
-            <div className="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mb-2">100%</div>
-            <div className="text-xs sm:text-sm text-muted-foreground uppercase tracking-wide">TRANSPARENCY</div>
+          <div className="text-center">
+            <div className="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mb-1 sm:mb-2">100%</div>
+            <div className="text-[11px] sm:text-sm text-muted-foreground uppercase tracking-wide font-medium">TRANSPARENCY</div>
           </div>
         </div>
       </div>
