@@ -51,56 +51,56 @@ export const WhyChooseUs = () => {
   return (
     <section 
       ref={ref}
-      className={`py-32 px-6 bg-background transition-all duration-1000 ${
+      className={`py-12 sm:py-20 md:py-32 px-4 sm:px-6 bg-background transition-all duration-1000 ${
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
       }`}
     >
       <div className="container mx-auto max-w-7xl">
-        <div className="grid lg:grid-cols-2 gap-20 items-center">
+        <div className="grid lg:grid-cols-2 gap-10 sm:gap-16 lg:gap-20 items-center">
           {/* Left side - Text content */}
           <div className="order-2 lg:order-1">
-            <h2 className="text-5xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black mb-4 sm:mb-6 leading-tight">
               Why Choose <br />
               <span className="text-muted-foreground">WhyCreatives?</span>
             </h2>
-            <p className="text-lg md:text-xl text-muted-foreground mb-10 leading-relaxed max-w-xl">
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-6 sm:mb-10 leading-relaxed max-w-xl">
               We combine exceptional quality with unbeatable pricing to help your business grow. 
               Our India-based team delivers professional creative services at 90% less cost than traditional agencies.
             </p>
-            <div className="space-y-6">
-              <div className="flex items-start gap-4 p-4 border-l-2 border-white/20 hover:border-white transition-colors duration-300">
-                <DollarSign className="w-8 h-8 mt-1 text-white flex-shrink-0" />
+            <div className="space-y-4 sm:space-y-6">
+              <div className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 border-l-2 border-white/20 hover:border-white transition-colors duration-300">
+                <DollarSign className="w-6 h-6 sm:w-8 sm:h-8 mt-1 text-white flex-shrink-0" />
                 <div>
-                  <h3 className="text-xl font-bold mb-2">Unbeatable Value</h3>
-                  <p className="text-muted-foreground">Save 90% without compromising on quality or professionalism</p>
+                  <h3 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">Unbeatable Value</h3>
+                  <p className="text-sm sm:text-base text-muted-foreground">Save 90% without compromising on quality or professionalism</p>
                 </div>
               </div>
-              <div className="flex items-start gap-4 p-4 border-l-2 border-white/20 hover:border-white transition-colors duration-300">
-                <Zap className="w-8 h-8 mt-1 text-white flex-shrink-0" />
+              <div className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 border-l-2 border-white/20 hover:border-white transition-colors duration-300">
+                <Zap className="w-6 h-6 sm:w-8 sm:h-8 mt-1 text-white flex-shrink-0" />
                 <div>
-                  <h3 className="text-xl font-bold mb-2">Lightning Fast</h3>
-                  <p className="text-muted-foreground">Quick turnaround times with efficient workflows</p>
+                  <h3 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">Lightning Fast</h3>
+                  <p className="text-sm sm:text-base text-muted-foreground">Quick turnaround times with efficient workflows</p>
                 </div>
               </div>
-              <div className="flex items-start gap-4 p-4 border-l-2 border-white/20 hover:border-white transition-colors duration-300">
-                <Shield className="w-8 h-8 mt-1 text-white flex-shrink-0" />
+              <div className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 border-l-2 border-white/20 hover:border-white transition-colors duration-300">
+                <Shield className="w-6 h-6 sm:w-8 sm:h-8 mt-1 text-white flex-shrink-0" />
                 <div>
-                  <h3 className="text-xl font-bold mb-2">100% Transparent</h3>
-                  <p className="text-muted-foreground">Clear pricing, no hidden fees, regular updates</p>
+                  <h3 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">100% Transparent</h3>
+                  <p className="text-sm sm:text-base text-muted-foreground">Clear pricing, no hidden fees, regular updates</p>
                 </div>
               </div>
-              <div className="flex items-start gap-4 p-4 border-l-2 border-white/20 hover:border-white transition-colors duration-300">
-                <Users className="w-8 h-8 mt-1 text-white flex-shrink-0" />
+              <div className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 border-l-2 border-white/20 hover:border-white transition-colors duration-300">
+                <Users className="w-6 h-6 sm:w-8 sm:h-8 mt-1 text-white flex-shrink-0" />
                 <div>
-                  <h3 className="text-xl font-bold mb-2">Dedicated Support</h3>
-                  <p className="text-muted-foreground">24/7 availability with personal account managers</p>
+                  <h3 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">Dedicated Support</h3>
+                  <p className="text-sm sm:text-base text-muted-foreground">24/7 availability with personal account managers</p>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Right side - Display Cards */}
-          <div className="order-1 lg:order-2 flex items-center justify-center min-h-[500px] lg:min-h-[600px]">
+          <div className="order-1 lg:order-2 flex items-center justify-center min-h-[350px] sm:min-h-[500px] lg:min-h-[600px]">
             <DisplayCards cards={cards} />
           </div>
         </div>

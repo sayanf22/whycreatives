@@ -64,22 +64,22 @@ export const Hero = () => {
   ];
 
   return (
-    <section className="min-h-screen flex flex-col justify-center px-4 sm:px-6 pt-24 sm:pt-32 md:pt-36 pb-12 relative overflow-hidden">
+    <section className="min-h-screen flex flex-col justify-center px-4 sm:px-6 pt-20 sm:pt-32 md:pt-36 pb-8 sm:pb-12 relative overflow-hidden">
       <Spotlight
         className="-top-40 left-0 md:left-60 md:-top-20"
         fill="white"
       />
       
       <div className="container mx-auto max-w-7xl">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-6 lg:gap-12 items-center">
           {/* Left content */}
           <div className="relative z-10 animate-fade-in-up">
-            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black text-foreground mb-4 sm:mb-6 leading-tight">
+            <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-black text-foreground mb-3 sm:mb-6 leading-[1.1]">
               Creative Excellence
               <br />
               <span className="text-muted-foreground">at 90% Less</span>
             </h1>
-            <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-8 sm:mb-12 max-w-2xl">
+            <p className="text-base sm:text-xl md:text-2xl text-muted-foreground mb-6 sm:mb-12 max-w-2xl leading-relaxed">
               Professional video editing, web design, and social media management. 
               Transparent pricing. Zero hidden fees.
             </p>
@@ -87,7 +87,7 @@ export const Hero = () => {
               <Button
                 size="lg"
                 asChild
-                className="bg-foreground text-background hover:bg-muted-foreground text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 font-bold w-full sm:w-auto"
+                className="bg-foreground text-background hover:bg-muted-foreground text-sm sm:text-lg px-6 sm:px-8 py-4 sm:py-6 font-bold w-full sm:w-auto"
               >
                 <Link to="/contact">
                   Get a Quote
@@ -98,7 +98,7 @@ export const Hero = () => {
                 size="lg"
                 variant="outline"
                 asChild
-                className="border-2 border-foreground text-foreground hover:bg-foreground hover:text-background text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 font-bold w-full sm:w-auto"
+                className="border-2 border-foreground text-foreground hover:bg-foreground hover:text-background text-sm sm:text-lg px-6 sm:px-8 py-4 sm:py-6 font-bold w-full sm:w-auto"
               >
                 <Link to="/what-we-do">
                   See Our Services
@@ -109,28 +109,28 @@ export const Hero = () => {
 
           {/* Right content - Orbital Timeline */}
           <div 
-            className="relative h-[400px] sm:h-[500px] lg:h-[600px] animate-fade-in rounded-lg overflow-hidden flex items-center justify-center" 
+            className="relative h-[300px] sm:h-[500px] lg:h-[600px] animate-fade-in rounded-lg overflow-hidden flex items-center justify-center mt-4 lg:mt-0" 
             style={{ animationDelay: "0.2s" }}
           >
-            <div className="w-full h-full">
+            <div className="w-full h-full scale-90 sm:scale-100">
               <RadialOrbitalTimeline timelineData={timelineData} />
             </div>
           </div>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-3 gap-4 sm:gap-8 mt-12 sm:mt-20 pt-12 sm:pt-20 border-t border-border animate-fade-in" style={{ animationDelay: "0.6s" }}>
+        <div className="grid grid-cols-3 gap-3 sm:gap-8 mt-8 sm:mt-20 pt-8 sm:pt-20 border-t border-border animate-fade-in" style={{ animationDelay: "0.6s" }}>
           <div className="text-center">
-            <div className="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mb-1 sm:mb-2">90%</div>
-            <div className="text-xs sm:text-sm text-muted-foreground uppercase tracking-wider">Savings</div>
+            <div className="text-2xl sm:text-4xl md:text-5xl font-black text-foreground mb-1 sm:mb-2">90%</div>
+            <div className="text-[10px] sm:text-sm text-muted-foreground uppercase tracking-wider">Savings</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mb-1 sm:mb-2">500+</div>
-            <div className="text-xs sm:text-sm text-muted-foreground uppercase tracking-wider">Projects</div>
+            <div className="text-2xl sm:text-4xl md:text-5xl font-black text-foreground mb-1 sm:mb-2">500+</div>
+            <div className="text-[10px] sm:text-sm text-muted-foreground uppercase tracking-wider">Projects</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mb-1 sm:mb-2">100%</div>
-            <div className="text-xs sm:text-sm text-muted-foreground uppercase tracking-wider">Transparency</div>
+            <div className="text-2xl sm:text-4xl md:text-5xl font-black text-foreground mb-1 sm:mb-2">100%</div>
+            <div className="text-[10px] sm:text-sm text-muted-foreground uppercase tracking-wider">Transparency</div>
           </div>
         </div>
       </div>
