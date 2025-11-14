@@ -100,10 +100,12 @@ export const WhyChooseUs = () => {
           </div>
 
           {/* Right side - Display Cards */}
-          <div className="order-1 lg:order-2 flex items-center justify-center w-full my-6 lg:my-0">
-            {/* Mobile version - smaller container */}
-            <div className="lg:hidden w-full max-w-[300px] h-[300px] mx-auto">
-              <DisplayCards cards={cards} />
+          <div className="order-1 lg:order-2 flex items-center justify-center w-full my-8 lg:my-0">
+            {/* Mobile version - scaled to fit perfectly */}
+            <div className="lg:hidden w-[120%] -mx-[10%] h-[600px] flex items-center justify-center overflow-visible py-12">
+              <div className="w-full h-full scale-[0.85]">
+                <DisplayCards cards={cards} />
+              </div>
             </div>
             {/* Desktop version - full size */}
             <div className="hidden lg:flex items-center justify-center min-h-[600px] w-full">

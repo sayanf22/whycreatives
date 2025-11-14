@@ -111,12 +111,14 @@ export const Hero = () => {
 
           {/* Right content - Orbital Timeline */}
           <div 
-            className="relative w-full flex items-center justify-center animate-fade-in my-6 lg:my-0" 
+            className="relative w-full flex items-center justify-center animate-fade-in my-8 lg:my-0" 
             style={{ animationDelay: "0.2s" }}
           >
-            {/* Mobile version - smaller and centered */}
-            <div className="lg:hidden w-full max-w-[320px] h-[320px] mx-auto">
-              <RadialOrbitalTimeline timelineData={timelineData} />
+            {/* Mobile version - scaled to fit perfectly */}
+            <div className="lg:hidden w-[120%] -mx-[10%] h-[600px] flex items-center justify-center overflow-visible py-12">
+              <div className="w-full h-full scale-[0.85]">
+                <RadialOrbitalTimeline timelineData={timelineData} />
+              </div>
             </div>
             {/* Desktop version - full size */}
             <div className="hidden lg:block w-full h-[600px]">
