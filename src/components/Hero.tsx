@@ -109,12 +109,17 @@ export const Hero = () => {
             </div>
           </div>
 
-          {/* Right content - Orbital Timeline - Hidden on mobile */}
+          {/* Right content - Orbital Timeline */}
           <div 
-            className="hidden lg:flex relative h-[600px] animate-fade-in rounded-lg items-center justify-center" 
+            className="relative w-full flex items-center justify-center animate-fade-in my-6 lg:my-0" 
             style={{ animationDelay: "0.2s" }}
           >
-            <div className="w-full h-full">
+            {/* Mobile version - smaller and centered */}
+            <div className="lg:hidden w-full max-w-[320px] h-[320px] mx-auto">
+              <RadialOrbitalTimeline timelineData={timelineData} />
+            </div>
+            {/* Desktop version - full size */}
+            <div className="hidden lg:block w-full h-[600px]">
               <RadialOrbitalTimeline timelineData={timelineData} />
             </div>
           </div>

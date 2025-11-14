@@ -99,9 +99,16 @@ export const WhyChooseUs = () => {
             </div>
           </div>
 
-          {/* Right side - Display Cards - Hidden on mobile to prevent overflow */}
-          <div className="order-1 lg:order-2 hidden lg:flex items-center justify-center min-h-[600px] w-full">
-            <DisplayCards cards={cards} />
+          {/* Right side - Display Cards */}
+          <div className="order-1 lg:order-2 flex items-center justify-center w-full my-6 lg:my-0">
+            {/* Mobile version - smaller container */}
+            <div className="lg:hidden w-full max-w-[300px] h-[300px] mx-auto">
+              <DisplayCards cards={cards} />
+            </div>
+            {/* Desktop version - full size */}
+            <div className="hidden lg:flex items-center justify-center min-h-[600px] w-full">
+              <DisplayCards cards={cards} />
+            </div>
           </div>
         </div>
       </div>
