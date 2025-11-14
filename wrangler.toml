@@ -1,0 +1,10 @@
+# Cloudflare Pages Configuration
+name = "whycreatives"
+compatibility_date = "2024-11-14"
+
+[build]
+command = "npm install --legacy-peer-deps && npm run build"
+cwd = ""
+
+[build.upload]
+format = "service-worker"
