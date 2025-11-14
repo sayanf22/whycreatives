@@ -1,0 +1,110 @@
+import { useScrollAnimation } from "@/hooks/use-scroll-animation";
+import { DollarSign, Users, Zap, Shield } from "lucide-react";
+import DisplayCards from "@/components/ui/display-cards";
+
+export const WhyChooseUs = () => {
+  const { ref, isVisible } = useScrollAnimation();
+
+  const cards = [
+    {
+      icon: <DollarSign className="size-5 text-white" />,
+      title: "90% Savings",
+      description: "Premium quality, fraction of cost",
+      date: "Cost Effective",
+      iconClassName: "text-white",
+      titleClassName: "text-white font-bold",
+      className:
+        "[grid-area:stack] hover:-translate-y-10 before:absolute before:w-[100%] before:outline-1 before:rounded-xl before:outline-border before:h-[100%] before:content-[''] before:bg-blend-overlay before:bg-background/70 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0",
+    },
+    {
+      icon: <Zap className="size-5 text-white" />,
+      title: "Fast Delivery",
+      description: "Rapid turnaround, top quality",
+      date: "Lightning Speed",
+      iconClassName: "text-white",
+      titleClassName: "text-white font-bold",
+      className:
+        "[grid-area:stack] translate-x-20 translate-y-12 hover:-translate-y-1 before:absolute before:w-[100%] before:outline-1 before:rounded-xl before:outline-border before:h-[100%] before:content-[''] before:bg-blend-overlay before:bg-background/70 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0",
+    },
+    {
+      icon: <Shield className="size-5 text-white" />,
+      title: "100% Transparent",
+      description: "No hidden fees, clear pricing",
+      date: "Honest Pricing",
+      iconClassName: "text-white",
+      titleClassName: "text-white font-bold",
+      className:
+        "[grid-area:stack] translate-x-40 translate-y-24 hover:translate-y-14 before:absolute before:w-[100%] before:outline-1 before:rounded-xl before:outline-border before:h-[100%] before:content-[''] before:bg-blend-overlay before:bg-background/70 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0",
+    },
+    {
+      icon: <Users className="size-5 text-white" />,
+      title: "24/7 Support",
+      description: "Dedicated team, always available",
+      date: "Always Here",
+      iconClassName: "text-white",
+      titleClassName: "text-white font-bold",
+      className:
+        "[grid-area:stack] translate-x-60 translate-y-36 hover:translate-y-26",
+    },
+  ];
+
+  return (
+    <section 
+      ref={ref}
+      className={`py-32 px-6 bg-background transition-all duration-1000 ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
+      }`}
+    >
+      <div className="container mx-auto max-w-7xl">
+        <div className="grid lg:grid-cols-2 gap-20 items-center">
+          {/* Left side - Text content */}
+          <div className="order-2 lg:order-1">
+            <h2 className="text-5xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight">
+              Why Choose <br />
+              <span className="text-muted-foreground">WhyCreatives?</span>
+            </h2>
+            <p className="text-lg md:text-xl text-muted-foreground mb-10 leading-relaxed max-w-xl">
+              We combine exceptional quality with unbeatable pricing to help your business grow. 
+              Our India-based team delivers professional creative services at 90% less cost than traditional agencies.
+            </p>
+            <div className="space-y-6">
+              <div className="flex items-start gap-4 p-4 border-l-2 border-white/20 hover:border-white transition-colors duration-300">
+                <DollarSign className="w-8 h-8 mt-1 text-white flex-shrink-0" />
+                <div>
+                  <h3 className="text-xl font-bold mb-2">Unbeatable Value</h3>
+                  <p className="text-muted-foreground">Save 90% without compromising on quality or professionalism</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4 p-4 border-l-2 border-white/20 hover:border-white transition-colors duration-300">
+                <Zap className="w-8 h-8 mt-1 text-white flex-shrink-0" />
+                <div>
+                  <h3 className="text-xl font-bold mb-2">Lightning Fast</h3>
+                  <p className="text-muted-foreground">Quick turnaround times with efficient workflows</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4 p-4 border-l-2 border-white/20 hover:border-white transition-colors duration-300">
+                <Shield className="w-8 h-8 mt-1 text-white flex-shrink-0" />
+                <div>
+                  <h3 className="text-xl font-bold mb-2">100% Transparent</h3>
+                  <p className="text-muted-foreground">Clear pricing, no hidden fees, regular updates</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4 p-4 border-l-2 border-white/20 hover:border-white transition-colors duration-300">
+                <Users className="w-8 h-8 mt-1 text-white flex-shrink-0" />
+                <div>
+                  <h3 className="text-xl font-bold mb-2">Dedicated Support</h3>
+                  <p className="text-muted-foreground">24/7 availability with personal account managers</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right side - Display Cards */}
+          <div className="order-1 lg:order-2 flex items-center justify-center min-h-[500px] lg:min-h-[600px]">
+            <DisplayCards cards={cards} />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
