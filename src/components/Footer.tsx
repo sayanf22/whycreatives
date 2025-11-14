@@ -1,10 +1,10 @@
 export const Footer = () => {
   return (
-    <footer className="bg-background border-t-2 border-foreground py-16 px-6">
+    <footer className="bg-background border-t-2 border-foreground py-12 sm:py-16 px-4 sm:px-6">
       <div className="container mx-auto max-w-7xl">
-        <div className="grid md:grid-cols-4 gap-12 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 mb-8 sm:mb-12">
           <div className="md:col-span-1">
-            <h3 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4 sm:mb-6">
               WhyCreatives
             </h3>
             <p className="text-muted-foreground text-sm leading-relaxed">
@@ -86,8 +86,8 @@ export const Footer = () => {
           </div>
         </div>
 
-        <div className="pt-8 border-t border-border text-center md:text-left">
-          <p className="text-sm text-muted-foreground">
+        <div className="pt-6 sm:pt-8 border-t border-border text-center md:text-left">
+          <p className="text-xs sm:text-sm text-muted-foreground">
             © 2024 WhyCreatives. Tripura, Agartala 🇮🇳
           </p>
         </div>

@@ -37,18 +37,18 @@ export const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-24 px-6 bg-secondary">
+    <section id="contact" className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 bg-secondary">
       <div className="container mx-auto max-w-6xl">
-        <div className="text-center mb-16">
-          <h2 className="text-5xl md:text-6xl font-black text-foreground mb-4">
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-foreground mb-3 sm:mb-4">
             Let's Talk
           </h2>
-          <p className="text-xl text-muted-foreground">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground px-4">
             Ready to save 90%? Get your free quote today.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
+        <div className="grid lg:grid-cols-2 gap-8 sm:gap-12">
           <div>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
@@ -57,7 +57,7 @@ export const Contact = () => {
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
-                  className="bg-background border-2 border-border text-foreground placeholder:text-muted-foreground focus:border-foreground h-14 text-lg"
+                  className="bg-background border-2 border-border text-foreground placeholder:text-muted-foreground focus:border-foreground h-12 sm:h-14 text-base sm:text-lg"
                 />
               </div>
               <div>
@@ -67,7 +67,7 @@ export const Contact = () => {
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   required
-                  className="bg-background border-2 border-border text-foreground placeholder:text-muted-foreground focus:border-foreground h-14 text-lg"
+                  className="bg-background border-2 border-border text-foreground placeholder:text-muted-foreground focus:border-foreground h-12 sm:h-14 text-base sm:text-lg"
                 />
               </div>
               <div>
@@ -75,7 +75,7 @@ export const Contact = () => {
                   placeholder="Phone Number"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="bg-background border-2 border-border text-foreground placeholder:text-muted-foreground focus:border-foreground h-14 text-lg"
+                  className="bg-background border-2 border-border text-foreground placeholder:text-muted-foreground focus:border-foreground h-12 sm:h-14 text-base sm:text-lg"
                 />
               </div>
               <div>
@@ -83,7 +83,7 @@ export const Contact = () => {
                   placeholder="Service Interested In"
                   value={formData.service}
                   onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                  className="bg-background border-2 border-border text-foreground placeholder:text-muted-foreground focus:border-foreground h-14 text-lg"
+                  className="bg-background border-2 border-border text-foreground placeholder:text-muted-foreground focus:border-foreground h-12 sm:h-14 text-base sm:text-lg"
                 />
               </div>
               <div>
@@ -92,22 +92,22 @@ export const Contact = () => {
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   required
-                  rows={6}
-                  className="bg-background border-2 border-border text-foreground placeholder:text-muted-foreground focus:border-foreground text-lg resize-none"
+                  rows={5}
+                  className="bg-background border-2 border-border text-foreground placeholder:text-muted-foreground focus:border-foreground text-base sm:text-lg resize-none"
                 />
               </div>
               <Button
                 type="submit"
-                className="w-full bg-foreground text-background hover:bg-muted-foreground h-14 text-lg font-bold"
+                className="w-full bg-foreground text-background hover:bg-muted-foreground h-12 sm:h-14 text-base sm:text-lg font-bold"
               >
                 Send Quote Request
               </Button>
             </form>
           </div>
 
-          <div className="space-y-8">
+          <div className="space-y-6 sm:space-y-8">
             <div>
-              <h3 className="text-3xl font-bold text-foreground mb-8">Get in Touch</h3>
+              <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-6 sm:mb-8">Get in Touch</h3>
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
                   <Mail className="h-6 w-6 text-foreground mt-1" />
