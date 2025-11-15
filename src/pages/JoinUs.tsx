@@ -3,6 +3,7 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { FadeInWhenVisible } from "@/components/FadeInWhenVisible";
 import { Mail, Phone, User, FileText } from "lucide-react";
 import { useState } from "react";
 
@@ -33,27 +34,32 @@ const JoinUs = () => {
       <main className="pt-32 pb-24 px-6">
         <div className="container mx-auto max-w-4xl">
           {/* Hero Section */}
-          <div className="text-center mb-16 animate-fade-in-up">
-            <h1 className="text-5xl md:text-7xl font-black text-foreground mb-6">
-              Join Our Team
-            </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Be part of WhyCreatives and help businesses grow with professional creative services
-            </p>
-          </div>
+          <FadeInWhenVisible>
+            <div className="text-center mb-16">
+              <h1 className="text-5xl md:text-7xl font-black text-foreground mb-6">
+                Join Our Team
+              </h1>
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                Be part of WhyCreatives and help businesses grow with professional creative services
+              </p>
+            </div>
+          </FadeInWhenVisible>
 
           {/* Location Info */}
-          <div className="mb-12 text-center animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
-            <p className="text-lg text-muted-foreground">
-              <span className="font-bold text-white">Location:</span> Tripura, Agartala 🇮🇳
-            </p>
-            <p className="text-muted-foreground mt-2">
-              Remote positions available
-            </p>
-          </div>
+          <FadeInWhenVisible delay={0.1}>
+            <div className="mb-12 text-center">
+              <p className="text-lg text-muted-foreground">
+                <span className="font-bold text-white">Location:</span> Tripura, Agartala 🇮🇳
+              </p>
+              <p className="text-muted-foreground mt-2">
+                Remote positions available
+              </p>
+            </div>
+          </FadeInWhenVisible>
 
           {/* Application Form */}
-          <div className="border-2 border-white p-8 md:p-12 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
+          <FadeInWhenVisible delay={0.2}>
+            <div className="border-2 border-white p-8 md:p-12 rounded-2xl">
             <h2 className="text-3xl font-black text-white mb-8 text-center">
               Apply Now
             </h2>
@@ -154,13 +160,16 @@ const JoinUs = () => {
               </Button>
             </form>
           </div>
+          </FadeInWhenVisible>
 
           {/* Additional Info */}
-          <div className="mt-12 text-center animate-fade-in-up" style={{ animationDelay: "0.3s" }}>
-            <p className="text-muted-foreground">
-              We review all applications and will get back to you within 5-7 business days.
-            </p>
-          </div>
+          <FadeInWhenVisible delay={0.3}>
+            <div className="mt-12 text-center">
+              <p className="text-muted-foreground">
+                We review all applications and will get back to you within 5-7 business days.
+              </p>
+            </div>
+          </FadeInWhenVisible>
         </div>
       </main>
 

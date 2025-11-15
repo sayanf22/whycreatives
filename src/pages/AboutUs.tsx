@@ -8,8 +8,7 @@ const AboutUs = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
       
-      <FadeInWhenVisible>
-        <About3
+      <About3
         title="About WhyCreatives"
         description="We're a passionate team based in Tripura, Agartala, dedicated to making professional creative services accessible to businesses worldwide. Quality shouldn't be expensive."
         mainImage={{
@@ -65,7 +64,6 @@ const AboutUs = () => {
           { label: "Support Available", value: "24/7" },
         ]}
       />
-      </FadeInWhenVisible>
 
       <Footer />
     </div>

@@ -1,5 +1,6 @@
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
+import { FadeInWhenVisible } from "@/components/FadeInWhenVisible";
 import { Users } from "lucide-react";
 
 // TODO: Fetch team data from database
@@ -12,7 +13,8 @@ const People = () => {
       
       <main className="pt-32 pb-24 px-6">
         <div className="container mx-auto max-w-7xl">
-          <div className="text-center mb-16 animate-fade-in-up">
+          <FadeInWhenVisible>
+            <div className="text-center mb-16">
             <h1 className="text-5xl md:text-7xl font-black text-foreground mb-6">
               Meet Our Team
             </h1>
@@ -20,10 +22,12 @@ const People = () => {
               Talented professionals dedicated to bringing your creative vision to life
             </p>
           </div>
+          </FadeInWhenVisible>
 
+          <FadeInWhenVisible delay={0.2}>
           {team.length === 0 ? (
             // Empty State
-            <div className="flex flex-col items-center justify-center py-20 animate-fade-in">
+            <div className="flex flex-col items-center justify-center py-20">
               <div className="w-24 h-24 rounded-full bg-white/5 flex items-center justify-center mb-6">
                 <Users className="w-12 h-12 text-muted-foreground" />
               </div>
@@ -46,8 +50,7 @@ const People = () => {
               {team.map((member, index) => (
                 <div
                   key={member.id}
-                  className="group border-2 border-border hover:border-foreground transition-all duration-300 overflow-hidden animate-fade-in-up"
-                  style={{ animationDelay: `${index * 0.1}s` }}
+                  className="group border-2 border-border hover:border-foreground transition-all duration-300 overflow-hidden"
                 >
                   <div className="aspect-square bg-secondary flex items-center justify-center group-hover:bg-muted transition-colors duration-300">
                     {member.image ? (
@@ -73,6 +76,7 @@ const People = () => {
               ))}
             </div>
           )}
+          </FadeInWhenVisible>
         </div>
       </main>
 

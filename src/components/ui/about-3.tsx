@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { FadeInWhenVisible } from "@/components/FadeInWhenVisible";
 
 interface About3Props {
   title?: string;
@@ -95,11 +96,15 @@ export const About3 = ({
   return (
     <section className="py-32">
       <div className="container mx-auto">
-        <div className="mb-14 grid gap-5 text-center md:grid-cols-2 md:text-left">
-          <h1 className="text-5xl font-semibold">{title}</h1>
-          <p className="text-muted-foreground">{description}</p>
-        </div>
-        <div className="grid gap-7 lg:grid-cols-3">
+        <FadeInWhenVisible>
+          <div className="mb-14 grid gap-5 text-center md:grid-cols-2 md:text-left">
+            <h1 className="text-5xl font-semibold">{title}</h1>
+            <p className="text-muted-foreground">{description}</p>
+          </div>
+        </FadeInWhenVisible>
+        
+        <FadeInWhenVisible delay={0.2}>
+          <div className="grid gap-7 lg:grid-cols-3">
           <img
             src={mainImage.src}
             alt={mainImage.alt}
@@ -129,9 +134,12 @@ export const About3 = ({
             />
           </div>
         </div>
-        <div className="py-32">
-          <p className="text-center">{companiesTitle} </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-8">
+        </FadeInWhenVisible>
+        
+        <FadeInWhenVisible delay={0.3}>
+          <div className="py-32">
+            <p className="text-center">{companiesTitle} </p>
+            <div className="mt-8 flex flex-wrap justify-center gap-8">
             {companies.map((company, idx) => (
               <div className="flex items-center gap-3" key={company.src + idx}>
                 <img
@@ -143,7 +151,10 @@ export const About3 = ({
             ))}
           </div>
         </div>
-        <div className="relative overflow-hidden rounded-xl bg-muted p-10 md:p-16">
+        </FadeInWhenVisible>
+        
+        <FadeInWhenVisible delay={0.4}>
+          <div className="relative overflow-hidden rounded-xl bg-muted p-10 md:p-16">
           <div className="flex flex-col gap-4 text-center md:text-left">
             <h2 className="text-4xl font-semibold">{achievementsTitle}</h2>
             <p className="max-w-screen-sm text-muted-foreground">
@@ -162,6 +173,7 @@ export const About3 = ({
           </div>
           <div className="pointer-events-none absolute -top-1 right-1 z-10 hidden h-full w-full bg-[linear-gradient(to_right,hsl(var(--muted-foreground))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--muted-foreground))_1px,transparent_1px)] bg-[size:80px_80px] opacity-15 [mask-image:linear-gradient(to_bottom_right,#000,transparent,transparent)] md:block"></div>
         </div>
+        </FadeInWhenVisible>
       </div>
     </section>
   );

@@ -1,5 +1,6 @@
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
+import { FadeInWhenVisible } from "@/components/FadeInWhenVisible";
 import { useState, useMemo } from "react";
 import { usePortfolioWorksByCategory, getStorageUrl } from "@/hooks/use-portfolio-works";
 
@@ -36,14 +37,15 @@ const PortfolioGallery = () => {
       <Navigation />
       <div className="pt-32 pb-24 px-4">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6">Portfolio Gallery</h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-12">
-              Browse through our complete collection of creative work
-            </p>
+          <FadeInWhenVisible>
+            <div className="text-center mb-12">
+              <h1 className="text-5xl md:text-7xl font-bold mb-6">Portfolio Gallery</h1>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-12">
+                Browse through our complete collection of creative work
+              </p>
 
-            {/* Category Filter */}
-            <div className="flex flex-wrap justify-center gap-3 mb-16">
+              {/* Category Filter */}
+              <div className="flex flex-wrap justify-center gap-3 mb-16">
               {categories.map((category) => (
                 <button
                   key={category}
@@ -59,9 +61,11 @@ const PortfolioGallery = () => {
               ))}
             </div>
           </div>
+          </FadeInWhenVisible>
 
           {/* Gallery Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <FadeInWhenVisible delay={0.2}>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredItems.map((item) => (
               <div
                 key={item.id}
@@ -83,11 +87,12 @@ const PortfolioGallery = () => {
             ))}
           </div>
 
-          {filteredItems.length === 0 && (
-            <div className="text-center py-20">
-              <p className="text-xl text-muted-foreground">No projects found in this category</p>
-            </div>
-          )}
+            {filteredItems.length === 0 && (
+              <div className="text-center py-20">
+                <p className="text-xl text-muted-foreground">No projects found in this category</p>
+              </div>
+            )}
+          </FadeInWhenVisible>
         </div>
       </div>
       <Footer />

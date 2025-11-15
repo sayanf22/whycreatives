@@ -2,6 +2,7 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Carousel } from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
+import { FadeInWhenVisible } from "@/components/FadeInWhenVisible";
 import { usePortfolioWorks, getStorageUrl } from "@/hooks/use-portfolio-works";
 
 const OurWork = () => {
@@ -48,28 +49,36 @@ const OurWork = () => {
       <Navigation />
       <div className="pt-32 pb-24 px-4">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6">Our Work</h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Explore our portfolio of creative projects. From motion graphics to branding, 
-              we bring ideas to life with stunning visuals and innovative design.
-            </p>
-          </div>
-          {workSlides.length > 0 ? (
-            <Carousel slides={workSlides} />
-          ) : (
-            <div className="text-center py-20">
-              <p className="text-xl text-muted-foreground">No portfolio items yet</p>
+          <FadeInWhenVisible>
+            <div className="text-center mb-16">
+              <h1 className="text-5xl md:text-7xl font-bold mb-6">Our Work</h1>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                Explore our portfolio of creative projects. From motion graphics to branding, 
+                we bring ideas to life with stunning visuals and innovative design.
+              </p>
             </div>
-          )}
-          <div className="flex justify-center mt-10">
-            <Button 
-              onClick={() => window.location.href = '/portfolio-gallery'}
-              className="h-14 cursor-pointer rounded-full px-10 bg-white text-black hover:bg-muted-foreground font-bold"
-            >
-              See All Works
-            </Button>
-          </div>
+          </FadeInWhenVisible>
+          
+          <FadeInWhenVisible delay={0.2}>
+            {workSlides.length > 0 ? (
+              <Carousel slides={workSlides} />
+            ) : (
+              <div className="text-center py-20">
+                <p className="text-xl text-muted-foreground">No portfolio items yet</p>
+              </div>
+            )}
+          </FadeInWhenVisible>
+          
+          <FadeInWhenVisible delay={0.3}>
+            <div className="flex justify-center mt-10">
+              <Button 
+                onClick={() => window.location.href = '/portfolio-gallery'}
+                className="h-14 cursor-pointer rounded-full px-10 bg-white text-black hover:bg-muted-foreground font-bold"
+              >
+                See All Works
+              </Button>
+            </div>
+          </FadeInWhenVisible>
         </div>
       </div>
       <Footer />

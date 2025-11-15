@@ -180,3 +180,24 @@ All colors MUST be HSL.
     -webkit-overflow-scrolling: touch;
   }
 }
+
+
+/* Contact Section Bubble Animation */
+@keyframes bubble {
+  0% {
+    transform: translateY(0) translateX(0) scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh) translateX(20vw) scale(1.2);
+    opacity: 0;
+  }
+}
+
+.animate-bubble {
+  animation: bubble 15s ease-in-out infinite;
+  animation-fill-mode: forwards;
+}

@@ -1,5 +1,6 @@
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
+import { FadeInWhenVisible } from "@/components/FadeInWhenVisible";
 import PricingHero from "@/components/ui/pricing-hero";
 
 const Comparison = () => {
@@ -41,15 +42,18 @@ const Comparison = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <div className="pt-20">
-        <PricingHero />
-      </div>
+      <FadeInWhenVisible>
+        <div className="pt-20">
+          <PricingHero />
+        </div>
+      </FadeInWhenVisible>
       
       <div className="pb-20 px-6">
         <div className="container mx-auto max-w-[1000px]">
 
           {/* Desktop Table */}
-          <div className="hidden md:block overflow-x-auto animate-fade-in">
+          <FadeInWhenVisible delay={0.2}>
+            <div className="hidden md:block overflow-x-auto">
             <table className="w-full border-collapse">
               <thead>
                 <tr className="border-b-2 border-white">
@@ -96,9 +100,11 @@ const Comparison = () => {
               </tbody>
             </table>
           </div>
+          </FadeInWhenVisible>
 
           {/* Mobile Cards */}
-          <div className="md:hidden space-y-6 animate-fade-in">
+          <FadeInWhenVisible delay={0.2}>
+            <div className="md:hidden space-y-6">
             {pricingData.map((row, index) => (
               <div
                 key={index}
@@ -136,9 +142,11 @@ const Comparison = () => {
               </div>
             ))}
           </div>
+          </FadeInWhenVisible>
 
           {/* Bottom CTA */}
-          <div className="mt-16 text-center p-8 border-2 border-white rounded-lg animate-fade-in">
+          <FadeInWhenVisible delay={0.3}>
+            <div className="mt-16 text-center p-8 border-2 border-white rounded-lg">
             <h2 className="text-3xl md:text-4xl font-black text-white mb-4">
               Ready to Save 90%?
             </h2>
@@ -152,6 +160,7 @@ const Comparison = () => {
               Get Started Today
             </a>
           </div>
+          </FadeInWhenVisible>
         </div>
       </div>
       <Footer />

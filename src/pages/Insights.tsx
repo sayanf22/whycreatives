@@ -1,5 +1,6 @@
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
+import { FadeInWhenVisible } from "@/components/FadeInWhenVisible";
 import { FileText, Clock } from "lucide-react";
 
 const Insights = () => {
@@ -9,7 +10,8 @@ const Insights = () => {
       
       <main className="pt-32 pb-24 px-6">
         <div className="container mx-auto max-w-4xl">
-          <div className="text-center animate-fade-in-up">
+          <FadeInWhenVisible>
+            <div className="text-center">
             <div className="mb-8 flex justify-center">
               <div className="relative">
                 <FileText className="h-24 w-24 text-muted-foreground opacity-20" />
@@ -33,13 +35,16 @@ const Insights = () => {
                 Thank you for your patience. Check back soon!
               </p>
             </div>
+          </div>
+          </FadeInWhenVisible>
 
+          <FadeInWhenVisible delay={0.2}>
             <div className="mt-12 pt-8 border-t border-border">
               <p className="text-sm text-muted-foreground">
                 In the meantime, feel free to explore our services or get in touch with us directly.
               </p>
             </div>
-          </div>
+          </FadeInWhenVisible>
         </div>
       </main>
 
