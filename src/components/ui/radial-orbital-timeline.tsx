@@ -278,7 +278,7 @@ export default function RadialOrbitalTimeline({
                         <div className="flex justify-between items-center text-xs mb-1">
                           <span className="flex items-center">
                             <Zap size={10} className="mr-1" />
-                            Project Completion
+                            Service Capability
                           </span>
                           <span className="font-mono">{item.energy}%</span>
                         </div>
