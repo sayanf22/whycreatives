@@ -1,6 +1,7 @@
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Timeline } from "@/components/ui/timeline";
+import { FadeInWhenVisible } from "@/components/FadeInWhenVisible";
 import { Video, Globe, Share2, Megaphone, Sparkles } from "lucide-react";
 
 const WhatWeDo = () => {
@@ -215,9 +216,11 @@ const WhatWeDo = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <div className="pt-20">
-        <Timeline data={timelineData} />
-      </div>
+      <FadeInWhenVisible>
+        <div className="pt-20">
+          <Timeline data={timelineData} />
+        </div>
+      </FadeInWhenVisible>
       <Footer />
     </div>
   );

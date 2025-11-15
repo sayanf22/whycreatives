@@ -1,13 +1,15 @@
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { About3 } from "@/components/ui/about-3";
+import { FadeInWhenVisible } from "@/components/FadeInWhenVisible";
 
 const AboutUs = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
       
-      <About3
+      <FadeInWhenVisible>
+        <About3
         title="About WhyCreatives"
         description="We're a passionate team based in Tripura, Agartala, dedicated to making professional creative services accessible to businesses worldwide. Quality shouldn't be expensive."
         mainImage={{
@@ -63,6 +65,7 @@ const AboutUs = () => {
           { label: "Support Available", value: "24/7" },
         ]}
       />
+      </FadeInWhenVisible>
 
       <Footer />
     </div>
