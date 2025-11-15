@@ -10,7 +10,7 @@ const AboutUs = () => {
       
       <About3
         title="About WhyCreatives"
-        description="We're a passionate team based in Tripura, Agartala, dedicated to making professional creative services accessible to businesses worldwide. Quality shouldn't be expensive."
+        description="We are a full-service creative agency based in Agartala, Tripura, dedicated to transforming brands through innovative storytelling, cutting-edge design, and strategic digital solutions. Our mission is to empower businesses with world-class creative services that drive measurable results and lasting impact."
         mainImage={{
           src: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&h=800&fit=crop",
           alt: "Creative team collaboration",
@@ -22,9 +22,9 @@ const AboutUs = () => {
         breakout={{
           src: "/logo.png",
           alt: "WhyCreatives Logo",
-          title: "Premium Quality at 90% Less Cost",
+          title: "Excellence in Every Project",
           description:
-            "We connect businesses with talented creators in India, delivering world-class creative services without the agency overhead.",
+            "We combine creative excellence with strategic thinking to deliver solutions that not only look exceptional but also drive business growth. Our team of experienced professionals brings together diverse expertise in video production, web development, branding, and digital marketing to create comprehensive solutions tailored to your unique needs.",
           buttonText: "Explore Our Services",
           buttonUrl: "/what-we-do",
         }}
@@ -56,7 +56,7 @@ const AboutUs = () => {
           },
         ]}
         achievementsTitle="Our Impact in Numbers"
-        achievementsDescription="From startups to established businesses, we've helped hundreds of companies achieve their creative vision with transparency, quality, and value."
+        achievementsDescription="We've partnered with businesses across India to deliver exceptional creative solutions. Our commitment to excellence, innovation, and client success has made us a trusted partner for brands looking to make a lasting impact in their industries."
         achievements={[
           { label: "Projects Completed", value: "500+" },
           { label: "Cost Savings", value: "90%" },
