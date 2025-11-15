@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export const Footer = () => {
   return (
     <footer className="bg-background border-t-2 border-foreground py-12 sm:py-16 px-4 sm:px-6">
@@ -16,24 +18,24 @@ export const Footer = () => {
             <h4 className="font-bold text-foreground mb-4">Services</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="#services" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link to="/what-we-do" className="text-muted-foreground hover:text-foreground transition-colors">
                   Video Editing
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#services" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link to="/what-we-do" className="text-muted-foreground hover:text-foreground transition-colors">
                   Website Building
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#services" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link to="/what-we-do" className="text-muted-foreground hover:text-foreground transition-colors">
                   Social Media
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#services" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link to="/what-we-do" className="text-muted-foreground hover:text-foreground transition-colors">
                   Ad Campaigns
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -42,19 +44,19 @@ export const Footer = () => {
             <h4 className="font-bold text-foreground mb-4">Company</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="#about" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link to="/about-us" className="text-muted-foreground hover:text-foreground transition-colors">
                   About Us
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#portfolio" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link to="/our-work" className="text-muted-foreground hover:text-foreground transition-colors">
                   Our Work
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#contact" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link to="/contact" className="text-muted-foreground hover:text-foreground transition-colors">
                   Contact
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
