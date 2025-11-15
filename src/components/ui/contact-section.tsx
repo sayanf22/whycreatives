@@ -5,7 +5,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { FadeInWhenVisible } from '@/components/FadeInWhenVisible';
-import { Instagram, Linkedin, Twitter } from 'lucide-react';
+import { Instagram, Linkedin, Mail, Phone, MapPin, Send } from 'lucide-react';
 
 interface ContactSectionProps {
   /**
@@ -35,23 +35,29 @@ interface ContactSectionProps {
   onSubmit?: (data: any) => void;
 }
 
+const XIcon = () => (
+  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </svg>
+);
+
 const defaultSocialLinks = [
   { 
     id: '1', 
     name: 'Instagram', 
-    icon: <Instagram className="h-4 w-4" />, 
+    icon: <Instagram className="h-5 w-5" />, 
     href: 'https://www.instagram.com/why.creatives/' 
   },
   { 
     id: '2', 
     name: 'LinkedIn', 
-    icon: <Linkedin className="h-4 w-4" />, 
+    icon: <Linkedin className="h-5 w-5" />, 
     href: '#linkedin' 
   },
   { 
     id: '3', 
-    name: 'Twitter', 
-    icon: <Twitter className="h-4 w-4" />, 
+    name: 'X (Twitter)', 
+    icon: <XIcon />, 
     href: '#twitter' 
   },
 ];
@@ -124,103 +130,165 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
   return (
     <section className="relative min-h-screen w-full overflow-hidden bg-background">
       {/* Main Content */}
-      <div className="flex flex-col items-center justify-center w-full min-h-screen p-4 md:p-8 lg:p-12">
+      <div className="flex flex-col items-center justify-center w-full min-h-screen pt-24 pb-12 px-4 md:px-8 lg:px-12">
         {/* Main Section - Grid Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full max-w-7xl p-4 md:p-8">
-          {/* Left Side: Title */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 w-full max-w-7xl">
+          {/* Left Side: Title & Info */}
           <FadeInWhenVisible>
-            <div className="flex flex-col justify-center p-4 lg:p-8">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-foreground leading-tight max-w-lg">
-                {title}
-              </h1>
+            <div className="flex flex-col justify-center space-y-6 lg:space-y-8">
+              <div>
+                <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-foreground leading-tight mb-4">
+                  {title}
+                </h1>
+                <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
+                  Ready to bring your creative vision to life? Let's discuss your project and create something amazing together.
+                </p>
+              </div>
+
+              {/* Contact Info Cards */}
+              <div className="space-y-3">
+                <FadeInWhenVisible delay={0.1}>
+                  <div className="group flex items-center gap-3 p-4 rounded-2xl bg-secondary/50 border border-border/50 hover:border-primary/50 hover:bg-secondary/80 transition-all duration-300 cursor-pointer">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                      <Mail className="w-5 h-5 text-primary" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-bold text-muted-foreground mb-0.5 uppercase tracking-wide">Email us</p>
+                      <a 
+                        href={`mailto:${contactEmail}`} 
+                        className="text-foreground hover:text-primary transition-colors font-semibold text-sm truncate block"
+                      >
+                        {contactEmail}
+                      </a>
+                    </div>
+                  </div>
+                </FadeInWhenVisible>
+
+                <FadeInWhenVisible delay={0.2}>
+                  <div className="group flex items-center gap-3 p-4 rounded-2xl bg-secondary/50 border border-border/50 hover:border-primary/50 hover:bg-secondary/80 transition-all duration-300 cursor-pointer">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                      <Phone className="w-5 h-5 text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-bold text-muted-foreground mb-0.5 uppercase tracking-wide">Call us</p>
+                      <a 
+                        href="tel:+918119811655" 
+                        className="text-foreground hover:text-primary transition-colors font-semibold text-sm"
+                      >
+                        +91 81198 11655
+                      </a>
+                    </div>
+                  </div>
+                </FadeInWhenVisible>
+
+                <FadeInWhenVisible delay={0.3}>
+                  <div className="group flex items-center gap-3 p-4 rounded-2xl bg-secondary/50 border border-border/50 hover:border-primary/50 hover:bg-secondary/80 transition-all duration-300">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                      <MapPin className="w-5 h-5 text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-bold text-muted-foreground mb-0.5 uppercase tracking-wide">Location</p>
+                      <p className="text-foreground font-semibold text-sm">Agartala, Tripura 🇮🇳</p>
+                    </div>
+                  </div>
+                </FadeInWhenVisible>
+              </div>
+
+              {/* Social Links */}
+              <FadeInWhenVisible delay={0.4}>
+                <div>
+                  <p className="text-xs font-bold text-muted-foreground mb-3 uppercase tracking-wide">Follow us</p>
+                  <div className="flex items-center gap-2">
+                    {socialLinks.map((link, index) => (
+                      <Button 
+                        key={link.id} 
+                        variant="outline" 
+                        size="icon" 
+                        className="w-12 h-12 rounded-full hover:bg-primary hover:text-primary-foreground hover:border-primary hover:scale-110 transition-all duration-300"
+                        style={{ animationDelay: `${index * 0.1}s` }}
+                        asChild
+                      >
+                        <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.name}>
+                          {link.icon}
+                        </a>
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+              </FadeInWhenVisible>
             </div>
           </FadeInWhenVisible>
 
           {/* Right Side: Contact Form */}
           <FadeInWhenVisible delay={0.2}>
-            <div className="bg-card p-6 md:p-8 rounded-2xl shadow-2xl border border-border">
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-foreground">{mainMessage}</h2>
-
-              {/* Email & Socials */}
-              <div>
-                <p className="text-muted-foreground mb-2">Mail us at</p>
-                <a 
-                  href={`mailto:${contactEmail}`} 
-                  className="text-primary hover:underline font-medium"
-                >
-                  {contactEmail}
-                </a>
-                <div className="flex items-center space-x-3 mt-4">
-                  <span className="text-muted-foreground">OR</span>
-                  {socialLinks.map((link) => (
-                    <Button key={link.id} variant="outline" size="icon" asChild>
-                      <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.name}>
-                        {link.icon}
-                      </a>
-                    </Button>
-                  ))}
+            <div className="bg-card p-6 md:p-8 rounded-3xl shadow-2xl border border-border">
+              <div className="space-y-5">
+                <div>
+                  <h2 className="text-2xl md:text-3xl font-black text-foreground mb-2">{mainMessage}</h2>
+                  <p className="text-sm text-muted-foreground">Fill out the form below and we'll get back to you within 24 hours.</p>
                 </div>
-              </div>
-
-              <hr className="border-border" />
 
               {/* Form */}
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <p className="text-muted-foreground">Leave us a brief message</p>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <div className="space-y-2">
-                    <Label htmlFor="name">Your name</Label>
+                    <Label htmlFor="name" className="text-sm font-semibold">Your name *</Label>
                     <Input 
                       id="name" 
                       name="name" 
-                      placeholder="Your name" 
+                      placeholder="John Doe" 
                       value={formData.name} 
-                      onChange={handleChange} 
+                      onChange={handleChange}
+                      className="h-12 rounded-2xl border-border/50 focus:border-primary transition-all"
                       required 
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
+                    <Label htmlFor="email" className="text-sm font-semibold">Email address *</Label>
                     <Input 
                       id="email" 
-                      name="email" 
+                      name="name" 
                       type="email" 
-                      placeholder="Email" 
+                      placeholder="john@example.com" 
                       value={formData.email} 
-                      onChange={handleChange} 
+                      onChange={handleChange}
+                      className="h-12 rounded-2xl border-border/50 focus:border-primary transition-all"
                       required 
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="message">Briefly describe your project idea...</Label>
+                  <Label htmlFor="message" className="text-sm font-semibold">Tell us about your project *</Label>
                   <Textarea
                     id="message"
                     name="message"
-                    placeholder="Briefly describe your project idea..."
-                    className="min-h-[80px]"
+                    placeholder="I'm looking for help with..."
+                    className="min-h-[120px] rounded-2xl resize-none border-border/50 focus:border-primary transition-all"
                     value={formData.message}
                     onChange={handleChange}
                     required
                   />
                 </div>
 
-                <div className="space-y-4">
-                  <p className="text-muted-foreground">I'm looking for...</p>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                    {projectTypeOptions.map((option) => (
-                      <div key={option} className="flex items-center space-x-2">
+                <div className="space-y-3">
+                  <Label className="text-sm font-semibold">Services you're interested in</Label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {projectTypeOptions.map((option, index) => (
+                      <div 
+                        key={option} 
+                        className="flex items-center space-x-2 p-3 rounded-xl border border-border hover:border-primary/50 hover:bg-secondary/50 transition-all duration-300 cursor-pointer group"
+                        style={{ animationDelay: `${index * 0.05}s` }}
+                      >
                         <Checkbox
                           id={option.replace(/\s/g, '-').toLowerCase()}
                           checked={formData.projectType.includes(option)}
                           onCheckedChange={(checked) => handleCheckboxChange(option, checked as boolean)}
+                          className="data-[state=checked]:bg-primary data-[state=checked]:border-primary rounded-md flex-shrink-0"
                         />
                         <Label 
                           htmlFor={option.replace(/\s/g, '-').toLowerCase()} 
-                          className="text-sm font-normal cursor-pointer"
+                          className="text-xs md:text-sm font-medium cursor-pointer flex-1 group-hover:text-primary transition-colors leading-tight"
                         >
                           {option}
                         </Label>
@@ -230,23 +298,39 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                   
                   {/* Show text input when "Other" is selected */}
                   {formData.projectType.includes('Other') && (
-                    <div className="space-y-2 mt-4 animate-in fade-in slide-in-from-top-2 duration-300">
-                      <Label htmlFor="otherProjectType">Please specify what you're looking for</Label>
+                    <div className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
+                      <Label htmlFor="otherProjectType" className="text-sm font-semibold">Please specify</Label>
                       <Input
                         id="otherProjectType"
                         name="otherProjectType"
                         placeholder="Tell us what you need..."
                         value={formData.otherProjectType}
                         onChange={handleChange}
-                        className="w-full"
+                        className="h-12 rounded-xl"
                       />
                     </div>
                   )}
                 </div>
 
-                <Button type="submit" className="w-full">
-                  Send a message
+                <Button 
+                  type="submit" 
+                  size="lg" 
+                  className="w-full h-12 md:h-14 rounded-2xl text-sm md:text-base font-bold group hover:shadow-xl transition-all duration-300"
+                >
+                  <span className="flex items-center gap-2">
+                    Send Message
+                    <Send className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+                  </span>
                 </Button>
+
+                <p className="text-xs text-center text-muted-foreground flex items-center justify-center gap-2 flex-wrap">
+                  <span className="flex items-center gap-1">
+                    <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                    24h response
+                  </span>
+                  <span>•</span>
+                  <span>Secure</span>
+                </p>
               </form>
             </div>
             </div>
