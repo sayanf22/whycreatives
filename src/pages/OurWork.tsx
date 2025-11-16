@@ -16,6 +16,8 @@ const OurWork = () => {
       <img
         src={getStorageUrl(work.image_url)}
         alt={work.title}
+        loading="lazy"
+        decoding="async"
         className="object-cover h-full w-full"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
