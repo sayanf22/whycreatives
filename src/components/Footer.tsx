@@ -75,7 +75,9 @@ export const Footer = () => {
                 Instagram
               </a>
               <a
-                href="#"
+                href="https://www.linkedin.com/company/whycreatives/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-foreground transition-colors text-sm"
               >
                 LinkedIn
