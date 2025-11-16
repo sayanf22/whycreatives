@@ -31,20 +31,10 @@ export default defineConfig(({ mode }) => ({
     },
     rollupOptions: {
       output: {
-        manualChunks: (id) => {
+        manualChunks: {
           // Split vendor chunks for better caching
-          if (id.includes("node_modules")) {
-            if (id.includes("react") || id.includes("react-dom") || id.includes("react-router")) {
-              return "react-vendor";
-            }
-            if (id.includes("lucide-react") || id.includes("framer-motion")) {
-              return "ui-vendor";
-            }
-            if (id.includes("@supabase") || id.includes("@tanstack")) {
-              return "data-vendor";
-            }
-            return "vendor";
-          }
+          "react-vendor": ["react", "react-dom", "react-router-dom"],
+          "ui-vendor": ["lucide-react", "framer-motion"],
         },
       },
     },
