@@ -19,12 +19,20 @@ const AdminLogin = () => {
     setLoading(true);
 
     try {
+      // Check if Supabase is properly configured
+      if (!supabase) {
+        throw new Error("Supabase client not initialized");
+      }
+
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error("Supabase auth error:", error);
+        throw error;
+      }
 
       if (data.user) {
         toast({
@@ -34,9 +42,11 @@ const AdminLogin = () => {
         navigate("/admindashboard");
       }
     } catch (error: any) {
+      console.error("Login error:", error);
+      const errorMessage = error.message || "Failed to connect to authentication service. Please check your internet connection.";
       toast({
-        title: "Error",
-        description: error.message || "Invalid email or password.",
+        title: "Login Failed",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
