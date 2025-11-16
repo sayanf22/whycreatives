@@ -21,10 +21,18 @@ const PortfolioGallery = () => {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
-        <div className="pt-32 pb-24 px-4 flex items-center justify-center">
+        <div className="pt-32 pb-24 px-4 flex items-center justify-center min-h-[60vh]">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-            <p className="text-muted-foreground">Loading portfolio...</p>
+            <div className="relative w-24 h-24 mx-auto mb-6">
+              <div className="absolute inset-0 rounded-full border-4 border-white/20"></div>
+              <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-white border-r-white animate-spin"></div>
+              <div 
+                className="absolute inset-2 rounded-full border-4 border-transparent border-b-white/60 border-l-white/60"
+                style={{ animation: 'spin 1.5s linear infinite reverse' }}
+              ></div>
+            </div>
+            <h2 className="text-2xl font-bold mb-2 animate-pulse">Loading Gallery</h2>
+            <p className="text-muted-foreground animate-pulse">Fetching portfolio items...</p>
           </div>
         </div>
         <Footer />

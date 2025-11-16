@@ -6,24 +6,22 @@ import { FadeInWhenVisible } from "@/components/FadeInWhenVisible";
 import { usePortfolioWorks, getStorageUrl } from "@/hooks/use-portfolio-works";
 
 const OurWork = () => {
-  const { data: portfolioWorks, isLoading } = usePortfolioWorks(); // All works
+  const { data: portfolioWorks, isLoading } = usePortfolioWorks();
 
   const workSlides = portfolioWorks?.map((work) => (
     <div
       key={work.id}
       className="border w-full relative overflow-hidden rounded-lg bg-card text-card-foreground aspect-[16/9]"
     >
-      <div className="w-full h-full overflow-hidden relative group">
-        <img
-          src={getStorageUrl(work.image_url)}
-          alt={work.title}
-          className="object-cover h-full w-full"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
-          <div>
-            <h3 className="text-2xl font-bold text-white mb-2">{work.title}</h3>
-            <p className="text-white/80">{work.description}</p>
-          </div>
+      <img
+        src={getStorageUrl(work.image_url)}
+        alt={work.title}
+        className="object-cover h-full w-full"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
+        <div>
+          <h3 className="text-2xl font-bold text-white mb-2">{work.title}</h3>
+          <p className="text-white/80">{work.description}</p>
         </div>
       </div>
     </div>
@@ -86,7 +84,7 @@ const OurWork = () => {
             <div className="flex justify-center mt-10">
               <Button 
                 onClick={() => window.location.href = '/portfolio-gallery'}
-                className="h-14 cursor-pointer rounded-full px-10 bg-white text-black hover:bg-muted-foreground font-bold"
+                className="h-14 rounded-full px-10 bg-white text-black hover:bg-muted-foreground font-bold"
               >
                 See All Works
               </Button>
