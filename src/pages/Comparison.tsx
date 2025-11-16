@@ -108,23 +108,29 @@ const Comparison = () => {
             {pricingData.map((row, index) => (
               <div
                 key={index}
-                className="border border-white/20 rounded-2xl p-6 hover:border-primary/50 hover:bg-secondary/30 transition-all duration-300 backdrop-blur-sm"
+                className="border border-white/20 rounded-2xl p-5 hover:border-primary/50 hover:bg-secondary/30 transition-all duration-300 backdrop-blur-sm"
               >
-                <h3 className="text-white font-black text-lg mb-4">
+                <h3 className="text-white font-black text-base mb-4">
                   {row.service}
                 </h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center p-3 rounded-xl bg-secondary/50">
-                    <span className="text-muted-foreground text-xs uppercase tracking-wide">WhyCreatives</span>
-                    <span className="text-white font-bold text-xl">{row.whyCreatives}</span>
+                <div className="space-y-2.5">
+                  <div className="p-3 rounded-xl bg-secondary/50">
+                    <div className="flex justify-between items-center gap-3">
+                      <span className="text-muted-foreground text-xs uppercase tracking-wide whitespace-nowrap">WHYCREATIVES</span>
+                      <span className="text-white font-bold text-lg whitespace-nowrap">{row.whyCreatives}</span>
+                    </div>
                   </div>
-                  <div className="flex justify-between items-center p-3 rounded-xl bg-secondary/30">
-                    <span className="text-muted-foreground text-xs uppercase tracking-wide">Others</span>
-                    <span className="text-muted-foreground line-through text-lg">{row.others}</span>
+                  <div className="p-3 rounded-xl bg-secondary/30">
+                    <div className="flex justify-between items-center gap-3">
+                      <span className="text-muted-foreground text-xs uppercase tracking-wide whitespace-nowrap">OTHERS</span>
+                      <span className="text-muted-foreground line-through text-base whitespace-nowrap">{row.others}</span>
+                    </div>
                   </div>
-                  <div className="flex justify-between items-center p-3 rounded-xl bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/30">
-                    <span className="text-foreground text-xs uppercase tracking-wide font-semibold">You Save</span>
-                    <span className="text-primary font-black text-2xl">{row.savings}</span>
+                  <div className="p-3.5 rounded-xl bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/30">
+                    <div className="flex justify-between items-center gap-3">
+                      <span className="text-foreground text-xs uppercase tracking-wide font-semibold whitespace-nowrap">YOU SAVE</span>
+                      <span className="text-primary font-black text-xl whitespace-nowrap">{row.savings}</span>
+                    </div>
                   </div>
                 </div>
               </div>

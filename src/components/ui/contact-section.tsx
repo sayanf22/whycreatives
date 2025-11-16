@@ -273,26 +273,24 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
 
                 <div className="space-y-3">
                   <Label className="text-sm font-semibold">Services you're interested in</Label>
-                  <div className="grid grid-cols-1 gap-2">
+                  <div className="grid grid-cols-1 gap-2.5">
                     {projectTypeOptions.map((option, index) => (
-                      <div 
-                        key={option} 
-                        className="flex items-center gap-3 p-3 rounded-xl border border-border hover:border-primary/50 hover:bg-secondary/50 transition-all duration-300 cursor-pointer group"
+                      <label 
+                        key={option}
+                        htmlFor={option.replace(/\s/g, '-').toLowerCase()}
+                        className="flex items-center gap-4 p-4 rounded-2xl border border-border hover:border-primary/50 hover:bg-secondary/50 transition-all duration-300 cursor-pointer group"
                         style={{ animationDelay: `${index * 0.05}s` }}
                       >
                         <Checkbox
                           id={option.replace(/\s/g, '-').toLowerCase()}
                           checked={formData.projectType.includes(option)}
                           onCheckedChange={(checked) => handleCheckboxChange(option, checked as boolean)}
-                          className="data-[state=checked]:bg-primary data-[state=checked]:border-primary rounded-md flex-shrink-0"
+                          className="data-[state=checked]:bg-primary data-[state=checked]:border-primary rounded-lg w-5 h-5 flex-shrink-0 border-2"
                         />
-                        <Label 
-                          htmlFor={option.replace(/\s/g, '-').toLowerCase()} 
-                          className="text-sm font-medium cursor-pointer flex-1 group-hover:text-primary transition-colors"
-                        >
+                        <span className="text-sm font-medium cursor-pointer flex-1 group-hover:text-primary transition-colors">
                           {option}
-                        </Label>
-                      </div>
+                        </span>
+                      </label>
                     ))}
                   </div>
                   
