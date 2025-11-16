@@ -23,22 +23,22 @@ export default function PricingHero() {
 
           <div className="relative mt-8 lg:mt-0">
             {/* Pricing Comparison Card */}
-            <div className="relative bg-neutral-900 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-2xl transform rotate-3 sm:rotate-6 hover:rotate-0 transition-transform duration-300 max-w-sm mx-auto lg:max-w-none border border-white/10">
-              <div className="text-white mb-3 sm:mb-4">
-                <div className="text-xs sm:text-sm text-neutral-400 mb-1 sm:mb-2">Live Comparison</div>
-                <div className="text-xs text-neutral-500">WhyCreatives vs Others</div>
+            <div className="relative bg-gradient-to-br from-neutral-900 to-neutral-950 rounded-2xl sm:rounded-3xl p-5 sm:p-7 shadow-2xl transform hover:scale-105 transition-all duration-300 max-w-md mx-auto lg:max-w-none border border-white/20">
+              <div className="text-white mb-4 sm:mb-5">
+                <div className="text-sm sm:text-base text-neutral-300 mb-1 font-semibold">Live Comparison</div>
+                <div className="text-xs sm:text-sm text-neutral-500">WhyCreatives vs Others</div>
               </div>
 
               {/* Pricing bars visualization */}
-              <div className="space-y-2.5 mb-4">
+              <div className="space-y-3 sm:space-y-3.5 mb-5">
                 {/* Video Editing */}
                 <div>
-                  <div className="text-white text-xs mb-1">Video Editing</div>
+                  <div className="text-white text-xs sm:text-sm mb-1.5 font-medium">Video Editing</div>
                   <div className="flex gap-2">
-                    <div className="flex-1 bg-white h-7 rounded flex items-center justify-center text-black font-bold text-xs">
+                    <div className="flex-1 bg-white h-8 sm:h-9 rounded-xl flex items-center justify-center text-black font-bold text-xs sm:text-sm shadow-md">
                       ₹500
                     </div>
-                    <div className="flex-[9] bg-neutral-700 h-7 rounded flex items-center justify-center text-neutral-400 text-xs line-through">
+                    <div className="flex-[9] bg-neutral-800 h-8 sm:h-9 rounded-xl flex items-center justify-center text-neutral-500 text-xs sm:text-sm line-through">
                       ₹5,000
                     </div>
                   </div>
@@ -46,12 +46,12 @@ export default function PricingHero() {
 
                 {/* Website Building */}
                 <div>
-                  <div className="text-white text-xs mb-1">Website Building</div>
+                  <div className="text-white text-xs sm:text-sm mb-1.5 font-medium">Website Building</div>
                   <div className="flex gap-2">
-                    <div className="flex-[2] bg-white h-7 rounded flex items-center justify-center text-black font-bold text-xs">
+                    <div className="flex-[2] bg-white h-8 sm:h-9 rounded-xl flex items-center justify-center text-black font-bold text-xs sm:text-sm shadow-md">
                       ₹2,000
                     </div>
-                    <div className="flex-[8] bg-neutral-700 h-7 rounded flex items-center justify-center text-neutral-400 text-xs line-through">
+                    <div className="flex-[8] bg-neutral-800 h-8 sm:h-9 rounded-xl flex items-center justify-center text-neutral-500 text-xs sm:text-sm line-through">
                       ₹10,000
                     </div>
                   </div>
@@ -59,12 +59,12 @@ export default function PricingHero() {
 
                 {/* Social Media */}
                 <div>
-                  <div className="text-white text-xs mb-1">Social Media</div>
+                  <div className="text-white text-xs sm:text-sm mb-1.5 font-medium">Social Media</div>
                   <div className="flex gap-2">
-                    <div className="flex-[3] bg-white h-7 rounded flex items-center justify-center text-black font-bold text-xs">
+                    <div className="flex-[3] bg-white h-8 sm:h-9 rounded-xl flex items-center justify-center text-black font-bold text-xs sm:text-sm shadow-md">
                       ₹3k/mo
                     </div>
-                    <div className="flex-[7] bg-neutral-700 h-7 rounded flex items-center justify-center text-neutral-400 text-xs line-through">
+                    <div className="flex-[7] bg-neutral-800 h-8 sm:h-9 rounded-xl flex items-center justify-center text-neutral-500 text-xs sm:text-sm line-through">
                       ₹20k/mo
                     </div>
                   </div>
@@ -72,12 +72,12 @@ export default function PricingHero() {
 
                 {/* Ad Campaigns */}
                 <div>
-                  <div className="text-white text-xs mb-1">Ad Campaigns</div>
+                  <div className="text-white text-xs sm:text-sm mb-1.5 font-medium">Ad Campaigns</div>
                   <div className="flex gap-2">
-                    <div className="flex-[2] bg-white h-7 rounded flex items-center justify-center text-black font-bold text-xs">
+                    <div className="flex-[2] bg-white h-8 sm:h-9 rounded-xl flex items-center justify-center text-black font-bold text-xs sm:text-sm shadow-md">
                       ₹2,000
                     </div>
-                    <div className="flex-[8] bg-neutral-700 h-7 rounded flex items-center justify-center text-neutral-400 text-xs line-through">
+                    <div className="flex-[8] bg-neutral-800 h-8 sm:h-9 rounded-xl flex items-center justify-center text-neutral-500 text-xs sm:text-sm line-through">
                       ₹10k/mo
                     </div>
                   </div>
@@ -85,26 +85,26 @@ export default function PricingHero() {
 
                 {/* Motion Graphics */}
                 <div>
-                  <div className="text-white text-xs mb-1">Motion Graphics Animation</div>
+                  <div className="text-white text-xs sm:text-sm mb-1.5 font-medium">Motion Graphics</div>
                   <div className="flex gap-2">
-                    <div className="flex-1 bg-white h-7 rounded flex items-center justify-center text-black font-bold text-xs">
+                    <div className="flex-1 bg-white h-8 sm:h-9 rounded-xl flex items-center justify-center text-black font-bold text-xs sm:text-sm shadow-md">
                       ₹1,000
                     </div>
-                    <div className="flex-[9] bg-neutral-700 h-7 rounded flex items-center justify-center text-neutral-400 text-xs line-through">
+                    <div className="flex-[9] bg-neutral-800 h-8 sm:h-9 rounded-xl flex items-center justify-center text-neutral-500 text-xs sm:text-sm line-through">
                       ₹10,000
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="flex justify-between items-center text-white text-xs sm:text-sm border-t border-white/10 pt-3">
+              <div className="flex justify-between items-center text-white text-sm sm:text-base border-t border-white/20 pt-4 mt-1">
                 <div>
-                  <div className="mb-1 font-semibold">WhyCreatives</div>
-                  <div className="text-neutral-400 text-xs">Transparent Pricing</div>
+                  <div className="mb-1 font-bold">WhyCreatives</div>
+                  <div className="text-neutral-400 text-xs sm:text-sm">Transparent Pricing</div>
                 </div>
                 <div className="text-right">
-                  <div className="mb-1 font-semibold text-white">Save 90%</div>
-                  <div className="text-neutral-400 text-xs">On Average</div>
+                  <div className="mb-1 font-black text-white text-lg sm:text-xl">Save 90%</div>
+                  <div className="text-neutral-400 text-xs sm:text-sm">On Average</div>
                 </div>
               </div>
             </div>
