@@ -273,11 +273,11 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
 
                 <div className="space-y-3">
                   <Label className="text-sm font-semibold">Services you're interested in</Label>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <div className="grid grid-cols-1 gap-2">
                     {projectTypeOptions.map((option, index) => (
                       <div 
                         key={option} 
-                        className="flex items-center space-x-2 p-3 rounded-xl border border-border hover:border-primary/50 hover:bg-secondary/50 transition-all duration-300 cursor-pointer group"
+                        className="flex items-center gap-3 p-3 rounded-xl border border-border hover:border-primary/50 hover:bg-secondary/50 transition-all duration-300 cursor-pointer group"
                         style={{ animationDelay: `${index * 0.05}s` }}
                       >
                         <Checkbox
@@ -288,7 +288,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                         />
                         <Label 
                           htmlFor={option.replace(/\s/g, '-').toLowerCase()} 
-                          className="text-xs md:text-sm font-medium cursor-pointer flex-1 group-hover:text-primary transition-colors leading-tight"
+                          className="text-sm font-medium cursor-pointer flex-1 group-hover:text-primary transition-colors"
                         >
                           {option}
                         </Label>

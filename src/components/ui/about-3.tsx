@@ -161,11 +161,11 @@ export const About3 = ({
               {achievementsDescription}
             </p>
           </div>
-          <div className="mt-10 flex flex-wrap justify-between gap-10 text-center">
+          <div className="mt-10 grid grid-cols-2 md:flex md:flex-wrap md:justify-between gap-8 md:gap-10 text-center">
             {achievements.map((item, idx) => (
-              <div className="flex flex-col gap-4" key={item.label + idx}>
-                <p>{item.label}</p>
-                <span className="text-4xl font-semibold md:text-5xl">
+              <div className="flex flex-col gap-2 md:gap-4" key={item.label + idx}>
+                <p className="text-sm md:text-base">{item.label}</p>
+                <span className="text-3xl md:text-4xl lg:text-5xl font-semibold">
                   {item.value}
                 </span>
               </div>
