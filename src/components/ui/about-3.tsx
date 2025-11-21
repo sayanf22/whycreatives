@@ -102,77 +102,77 @@ export const About3 = ({
             <p className="text-muted-foreground">{description}</p>
           </div>
         </FadeInWhenVisible>
-        
+
         <FadeInWhenVisible delay={0.2}>
           <div className="grid gap-7 lg:grid-cols-3">
-          <img
-            src={mainImage.src}
-            alt={mainImage.alt}
-            className="size-full max-h-[620px] rounded-xl object-cover lg:col-span-2"
-          />
-          <div className="flex flex-col gap-7 md:flex-row lg:flex-col">
-            <div className="flex flex-col justify-between gap-6 rounded-xl bg-muted p-7 md:w-1/2 lg:w-auto">
-              <img
-                src={breakout.src}
-                alt={breakout.alt}
-                className="mr-auto h-12"
-              />
-              <div>
-                <p className="mb-2 text-lg font-semibold">{breakout.title}</p>
-                <p className="text-muted-foreground">{breakout.description}</p>
-              </div>
-              <Button variant="outline" className="mr-auto" asChild>
-                <a href={breakout.buttonUrl} target="_blank">
-                  {breakout.buttonText}
-                </a>
-              </Button>
-            </div>
             <img
-              src={secondaryImage.src}
-              alt={secondaryImage.alt}
-              className="grow basis-0 rounded-xl object-cover md:w-1/2 lg:min-h-0 lg:w-auto"
+              src={mainImage.src}
+              alt={mainImage.alt}
+              className="size-full max-h-[620px] rounded-3xl object-cover lg:col-span-2 shadow-2xl"
             />
+            <div className="flex flex-col gap-7 md:flex-row lg:flex-col">
+              <div className="flex flex-col justify-between gap-6 rounded-xl bg-muted p-7 md:w-1/2 lg:w-auto">
+                <img
+                  src={breakout.src}
+                  alt={breakout.alt}
+                  className="mr-auto h-24 w-auto rounded-lg shadow-lg mb-4 object-cover"
+                />
+                <div>
+                  <p className="mb-2 text-lg font-semibold">{breakout.title}</p>
+                  <p className="text-muted-foreground">{breakout.description}</p>
+                </div>
+                <Button variant="outline" className="mr-auto" asChild>
+                  <a href={breakout.buttonUrl} target="_blank">
+                    {breakout.buttonText}
+                  </a>
+                </Button>
+              </div>
+              <img
+                src={secondaryImage.src}
+                alt={secondaryImage.alt}
+                className="grow basis-0 rounded-3xl object-cover md:w-1/2 lg:min-h-0 lg:w-auto shadow-2xl"
+              />
+            </div>
           </div>
-        </div>
         </FadeInWhenVisible>
-        
+
         <FadeInWhenVisible delay={0.3}>
           <div className="py-32">
             <p className="text-center">{companiesTitle} </p>
             <div className="mt-8 flex flex-wrap justify-center gap-8">
-            {companies.map((company, idx) => (
-              <div className="flex items-center gap-3" key={company.src + idx}>
-                <img
-                  src={company.src}
-                  alt={company.alt}
-                  className="h-6 w-auto md:h-8"
-                />
-              </div>
-            ))}
+              {companies.map((company, idx) => (
+                <div className="flex items-center gap-3" key={company.src + idx}>
+                  <img
+                    src={company.src}
+                    alt={company.alt}
+                    className="h-6 w-auto md:h-8"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
         </FadeInWhenVisible>
-        
+
         <FadeInWhenVisible delay={0.4}>
           <div className="relative overflow-hidden rounded-xl bg-muted p-10 md:p-16">
-          <div className="flex flex-col gap-4 text-center md:text-left">
-            <h2 className="text-4xl font-semibold">{achievementsTitle}</h2>
-            <p className="max-w-screen-sm text-muted-foreground">
-              {achievementsDescription}
-            </p>
+            <div className="flex flex-col gap-4 text-center md:text-left">
+              <h2 className="text-4xl font-semibold">{achievementsTitle}</h2>
+              <p className="max-w-screen-sm text-muted-foreground">
+                {achievementsDescription}
+              </p>
+            </div>
+            <div className="mt-10 grid grid-cols-2 md:flex md:flex-wrap md:justify-between gap-8 md:gap-10 text-center">
+              {achievements.map((item, idx) => (
+                <div className="flex flex-col gap-2 md:gap-4" key={item.label + idx}>
+                  <p className="text-sm md:text-base">{item.label}</p>
+                  <span className="text-3xl md:text-4xl lg:text-5xl font-semibold">
+                    {item.value}
+                  </span>
+                </div>
+              ))}
+            </div>
+            <div className="pointer-events-none absolute -top-1 right-1 z-10 hidden h-full w-full bg-[linear-gradient(to_right,hsl(var(--muted-foreground))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--muted-foreground))_1px,transparent_1px)] bg-[size:80px_80px] opacity-15 [mask-image:linear-gradient(to_bottom_right,#000,transparent,transparent)] md:block"></div>
           </div>
-          <div className="mt-10 grid grid-cols-2 md:flex md:flex-wrap md:justify-between gap-8 md:gap-10 text-center">
-            {achievements.map((item, idx) => (
-              <div className="flex flex-col gap-2 md:gap-4" key={item.label + idx}>
-                <p className="text-sm md:text-base">{item.label}</p>
-                <span className="text-3xl md:text-4xl lg:text-5xl font-semibold">
-                  {item.value}
-                </span>
-              </div>
-            ))}
-          </div>
-          <div className="pointer-events-none absolute -top-1 right-1 z-10 hidden h-full w-full bg-[linear-gradient(to_right,hsl(var(--muted-foreground))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--muted-foreground))_1px,transparent_1px)] bg-[size:80px_80px] opacity-15 [mask-image:linear-gradient(to_bottom_right,#000,transparent,transparent)] md:block"></div>
-        </div>
         </FadeInWhenVisible>
       </div>
     </section>

@@ -7,164 +7,164 @@ import { Video, Globe, Share2, Megaphone, Sparkles } from "lucide-react";
 const WhatWeDo = () => {
   const timelineData = [
     {
-      title: "Video Editing",
+      title: "Video Production",
       content: (
         <div>
           <div className="flex items-center gap-4 mb-8">
-            <div className="w-20 h-20 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
+            <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-white/10 to-transparent border border-white/20 shadow-xl backdrop-blur-md flex items-center justify-center">
               <Video className="w-10 h-10 text-white" />
             </div>
             <div>
-              <h4 className="text-white text-xl md:text-2xl font-bold mb-2">Professional Video Editing</h4>
-              <p className="text-neutral-400 text-base md:text-lg">Transform raw footage into compelling stories</p>
+              <h4 className="text-white text-xl md:text-2xl font-bold mb-2">Full-Service Video Production</h4>
+              <p className="text-neutral-400 text-base md:text-lg">From concept to final cut, we craft cinematic experiences.</p>
             </div>
           </div>
           <p className="text-neutral-300 text-base md:text-lg font-normal mb-8">
-            Professional editing, color grading, and seamless transitions that captivate your audience.
+            We handle everything from on-location shooting with cinema-grade equipment to high-end post-production.
           </p>
           <div className="space-y-4">
             <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
               <span className="w-2 h-2 bg-white rounded-full"></span>
-              4K Support & High Resolution
+              Professional Cinematography & Shooting
             </div>
             <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
               <span className="w-2 h-2 bg-white rounded-full"></span>
-              Motion Graphics & Visual Effects
+              Scriptwriting & Storyboarding
             </div>
             <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
               <span className="w-2 h-2 bg-white rounded-full"></span>
-              Color Correction & Grading
+              Advanced Color Grading & Editing
             </div>
             <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
               <span className="w-2 h-2 bg-white rounded-full"></span>
-              Audio Enhancement & Mixing
+              Sound Design & Audio Mixing
             </div>
             <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
               <span className="w-2 h-2 bg-white rounded-full"></span>
-              Subtitle Integration
+              Drone & Aerial Videography
             </div>
           </div>
         </div>
       ),
     },
     {
-      title: "Website Building",
+      title: "Web Development",
       content: (
         <div>
           <div className="flex items-center gap-4 mb-8">
-            <div className="w-20 h-20 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
+            <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-white/10 to-transparent border border-white/20 shadow-xl backdrop-blur-md flex items-center justify-center">
               <Globe className="w-10 h-10 text-white" />
             </div>
             <div>
-              <h4 className="text-white text-xl md:text-2xl font-bold mb-2">Modern Web Development</h4>
-              <p className="text-neutral-400 text-base md:text-lg">Stunning websites that drive results</p>
+              <h4 className="text-white text-xl md:text-2xl font-bold mb-2">High-Performance Web Development</h4>
+              <p className="text-neutral-400 text-base md:text-lg">Digital experiences engineered for growth.</p>
             </div>
           </div>
           <p className="text-neutral-300 text-base md:text-lg font-normal mb-8">
-            From landing pages to full e-commerce solutions, we build digital experiences that convert.
+            We build scalable, secure, and lightning-fast websites that serve as the foundation of your digital presence.
           </p>
           <div className="space-y-4">
             <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
               <span className="w-2 h-2 bg-white rounded-full"></span>
-              Responsive Design
+              Custom Full-Stack Development
             </div>
             <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
               <span className="w-2 h-2 bg-white rounded-full"></span>
-              SEO Optimized
+              E-commerce Solutions
             </div>
             <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
               <span className="w-2 h-2 bg-white rounded-full"></span>
-              Fast Loading Performance
+              Technical SEO & Optimization
             </div>
             <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
               <span className="w-2 h-2 bg-white rounded-full"></span>
-              Mobile First Approach
+              Progressive Web Apps (PWA)
             </div>
             <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
               <span className="w-2 h-2 bg-white rounded-full"></span>
-              Custom Development
+              UI/UX Design Systems
             </div>
           </div>
         </div>
       ),
     },
     {
-      title: "Social Media",
+      title: "Brand Presence",
       content: (
         <div>
           <div className="flex items-center gap-4 mb-8">
-            <div className="w-20 h-20 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
+            <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-white/10 to-transparent border border-white/20 shadow-xl backdrop-blur-md flex items-center justify-center">
               <Share2 className="w-10 h-10 text-white" />
             </div>
             <div>
-              <h4 className="text-white text-xl md:text-2xl font-bold mb-2">Social Media Management</h4>
-              <p className="text-neutral-400 text-base md:text-lg">Build your brand presence everywhere</p>
+              <h4 className="text-white text-xl md:text-2xl font-bold mb-2">Strategic Brand Management</h4>
+              <p className="text-neutral-400 text-base md:text-lg">Cultivating communities and driving engagement.</p>
             </div>
           </div>
           <p className="text-neutral-300 text-base md:text-lg font-normal mb-8">
-            Strategic content and data-driven engagement strategies across all platforms.
+            We don't just post; we curate a cohesive brand identity that resonates with your target audience across all channels.
           </p>
           <div className="space-y-4">
             <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
               <span className="w-2 h-2 bg-white rounded-full"></span>
-              Content Creation
+              Cross-Platform Strategy
             </div>
             <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
               <span className="w-2 h-2 bg-white rounded-full"></span>
-              Scheduling & Planning
+              Content Calendar & Production
             </div>
             <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
               <span className="w-2 h-2 bg-white rounded-full"></span>
-              Analytics & Reporting
+              Audience Analytics & Insights
             </div>
             <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
               <span className="w-2 h-2 bg-white rounded-full"></span>
-              Growth Strategy
+              Community Engagement
             </div>
             <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
               <span className="w-2 h-2 bg-white rounded-full"></span>
-              Community Management
+              Influencer Partnerships
             </div>
           </div>
         </div>
       ),
     },
     {
-      title: "Ad Campaigns",
+      title: "Performance Marketing",
       content: (
         <div>
           <div className="flex items-center gap-4 mb-8">
-            <div className="w-20 h-20 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
+            <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-white/10 to-transparent border border-white/20 shadow-xl backdrop-blur-md flex items-center justify-center">
               <Megaphone className="w-10 h-10 text-white" />
             </div>
             <div>
-              <h4 className="text-white text-xl md:text-2xl font-bold mb-2">Advertising Campaigns</h4>
-              <p className="text-neutral-400 text-base md:text-lg">Maximize ROI with targeted ads</p>
+              <h4 className="text-white text-xl md:text-2xl font-bold mb-2">Data-Driven Advertising</h4>
+              <p className="text-neutral-400 text-base md:text-lg">Turning ad spend into measurable revenue.</p>
             </div>
           </div>
           <p className="text-neutral-300 text-base md:text-lg font-normal mb-8">
-            Data-driven advertising campaigns across Google, Meta, and more platforms.
+            Our campaigns are built on data, optimized for conversion, and scaled for maximum return on investment.
           </p>
           <div className="space-y-4">
             <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
               <span className="w-2 h-2 bg-white rounded-full"></span>
-              Strategy Planning
+              Multi-Channel Campaigns (Meta, Google, LinkedIn)
             </div>
             <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
               <span className="w-2 h-2 bg-white rounded-full"></span>
-              Creative Design
+              Conversion Rate Optimization (CRO)
             </div>
             <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
               <span className="w-2 h-2 bg-white rounded-full"></span>
-              A/B Testing
+              A/B Testing & Iteration
             </div>
             <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
               <span className="w-2 h-2 bg-white rounded-full"></span>
-              Performance Reports
+              Detailed ROI Reporting
             </div>
             <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
               <span className="w-2 h-2 bg-white rounded-full"></span>
-              Budget Optimization
+              Retargeting Strategies
             </div>
           </div>
         </div>
@@ -175,37 +175,37 @@ const WhatWeDo = () => {
       content: (
         <div>
           <div className="flex items-center gap-4 mb-8">
-            <div className="w-20 h-20 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
+            <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-white/10 to-transparent border border-white/20 shadow-xl backdrop-blur-md flex items-center justify-center">
               <Sparkles className="w-10 h-10 text-white" />
             </div>
             <div>
-              <h4 className="text-white text-xl md:text-2xl font-bold mb-2">Motion Graphics</h4>
-              <p className="text-neutral-400 text-base md:text-lg">Stunning animated graphics & effects</p>
+              <h4 className="text-white text-xl md:text-2xl font-bold mb-2">Animated Storytelling</h4>
+              <p className="text-neutral-400 text-base md:text-lg">Captivating visuals that explain and engage.</p>
             </div>
           </div>
           <p className="text-neutral-300 text-base md:text-lg font-normal mb-8">
-            Bring your ideas to life with eye-catching animations and visual effects.
+            We simplify complex ideas into stunning 2D animations and motion graphics that keep viewers watching.
           </p>
           <div className="space-y-4">
             <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
               <span className="w-2 h-2 bg-white rounded-full"></span>
-              Brand Integration
+              2D Explainer Videos
             </div>
             <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
               <span className="w-2 h-2 bg-white rounded-full"></span>
-              Storyboard Development
+              Logo Animation & Intros
             </div>
             <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
               <span className="w-2 h-2 bg-white rounded-full"></span>
-              Voiceover Production
+              Typography & Kinetic Text
             </div>
             <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
               <span className="w-2 h-2 bg-white rounded-full"></span>
-              Character Animation
+              UI/UX Interaction Demos
             </div>
             <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
               <span className="w-2 h-2 bg-white rounded-full"></span>
-              Logo Animation
+              Social Media Shorts
             </div>
           </div>
         </div>

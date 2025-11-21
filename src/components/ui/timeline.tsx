@@ -57,7 +57,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
               delay: index * 0.1,
               ease: [0.25, 0.4, 0.25, 1]
             }}
-            className="flex justify-start pt-10 md:pt-40 md:gap-10"
+            className="flex justify-start pt-10 md:pt-60 md:gap-24"
           >
             <div className="sticky flex flex-col md:flex-row z-40 items-center top-40 self-start max-w-xs lg:max-w-sm md:w-full">
               <div className="h-10 absolute left-3 md:left-3 w-10 rounded-full bg-black flex items-center justify-center">

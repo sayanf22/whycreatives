@@ -7,21 +7,21 @@ const AboutUs = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      
+
       <About3
         title="About WhyCreatives"
         description="We are a full-service creative agency based in Agartala, Tripura, dedicated to transforming brands through innovative storytelling, cutting-edge design, and strategic digital solutions. Our mission is to empower businesses with world-class creative services that drive measurable results and lasting impact."
         mainImage={{
-          src: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&h=800&fit=crop",
-          alt: "Creative team collaboration",
+          src: "/creative-office.png",
+          alt: "Modern creative office space",
         }}
         secondaryImage={{
-          src: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&h=800&fit=crop",
-          alt: "Team meeting",
+          src: "/team-collab.png",
+          alt: "Creative team collaborating",
         }}
         breakout={{
-          src: "/logo.png",
-          alt: "WhyCreatives Logo",
+          src: "/video-gear.png",
+          alt: "Professional video production gear",
           title: "Excellence in Every Project",
           description:
             "We combine creative excellence with strategic thinking to deliver solutions that not only look exceptional but also drive business growth. Our team of experienced professionals brings together diverse expertise in video production, web development, branding, and digital marketing to create comprehensive solutions tailored to your unique needs.",
