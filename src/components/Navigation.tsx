@@ -28,24 +28,18 @@ export const Navigation = () => {
 
   useEffect(() => {
     if (isOpen) {
-      // Prevent body scroll on mobile
+      // Prevent body scroll when menu is open
       document.body.style.overflow = "hidden";
-      document.body.style.position = "fixed";
-      document.body.style.width = "100%";
-      document.body.style.height = "100%";
+      document.body.style.touchAction = "none";
     } else {
       // Restore body scroll
       document.body.style.overflow = "";
-      document.body.style.position = "";
-      document.body.style.width = "";
-      document.body.style.height = "";
+      document.body.style.touchAction = "";
     }
     
     return () => {
       document.body.style.overflow = "";
-      document.body.style.position = "";
-      document.body.style.width = "";
-      document.body.style.height = "";
+      document.body.style.touchAction = "";
     };
   }, [isOpen]);
 
@@ -82,14 +76,10 @@ export const Navigation = () => {
         className={`fixed inset-0 z-50 bg-background transition-transform duration-500 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
-        style={{ 
-          WebkitOverflowScrolling: 'touch',
-          overscrollBehavior: 'contain'
-        }}
       >
-        <div className="h-full flex flex-col min-h-screen">
+        <div className="h-full flex flex-col overflow-hidden">
           {/* Header with Logo - Fixed at top */}
-          <div className="flex-shrink-0 sticky top-0 bg-background z-10 border-b border-border/50">
+          <div className="flex-shrink-0 bg-background z-10 border-b border-border/50">
             <div className="container mx-auto px-6 lg:px-12 py-5 md:py-6 flex justify-between items-center">
               <span className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground">
                 WhyCreatives
@@ -106,8 +96,15 @@ export const Navigation = () => {
           </div>
 
           {/* Menu Items - Scrollable content */}
-          <div className="flex-1 overflow-y-auto overscroll-contain">
-            <nav className="container mx-auto px-6 lg:px-12 py-8 md:py-12">
+          <div 
+            className="flex-1 overflow-y-auto overflow-x-hidden"
+            style={{
+              WebkitOverflowScrolling: 'touch',
+              overscrollBehavior: 'contain',
+              touchAction: 'pan-y'
+            }}
+          >
+            <nav className="container mx-auto px-6 lg:px-12 py-8 md:py-12 pb-20">
               <div className="flex flex-col space-y-4 md:space-y-6 lg:space-y-8">
                 {menuItems.map((item, index) => (
                   <Link
@@ -116,8 +113,7 @@ export const Navigation = () => {
                     onClick={handleLinkClick}
                     className="text-left text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground hover:text-muted-foreground transition-all duration-300 animate-fade-in-up py-2 active:scale-95"
                     style={{ 
-                      animationDelay: `${index * 0.1}s`,
-                      touchAction: 'manipulation'
+                      animationDelay: `${index * 0.1}s`
                     }}
                   >
                     {item.label}
@@ -128,7 +124,7 @@ export const Navigation = () => {
           </div>
 
           {/* Footer - Fixed at bottom */}
-          <div className="flex-shrink-0 sticky bottom-0 bg-background border-t border-border/50">
+          <div className="flex-shrink-0 bg-background border-t border-border/50">
             <div className="container mx-auto px-6 lg:px-12 py-4 md:py-5">
               <p className="text-xs md:text-sm text-muted-foreground">Tripura, Agartala 🇮🇳</p>
             </div>
