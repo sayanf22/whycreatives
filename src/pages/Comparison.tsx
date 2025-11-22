@@ -16,16 +16,12 @@ const Comparison = () => {
         </div>
       </FadeInWhenVisible>
 
-      <div className="pb-20 px-6">
-        <div className="container mx-auto max-w-[1200px]">
-          {/* Bottom CTA */}
-          <FadeInWhenVisible delay={0.3}>
-            <div className="mt-16">
-              <BackgroundPaths />
-            </div>
-          </FadeInWhenVisible>
+      {/* Bottom CTA - Full Width */}
+      <FadeInWhenVisible delay={0.3}>
+        <div className="mt-16">
+          <BackgroundPaths />
         </div>
-      </div>
+      </FadeInWhenVisible>
       <Footer />
     </div>
   );
