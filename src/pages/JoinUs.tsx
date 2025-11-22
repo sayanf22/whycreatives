@@ -37,15 +37,15 @@ const JoinUs = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <main className="pt-32 pb-24 px-6">
-        <div className="container mx-auto max-w-4xl">
+      <main className="pt-20 sm:pt-28 md:pt-32 pb-12 sm:pb-20 md:pb-24 px-4 sm:px-6">
+        <div className="container mx-auto max-w-5xl">
           {/* Hero Section */}
           <FadeInWhenVisible>
-            <div className="text-center mb-16">
-              <h1 className="text-5xl md:text-7xl font-black text-foreground mb-6">
+            <div className="text-center mb-10 sm:mb-14 md:mb-16">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black text-foreground mb-4 sm:mb-6">
                 Join Our Team
               </h1>
-              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
                 Be part of WhyCreatives and help businesses grow with professional creative services
               </p>
             </div>
@@ -69,13 +69,13 @@ const JoinUs = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="border-2 border-white/20 p-8 md:p-12 rounded-3xl bg-gradient-to-b from-white/5 to-transparent backdrop-blur-sm"
+              className="border-2 border-white/20 p-4 sm:p-6 md:p-8 lg:p-12 rounded-3xl bg-gradient-to-b from-white/5 to-transparent backdrop-blur-sm"
             >
-              <div className="text-center mb-8">
-                <h2 className="text-3xl font-black text-white mb-2">
+              <div className="text-center mb-6 sm:mb-8">
+                <h2 className="text-2xl sm:text-3xl font-black text-white mb-2">
                   Apply Now
                 </h2>
-                <p className="text-muted-foreground">Fill out the form below to join our team</p>
+                <p className="text-sm sm:text-base text-muted-foreground">Fill out the form below to join our team</p>
               </div>
 
               <form className="space-y-6" onSubmit={handleSubmit}>

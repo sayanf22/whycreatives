@@ -285,7 +285,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                           id={option.replace(/\s/g, '-').toLowerCase()}
                           checked={formData.projectType.includes(option)}
                           onCheckedChange={(checked) => handleCheckboxChange(option, checked as boolean)}
-                          className="data-[state=checked]:bg-primary data-[state=checked]:border-primary rounded-lg w-5 h-5 flex-shrink-0 border-2"
+                          className="data-[state=checked]:bg-primary data-[state=checked]:border-primary rounded-full w-6 h-6 flex-shrink-0 border-2 shadow-sm"
                         />
                         <span className="text-sm font-medium cursor-pointer flex-1 group-hover:text-primary transition-colors">
                           {option}

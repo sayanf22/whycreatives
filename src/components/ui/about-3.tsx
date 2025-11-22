@@ -94,12 +94,12 @@ export const About3 = ({
   achievements = defaultAchievements,
 }: About3Props = {}) => {
   return (
-    <section className="py-32">
+    <section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6">
       <div className="container mx-auto">
         <FadeInWhenVisible>
-          <div className="mb-14 grid gap-5 text-center md:grid-cols-2 md:text-left">
-            <h1 className="text-5xl font-semibold">{title}</h1>
-            <p className="text-muted-foreground">{description}</p>
+          <div className="mb-10 sm:mb-14 grid gap-4 sm:gap-5 text-center md:grid-cols-2 md:text-left">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold">{title}</h1>
+            <p className="text-sm sm:text-base text-muted-foreground">{description}</p>
           </div>
         </FadeInWhenVisible>
 
