@@ -62,19 +62,19 @@ const features = [
 
 export const ServicesBento = () => {
   return (
-    <section className="py-24 px-6 bg-background">
+    <section className="py-12 sm:py-20 md:py-24 px-4 sm:px-6 bg-background">
       <div className="container mx-auto max-w-7xl">
         <FadeInWhenVisible>
-          <div className="text-center mb-16">
-            <h2 className="text-5xl md:text-6xl font-black text-foreground mb-4">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-foreground mb-3 sm:mb-4">
               What We Do
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
               Professional creative services to elevate your brand and grow your business.
             </p>
           </div>
         </FadeInWhenVisible>
-        <div className="grid grid-cols-1 gap-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 gap-4 sm:gap-6 max-w-4xl mx-auto">
           {features.map((feature, index) => (
             <FadeInWhenVisible key={feature.name} delay={0.1 * index}>
               <BentoCard {...feature} />
