@@ -69,7 +69,7 @@ const JoinUs = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="border-2 border-white/20 p-8 md:p-12 rounded-2xl bg-gradient-to-b from-white/5 to-transparent backdrop-blur-sm"
+              className="border-2 border-white/20 p-8 md:p-12 rounded-3xl bg-gradient-to-b from-white/5 to-transparent backdrop-blur-sm"
             >
               <div className="text-center mb-8">
                 <h2 className="text-3xl font-black text-white mb-2">
@@ -92,7 +92,7 @@ const JoinUs = () => {
                   <Input
                     type="text"
                     placeholder="Enter your full name"
-                    className="bg-background/50 border-white/20 text-white placeholder:text-muted-foreground focus:border-white/40 transition-colors"
+                    className="bg-background/50 border-white/20 text-white placeholder:text-muted-foreground focus:border-white/40 transition-colors rounded-xl"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     required
@@ -112,7 +112,7 @@ const JoinUs = () => {
                   <Input
                     type="email"
                     placeholder="your.email@example.com"
-                    className="bg-background/50 border-white/20 text-white placeholder:text-muted-foreground focus:border-white/40 transition-colors"
+                    className="bg-background/50 border-white/20 text-white placeholder:text-muted-foreground focus:border-white/40 transition-colors rounded-xl"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     required
@@ -132,7 +132,7 @@ const JoinUs = () => {
                   <Input
                     type="tel"
                     placeholder="+91 81198 11655"
-                    className="bg-background/50 border-white/20 text-white placeholder:text-muted-foreground focus:border-white/40 transition-colors"
+                    className="bg-background/50 border-white/20 text-white placeholder:text-muted-foreground focus:border-white/40 transition-colors rounded-xl"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     required
@@ -151,7 +151,7 @@ const JoinUs = () => {
                   <Input
                     type="text"
                     placeholder="e.g., Video Editor, Web Developer, Social Media Manager"
-                    className="bg-background/50 border-white/20 text-white placeholder:text-muted-foreground focus:border-white/40 transition-colors"
+                    className="bg-background/50 border-white/20 text-white placeholder:text-muted-foreground focus:border-white/40 transition-colors rounded-xl"
                     value={formData.position}
                     onChange={(e) => setFormData({ ...formData, position: e.target.value })}
                     required
@@ -170,7 +170,7 @@ const JoinUs = () => {
                   <Input
                     type="url"
                     placeholder="https://your-portfolio.com"
-                    className="bg-background/50 border-white/20 text-white placeholder:text-muted-foreground focus:border-white/40 transition-colors"
+                    className="bg-background/50 border-white/20 text-white placeholder:text-muted-foreground focus:border-white/40 transition-colors rounded-xl"
                     value={formData.portfolio}
                     onChange={(e) => setFormData({ ...formData, portfolio: e.target.value })}
                   />
@@ -188,7 +188,7 @@ const JoinUs = () => {
                   </label>
                   <Textarea
                     placeholder="Share your experience, skills, and why you want to join WhyCreatives..."
-                    className="bg-background/50 border-white/20 text-white placeholder:text-muted-foreground min-h-[150px] focus:border-white/40 transition-colors"
+                    className="bg-background/50 border-white/20 text-white placeholder:text-muted-foreground min-h-[150px] focus:border-white/40 transition-colors rounded-xl"
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     required
@@ -203,7 +203,7 @@ const JoinUs = () => {
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full bg-white text-black hover:bg-white/90 font-bold text-lg py-6 transition-all hover:scale-[1.02]"
+                    className="w-full bg-white text-black hover:bg-white/90 font-bold text-lg py-6 transition-all hover:scale-[1.02] rounded-xl"
                   >
                     Submit Application
                   </Button>
