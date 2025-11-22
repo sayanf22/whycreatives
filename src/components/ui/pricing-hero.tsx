@@ -17,7 +17,7 @@ export default function PricingHero() {
         </div>
 
         {/* Service Cards Display */}
-        <div className="mt-16 flex flex-col items-center gap-12 w-full">
+        <div className="mt-8 sm:mt-12 md:mt-16 flex flex-col items-center gap-6 sm:gap-8 md:gap-12 w-full">
           <ServicePricingCard
             imageUrl="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=2000&auto=format&fit=crop"
             serviceName="Video Production"
