@@ -160,9 +160,13 @@ const JoinUs = () => {
                 </Button>
               </form>
             </div>
-            <Footer />
+          </FadeInWhenVisible>
         </div>
-        );
+      </main>
+
+      <Footer />
+    </div>
+  );
 };
 
-        export default JoinUs;
+export default JoinUs;
