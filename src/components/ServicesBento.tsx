@@ -1,50 +1,51 @@
 import { Video, Globe, Share2, Megaphone, Sparkles } from "lucide-react";
 import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
+import { FadeInWhenVisible } from "@/components/FadeInWhenVisible";
 
 const features = [
   {
     Icon: Video,
-    name: "Video Editing",
+    name: "Video Production",
     description: "Professional video editing with color grading, transitions, and effects that captivate your audience.",
     href: "/what-we-do",
     cta: "Learn more",
     background: (
       <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-blue-500/20 to-transparent" />
     ),
-    className: "lg:row-start-1 lg:row-end-4 lg:col-start-2 lg:col-end-3",
+    className: "",
   },
   {
     Icon: Globe,
-    name: "Website Building",
+    name: "Web Development",
     description: "Modern, responsive websites built with latest technologies that drive results.",
     href: "/what-we-do",
     cta: "Learn more",
     background: (
       <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-cyan-500/20 to-transparent" />
     ),
-    className: "lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-3",
+    className: "",
   },
   {
     Icon: Share2,
-    name: "Social Media",
+    name: "Brand Presence",
     description: "Complete social media strategy and content management across all platforms.",
     href: "/what-we-do",
     cta: "Learn more",
     background: (
       <div className="absolute inset-0 bg-gradient-to-br from-pink-500/20 via-purple-500/20 to-transparent" />
     ),
-    className: "lg:col-start-1 lg:col-end-2 lg:row-start-3 lg:row-end-4",
+    className: "",
   },
   {
     Icon: Megaphone,
-    name: "Ad Campaigns",
+    name: "Performance Marketing",
     description: "Data-driven advertising campaigns across multiple platforms.",
     href: "/what-we-do",
     cta: "Learn more",
     background: (
       <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 via-red-500/20 to-transparent" />
     ),
-    className: "lg:col-start-3 lg:col-end-3 lg:row-start-1 lg:row-end-2",
+    className: "",
   },
   {
     Icon: Sparkles,
@@ -55,7 +56,7 @@ const features = [
     background: (
       <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/20 via-orange-500/20 to-transparent" />
     ),
-    className: "lg:col-start-3 lg:col-end-3 lg:row-start-2 lg:row-end-4",
+    className: "",
   },
 ];
 
@@ -63,19 +64,23 @@ export const ServicesBento = () => {
   return (
     <section className="py-24 px-6 bg-background">
       <div className="container mx-auto max-w-7xl">
-        <div className="text-center mb-16 animate-fade-in-up">
-          <h2 className="text-5xl md:text-6xl font-black text-foreground mb-4">
-            What We Do
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Professional creative services to elevate your brand and grow your business.
-          </p>
-        </div>
-        <BentoGrid className="lg:grid-rows-3">
-          {features.map((feature) => (
-            <BentoCard key={feature.name} {...feature} />
+        <FadeInWhenVisible>
+          <div className="text-center mb-16">
+            <h2 className="text-5xl md:text-6xl font-black text-foreground mb-4">
+              What We Do
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Professional creative services to elevate your brand and grow your business.
+            </p>
+          </div>
+        </FadeInWhenVisible>
+        <div className="grid grid-cols-1 gap-6 max-w-4xl mx-auto">
+          {features.map((feature, index) => (
+            <FadeInWhenVisible key={feature.name} delay={0.1 * index}>
+              <BentoCard {...feature} />
+            </FadeInWhenVisible>
           ))}
-        </BentoGrid>
+        </div>
       </div>
     </section>
   );
