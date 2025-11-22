@@ -3,6 +3,7 @@ import {
   TestimonialCard,
   TestimonialAuthor,
 } from "@/components/ui/testimonial-card";
+import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
 interface TestimonialsSectionProps {
   title: string;
@@ -21,11 +22,16 @@ export function TestimonialsSection({
   testimonials,
   className,
 }: TestimonialsSectionProps) {
+  const { ref, isVisible } = useScrollAnimation();
+
   return (
     <section
+      ref={ref}
       className={cn(
         "bg-background text-foreground",
         "py-12 sm:py-24 md:py-32 px-0",
+        "transition-all duration-1000",
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20",
         className
       )}
     >
