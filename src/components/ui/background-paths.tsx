@@ -61,7 +61,7 @@ export function BackgroundPaths({
     const words = title.split(" ");
 
     return (
-        <div className="relative min-h-[60vh] w-full flex items-center justify-center overflow-hidden bg-black rounded-3xl border border-white/10">
+        <div className="relative min-h-[60vh] w-full flex items-center justify-center overflow-hidden bg-black">
             <div className="absolute inset-0">
                 <FloatingPaths position={1} />
                 <FloatingPaths position={-1} />
