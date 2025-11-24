@@ -87,7 +87,7 @@ const SEOLandingPage = () => {
                 "image": "https://whycreatives.in/logo.png",
                 "@id": "https://whycreatives.in",
                 "url": "https://whycreatives.in",
-                "telephone": "+917005625989",
+                "telephone": "+918119811655",
                 "address": {
                     "@type": "PostalAddress",
                     "streetAddress": "Agartala",
