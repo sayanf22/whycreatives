@@ -4,7 +4,12 @@ import { Link } from "react-router-dom";
 import { Spotlight } from "@/components/ui/spotlight-aceternity";
 import RadialOrbitalTimeline from "@/components/ui/radial-orbital-timeline";
 
-export const Hero = () => {
+interface HeroProps {
+  title?: React.ReactNode;
+  subtitle?: string;
+}
+
+export const Hero = ({ title, subtitle }: HeroProps) => {
   const timelineData = [
     {
       id: 1,
@@ -69,21 +74,24 @@ export const Hero = () => {
         className="hidden md:block -top-40 left-0 md:left-60 md:-top-20 opacity-20"
         fill="white"
       />
-      
+
       <div className="w-full max-w-7xl mx-auto">
         <div className="flex flex-col lg:grid lg:grid-cols-2 gap-6 lg:gap-12 items-center">
           {/* Left content */}
           <div className="relative z-10 w-full animate-fade-in-up">
             <h1 className="text-[2.2rem] leading-[1.15] sm:text-5xl md:text-7xl lg:text-8xl font-black text-foreground mb-4 sm:mb-6 tracking-tight">
-              Creative
-              <br />
-              Excellence
-              <br />
-              <span className="text-muted-foreground">at 90% Less</span>
+              {title || (
+                <>
+                  Creative
+                  <br />
+                  Excellence
+                  <br />
+                  <span className="text-muted-foreground">at 90% Less</span>
+                </>
+              )}
             </h1>
             <p className="text-sm sm:text-xl md:text-2xl text-muted-foreground mb-5 sm:mb-12 leading-relaxed">
-              Professional video editing, web design, and social media management. 
-              Transparent pricing. Zero hidden fees.
+              {subtitle || "Professional video editing, web design, and social media management. Transparent pricing. Zero hidden fees."}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <Button
@@ -110,8 +118,8 @@ export const Hero = () => {
           </div>
 
           {/* Right content - Orbital Timeline */}
-          <div 
-            className="relative w-full flex items-center justify-center animate-fade-in my-8 lg:my-0" 
+          <div
+            className="relative w-full flex items-center justify-center animate-fade-in my-8 lg:my-0"
             style={{ animationDelay: "0.2s" }}
           >
             {/* Mobile version - scaled to fit perfectly */}

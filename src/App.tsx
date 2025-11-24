@@ -22,6 +22,7 @@ const JoinUs = lazy(() => import("./pages/JoinUs"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const SEOLandingPage = lazy(() => import("./pages/SEOLandingPage"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -68,6 +69,10 @@ const App = () => (
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/admin-login" element={<AdminLogin />} />
             <Route path="/admindashboard" element={<AdminDashboard />} />
+
+            {/* Dynamic SEO Routes - Matches /:slug and SEOLandingPage handles validation */}
+            <Route path="/:slug" element={<SEOLandingPage />} />
+
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
