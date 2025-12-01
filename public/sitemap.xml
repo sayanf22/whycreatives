@@ -1,8 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Main Pages Sitemap - Primary -->
+  <!-- 
+    WhyCreatives - Creative Agency Sitemap Index
+    Location: Agartala, Tripura, Northeast India
+    Services: Video Production, Web Design, Digital Marketing, Branding, Motion Graphics
+    Website: https://whycreatives.in
+    Last Updated: 2025-12-02
+  -->
+  
+  <!-- Core Pages Sitemap -->
   <sitemap>
     <loc>https://whycreatives.in/sitemap-pages.xml</loc>
-    <lastmod>2025-12-01</lastmod>
+    <lastmod>2025-12-02</lastmod>
+  </sitemap>
+  
+  <!-- Location-Based Landing Pages -->
+  <sitemap>
+    <loc>https://whycreatives.in/sitemap-locations.xml</loc>
+    <lastmod>2025-12-02</lastmod>
+  </sitemap>
+  
+  <!-- Service-Specific Pages -->
+  <sitemap>
+    <loc>https://whycreatives.in/sitemap-services.xml</loc>
+    <lastmod>2025-12-02</lastmod>
+  </sitemap>
+  
+  <!-- Image Sitemap for Visual Content -->
+  <sitemap>
+    <loc>https://whycreatives.in/sitemap-images.xml</loc>
+    <lastmod>2025-12-02</lastmod>
+  </sitemap>
+  
+  <!-- Video Sitemap for Video Content -->
+  <sitemap>
+    <loc>https://whycreatives.in/sitemap-video.xml</loc>
+    <lastmod>2025-12-02</lastmod>
   </sitemap>
 </sitemapindex>

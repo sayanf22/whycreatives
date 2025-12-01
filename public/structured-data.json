@@ -1,0 +1,259 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://whycreatives.in/#organization",
+      "name": "WhyCreatives",
+      "alternateName": ["Why Creatives", "WhyCreatives Agency", "WhyCreatives India"],
+      "url": "https://whycreatives.in",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://whycreatives.in/logo.png",
+        "width": 512,
+        "height": 512
+      },
+      "image": "https://whycreatives.in/logo.png",
+      "description": "WhyCreatives is India's most affordable creative agency offering professional video editing, web design, digital marketing, and branding services at 90% less cost than metro agencies.",
+      "email": "hello@whycreatives.in",
+      "telephone": "+918119811655",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Agartala",
+        "addressRegion": "Tripura",
+        "addressCountry": "IN",
+        "postalCode": "799001"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "23.8315",
+        "longitude": "91.2868"
+      },
+      "areaServed": [
+        {
+          "@type": "Country",
+          "name": "India"
+        },
+        {
+          "@type": "State",
+          "name": "Tripura"
+        },
+        {
+          "@type": "State",
+          "name": "Assam"
+        },
+        {
+          "@type": "State",
+          "name": "Meghalaya"
+        }
+      ],
+      "sameAs": [
+        "https://www.instagram.com/whycreatives",
+        "https://www.linkedin.com/company/whycreatives",
+        "https://twitter.com/whycreatives"
+      ],
+      "foundingDate": "2023",
+      "numberOfEmployees": {
+        "@type": "QuantitativeValue",
+        "minValue": 5,
+        "maxValue": 20
+      },
+      "priceRange": "₹₹",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "50",
+        "bestRating": "5",
+        "worstRating": "1"
+      }
+    },
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://whycreatives.in/#localbusiness",
+      "name": "WhyCreatives - Creative Agency Agartala",
+      "image": "https://whycreatives.in/logo.png",
+      "url": "https://whycreatives.in",
+      "telephone": "+918119811655",
+      "email": "hello@whycreatives.in",
+      "priceRange": "₹₹",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Agartala",
+        "addressLocality": "Agartala",
+        "addressRegion": "Tripura",
+        "postalCode": "799001",
+        "addressCountry": "IN"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 23.8315,
+        "longitude": 91.2868
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "opens": "09:00",
+          "closes": "18:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Saturday",
+          "opens": "10:00",
+          "closes": "16:00"
+        }
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "50"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://whycreatives.in/#website",
+      "url": "https://whycreatives.in",
+      "name": "WhyCreatives",
+      "description": "India's Most Affordable Creative Agency",
+      "publisher": {
+        "@id": "https://whycreatives.in/#organization"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://whycreatives.in/?s={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "Service",
+      "@id": "https://whycreatives.in/video-editing#service",
+      "name": "Video Editing Services",
+      "description": "Professional video editing services including color grading, motion graphics, and post-production at affordable prices.",
+      "provider": {
+        "@id": "https://whycreatives.in/#organization"
+      },
+      "serviceType": "Video Production",
+      "areaServed": {
+        "@type": "Country",
+        "name": "India"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "500",
+        "priceCurrency": "INR",
+        "priceValidUntil": "2025-12-31"
+      }
+    },
+    {
+      "@type": "Service",
+      "@id": "https://whycreatives.in/web-design#service",
+      "name": "Web Design Services",
+      "description": "Modern, responsive web design and development services for businesses across India.",
+      "provider": {
+        "@id": "https://whycreatives.in/#organization"
+      },
+      "serviceType": "Web Development",
+      "areaServed": {
+        "@type": "Country",
+        "name": "India"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "2000",
+        "priceCurrency": "INR",
+        "priceValidUntil": "2025-12-31"
+      }
+    },
+    {
+      "@type": "Service",
+      "@id": "https://whycreatives.in/digital-marketing#service",
+      "name": "Digital Marketing Services",
+      "description": "Data-driven digital marketing and advertising campaigns for businesses.",
+      "provider": {
+        "@id": "https://whycreatives.in/#organization"
+      },
+      "serviceType": "Digital Marketing",
+      "areaServed": {
+        "@type": "Country",
+        "name": "India"
+      }
+    },
+    {
+      "@type": "Service",
+      "@id": "https://whycreatives.in/branding#service",
+      "name": "Branding Services",
+      "description": "Complete brand identity design including logo, visual identity, and brand guidelines.",
+      "provider": {
+        "@id": "https://whycreatives.in/#organization"
+      },
+      "serviceType": "Branding"
+    },
+    {
+      "@type": "Service",
+      "@id": "https://whycreatives.in/motion-graphics#service",
+      "name": "Motion Graphics Services",
+      "description": "Eye-catching animations, explainer videos, and motion graphics.",
+      "provider": {
+        "@id": "https://whycreatives.in/#organization"
+      },
+      "serviceType": "Animation"
+    },
+    {
+      "@type": "Service",
+      "@id": "https://whycreatives.in/social-media#service",
+      "name": "Social Media Marketing",
+      "description": "Strategic social media management and content creation.",
+      "provider": {
+        "@id": "https://whycreatives.in/#organization"
+      },
+      "serviceType": "Social Media Marketing",
+      "offers": {
+        "@type": "Offer",
+        "price": "3000",
+        "priceCurrency": "INR",
+        "priceValidUntil": "2025-12-31"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://whycreatives.in/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What services does WhyCreatives offer?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "WhyCreatives offers video editing, web design, digital marketing, branding, motion graphics, and social media marketing services."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Where is WhyCreatives located?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "WhyCreatives is based in Agartala, Tripura, India, and serves clients across all of India."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much do WhyCreatives services cost?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "WhyCreatives offers services at 90% less cost than metro agencies. Video editing starts at ₹500, web design at ₹2,000, and social media management at ₹3,000/month."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the turnaround time?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most projects are completed within 24-48 hours. Complex projects may take longer based on requirements."
+          }
+        }
+      ]
+    }
+  ]
+}

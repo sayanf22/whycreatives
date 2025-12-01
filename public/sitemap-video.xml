@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+  
+  <!-- 
+    WhyCreatives - Video Sitemap
+    Purpose: Help search engines discover and index video content
+    Best Practice: Essential for video production agencies to showcase work
+    Note: Update this sitemap when adding video content to the website
+  -->
+  
+  <!-- Video Production Services Page -->
+  <url>
+    <loc>https://whycreatives.in/video-editing</loc>
+    <video:video>
+      <video:thumbnail_loc>https://whycreatives.in/video-gear.png</video:thumbnail_loc>
+      <video:title>Professional Video Editing Services - WhyCreatives</video:title>
+      <video:description>WhyCreatives offers professional video editing services including color grading, motion graphics, and post-production. Based in Agartala, Tripura, serving clients across India.</video:description>
+      <video:content_loc>https://whycreatives.in/videos/showreel.mp4</video:content_loc>
+      <video:duration>120</video:duration>
+      <video:publication_date>2025-12-01</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:tag>video editing</video:tag>
+      <video:tag>video production</video:tag>
+      <video:tag>creative agency</video:tag>
+      <video:tag>tripura</video:tag>
+      <video:tag>northeast india</video:tag>
+      <video:category>Business</video:category>
+    </video:video>
+  </url>
+  
+  <!-- Motion Graphics Services Page -->
+  <url>
+    <loc>https://whycreatives.in/motion-graphics</loc>
+    <video:video>
+      <video:thumbnail_loc>https://whycreatives.in/creative-office.png</video:thumbnail_loc>
+      <video:title>Motion Graphics & Animation Services - WhyCreatives</video:title>
+      <video:description>Professional motion graphics and animation services. Explainer videos, logo animations, and visual effects by WhyCreatives, Agartala.</video:description>
+      <video:content_loc>https://whycreatives.in/videos/motion-reel.mp4</video:content_loc>
+      <video:duration>90</video:duration>
+      <video:publication_date>2025-12-01</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:tag>motion graphics</video:tag>
+      <video:tag>animation</video:tag>
+      <video:tag>explainer video</video:tag>
+      <video:tag>creative agency india</video:tag>
+      <video:category>Business</video:category>
+    </video:video>
+  </url>
+  
+  <!-- Portfolio/Our Work Page -->
+  <url>
+    <loc>https://whycreatives.in/our-work</loc>
+    <video:video>
+      <video:thumbnail_loc>https://whycreatives.in/team-collab.png</video:thumbnail_loc>
+      <video:title>WhyCreatives Portfolio Showreel 2025</video:title>
+      <video:description>Watch our best work from 2025. Video production, motion graphics, and creative content by WhyCreatives - the leading creative agency in Northeast India.</video:description>
+      <video:content_loc>https://whycreatives.in/videos/portfolio-2025.mp4</video:content_loc>
+      <video:duration>180</video:duration>
+      <video:publication_date>2025-12-01</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:tag>portfolio</video:tag>
+      <video:tag>showreel</video:tag>
+      <video:tag>creative work</video:tag>
+      <video:tag>best agency tripura</video:tag>
+      <video:category>Business</video:category>
+    </video:video>
+  </url>
+  
+</urlset>

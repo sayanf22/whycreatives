@@ -1,92 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   
   <!-- 
-    WhyCreatives - Premier Creative Agency
-    Location: Agartala, Tripura, Northeast India
-    Services: Video Production, Web Development, Digital Marketing, Branding, Motion Graphics
-    Serving: Tripura, Northeast India, and All India
+    WhyCreatives - Core Pages Sitemap
+    Best Creative Agency in Tripura, Northeast India
+    Contact: +91 81198 11655 | hello@whycreatives.in
   -->
   
-  <!-- Homepage - Highest Priority - Main Landing Page -->
+  <!-- ========== PRIMARY PAGES (Highest Priority) ========== -->
+  
+  <!-- Homepage - Most Important -->
   <url>
     <loc>https://whycreatives.in/</loc>
-    <lastmod>2025-12-01</lastmod>
+    <lastmod>2025-12-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   
-  <!-- Services Page - Video Production, Web Development, Digital Marketing -->
+  <!-- Services Overview - High Commercial Intent -->
   <url>
     <loc>https://whycreatives.in/what-we-do</loc>
-    <lastmod>2025-12-01</lastmod>
+    <lastmod>2025-12-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
   
-  <!-- Portfolio - Our Work Showcase -->
-  <url>
-    <loc>https://whycreatives.in/our-work</loc>
-    <lastmod>2025-12-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  
-  <!-- Portfolio Gallery - Full Portfolio Display -->
-  <url>
-    <loc>https://whycreatives.in/portfolio-gallery</loc>
-    <lastmod>2025-12-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  
-  <!-- Pricing Comparison - Affordable Creative Services -->
+  <!-- Pricing - High Commercial Intent -->
   <url>
     <loc>https://whycreatives.in/pricing-comparison</loc>
-    <lastmod>2025-12-01</lastmod>
+    <lastmod>2025-12-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.95</priority>
   </url>
   
-  <!-- About Us - Creative Agency in Tripura -->
-  <url>
-    <loc>https://whycreatives.in/about-us</loc>
-    <lastmod>2025-12-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <!-- Our Team - Creative Professionals -->
-  <url>
-    <loc>https://whycreatives.in/people</loc>
-    <lastmod>2025-12-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <!-- Contact Us - Get in Touch -->
+  <!-- Contact - Conversion Page -->
   <url>
     <loc>https://whycreatives.in/contact</loc>
-    <lastmod>2025-12-01</lastmod>
+    <lastmod>2025-12-02</lastmod>
     <changefreq>monthly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  
+  <!-- ========== PORTFOLIO PAGES (Trust Building) ========== -->
+  
+  <url>
+    <loc>https://whycreatives.in/our-work</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  
+  <url>
+    <loc>https://whycreatives.in/portfolio-gallery</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   
-  <!-- Careers - Join Our Team -->
+  <!-- ========== ABOUT & TEAM PAGES (Trust & Authority) ========== -->
+  
   <url>
-    <loc>https://whycreatives.in/join-us</loc>
-    <lastmod>2025-12-01</lastmod>
+    <loc>https://whycreatives.in/about-us</loc>
+    <lastmod>2025-12-02</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.80</priority>
   </url>
   
-  <!-- Blog/Insights - Industry Knowledge -->
+  <url>
+    <loc>https://whycreatives.in/people</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  
+  <!-- ========== CONTENT & ENGAGEMENT PAGES ========== -->
+  
   <url>
     <loc>https://whycreatives.in/insights</loc>
-    <lastmod>2025-12-01</lastmod>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  
+  <url>
+    <loc>https://whycreatives.in/join-us</loc>
+    <lastmod>2025-12-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.75</priority>
+    <priority>0.70</priority>
   </url>
   
 </urlset>

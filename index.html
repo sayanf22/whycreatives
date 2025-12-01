@@ -410,10 +410,85 @@
     }
     </script>
 
+  <!-- BreadcrumbList Schema for Navigation -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://whycreatives.in/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Services",
+          "item": "https://whycreatives.in/what-we-do"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Portfolio",
+          "item": "https://whycreatives.in/our-work"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Pricing",
+          "item": "https://whycreatives.in/pricing-comparison"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Contact",
+          "item": "https://whycreatives.in/contact"
+        }
+      ]
+    }
+  </script>
+
+  <!-- WebPage Schema -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "WhyCreatives - Best Creative Agency in India",
+      "description": "India's most affordable creative agency offering video editing, web design, digital marketing at 90% less cost",
+      "url": "https://whycreatives.in/",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "WhyCreatives",
+        "url": "https://whycreatives.in"
+      },
+      "about": {
+        "@type": "Organization",
+        "name": "WhyCreatives"
+      },
+      "mainEntity": {
+        "@type": "LocalBusiness",
+        "name": "WhyCreatives",
+        "telephone": "+918119811655"
+      },
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": ["h1", "h2", ".hero-text"]
+      },
+      "specialty": "Creative Agency Services"
+    }
+  </script>
+
+  <!-- Hreflang for International SEO (if needed in future) -->
+  <link rel="alternate" hreflang="en-in" href="https://whycreatives.in/" />
+  <link rel="alternate" hreflang="x-default" href="https://whycreatives.in/" />
+
   <!-- Performance Optimization -->
   <link rel="dns-prefetch" href="https://fonts.googleapis.com">
   <link rel="dns-prefetch" href="https://fonts.gstatic.com">
   <link rel="dns-prefetch" href="https://renskjrttadhptrwnobz.supabase.co">
+  <link rel="preconnect" href="https://whycreatives.in" crossorigin>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">

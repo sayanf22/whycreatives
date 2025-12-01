@@ -1,0 +1,12 @@
+# WhyCreatives Security Contact Information
+# https://securitytxt.org/
+
+Contact: mailto:hello@whycreatives.in
+Contact: tel:+918119811655
+Expires: 2026-12-31T23:59:59.000Z
+Preferred-Languages: en, hi
+Canonical: https://whycreatives.in/.well-known/security.txt
+Policy: https://whycreatives.in/about-us
+
+# WhyCreatives - Creative Agency
+# Agartala, Tripura, India
