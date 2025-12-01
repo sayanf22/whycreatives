@@ -1,15 +1,18 @@
 # ============================================================
-# WhyCreatives - Best Creative Agency in Tripura, Northeast India
+# WhyCreatives - Best Creative Agency in Tripura & India
 # ============================================================
-# Location: Agartala, Tripura, India
-# Services: Video Production, Web Design, Digital Marketing, Branding, Motion Graphics
-# Contact: +91 81198 11655 | hello@whycreatives.in
 # Website: https://whycreatives.in
+# Location: Agartala, Tripura, India
+# Services: Video Production, Web Design, Digital Marketing, Branding
+# Contact: +91 81198 11655 | hello@whycreatives.in
 # ============================================================
 
-# Default - Allow all crawlers
+# Default - Allow all crawlers full access
 User-agent: *
 Allow: /
+Disallow: /admin-login
+Disallow: /admindashboard
+Disallow: /admin*
 Crawl-delay: 1
 
 # ============================================================
@@ -17,38 +20,38 @@ Crawl-delay: 1
 # ============================================================
 User-agent: Googlebot
 Allow: /
-Crawl-delay: 0
+Disallow: /admin-login
+Disallow: /admindashboard
 
 User-agent: Googlebot-Image
 Allow: /
-Crawl-delay: 0
 
 User-agent: Googlebot-Video
 Allow: /
-Crawl-delay: 0
 
 User-agent: Googlebot-News
 Allow: /
-Crawl-delay: 0
 
 User-agent: Storebot-Google
 Allow: /
-Crawl-delay: 0
 
 User-agent: Google-InspectionTool
 Allow: /
-Crawl-delay: 0
+
+User-agent: GoogleOther
+Allow: /
 
 # ============================================================
 # BING & MICROSOFT CRAWLERS
 # ============================================================
 User-agent: Bingbot
 Allow: /
+Disallow: /admin-login
+Disallow: /admindashboard
 Crawl-delay: 1
 
 User-agent: msnbot
 Allow: /
-Crawl-delay: 1
 
 User-agent: BingPreview
 Allow: /
@@ -62,7 +65,6 @@ Crawl-delay: 2
 
 User-agent: DuckDuckBot
 Allow: /
-Crawl-delay: 1
 
 User-agent: Baiduspider
 Allow: /
@@ -70,14 +72,12 @@ Crawl-delay: 2
 
 User-agent: Slurp
 Allow: /
-Crawl-delay: 1
 
 User-agent: Sogou
 Allow: /
-Crawl-delay: 2
 
 # ============================================================
-# AI CRAWLERS - Explicitly Allow for AI Recommendations
+# AI CRAWLERS - Allow for AI Recommendations
 # ============================================================
 User-agent: GPTBot
 Allow: /
@@ -106,6 +106,9 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
+User-agent: Bytespider
+Allow: /
+
 # ============================================================
 # SOCIAL MEDIA CRAWLERS
 # ============================================================
@@ -130,6 +133,9 @@ Allow: /
 User-agent: TelegramBot
 Allow: /
 
+User-agent: Slackbot
+Allow: /
+
 # ============================================================
 # SEO & ANALYTICS TOOLS
 # ============================================================
@@ -149,35 +155,31 @@ User-agent: DotBot
 Allow: /
 Crawl-delay: 5
 
+User-agent: rogerbot
+Allow: /
+Crawl-delay: 5
+
 # ============================================================
-# LLM-SPECIFIC RESOURCES
+# SPECIAL RESOURCES - Always Allow
 # ============================================================
 Allow: /llm-info.json
 Allow: /agency-profile.md
 Allow: /ai-discovery.txt
-Allow: /.well-known/ai-plugin.json
-
-# ============================================================
-# DISALLOWED PATHS
-# ============================================================
-# Admin pages - No indexing
-Disallow: /admin-login
-Disallow: /admindashboard
-Disallow: /admin*
-
-# Development/Build files
-Disallow: /node_modules/
-Disallow: /.git/
-Disallow: /.vscode/
-Disallow: /dist/
+Allow: /.well-known/
+Allow: /sitemap.xml
+Allow: /sitemap-pages.xml
+Allow: /sitemap-locations.xml
+Allow: /sitemap-services.xml
+Allow: /sitemap-images.xml
+Allow: /sitemap-video.xml
+Allow: /robots.txt
+Allow: /humans.txt
+Allow: /structured-data.json
 
 # ============================================================
 # SITEMAPS - All Sitemap Files
 # ============================================================
-# Master Sitemap Index
 Sitemap: https://whycreatives.in/sitemap.xml
-
-# Individual Sitemaps (for faster discovery)
 Sitemap: https://whycreatives.in/sitemap-pages.xml
 Sitemap: https://whycreatives.in/sitemap-locations.xml
 Sitemap: https://whycreatives.in/sitemap-services.xml

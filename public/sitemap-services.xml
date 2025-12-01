@@ -7,58 +7,144 @@
   
   <!-- 
     WhyCreatives - Service-Specific SEO Landing Pages
-    Targeting: High-intent service keywords
+    Total Services: 18 specialized service pages
     Strategy: Service-based SEO for creative agency
+    Last Updated: 2025-12-02
   -->
   
-  <!-- ========== CORE SERVICES (High Commercial Intent) ========== -->
+  <!-- ========== VIDEO SERVICES (High Commercial Intent) ========== -->
   
-  <!-- Video Production & Editing -->
   <url>
     <loc>https://whycreatives.in/video-editing</loc>
     <lastmod>2025-12-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.90</priority>
+    <priority>0.95</priority>
   </url>
   
-  <!-- Web Design & Development -->
   <url>
-    <loc>https://whycreatives.in/web-design</loc>
+    <loc>https://whycreatives.in/video-production</loc>
     <lastmod>2025-12-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.90</priority>
+    <priority>0.95</priority>
   </url>
   
-  <!-- Digital Marketing -->
-  <url>
-    <loc>https://whycreatives.in/digital-marketing</loc>
-    <lastmod>2025-12-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.90</priority>
-  </url>
-  
-  <!-- Branding & Identity -->
-  <url>
-    <loc>https://whycreatives.in/branding</loc>
-    <lastmod>2025-12-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.90</priority>
-  </url>
-  
-  <!-- Motion Graphics & Animation -->
   <url>
     <loc>https://whycreatives.in/motion-graphics</loc>
     <lastmod>2025-12-02</lastmod>
     <changefreq>weekly</changefreq>
+    <priority>0.92</priority>
+  </url>
+  
+  <url>
+    <loc>https://whycreatives.in/corporate-videos</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
   
-  <!-- Social Media Marketing -->
+  <url>
+    <loc>https://whycreatives.in/reels-editing</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  
+  <!-- ========== WEB SERVICES ========== -->
+  
+  <url>
+    <loc>https://whycreatives.in/web-design</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  
+  <url>
+    <loc>https://whycreatives.in/web-development</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  
+  <url>
+    <loc>https://whycreatives.in/ecommerce-development</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.92</priority>
+  </url>
+  
+  <url>
+    <loc>https://whycreatives.in/ui-ux-design</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+
+  
+  <!-- ========== MARKETING SERVICES ========== -->
+  
+  <url>
+    <loc>https://whycreatives.in/digital-marketing</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  
   <url>
     <loc>https://whycreatives.in/social-media</loc>
     <lastmod>2025-12-02</lastmod>
     <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  
+  <url>
+    <loc>https://whycreatives.in/seo-services</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.92</priority>
+  </url>
+  
+  <url>
+    <loc>https://whycreatives.in/ad-campaigns</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.90</priority>
+  </url>
+  
+  <url>
+    <loc>https://whycreatives.in/content-creation</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  
+  <!-- ========== DESIGN SERVICES ========== -->
+  
+  <url>
+    <loc>https://whycreatives.in/branding</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  
+  <url>
+    <loc>https://whycreatives.in/logo-design</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.92</priority>
+  </url>
+  
+  <url>
+    <loc>https://whycreatives.in/graphic-design</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.92</priority>
+  </url>
+  
+  <url>
+    <loc>https://whycreatives.in/thumbnail-design</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   
 </urlset>

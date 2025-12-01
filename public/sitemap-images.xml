@@ -4,8 +4,9 @@
   
   <!-- 
     WhyCreatives - Image Sitemap
-    Purpose: Help search engines discover and index images
-    Best Practice: Include all important images for Google Image Search visibility
+    Purpose: Help Google Image Search discover and index images
+    Best Practice: Include all important images for better visibility
+    Last Updated: 2025-12-02
   -->
   
   <!-- Homepage Images -->
@@ -13,27 +14,32 @@
     <loc>https://whycreatives.in/</loc>
     <image:image>
       <image:loc>https://whycreatives.in/logo.png</image:loc>
-      <image:title>WhyCreatives Logo - Creative Agency Tripura</image:title>
-      <image:caption>WhyCreatives - Best Creative Agency in Agartala, Tripura, Northeast India</image:caption>
+      <image:title>WhyCreatives Logo - Best Creative Agency in Tripura India</image:title>
+      <image:caption>WhyCreatives - India's Most Affordable Creative Agency based in Agartala, Tripura</image:caption>
       <image:geo_location>Agartala, Tripura, India</image:geo_location>
     </image:image>
     <image:image>
       <image:loc>https://whycreatives.in/creative-office.png</image:loc>
-      <image:title>WhyCreatives Creative Office</image:title>
-      <image:caption>Our creative workspace where ideas come to life</image:caption>
+      <image:title>WhyCreatives Creative Office Agartala</image:title>
+      <image:caption>Our creative workspace in Agartala where innovative ideas come to life</image:caption>
       <image:geo_location>Agartala, Tripura, India</image:geo_location>
     </image:image>
     <image:image>
       <image:loc>https://whycreatives.in/team-collab.png</image:loc>
       <image:title>WhyCreatives Team Collaboration</image:title>
-      <image:caption>Our creative team working on client projects</image:caption>
+      <image:caption>Our creative team working on client projects - video editing, web design, branding</image:caption>
       <image:geo_location>Agartala, Tripura, India</image:geo_location>
     </image:image>
     <image:image>
       <image:loc>https://whycreatives.in/video-gear.png</image:loc>
-      <image:title>Professional Video Production Equipment</image:title>
-      <image:caption>State-of-the-art video production equipment at WhyCreatives</image:caption>
+      <image:title>Professional Video Production Equipment WhyCreatives</image:title>
+      <image:caption>State-of-the-art video production and editing equipment at WhyCreatives Agartala</image:caption>
       <image:geo_location>Agartala, Tripura, India</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://whycreatives.in/favicon.png</image:loc>
+      <image:title>WhyCreatives Favicon</image:title>
+      <image:caption>WhyCreatives brand icon</image:caption>
     </image:image>
   </url>
   
@@ -45,6 +51,11 @@
       <image:title>WhyCreatives Agency Logo</image:title>
       <image:caption>WhyCreatives - Leading Creative Agency in Northeast India</image:caption>
     </image:image>
+    <image:image>
+      <image:loc>https://whycreatives.in/team-collab.png</image:loc>
+      <image:title>WhyCreatives Team</image:title>
+      <image:caption>Meet the creative team behind WhyCreatives</image:caption>
+    </image:image>
   </url>
   
   <!-- Services Page Images -->
@@ -52,10 +63,16 @@
     <loc>https://whycreatives.in/what-we-do</loc>
     <image:image>
       <image:loc>https://whycreatives.in/video-gear.png</image:loc>
-      <image:title>Video Production Services</image:title>
-      <image:caption>Professional video editing and production services</image:caption>
+      <image:title>Video Production Services WhyCreatives</image:title>
+      <image:caption>Professional video editing and production services in Tripura</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://whycreatives.in/creative-office.png</image:loc>
+      <image:title>Web Design Services WhyCreatives</image:title>
+      <image:caption>Modern web design and development services</image:caption>
     </image:image>
   </url>
+
   
   <!-- Portfolio Page Images -->
   <url>
@@ -63,7 +80,74 @@
     <image:image>
       <image:loc>https://whycreatives.in/creative-office.png</image:loc>
       <image:title>WhyCreatives Portfolio</image:title>
-      <image:caption>Our creative work and client projects</image:caption>
+      <image:caption>Our creative work and client projects showcase</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://whycreatives.in/team-collab.png</image:loc>
+      <image:title>WhyCreatives Project Work</image:title>
+      <image:caption>Behind the scenes of our creative projects</image:caption>
+    </image:image>
+  </url>
+  
+  <!-- Contact Page Images -->
+  <url>
+    <loc>https://whycreatives.in/contact</loc>
+    <image:image>
+      <image:loc>https://whycreatives.in/logo.png</image:loc>
+      <image:title>Contact WhyCreatives</image:title>
+      <image:caption>Get in touch with WhyCreatives - Creative Agency Agartala</image:caption>
+    </image:image>
+  </url>
+  
+  <!-- Agartala Location Page -->
+  <url>
+    <loc>https://whycreatives.in/agartala</loc>
+    <image:image>
+      <image:loc>https://whycreatives.in/logo.png</image:loc>
+      <image:title>Creative Agency Agartala - WhyCreatives</image:title>
+      <image:caption>Best creative agency in Agartala, Tripura offering video editing, web design, digital marketing</image:caption>
+      <image:geo_location>Agartala, Tripura, India</image:geo_location>
+    </image:image>
+  </url>
+  
+  <!-- Tripura Location Page -->
+  <url>
+    <loc>https://whycreatives.in/tripura</loc>
+    <image:image>
+      <image:loc>https://whycreatives.in/logo.png</image:loc>
+      <image:title>Creative Agency Tripura - WhyCreatives</image:title>
+      <image:caption>Leading creative agency in Tripura - video production, web design, branding services</image:caption>
+      <image:geo_location>Tripura, India</image:geo_location>
+    </image:image>
+  </url>
+  
+  <!-- Video Editing Service Page -->
+  <url>
+    <loc>https://whycreatives.in/video-editing</loc>
+    <image:image>
+      <image:loc>https://whycreatives.in/video-gear.png</image:loc>
+      <image:title>Video Editing Services India - WhyCreatives</image:title>
+      <image:caption>Professional video editing services starting at ₹500 - color grading, effects, transitions</image:caption>
+    </image:image>
+  </url>
+  
+  <!-- Web Design Service Page -->
+  <url>
+    <loc>https://whycreatives.in/web-design</loc>
+    <image:image>
+      <image:loc>https://whycreatives.in/creative-office.png</image:loc>
+      <image:title>Web Design Services India - WhyCreatives</image:title>
+      <image:caption>Modern responsive web design services starting at ₹2,000</image:caption>
+    </image:image>
+  </url>
+  
+  <!-- Digital Marketing Service Page -->
+  <url>
+    <loc>https://whycreatives.in/digital-marketing</loc>
+    <image:image>
+      <image:loc>https://whycreatives.in/team-collab.png</image:loc>
+      <image:title>Digital Marketing Services India - WhyCreatives</image:title>
+      <image:caption>Data-driven digital marketing and SEO services</image:caption>
     </image:image>
   </url>
   

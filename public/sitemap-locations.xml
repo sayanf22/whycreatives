@@ -7,24 +7,97 @@
   
   <!-- 
     WhyCreatives - Location-Based SEO Landing Pages
-    Targeting: Tripura, Northeast India, Major Indian Cities
-    Strategy: Local SEO for creative agency services
+    Total Locations: 50+ cities and states across India
+    Primary Focus: Tripura, Northeast India
+    Last Updated: 2025-12-02
   -->
   
-  <!-- ========== TRIPURA - PRIMARY LOCATION (Highest Priority) ========== -->
+  <!-- ========== AGARTALA & TRIPURA - PRIMARY LOCATION (Highest Priority) ========== -->
   
   <url>
     <loc>https://whycreatives.in/agartala</loc>
     <lastmod>2025-12-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.95</priority>
+    <priority>1.0</priority>
   </url>
   
   <url>
     <loc>https://whycreatives.in/tripura</loc>
     <lastmod>2025-12-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.95</priority>
+    <priority>0.98</priority>
+  </url>
+  
+  <!-- Tripura Districts & Towns -->
+  <url>
+    <loc>https://whycreatives.in/dharmanagar</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  
+  <url>
+    <loc>https://whycreatives.in/udaipur-tripura</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  
+  <url>
+    <loc>https://whycreatives.in/kailashahar</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.88</priority>
+  </url>
+  
+  <url>
+    <loc>https://whycreatives.in/ambassa</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.88</priority>
+  </url>
+  
+  <url>
+    <loc>https://whycreatives.in/belonia</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.88</priority>
+  </url>
+
+  
+  <url>
+    <loc>https://whycreatives.in/sabroom</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.88</priority>
+  </url>
+  
+  <url>
+    <loc>https://whycreatives.in/khowai</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.88</priority>
+  </url>
+  
+  <url>
+    <loc>https://whycreatives.in/teliamura</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <url>
+    <loc>https://whycreatives.in/bishalgarh</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <url>
+    <loc>https://whycreatives.in/sonamura</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
   </url>
   
   <!-- ========== NORTHEAST INDIA - SECONDARY MARKETS ========== -->
@@ -33,12 +106,40 @@
   <url>
     <loc>https://whycreatives.in/guwahati</loc>
     <lastmod>2025-12-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.92</priority>
+  </url>
+  
+  <url>
+    <loc>https://whycreatives.in/assam</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  
+  <url>
+    <loc>https://whycreatives.in/silchar</loc>
+    <lastmod>2025-12-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   
   <url>
-    <loc>https://whycreatives.in/assam</loc>
+    <loc>https://whycreatives.in/dibrugarh</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <url>
+    <loc>https://whycreatives.in/jorhat</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <url>
+    <loc>https://whycreatives.in/tezpur</loc>
     <lastmod>2025-12-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
@@ -49,11 +150,18 @@
     <loc>https://whycreatives.in/shillong</loc>
     <lastmod>2025-12-02</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.80</priority>
+    <priority>0.85</priority>
   </url>
   
   <url>
     <loc>https://whycreatives.in/meghalaya</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <url>
+    <loc>https://whycreatives.in/tura</loc>
     <lastmod>2025-12-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
@@ -64,14 +172,14 @@
     <loc>https://whycreatives.in/imphal</loc>
     <lastmod>2025-12-02</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.80</priority>
+    <priority>0.85</priority>
   </url>
   
   <url>
     <loc>https://whycreatives.in/manipur</loc>
     <lastmod>2025-12-02</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.80</priority>
+    <priority>0.85</priority>
   </url>
   
   <!-- Mizoram -->
@@ -79,14 +187,14 @@
     <loc>https://whycreatives.in/aizawl</loc>
     <lastmod>2025-12-02</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.80</priority>
+    <priority>0.85</priority>
   </url>
   
   <url>
     <loc>https://whycreatives.in/mizoram</loc>
     <lastmod>2025-12-02</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.80</priority>
+    <priority>0.85</priority>
   </url>
   
   <!-- Nagaland -->
@@ -94,14 +202,21 @@
     <loc>https://whycreatives.in/kohima</loc>
     <lastmod>2025-12-02</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.80</priority>
+    <priority>0.85</priority>
   </url>
   
   <url>
     <loc>https://whycreatives.in/nagaland</loc>
     <lastmod>2025-12-02</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.80</priority>
+    <priority>0.85</priority>
+  </url>
+  
+  <url>
+    <loc>https://whycreatives.in/dimapur</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.82</priority>
   </url>
   
   <!-- Arunachal Pradesh -->
@@ -109,14 +224,14 @@
     <loc>https://whycreatives.in/itanagar</loc>
     <lastmod>2025-12-02</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.80</priority>
+    <priority>0.85</priority>
   </url>
   
   <url>
     <loc>https://whycreatives.in/arunachal-pradesh</loc>
     <lastmod>2025-12-02</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.80</priority>
+    <priority>0.85</priority>
   </url>
   
   <!-- Sikkim -->
@@ -124,62 +239,177 @@
     <loc>https://whycreatives.in/gangtok</loc>
     <lastmod>2025-12-02</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.80</priority>
+    <priority>0.85</priority>
   </url>
   
   <url>
     <loc>https://whycreatives.in/sikkim</loc>
     <lastmod>2025-12-02</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.80</priority>
+    <priority>0.85</priority>
   </url>
+
   
   <!-- ========== MAJOR INDIAN METROS - EXPANSION MARKETS ========== -->
   
+  <!-- West Bengal -->
   <url>
     <loc>https://whycreatives.in/kolkata</loc>
     <lastmod>2025-12-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
   </url>
   
+  <!-- Delhi NCR -->
   <url>
     <loc>https://whycreatives.in/delhi</loc>
     <lastmod>2025-12-02</lastmod>
-    <changefreq>monthly</changefreq>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  
+  <url>
+    <loc>https://whycreatives.in/new-delhi</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
+  </url>
+  
+  <url>
+    <loc>https://whycreatives.in/noida</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   
+  <url>
+    <loc>https://whycreatives.in/gurgaon</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <!-- Maharashtra -->
   <url>
     <loc>https://whycreatives.in/mumbai</loc>
     <lastmod>2025-12-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  
-  <url>
-    <loc>https://whycreatives.in/bangalore</loc>
-    <lastmod>2025-12-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  
-  <url>
-    <loc>https://whycreatives.in/chennai</loc>
-    <lastmod>2025-12-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  
-  <url>
-    <loc>https://whycreatives.in/hyderabad</loc>
-    <lastmod>2025-12-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
   </url>
   
   <url>
     <loc>https://whycreatives.in/pune</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
+  </url>
+  
+  <!-- Karnataka -->
+  <url>
+    <loc>https://whycreatives.in/bangalore</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  
+  <url>
+    <loc>https://whycreatives.in/bengaluru</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
+  </url>
+  
+  <!-- Tamil Nadu -->
+  <url>
+    <loc>https://whycreatives.in/chennai</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
+  </url>
+  
+  <!-- Telangana -->
+  <url>
+    <loc>https://whycreatives.in/hyderabad</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
+  </url>
+  
+  <!-- Gujarat -->
+  <url>
+    <loc>https://whycreatives.in/ahmedabad</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <!-- Rajasthan -->
+  <url>
+    <loc>https://whycreatives.in/jaipur</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <!-- Uttar Pradesh -->
+  <url>
+    <loc>https://whycreatives.in/lucknow</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <!-- Punjab/Haryana -->
+  <url>
+    <loc>https://whycreatives.in/chandigarh</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <!-- Odisha -->
+  <url>
+    <loc>https://whycreatives.in/bhubaneswar</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <!-- Kerala -->
+  <url>
+    <loc>https://whycreatives.in/kochi</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <!-- Madhya Pradesh -->
+  <url>
+    <loc>https://whycreatives.in/indore</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <!-- Bihar -->
+  <url>
+    <loc>https://whycreatives.in/patna</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <!-- Jharkhand -->
+  <url>
+    <loc>https://whycreatives.in/ranchi</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <!-- Chhattisgarh -->
+  <url>
+    <loc>https://whycreatives.in/raipur</loc>
     <lastmod>2025-12-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
