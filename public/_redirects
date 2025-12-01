@@ -1,0 +1,8 @@
+# WhyCreatives - Cloudflare Pages Redirects
+# This file handles URL redirects at the edge (server-level)
+
+# Redirect old URLs to canonical URLs (301 permanent redirect)
+/comparison /pricing-comparison 301
+
+# SPA fallback - serve index.html for all routes (must be last)
+/* /index.html 200

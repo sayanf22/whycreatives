@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { lazy, Suspense } from "react";
 
@@ -65,7 +65,8 @@ const App = () => (
             <Route path="/people" element={<People />} />
             <Route path="/join-us" element={<JoinUs />} />
             <Route path="/pricing-comparison" element={<Comparison />} />
-            <Route path="/comparison" element={<Comparison />} />
+            {/* Redirect old URL to canonical URL - prevents duplicate content */}
+            <Route path="/comparison" element={<Navigate to="/pricing-comparison" replace />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/admin-login" element={<AdminLogin />} />
             <Route path="/admindashboard" element={<AdminDashboard />} />
@@ -73,7 +74,10 @@ const App = () => (
             {/* Dynamic SEO Routes - Matches /:slug and SEOLandingPage handles validation */}
             <Route path="/:slug" element={<SEOLandingPage />} />
 
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            {/* 404 Page - explicit route for proper status handling */}
+            <Route path="/404" element={<NotFound />} />
+            
+            {/* Catch-all route redirects to 404 */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

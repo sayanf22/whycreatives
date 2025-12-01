@@ -2,8 +2,8 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { FadeInWhenVisible } from "@/components/FadeInWhenVisible";
-import { Link, useParams } from "react-router-dom";
-import { ArrowRight, Video, Globe, Share2, Megaphone, Sparkles, MapPin, Phone, Mail, Star, Clock, Shield, Users, CheckCircle, Building, Camera, Palette } from "lucide-react";
+import { Link, useParams, Navigate } from "react-router-dom";
+import { ArrowRight, Video, Globe, Share2, Megaphone, Sparkles, MapPin, Phone, Mail, Star, Clock, Shield, Users, Palette } from "lucide-react";
 import { Helmet } from "react-helmet";
 
 // Comprehensive location data for SEO pages
@@ -108,18 +108,9 @@ const SEOLandingPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const data = slug ? locationData[slug] : null;
 
+  // Redirect to 404 page for invalid slugs - this ensures proper 404 status for crawlers
   if (!data) {
-    return (
-      <div className="min-h-screen bg-background">
-        <Navigation />
-        <div className="pt-32 pb-24 px-6 text-center">
-          <h1 className="text-4xl font-bold mb-4">Page Not Found</h1>
-          <p className="text-muted-foreground mb-8">The page you're looking for doesn't exist.</p>
-          <Link to="/" className="text-primary hover:underline">Go back home</Link>
-        </div>
-        <Footer />
-      </div>
-    );
+    return <Navigate to="/404" replace />;
   }
 
   const isService = data.state === "Services";
