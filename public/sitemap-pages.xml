@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <!-- Homepage - Highest Priority -->
   <url>
     <loc>https://whycreatives.in/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -13,7 +12,7 @@
   <!-- Services Page -->
   <url>
     <loc>https://whycreatives.in/what-we-do</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -21,14 +20,14 @@
   <!-- Portfolio Pages -->
   <url>
     <loc>https://whycreatives.in/our-work</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
     <loc>https://whycreatives.in/portfolio-gallery</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -36,7 +35,7 @@
   <!-- Pricing -->
   <url>
     <loc>https://whycreatives.in/pricing-comparison</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -44,14 +43,14 @@
   <!-- About & Team -->
   <url>
     <loc>https://whycreatives.in/about-us</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>https://whycreatives.in/people</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -59,14 +58,14 @@
   <!-- Contact & Careers -->
   <url>
     <loc>https://whycreatives.in/contact</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://whycreatives.in/join-us</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -74,52 +73,9 @@
   <!-- Blog/Insights -->
   <url>
     <loc>https://whycreatives.in/insights</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
-  </url>
-  
-  <!-- Service-Specific Landing Pages for SEO -->
-  <url>
-    <loc>https://whycreatives.in/video-editing-services</loc>
-    <lastmod>2025-11-14</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <url>
-    <loc>https://whycreatives.in/web-design-services</loc>
-    <lastmod>2025-11-14</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <url>
-    <loc>https://whycreatives.in/digital-marketing-services</loc>
-    <lastmod>2025-11-14</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <url>
-    <loc>https://whycreatives.in/branding-services</loc>
-    <lastmod>2025-11-14</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <url>
-    <loc>https://whycreatives.in/motion-graphics-services</loc>
-    <lastmod>2025-11-14</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <url>
-    <loc>https://whycreatives.in/social-media-management</loc>
-    <lastmod>2025-11-14</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
   </url>
   
 </urlset>

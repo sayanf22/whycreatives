@@ -36,10 +36,6 @@ Disallow: /admindashboard
 # Sitemaps
 Sitemap: https://whycreatives.in/sitemap.xml
 Sitemap: https://whycreatives.in/sitemap-pages.xml
-Sitemap: https://whycreatives.in/sitemap-locations.xml
-Sitemap: https://whycreatives.in/sitemap-india.xml
-Sitemap: https://whycreatives.in/sitemap-services.xml
-Sitemap: https://whycreatives.in/sitemap-portfolio.xml
 
 # Crawl-delay for respectful crawling
 Crawl-delay: 1

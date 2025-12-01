@@ -1,32 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Main Pages Sitemap -->
+  <!-- Main Pages Sitemap - Primary -->
   <sitemap>
     <loc>https://whycreatives.in/sitemap-pages.xml</loc>
-    <lastmod>2025-11-24</lastmod>
-  </sitemap>
-  
-  <!-- Tripura & Northeast India Location Sitemap -->
-  <sitemap>
-    <loc>https://whycreatives.in/sitemap-locations.xml</loc>
-    <lastmod>2025-11-24</lastmod>
-  </sitemap>
-  
-  <!-- Services Sitemap -->
-  <sitemap>
-    <loc>https://whycreatives.in/sitemap-services.xml</loc>
-    <lastmod>2025-11-24</lastmod>
-  </sitemap>
-  
-  <!-- Portfolio Sitemap -->
-  <sitemap>
-    <loc>https://whycreatives.in/sitemap-portfolio.xml</loc>
-    <lastmod>2025-11-24</lastmod>
-  </sitemap>
-  
-  <!-- All India States Sitemap -->
-  <sitemap>
-    <loc>https://whycreatives.in/sitemap-india.xml</loc>
-    <lastmod>2025-11-24</lastmod>
+    <lastmod>2025-12-01</lastmod>
   </sitemap>
 </sitemapindex>
