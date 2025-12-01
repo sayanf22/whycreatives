@@ -1,31 +1,70 @@
-# WhyCreatives - Robots.txt
-# Creative Agency in Agartala, Tripura, Northeast India
-# Optimized for AI/LLM Discovery
+# WhyCreatives - Best Creative Agency in Tripura, Northeast India & All India
+# Location: Agartala, Tripura, India
+# Services: Video Production, Web Design, Digital Marketing, Branding, Motion Graphics
+# Contact: +91 81198 11655 | hello@whycreatives.in
 
 User-agent: *
 Allow: /
 
-# AI Crawlers - Explicitly Allow (ChatGPT, Claude, Perplexity, etc.)
-User-agent: GPTBot
-Allow: /
-User-agent: ChatGPT-User
-Allow: /
-User-agent: CCBot
-Allow: /
-User-agent: anthropic-ai
-Allow: /
-User-agent: Claude-Web
-Allow: /
-User-agent: PerplexityBot
-Allow: /
-User-agent: Applebot
-Allow: /
-User-agent: Bingbot
-Allow: /
+# Google Crawlers - Priority Access
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 0
 
-# LLM-specific resources for AI recommendations
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Googlebot-Video
+Allow: /
+
+# Bing Crawlers
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Other Major Search Engines
+User-agent: Yandex
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+# AI Crawlers - Explicitly Allow for AI Recommendations
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+# Social Media Crawlers
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+# LLM-specific resources
 Allow: /llm-info.json
 Allow: /agency-profile.md
 
@@ -33,9 +72,9 @@ Allow: /agency-profile.md
 Disallow: /admin-login
 Disallow: /admindashboard
 
-# Sitemaps
+# Primary Sitemap
 Sitemap: https://whycreatives.in/sitemap.xml
 Sitemap: https://whycreatives.in/sitemap-pages.xml
 
-# Crawl-delay for respectful crawling
-Crawl-delay: 1
+# Host directive
+Host: https://whycreatives.in
