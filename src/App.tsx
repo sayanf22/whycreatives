@@ -22,13 +22,12 @@ const JoinUs = lazy(() => import("./pages/JoinUs"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
 const NotFound = lazy(() => import("./pages/NotFound"));
-const SEOLandingPage = lazy(() => import("./pages/SEOLandingPage"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 5, // 5 minutes
-      gcTime: 1000 * 60 * 10, // 10 minutes
+      staleTime: 1000 * 60 * 5,
+      gcTime: 1000 * 60 * 10,
       refetchOnWindowFocus: false,
     },
   },
@@ -56,6 +55,7 @@ const App = () => (
         <ScrollToTop />
         <Suspense fallback={<PageLoader />}>
           <Routes>
+            {/* Main Pages */}
             <Route path="/" element={<Index />} />
             <Route path="/what-we-do" element={<WhatWeDo />} />
             <Route path="/our-work" element={<OurWork />} />
@@ -65,19 +65,76 @@ const App = () => (
             <Route path="/people" element={<People />} />
             <Route path="/join-us" element={<JoinUs />} />
             <Route path="/pricing-comparison" element={<Comparison />} />
-            {/* Redirect old URL to canonical URL - prevents duplicate content */}
-            <Route path="/comparison" element={<Navigate to="/pricing-comparison" replace />} />
             <Route path="/contact" element={<ContactPage />} />
+            
+            {/* Admin Routes */}
             <Route path="/admin-login" element={<AdminLogin />} />
             <Route path="/admindashboard" element={<AdminDashboard />} />
 
-            {/* Dynamic SEO Routes - Matches /:slug and SEOLandingPage handles validation */}
-            <Route path="/:slug" element={<SEOLandingPage />} />
-
-            {/* 404 Page - explicit route for proper status handling */}
-            <Route path="/404" element={<NotFound />} />
+            {/* Redirects - Old URLs to Homepage */}
+            <Route path="/comparison" element={<Navigate to="/pricing-comparison" replace />} />
             
-            {/* Catch-all route redirects to 404 */}
+            {/* Redirect all old SEO location/service pages to homepage */}
+            <Route path="/agartala" element={<Navigate to="/" replace />} />
+            <Route path="/tripura" element={<Navigate to="/" replace />} />
+            <Route path="/guwahati" element={<Navigate to="/" replace />} />
+            <Route path="/assam" element={<Navigate to="/" replace />} />
+            <Route path="/shillong" element={<Navigate to="/" replace />} />
+            <Route path="/meghalaya" element={<Navigate to="/" replace />} />
+            <Route path="/imphal" element={<Navigate to="/" replace />} />
+            <Route path="/manipur" element={<Navigate to="/" replace />} />
+            <Route path="/aizawl" element={<Navigate to="/" replace />} />
+            <Route path="/mizoram" element={<Navigate to="/" replace />} />
+            <Route path="/kohima" element={<Navigate to="/" replace />} />
+            <Route path="/nagaland" element={<Navigate to="/" replace />} />
+            <Route path="/itanagar" element={<Navigate to="/" replace />} />
+            <Route path="/arunachal-pradesh" element={<Navigate to="/" replace />} />
+            <Route path="/gangtok" element={<Navigate to="/" replace />} />
+            <Route path="/sikkim" element={<Navigate to="/" replace />} />
+            <Route path="/kolkata" element={<Navigate to="/" replace />} />
+            <Route path="/delhi" element={<Navigate to="/" replace />} />
+            <Route path="/new-delhi" element={<Navigate to="/" replace />} />
+            <Route path="/noida" element={<Navigate to="/" replace />} />
+            <Route path="/gurgaon" element={<Navigate to="/" replace />} />
+            <Route path="/mumbai" element={<Navigate to="/" replace />} />
+            <Route path="/bangalore" element={<Navigate to="/" replace />} />
+            <Route path="/bengaluru" element={<Navigate to="/" replace />} />
+            <Route path="/chennai" element={<Navigate to="/" replace />} />
+            <Route path="/hyderabad" element={<Navigate to="/" replace />} />
+            <Route path="/pune" element={<Navigate to="/" replace />} />
+            <Route path="/ahmedabad" element={<Navigate to="/" replace />} />
+            <Route path="/jaipur" element={<Navigate to="/" replace />} />
+            <Route path="/lucknow" element={<Navigate to="/" replace />} />
+            <Route path="/chandigarh" element={<Navigate to="/" replace />} />
+            <Route path="/bhubaneswar" element={<Navigate to="/" replace />} />
+            <Route path="/kochi" element={<Navigate to="/" replace />} />
+            <Route path="/indore" element={<Navigate to="/" replace />} />
+            <Route path="/patna" element={<Navigate to="/" replace />} />
+            <Route path="/ranchi" element={<Navigate to="/" replace />} />
+            <Route path="/raipur" element={<Navigate to="/" replace />} />
+            
+            {/* Redirect service pages to what-we-do */}
+            <Route path="/video-editing" element={<Navigate to="/what-we-do" replace />} />
+            <Route path="/video-production" element={<Navigate to="/what-we-do" replace />} />
+            <Route path="/web-design" element={<Navigate to="/what-we-do" replace />} />
+            <Route path="/web-development" element={<Navigate to="/what-we-do" replace />} />
+            <Route path="/digital-marketing" element={<Navigate to="/what-we-do" replace />} />
+            <Route path="/seo-services" element={<Navigate to="/what-we-do" replace />} />
+            <Route path="/branding" element={<Navigate to="/what-we-do" replace />} />
+            <Route path="/logo-design" element={<Navigate to="/what-we-do" replace />} />
+            <Route path="/motion-graphics" element={<Navigate to="/what-we-do" replace />} />
+            <Route path="/social-media" element={<Navigate to="/what-we-do" replace />} />
+            <Route path="/content-creation" element={<Navigate to="/what-we-do" replace />} />
+            <Route path="/graphic-design" element={<Navigate to="/what-we-do" replace />} />
+            <Route path="/ui-ux-design" element={<Navigate to="/what-we-do" replace />} />
+            <Route path="/ecommerce-development" element={<Navigate to="/what-we-do" replace />} />
+            <Route path="/ad-campaigns" element={<Navigate to="/what-we-do" replace />} />
+            <Route path="/corporate-videos" element={<Navigate to="/what-we-do" replace />} />
+            <Route path="/reels-editing" element={<Navigate to="/what-we-do" replace />} />
+            <Route path="/thumbnail-design" element={<Navigate to="/what-we-do" replace />} />
+
+            {/* 404 Page */}
+            <Route path="/404" element={<NotFound />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

@@ -1,91 +1,31 @@
-# ============================================================
 # WhyCreatives - Best Creative Agency in Tripura & India
-# ============================================================
 # Website: https://whycreatives.in
 # Location: Agartala, Tripura, India
-# Services: Video Production, Web Design, Digital Marketing, Branding
 # Contact: +91 81198 11655 | hello@whycreatives.in
-# ============================================================
 
-# Default - Allow all crawlers full access
+# Allow all crawlers
 User-agent: *
 Allow: /
 Disallow: /admin-login
 Disallow: /admindashboard
-Disallow: /admin*
-Crawl-delay: 1
+Disallow: /404
 
-# ============================================================
-# GOOGLE CRAWLERS - Priority Access (No Delay)
-# ============================================================
+# Google
 User-agent: Googlebot
 Allow: /
-Disallow: /admin-login
-Disallow: /admindashboard
 
 User-agent: Googlebot-Image
 Allow: /
 
-User-agent: Googlebot-Video
-Allow: /
-
-User-agent: Googlebot-News
-Allow: /
-
-User-agent: Storebot-Google
-Allow: /
-
-User-agent: Google-InspectionTool
-Allow: /
-
-User-agent: GoogleOther
-Allow: /
-
-# ============================================================
-# BING & MICROSOFT CRAWLERS
-# ============================================================
+# Bing
 User-agent: Bingbot
 Allow: /
-Disallow: /admin-login
-Disallow: /admindashboard
-Crawl-delay: 1
 
-User-agent: msnbot
-Allow: /
-
-User-agent: BingPreview
-Allow: /
-
-# ============================================================
-# OTHER MAJOR SEARCH ENGINES
-# ============================================================
-User-agent: Yandex
-Allow: /
-Crawl-delay: 2
-
-User-agent: DuckDuckBot
-Allow: /
-
-User-agent: Baiduspider
-Allow: /
-Crawl-delay: 2
-
-User-agent: Slurp
-Allow: /
-
-User-agent: Sogou
-Allow: /
-
-# ============================================================
-# AI CRAWLERS - Allow for AI Recommendations
-# ============================================================
+# AI Crawlers
 User-agent: GPTBot
 Allow: /
 
 User-agent: ChatGPT-User
-Allow: /
-
-User-agent: CCBot
 Allow: /
 
 User-agent: anthropic-ai
@@ -94,28 +34,8 @@ Allow: /
 User-agent: Claude-Web
 Allow: /
 
-User-agent: PerplexityBot
-Allow: /
-
-User-agent: Applebot
-Allow: /
-
-User-agent: cohere-ai
-Allow: /
-
-User-agent: Google-Extended
-Allow: /
-
-User-agent: Bytespider
-Allow: /
-
-# ============================================================
-# SOCIAL MEDIA CRAWLERS
-# ============================================================
+# Social Media
 User-agent: facebookexternalhit
-Allow: /
-
-User-agent: Facebot
 Allow: /
 
 User-agent: Twitterbot
@@ -124,69 +44,8 @@ Allow: /
 User-agent: LinkedInBot
 Allow: /
 
-User-agent: Pinterest
-Allow: /
-
-User-agent: WhatsApp
-Allow: /
-
-User-agent: TelegramBot
-Allow: /
-
-User-agent: Slackbot
-Allow: /
-
-# ============================================================
-# SEO & ANALYTICS TOOLS
-# ============================================================
-User-agent: AhrefsBot
-Allow: /
-Crawl-delay: 5
-
-User-agent: SemrushBot
-Allow: /
-Crawl-delay: 5
-
-User-agent: MJ12bot
-Allow: /
-Crawl-delay: 5
-
-User-agent: DotBot
-Allow: /
-Crawl-delay: 5
-
-User-agent: rogerbot
-Allow: /
-Crawl-delay: 5
-
-# ============================================================
-# SPECIAL RESOURCES - Always Allow
-# ============================================================
-Allow: /llm-info.json
-Allow: /agency-profile.md
-Allow: /ai-discovery.txt
-Allow: /.well-known/
-Allow: /sitemap.xml
-Allow: /sitemap-pages.xml
-Allow: /sitemap-locations.xml
-Allow: /sitemap-services.xml
-Allow: /sitemap-images.xml
-Allow: /sitemap-video.xml
-Allow: /robots.txt
-Allow: /humans.txt
-Allow: /structured-data.json
-
-# ============================================================
-# SITEMAPS - All Sitemap Files
-# ============================================================
+# Sitemap
 Sitemap: https://whycreatives.in/sitemap.xml
-Sitemap: https://whycreatives.in/sitemap-pages.xml
-Sitemap: https://whycreatives.in/sitemap-locations.xml
-Sitemap: https://whycreatives.in/sitemap-services.xml
-Sitemap: https://whycreatives.in/sitemap-images.xml
-Sitemap: https://whycreatives.in/sitemap-video.xml
 
-# ============================================================
-# HOST DIRECTIVE
-# ============================================================
+# Host
 Host: https://whycreatives.in

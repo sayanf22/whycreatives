@@ -1,49 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- 
-    ============================================================
-    WhyCreatives - Creative Agency Sitemap Index
-    ============================================================
+    WhyCreatives - Creative Agency Sitemap
     Location: Agartala, Tripura, Northeast India
-    Services: Video Production, Web Design, Digital Marketing, Branding
     Website: https://whycreatives.in
     Contact: +91 81198 11655 | hello@whycreatives.in
-    Last Updated: 2025-12-02
-    
-    Total URLs: 70+ pages
-    - Core Pages: 10
-    - Location Pages: 45+
-    - Service Pages: 18
-    ============================================================
+    Last Updated: 2025-12-29
   -->
   
-  <!-- Core Website Pages (Homepage, About, Contact, etc.) -->
-  <sitemap>
-    <loc>https://whycreatives.in/sitemap-pages.xml</loc>
-    <lastmod>2025-12-02</lastmod>
-  </sitemap>
+  <!-- Homepage -->
+  <url>
+    <loc>https://whycreatives.in/</loc>
+    <lastmod>2025-12-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
   
-  <!-- Location-Based Landing Pages (Tripura, NE India, Major Cities) -->
-  <sitemap>
-    <loc>https://whycreatives.in/sitemap-locations.xml</loc>
-    <lastmod>2025-12-02</lastmod>
-  </sitemap>
+  <!-- Services -->
+  <url>
+    <loc>https://whycreatives.in/what-we-do</loc>
+    <lastmod>2025-12-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
   
-  <!-- Service-Specific Landing Pages -->
-  <sitemap>
-    <loc>https://whycreatives.in/sitemap-services.xml</loc>
-    <lastmod>2025-12-02</lastmod>
-  </sitemap>
+  <!-- Portfolio -->
+  <url>
+    <loc>https://whycreatives.in/our-work</loc>
+    <lastmod>2025-12-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
   
-  <!-- Image Sitemap for Google Image Search -->
-  <sitemap>
-    <loc>https://whycreatives.in/sitemap-images.xml</loc>
-    <lastmod>2025-12-02</lastmod>
-  </sitemap>
+  <url>
+    <loc>https://whycreatives.in/portfolio-gallery</loc>
+    <lastmod>2025-12-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
   
-  <!-- Video Sitemap for Video Content Discovery -->
-  <sitemap>
-    <loc>https://whycreatives.in/sitemap-video.xml</loc>
-    <lastmod>2025-12-02</lastmod>
-  </sitemap>
-</sitemapindex>
+  <!-- Pricing -->
+  <url>
+    <loc>https://whycreatives.in/pricing-comparison</loc>
+    <lastmod>2025-12-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- About -->
+  <url>
+    <loc>https://whycreatives.in/about-us</loc>
+    <lastmod>2025-12-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://whycreatives.in/people</loc>
+    <lastmod>2025-12-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Contact -->
+  <url>
+    <loc>https://whycreatives.in/contact</loc>
+    <lastmod>2025-12-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Insights -->
+  <url>
+    <loc>https://whycreatives.in/insights</loc>
+    <lastmod>2025-12-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Careers -->
+  <url>
+    <loc>https://whycreatives.in/join-us</loc>
+    <lastmod>2025-12-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+</urlset>
