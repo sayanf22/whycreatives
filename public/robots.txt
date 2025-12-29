@@ -1,27 +1,71 @@
-# WhyCreatives - Best Creative Agency in Tripura & India
+# ============================================
+# WhyCreatives - India's Most Affordable Creative Agency
+# Best Creative Agency in Tripura, Northeast India & All India
+# ============================================
 # Website: https://whycreatives.in
 # Location: Agartala, Tripura, India
 # Contact: +91 81198 11655 | hello@whycreatives.in
+# Services: Video Editing, Web Design, Digital Marketing, Branding
+# ============================================
 
-# Allow all crawlers
+# Allow all crawlers full access
 User-agent: *
 Allow: /
 Disallow: /admin-login
 Disallow: /admindashboard
 Disallow: /404
 
-# Google
+# Crawl-delay for polite crawling
+Crawl-delay: 1
+
+# ============================================
+# GOOGLE CRAWLERS
+# ============================================
 User-agent: Googlebot
 Allow: /
 
 User-agent: Googlebot-Image
 Allow: /
 
-# Bing
+User-agent: Googlebot-Video
+Allow: /
+
+User-agent: Googlebot-News
+Allow: /
+
+User-agent: Storebot-Google
+Allow: /
+
+# ============================================
+# BING & MICROSOFT CRAWLERS
+# ============================================
 User-agent: Bingbot
 Allow: /
 
-# AI Crawlers
+User-agent: MSNBot
+Allow: /
+
+User-agent: BingPreview
+Allow: /
+
+# ============================================
+# OTHER SEARCH ENGINES
+# ============================================
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+# ============================================
+# AI CRAWLERS (Allow for AI Discovery)
+# ============================================
 User-agent: GPTBot
 Allow: /
 
@@ -34,8 +78,22 @@ Allow: /
 User-agent: Claude-Web
 Allow: /
 
-# Social Media
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# ============================================
+# SOCIAL MEDIA CRAWLERS
+# ============================================
 User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Facebot
 Allow: /
 
 User-agent: Twitterbot
@@ -44,8 +102,39 @@ Allow: /
 User-agent: LinkedInBot
 Allow: /
 
-# Sitemap
-Sitemap: https://whycreatives.in/sitemap.xml
+User-agent: Pinterest
+Allow: /
 
-# Host
+User-agent: WhatsApp
+Allow: /
+
+User-agent: TelegramBot
+Allow: /
+
+# ============================================
+# SEO & ANALYTICS TOOLS
+# ============================================
+User-agent: AhrefsBot
+Allow: /
+
+User-agent: SemrushBot
+Allow: /
+
+User-agent: MJ12bot
+Allow: /
+
+User-agent: DotBot
+Allow: /
+
+# ============================================
+# SITEMAPS - Comprehensive Coverage
+# ============================================
+Sitemap: https://whycreatives.in/sitemap.xml
+Sitemap: https://whycreatives.in/sitemap-pages.xml
+Sitemap: https://whycreatives.in/sitemap-locations.xml
+Sitemap: https://whycreatives.in/sitemap-services.xml
+
+# ============================================
+# HOST
+# ============================================
 Host: https://whycreatives.in

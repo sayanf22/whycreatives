@@ -1,34 +1,8 @@
 # WhyCreatives - Cloudflare Pages Redirects
-
-# Redirect old location pages to homepage (301 permanent)
-/agartala / 301
-/tripura / 301
-/guwahati / 301
-/assam / 301
-/shillong / 301
-/meghalaya / 301
-/imphal / 301
-/manipur / 301
-/kolkata / 301
-/delhi / 301
-/mumbai / 301
-/bangalore / 301
-/chennai / 301
-/hyderabad / 301
-/pune / 301
-
-# Redirect old service pages to services page (301 permanent)
-/video-editing /what-we-do 301
-/web-design /what-we-do 301
-/digital-marketing /what-we-do 301
-/branding /what-we-do 301
-/social-media /what-we-do 301
-/motion-graphics /what-we-do 301
-/logo-design /what-we-do 301
-/seo-services /what-we-do 301
+# Best Creative Agency in Tripura, Northeast India & All India
 
 # Old URL redirects
 /comparison /pricing-comparison 301
 
-# SPA fallback - must be last
+# SPA fallback - must be last (handles all location pages via React Router)
 /* /index.html 200

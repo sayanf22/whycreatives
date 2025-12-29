@@ -125,10 +125,14 @@ export const Footer = () => {
               </div>
               <h4 className="font-bold text-foreground mb-3 text-sm">Locations</h4>
               <ul className="space-y-1 text-xs text-muted-foreground">
-                <li><Link to="/" className="hover:text-foreground transition-colors">Agartala</Link></li>
-                <li><Link to="/" className="hover:text-foreground transition-colors">Tripura</Link></li>
-                <li><Link to="/" className="hover:text-foreground transition-colors">Guwahati</Link></li>
-                <li><Link to="/" className="hover:text-foreground transition-colors">Kolkata</Link></li>
+                <li><Link to="/agartala" className="hover:text-foreground transition-colors">Agartala</Link></li>
+                <li><Link to="/tripura" className="hover:text-foreground transition-colors">Tripura</Link></li>
+                <li><Link to="/guwahati" className="hover:text-foreground transition-colors">Guwahati</Link></li>
+                <li><Link to="/shillong" className="hover:text-foreground transition-colors">Shillong</Link></li>
+                <li><Link to="/kolkata" className="hover:text-foreground transition-colors">Kolkata</Link></li>
+                <li><Link to="/delhi" className="hover:text-foreground transition-colors">Delhi</Link></li>
+                <li><Link to="/mumbai" className="hover:text-foreground transition-colors">Mumbai</Link></li>
+                <li><Link to="/bangalore" className="hover:text-foreground transition-colors">Bangalore</Link></li>
               </ul>
             </div>
           </div>
