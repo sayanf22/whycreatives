@@ -1,13 +1,13 @@
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
-import { FadeInWhenVisible } from "@/components/FadeInWhenVisible";
 import { Link, useParams, Navigate } from "react-router-dom";
-import { Clock, ArrowLeft, Tag, User, Calendar, Share2, BookOpen } from "lucide-react";
+import { Clock, ArrowLeft, User, Calendar, Share2, Bookmark, ChevronRight } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Helmet } from "react-helmet";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { motion } from "framer-motion";
 
 interface InsightFull {
   id: string;
@@ -62,30 +62,27 @@ const InsightArticle = () => {
       }
     } else {
       navigator.clipboard.writeText(window.location.href);
-      alert("Link copied to clipboard!");
     }
   };
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-[#0a0a0a]">
         <Navigation />
-        <main className="pt-32 pb-24 px-6">
-          <div className="container mx-auto max-w-3xl">
-            <div className="animate-pulse space-y-6">
-              <div className="h-4 bg-white/5 rounded w-32"></div>
-              <div className="h-12 bg-white/5 rounded w-full"></div>
-              <div className="h-12 bg-white/5 rounded w-3/4"></div>
-              <div className="flex gap-4">
-                <div className="h-4 bg-white/5 rounded w-24"></div>
-                <div className="h-4 bg-white/5 rounded w-24"></div>
-                <div className="h-4 bg-white/5 rounded w-24"></div>
-              </div>
-              <div className="h-px bg-white/10 my-8"></div>
+        <main className="pt-32 pb-24">
+          <div className="max-w-[720px] mx-auto px-6">
+            <div className="animate-pulse space-y-8">
+              <div className="h-4 bg-white/5 rounded w-32" />
               <div className="space-y-4">
-                <div className="h-4 bg-white/5 rounded w-full"></div>
-                <div className="h-4 bg-white/5 rounded w-full"></div>
-                <div className="h-4 bg-white/5 rounded w-2/3"></div>
+                <div className="h-12 bg-white/5 rounded w-full" />
+                <div className="h-12 bg-white/5 rounded w-3/4" />
+              </div>
+              <div className="h-6 bg-white/5 rounded w-full" />
+              <div className="h-px bg-white/10" />
+              <div className="space-y-4">
+                {[1,2,3,4,5].map(i => (
+                  <div key={i} className="h-4 bg-white/5 rounded w-full" />
+                ))}
               </div>
             </div>
           </div>
@@ -99,7 +96,7 @@ const InsightArticle = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#0a0a0a]">
       <Helmet>
         <title>{insight.title} | WhyCreatives Insights</title>
         <meta name="description" content={insight.meta_description} />
@@ -107,204 +104,287 @@ const InsightArticle = () => {
         <meta property="og:title" content={insight.title} />
         <meta property="og:description" content={insight.meta_description} />
         <meta property="og:type" content="article" />
-        <meta property="og:url" content={`https://whycreatives.in/insights/${insight.slug}`} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={insight.title} />
-        <meta name="twitter:description" content={insight.meta_description} />
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Article",
-            headline: insight.title,
-            description: insight.meta_description,
-            author: {
-              "@type": "Organization",
-              name: insight.author || "WhyCreatives",
-            },
-            publisher: {
-              "@type": "Organization",
-              name: "WhyCreatives",
-              url: "https://whycreatives.in",
-            },
-            datePublished: insight.published_at,
-            mainEntityOfPage: `https://whycreatives.in/insights/${insight.slug}`,
-          })}
-        </script>
       </Helmet>
 
       <Navigation />
 
-      <main className="pt-28 pb-24 px-6">
-        <div className="container mx-auto max-w-4xl">
-          {/* Back Link */}
-          <FadeInWhenVisible>
-            <Link
-              to="/insights"
-              className="inline-flex items-center gap-2 text-white/60 hover:text-white mb-8 transition-colors text-sm"
-            >
-              <ArrowLeft className="w-4 h-4" /> Back to Insights
-            </Link>
-          </FadeInWhenVisible>
+      {/* Article */}
+      <article className="pt-28 pb-20">
+        {/* Header Section */}
+        <header className="max-w-[720px] mx-auto px-6 mb-12">
+          {/* Breadcrumb */}
+          <motion.nav 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex items-center gap-2 text-sm text-white/40 mb-8"
+          >
+            <Link to="/" className="hover:text-white/60 transition-colors">Home</Link>
+            <ChevronRight className="w-4 h-4" />
+            <Link to="/insights" className="hover:text-white/60 transition-colors">Insights</Link>
+            <ChevronRight className="w-4 h-4" />
+            <span className="text-white/60 truncate max-w-[200px]">{insight.category || "Article"}</span>
+          </motion.nav>
 
-          <article>
-            {/* Header */}
-            <FadeInWhenVisible delay={0.1}>
-              <header className="mb-12">
-                {/* Category Badge */}
-                {insight.category && (
-                  <div className="mb-4">
-                    <span className="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium bg-white/10 rounded-full text-white/70 uppercase tracking-wider">
-                      <BookOpen className="w-3 h-3" />
-                      {insight.category}
-                    </span>
-                  </div>
-                )}
+          {/* Category */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05 }}
+            className="mb-6"
+          >
+            <span className="inline-block px-4 py-1.5 text-xs font-semibold tracking-wider uppercase bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-blue-400 rounded-full border border-blue-500/20">
+              {insight.category || "Insights"}
+            </span>
+          </motion.div>
 
-                {/* Title */}
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-6 leading-tight">
-                  {insight.title}
-                </h1>
+          {/* Title */}
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl md:text-5xl lg:text-[3.5rem] font-black text-white leading-[1.1] tracking-tight mb-8"
+          >
+            {insight.title}
+          </motion.h1>
 
-                {/* Meta Description */}
-                <p className="text-lg text-white/60 mb-6 leading-relaxed">
-                  {insight.meta_description}
-                </p>
+          {/* Excerpt */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="text-xl text-white/60 leading-relaxed mb-8"
+          >
+            {insight.meta_description}
+          </motion.p>
 
-                {/* Meta Info */}
-                <div className="flex flex-wrap items-center gap-4 text-sm text-white/50 mb-6 pb-6 border-b border-white/10">
-                  {insight.author && (
-                    <span className="flex items-center gap-2">
-                      <User className="w-4 h-4" />
-                      {insight.author}
-                    </span>
-                  )}
-                  <span className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4" />
-                    {formatDate(insight.published_at)}
-                  </span>
-                  {insight.read_time && (
-                    <span className="flex items-center gap-2">
-                      <Clock className="w-4 h-4" />
-                      {insight.read_time} min read
-                    </span>
-                  )}
-                  <button
-                    onClick={handleShare}
-                    className="flex items-center gap-2 hover:text-white transition-colors ml-auto"
-                  >
-                    <Share2 className="w-4 h-4" />
-                    Share
-                  </button>
+          {/* Meta Bar */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="flex flex-wrap items-center justify-between gap-4 py-6 border-y border-white/10"
+          >
+            <div className="flex flex-wrap items-center gap-6 text-sm text-white/50">
+              <div className="flex items-center gap-2">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm">
+                  WC
                 </div>
+                <div>
+                  <p className="text-white font-medium">{insight.author || "WhyCreatives"}</p>
+                  <p className="text-xs text-white/40">Content Team</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <Calendar className="w-4 h-4" />
+                <span>{formatDate(insight.published_at)}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Clock className="w-4 h-4" />
+                <span>{insight.read_time || 5} min read</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={handleShare}
+                className="flex items-center gap-2 px-4 py-2 text-sm text-white/60 hover:text-white bg-white/5 hover:bg-white/10 rounded-full transition-all"
+              >
+                <Share2 className="w-4 h-4" />
+                Share
+              </button>
+            </div>
+          </motion.div>
+        </header>
 
-                {/* Tags */}
-                {insight.tags && insight.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
-                    {insight.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="inline-flex items-center gap-1 px-3 py-1 text-xs bg-white/5 rounded-full text-white/50 border border-white/10"
+        {/* Content */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="max-w-[720px] mx-auto px-6"
+        >
+          <div className="article-content">
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              components={{
+                h1: ({ children }) => (
+                  <h1 className="text-3xl md:text-4xl font-black text-white mt-16 mb-6 leading-tight">
+                    {children}
+                  </h1>
+                ),
+                h2: ({ children }) => (
+                  <h2 className="text-2xl md:text-3xl font-bold text-white mt-14 mb-5 leading-tight">
+                    {children}
+                  </h2>
+                ),
+                h3: ({ children }) => (
+                  <h3 className="text-xl md:text-2xl font-semibold text-white mt-10 mb-4 leading-snug">
+                    {children}
+                  </h3>
+                ),
+                p: ({ children }) => (
+                  <p className="text-lg text-white/70 leading-[1.8] mb-6">
+                    {children}
+                  </p>
+                ),
+                ul: ({ children }) => (
+                  <ul className="my-6 ml-1 space-y-3">
+                    {children}
+                  </ul>
+                ),
+                ol: ({ children }) => (
+                  <ol className="my-6 ml-1 space-y-3 list-decimal list-inside">
+                    {children}
+                  </ol>
+                ),
+                li: ({ children }) => (
+                  <li className="text-lg text-white/70 leading-[1.7] pl-2 flex gap-3">
+                    <span className="text-blue-400 mt-1">•</span>
+                    <span>{children}</span>
+                  </li>
+                ),
+                strong: ({ children }) => (
+                  <strong className="font-semibold text-white">
+                    {children}
+                  </strong>
+                ),
+                em: ({ children }) => (
+                  <em className="italic text-white/80">
+                    {children}
+                  </em>
+                ),
+                blockquote: ({ children }) => (
+                  <blockquote className="my-8 pl-6 py-4 border-l-4 border-blue-500 bg-blue-500/5 rounded-r-lg">
+                    <div className="text-lg text-white/80 italic leading-relaxed">
+                      {children}
+                    </div>
+                  </blockquote>
+                ),
+                a: ({ href, children }) => {
+                  if (href?.startsWith("/")) {
+                    return (
+                      <Link 
+                        to={href} 
+                        className="text-blue-400 hover:text-blue-300 underline underline-offset-4 decoration-blue-400/30 hover:decoration-blue-300 transition-colors"
                       >
-                        <Tag className="w-3 h-3" />
-                        {tag}
-                      </span>
-                    ))}
+                        {children}
+                      </Link>
+                    );
+                  }
+                  return (
+                    <a 
+                      href={href} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-blue-400 hover:text-blue-300 underline underline-offset-4 decoration-blue-400/30 hover:decoration-blue-300 transition-colors"
+                    >
+                      {children}
+                    </a>
+                  );
+                },
+                table: ({ children }) => (
+                  <div className="my-8 overflow-x-auto rounded-xl border border-white/10">
+                    <table className="w-full text-left">
+                      {children}
+                    </table>
                   </div>
-                )}
-              </header>
-            </FadeInWhenVisible>
+                ),
+                thead: ({ children }) => (
+                  <thead className="bg-white/5 border-b border-white/10">
+                    {children}
+                  </thead>
+                ),
+                th: ({ children }) => (
+                  <th className="px-5 py-4 text-sm font-semibold text-white uppercase tracking-wider">
+                    {children}
+                  </th>
+                ),
+                td: ({ children }) => (
+                  <td className="px-5 py-4 text-base text-white/70 border-b border-white/5">
+                    {children}
+                  </td>
+                ),
+                hr: () => (
+                  <hr className="my-12 border-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                ),
+                code: ({ children }) => (
+                  <code className="px-2 py-1 text-sm bg-white/10 text-blue-300 rounded font-mono">
+                    {children}
+                  </code>
+                ),
+                pre: ({ children }) => (
+                  <pre className="my-6 p-5 bg-white/5 border border-white/10 rounded-xl overflow-x-auto">
+                    {children}
+                  </pre>
+                ),
+              }}
+            >
+              {insight.content_markdown}
+            </ReactMarkdown>
+          </div>
 
-            {/* Content */}
-            <FadeInWhenVisible delay={0.2}>
-              <div
-                className="prose prose-invert prose-lg max-w-none
-                  prose-headings:font-bold prose-headings:text-white
-                  prose-h1:text-3xl prose-h1:mt-12 prose-h1:mb-6
-                  prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-h2:pb-2 prose-h2:border-b prose-h2:border-white/10
-                  prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3 prose-h3:text-white/90
-                  prose-p:text-white/70 prose-p:leading-relaxed prose-p:mb-5
-                  prose-li:text-white/70 prose-li:my-1
-                  prose-strong:text-white prose-strong:font-semibold
-                  prose-a:text-white prose-a:underline prose-a:underline-offset-4 hover:prose-a:text-white/80
-                  prose-ul:my-6 prose-ul:pl-6
-                  prose-ol:my-6 prose-ol:pl-6
-                  prose-blockquote:border-l-4 prose-blockquote:border-white/30 prose-blockquote:pl-6 prose-blockquote:py-2 prose-blockquote:my-6 prose-blockquote:bg-white/5 prose-blockquote:rounded-r-lg prose-blockquote:italic prose-blockquote:text-white/60
-                  prose-code:bg-white/10 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:text-sm prose-code:text-white/80
-                  prose-pre:bg-white/5 prose-pre:border prose-pre:border-white/10 prose-pre:rounded-xl
-                  prose-table:my-8
-                  prose-th:bg-white/10 prose-th:px-4 prose-th:py-3 prose-th:text-left prose-th:font-semibold prose-th:text-white prose-th:border-b prose-th:border-white/20
-                  prose-td:px-4 prose-td:py-3 prose-td:border-b prose-td:border-white/10 prose-td:text-white/70
-                  prose-hr:border-white/10 prose-hr:my-10
-                  prose-img:rounded-xl prose-img:my-8"
-              >
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  components={{
-                    a: ({ href, children }) => {
-                      // Handle internal links
-                      if (href?.startsWith("/")) {
-                        return (
-                          <Link to={href} className="text-white underline underline-offset-4 hover:text-white/80">
-                            {children}
-                          </Link>
-                        );
-                      }
-                      return (
-                        <a href={href} target="_blank" rel="noopener noreferrer">
-                          {children}
-                        </a>
-                      );
-                    },
-                  }}
+          {/* Tags */}
+          {insight.tags && insight.tags.length > 0 && (
+            <div className="mt-12 pt-8 border-t border-white/10">
+              <p className="text-sm text-white/40 mb-4">Tagged with:</p>
+              <div className="flex flex-wrap gap-2">
+                {insight.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-4 py-2 text-sm bg-white/5 hover:bg-white/10 text-white/60 rounded-full transition-colors cursor-default"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </motion.div>
+
+        {/* CTA Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="max-w-[720px] mx-auto px-6 mt-16"
+        >
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600/20 via-purple-600/20 to-pink-600/20 p-10 md:p-12 border border-white/10">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(59,130,246,0.1),transparent_50%)]" />
+            <div className="relative text-center">
+              <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
+                Ready to Grow Your Business?
+              </h3>
+              <p className="text-white/60 mb-8 max-w-md mx-auto text-lg">
+                Get expert creative services at India's most affordable prices. Video, web, marketing & more.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center justify-center gap-2 bg-white text-black px-8 py-4 rounded-full font-bold hover:bg-white/90 transition-all hover:scale-105"
                 >
-                  {insight.content_markdown}
-                </ReactMarkdown>
-              </div>
-            </FadeInWhenVisible>
-          </article>
-
-          {/* CTA Section */}
-          <FadeInWhenVisible delay={0.3}>
-            <div className="mt-16 pt-8 border-t border-white/10">
-              <div className="bg-gradient-to-br from-white/10 to-white/5 rounded-3xl p-8 md:p-10 text-center border border-white/10">
-                <h3 className="text-2xl font-bold text-white mb-4">
-                  Need Help With Your Marketing?
-                </h3>
-                <p className="text-white/60 mb-6 max-w-lg mx-auto">
-                  Get expert creative services at affordable prices. Video production, web design, digital marketing and more.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Link
-                    to="/contact"
-                    className="inline-flex items-center justify-center gap-2 bg-white text-black px-6 py-3 rounded-full font-bold hover:bg-white/90 transition-colors"
-                  >
-                    Get a Free Quote
-                  </Link>
-                  <Link
-                    to="/what-we-do"
-                    className="inline-flex items-center justify-center gap-2 bg-white/10 text-white px-6 py-3 rounded-full font-bold hover:bg-white/20 transition-colors border border-white/10"
-                  >
-                    View Services
-                  </Link>
-                </div>
+                  Get Free Quote
+                </Link>
+                <Link
+                  to="/what-we-do"
+                  className="inline-flex items-center justify-center gap-2 bg-white/10 text-white px-8 py-4 rounded-full font-bold hover:bg-white/20 transition-all border border-white/20"
+                >
+                  View Services
+                </Link>
               </div>
             </div>
-          </FadeInWhenVisible>
+          </div>
+        </motion.div>
 
-          {/* Related Articles Placeholder */}
-          <FadeInWhenVisible delay={0.4}>
-            <div className="mt-12">
-              <h3 className="text-xl font-bold text-white mb-6">More Insights</h3>
-              <Link
-                to="/insights"
-                className="inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors"
-              >
-                View all articles <ArrowLeft className="w-4 h-4 rotate-180" />
-              </Link>
-            </div>
-          </FadeInWhenVisible>
+        {/* Back to Insights */}
+        <div className="max-w-[720px] mx-auto px-6 mt-12">
+          <Link
+            to="/insights"
+            className="inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors group"
+          >
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+            Back to all insights
+          </Link>
         </div>
-      </main>
+      </article>
 
       <Footer />
     </div>
