@@ -6,8 +6,10 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { lazy, Suspense } from "react";
 
-// Eager load homepage for instant display
+// Eager load homepage and insights for instant display
 import Index from "./pages/Index";
+import Insights from "./pages/Insights";
+import InsightArticle from "./pages/InsightArticle";
 
 // Lazy load all other pages
 const WhatWeDo = lazy(() => import("./pages/WhatWeDo"));
@@ -15,7 +17,6 @@ const OurWork = lazy(() => import("./pages/OurWork"));
 const PortfolioGallery = lazy(() => import("./pages/PortfolioGallery"));
 const Comparison = lazy(() => import("./pages/Comparison"));
 const ContactPage = lazy(() => import("./pages/ContactPage"));
-const Insights = lazy(() => import("./pages/Insights"));
 const AboutUs = lazy(() => import("./pages/AboutUs"));
 const People = lazy(() => import("./pages/People"));
 const JoinUs = lazy(() => import("./pages/JoinUs"));
@@ -62,6 +63,7 @@ const App = () => (
             <Route path="/our-work" element={<OurWork />} />
             <Route path="/portfolio-gallery" element={<PortfolioGallery />} />
             <Route path="/insights" element={<Insights />} />
+            <Route path="/insights/:slug" element={<InsightArticle />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/people" element={<People />} />
             <Route path="/join-us" element={<JoinUs />} />

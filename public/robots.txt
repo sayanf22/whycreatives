@@ -133,6 +133,17 @@ Sitemap: https://whycreatives.in/sitemap.xml
 Sitemap: https://whycreatives.in/sitemap-pages.xml
 Sitemap: https://whycreatives.in/sitemap-locations.xml
 Sitemap: https://whycreatives.in/sitemap-services.xml
+Sitemap: https://whycreatives.in/sitemap-blog.xml
+
+# ============================================
+# DUPLICATE CONTENT PREVENTION
+# ============================================
+# Block query parameters to prevent duplicate content
+Disallow: /*?*
+Allow: /insights?page=
+
+# Block internal search results
+Disallow: /search?
 
 # ============================================
 # HOST

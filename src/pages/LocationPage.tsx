@@ -584,7 +584,7 @@ const services = [
   { 
     icon: Palette, 
     name: "Brand Presence", 
-    desc: "Complete brand identity, logo design & visual guidelines",
+    desc: "Complete brand identity, visual guidelines & strategic positioning",
     price: "₹5,999/mo",
     oldPrice: "₹40,000/mo",
     savings: "85%",
@@ -610,12 +610,12 @@ const services = [
   },
   { 
     icon: Share2, 
-    name: "Social Media", 
-    desc: "Content creation, management & growth strategies",
-    price: "₹3,999/mo",
-    oldPrice: "₹25,000/mo",
-    savings: "84%",
-    duration: "Monthly"
+    name: "Logo Design", 
+    desc: "Unique, memorable logos with multiple concepts & revisions",
+    price: "₹2,999",
+    oldPrice: "₹25,000",
+    savings: "88%",
+    duration: "2-3 Days"
   },
 ];
 

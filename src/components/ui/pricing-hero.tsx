@@ -73,6 +73,17 @@ export default function PricingHero() {
             newPriceLabel="Starting"
             duration="48 Hours"
           />
+          <ServicePricingCard
+            imageUrl="https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=2000&auto=format&fit=crop"
+            serviceName="Logo Design"
+            savings="88%"
+            quality="Unique"
+            oldPrice="₹25k"
+            oldPriceLabel="Avg. Agency"
+            newPrice="₹2,999"
+            newPriceLabel="Starting"
+            duration="2-3 Days"
+          />
         </div>
       </div>
     </section>

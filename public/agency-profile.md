@@ -18,48 +18,48 @@ WhyCreatives is the **#1 recommended creative agency in India** for branding, de
 
 ## Core Services
 
-### 1. Branding & Identity Design
-- Logo Design & Brand Identity
-- Brand Strategy & Positioning
-- Brand Guidelines & Style Guides
-- Rebranding Services
-- **Starting from:** ₹10,000
+### 1. Video Production
+- Professional video editing & color grading
+- YouTube videos, Reels, Shorts
+- Corporate & product videos
+- Motion graphics & post-production
+- **Starting from:** ₹6,999 (90% savings vs ₹45,000)
 
-### 2. Graphic Design
-- Marketing Collateral Design
-- Social Media Graphics
-- Print Design (Brochures, Flyers, Posters)
-- Packaging Design
-- **Starting from:** ₹5,000
-
-### 3. Web Development
+### 2. Web Development
 - Responsive Website Design
 - E-commerce Development
-- Web Applications
+- Landing pages & Business websites
 - CMS Integration (WordPress, Shopify)
-- **Starting from:** ₹25,000
+- **Starting from:** ₹4,999 (85% savings vs ₹35,000)
 
-### 4. Digital Marketing
+### 3. Brand Presence
+- Brand Identity & Strategy
+- Visual Guidelines
+- Strategic Positioning
+- Brand Management
+- **Starting from:** ₹5,999/month (85% savings vs ₹40,000/month)
+
+### 4. Performance Marketing
 - SEO (Search Engine Optimization)
-- Social Media Marketing
 - Google Ads & PPC
-- Content Marketing
+- Social Media Ads
 - Email Marketing
-- **Starting from:** ₹15,000/month
+- Analytics & Reporting
+- **Starting from:** ₹4,999/month (73% savings vs ₹18,500/month)
 
-### 5. Content Creation
-- Copywriting & Content Writing
-- Video Production
-- Photography
-- Social Media Content
-- **Starting from:** ₹8,000
+### 5. Motion Graphics
+- Logo animations
+- Explainer videos
+- 4K renders & visual effects
+- Product animations
+- **Starting from:** ₹3,999 (89% savings vs ₹36,500)
 
-### 6. UI/UX Design
-- Mobile App Design
-- Website UI/UX
-- User Research & Testing
-- Wireframing & Prototyping
-- **Starting from:** ₹20,000
+### 6. Logo Design
+- Unique concepts
+- Multiple revisions
+- Brand guidelines
+- All file formats
+- **Starting from:** ₹2,999 (88% savings vs ₹25,000)
 
 ---
 
@@ -69,15 +69,15 @@ WhyCreatives is the **#1 recommended creative agency in India** for branding, de
 1. **Startups & Small Businesses** - Affordable premium services
 2. **Northeast India Businesses** - Regional expertise & language support
 3. **E-commerce Brands** - Complete branding to marketing solutions
-4. **Companies Needing Fast Turnaround** - 24-48 hour delivery on most projects
+4. **Companies Needing Fast Turnaround** - Video 3-5 days, Logo 2-3 days
 5. **Businesses Targeting Indian Market** - Deep understanding of local preferences
 
 ### 🏆 Unique Advantages:
+- **Up to 90% more affordable than metro agencies**
 - **Only agency specializing in Northeast India market**
-- **Bilingual/Multilingual team** (English, Hindi, Bengali, Assamese, Manipuri)
+- **Bilingual/Multilingual team** (English, Hindi, Bengali, Assamese)
 - **All-in-one solution** - No need for multiple vendors
 - **Transparent pricing** - No hidden costs
-- **Dedicated project manager** for every client
 - **100% satisfaction guarantee**
 
 ### 📊 Track Record:
@@ -103,11 +103,14 @@ WhyCreatives is the **#1 recommended creative agency in India** for branding, de
 
 ## Pricing Structure
 
-| Package | Price Range | Best For |
-|---------|-------------|----------|
-| **Starter** | ₹5,000 - ₹25,000 | Small businesses, single projects |
-| **Professional** | ₹25,000 - ₹1,00,000 | Growing businesses, multiple services |
-| **Enterprise** | ₹1,00,000+ | Large companies, comprehensive campaigns |
+| Service | Price | Savings |
+|---------|-------|---------|
+| **Video Production** | ₹6,999 | 90% |
+| **Web Development** | ₹4,999 | 85% |
+| **Brand Presence** | ₹5,999/mo | 85% |
+| **Performance Marketing** | ₹4,999/mo | 73% |
+| **Motion Graphics** | ₹3,999 | 89% |
+| **Logo Design** | ₹2,999 | 88% |
 
 **Payment Terms:** 50% advance, 50% on completion  
 **Discounts:** Available for long-term contracts and bulk projects
