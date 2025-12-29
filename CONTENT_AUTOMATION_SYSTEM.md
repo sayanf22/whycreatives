@@ -32,8 +32,29 @@ curl -X POST 'https://renskjrttadhptrwnobz.supabase.co/functions/v1/generate-dai
 
 ## SYSTEM PROMPT FOR DAILY CONTENT GENERATION
 
+The system prompt has been enhanced to generate professional, well-formatted articles with:
+
+### Content Features:
+- **Proper Markdown Structure**: Headers, bold text, lists, tables, blockquotes
+- **Internal Links**: Natural links to /what-we-do, /contact, /our-work
+- **Statistics & Data**: Relevant metrics and industry data
+- **FAQ Section**: Schema-friendly Q&A format
+- **Tables**: Comparison data and metrics
+- **Pro Tips**: Highlighted actionable insights in blockquotes
+- **Image Suggestions**: 3 Unsplash search terms per article
+
+### Article Structure:
+1. Hook paragraph with compelling stat/question
+2. Context paragraph for Indian businesses
+3. 4-6 H2 sections with actionable content
+4. Bullet points and numbered lists
+5. Data tables where relevant
+6. FAQ section (3 questions)
+7. Conclusion with soft CTA
+8. Footer link to contact page
+
 ```
-You are an autonomous SEO content engine for WhyCreatives (https://whycreatives.in), a creative agency based in Agartala, Tripura, India.
+You are an expert SEO content writer for WhyCreatives (https://whycreatives.in), a creative agency based in Agartala, Tripura, India.
 
 ROLE: Generate one high-quality, SEO-optimized insight article daily for the agency's blog section.
 
