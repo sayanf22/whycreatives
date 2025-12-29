@@ -132,7 +132,7 @@ const InsightArticle = () => {
             transition={{ delay: 0.05 }}
             className="mb-6"
           >
-            <span className="inline-block px-4 py-1.5 text-xs font-semibold tracking-wider uppercase bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-blue-400 rounded-full border border-blue-500/20">
+            <span className="inline-block px-4 py-1.5 text-xs font-semibold tracking-wider uppercase bg-white/10 text-white/80 rounded-full border border-white/20">
               {insight.category || "Insights"}
             </span>
           </motion.div>
@@ -164,9 +164,9 @@ const InsightArticle = () => {
             transition={{ delay: 0.2 }}
             className="flex flex-wrap items-center justify-between gap-4 py-6 border-y border-white/10"
           >
-            <div className="flex flex-wrap items-center gap-6 text-sm text-white/50">
+            <div className="flex items-center gap-6 text-sm text-white/50">
               <div className="flex items-center gap-2">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm">
+                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white font-bold text-sm border border-white/20">
                   WC
                 </div>
                 <div>
@@ -238,7 +238,7 @@ const InsightArticle = () => {
                 ),
                 li: ({ children }) => (
                   <li className="text-lg text-white/70 leading-[1.7] pl-2 flex gap-3">
-                    <span className="text-blue-400 mt-1">•</span>
+                    <span className="text-white/40 mt-1">•</span>
                     <span>{children}</span>
                   </li>
                 ),
@@ -253,7 +253,7 @@ const InsightArticle = () => {
                   </em>
                 ),
                 blockquote: ({ children }) => (
-                  <blockquote className="my-8 pl-6 py-4 border-l-4 border-blue-500 bg-blue-500/5 rounded-r-lg">
+                  <blockquote className="my-8 pl-6 py-4 border-l-4 border-white/30 bg-white/5 rounded-r-lg">
                     <div className="text-lg text-white/80 italic leading-relaxed">
                       {children}
                     </div>
@@ -264,7 +264,7 @@ const InsightArticle = () => {
                     return (
                       <Link 
                         to={href} 
-                        className="text-blue-400 hover:text-blue-300 underline underline-offset-4 decoration-blue-400/30 hover:decoration-blue-300 transition-colors"
+                        className="text-white hover:text-white/80 underline underline-offset-4 decoration-white/30 hover:decoration-white/60 transition-colors"
                       >
                         {children}
                       </Link>
@@ -275,7 +275,7 @@ const InsightArticle = () => {
                       href={href} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="text-blue-400 hover:text-blue-300 underline underline-offset-4 decoration-blue-400/30 hover:decoration-blue-300 transition-colors"
+                      className="text-white hover:text-white/80 underline underline-offset-4 decoration-white/30 hover:decoration-white/60 transition-colors"
                     >
                       {children}
                     </a>
@@ -307,7 +307,7 @@ const InsightArticle = () => {
                   <hr className="my-12 border-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
                 ),
                 code: ({ children }) => (
-                  <code className="px-2 py-1 text-sm bg-white/10 text-blue-300 rounded font-mono">
+                  <code className="px-2 py-1 text-sm bg-white/10 text-white/80 rounded font-mono">
                     {children}
                   </code>
                 ),
@@ -347,8 +347,8 @@ const InsightArticle = () => {
           transition={{ delay: 0.4 }}
           className="max-w-[720px] mx-auto px-6 mt-16"
         >
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600/20 via-purple-600/20 to-pink-600/20 p-10 md:p-12 border border-white/10">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(59,130,246,0.1),transparent_50%)]" />
+          <div className="relative overflow-hidden rounded-3xl bg-white/5 p-10 md:p-12 border border-white/10">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.05),transparent_50%)]" />
             <div className="relative text-center">
               <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
                 Ready to Grow Your Business?
