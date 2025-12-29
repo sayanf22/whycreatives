@@ -121,13 +121,11 @@ export const Navigation = () => {
                         key={item.label}
                         initial={{ 
                           opacity: 0, 
-                          x: -50,
-                          filter: "blur(10px)"
+                          x: -30
                         }}
                         animate={{ 
                           opacity: 1, 
-                          x: 0,
-                          filter: "blur(0px)"
+                          x: 0
                         }}
                         transition={{
                           delay: 0.3 + index * 0.1,

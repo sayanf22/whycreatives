@@ -84,11 +84,11 @@ export default function RadialOrbitalTimeline({
     const animate = (currentTime: number) => {
       if (autoRotate && viewMode === "orbital") {
         const deltaTime = currentTime - lastTime;
-        // Target 120fps: update every ~8.33ms
-        if (deltaTime >= 8.33) {
+        // Throttle to 30fps for better mobile performance (every ~33ms)
+        if (deltaTime >= 33) {
           setRotationAngle((prev) => {
-            const newAngle = (prev + 0.3) % 360;
-            return Number(newAngle.toFixed(3));
+            const newAngle = (prev + 0.5) % 360;
+            return Number(newAngle.toFixed(1));
           });
           lastTime = currentTime;
         }

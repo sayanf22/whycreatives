@@ -30,10 +30,6 @@ html, body {
   }
 }
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
 @layer base {
   :root {
     /* Pure black and white theme */
@@ -86,28 +82,20 @@ All colors MUST be HSL.
     scroll-behavior: smooth;
   }
 
-  /* 120fps Performance Optimizations */
-  * {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-  }
-
-  /* GPU Acceleration for animations */
+  /* Performance Optimizations - GPU Acceleration */
   [class*="animate-"],
   [class*="transition-"] {
     will-change: transform, opacity;
     transform: translateZ(0);
     backface-visibility: hidden;
-    perspective: 1000px;
   }
 
-  /* Optimize scrolling */
+  /* Optimize scrolling for touch devices */
   * {
     -webkit-overflow-scrolling: touch;
   }
 
-  /* Reduce paint areas */
+  /* GPU acceleration for media */
   img, video, canvas, svg {
     transform: translateZ(0);
   }
@@ -129,7 +117,6 @@ All colors MUST be HSL.
     animation: rotation 1s linear infinite;
   }
   
-  /* Optimized animations for 120fps */
   @keyframes rotation {
     0% {
       transform: rotate(0deg) translateZ(0);
@@ -181,7 +168,6 @@ All colors MUST be HSL.
   }
 }
 
-
 /* Contact Section Bubble Animation */
 @keyframes bubble {
   0% {
@@ -200,4 +186,75 @@ All colors MUST be HSL.
 .animate-bubble {
   animation: bubble 15s ease-in-out infinite;
   animation-fill-mode: forwards;
+}
+
+/* Marquee Animation */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+
+.animate-marquee {
+  animation: marquee var(--duration) linear infinite;
+}
+
+/* Spotlight Animation */
+@keyframes spotlight {
+  0% {
+    opacity: 0;
+    transform: translate(-72%, -62%) scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%,-40%) scale(1);
+  }
+}
+
+.animate-spotlight {
+  animation: spotlight 2s ease .75s 1 forwards;
+}
+
+/* ============================================
+   MOBILE PERFORMANCE FIXES
+   ============================================ */
+
+/* Passive touch scrolling */
+@supports (-webkit-touch-callout: none) {
+  body {
+    /* iOS specific optimizations */
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Reduce paint on scroll */
+.fixed, [class*="fixed"] {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Optimize backdrop-blur on mobile */
+@media (max-width: 768px) {
+  .backdrop-blur-sm,
+  .backdrop-blur,
+  .backdrop-blur-md,
+  .backdrop-blur-lg {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background-color: rgba(0, 0, 0, 0.95) !important;
+  }
+}
+
+/* Reduce animation complexity on low-power devices */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
