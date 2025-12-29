@@ -19,10 +19,11 @@ Disallow: /404
 Crawl-delay: 1
 
 # ============================================
-# GOOGLE CRAWLERS
+# GOOGLE CRAWLERS - PRIORITY
 # ============================================
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 0
 
 User-agent: Googlebot-Image
 Allow: /
@@ -36,16 +37,23 @@ Allow: /
 User-agent: Storebot-Google
 Allow: /
 
+User-agent: Google-InspectionTool
+Allow: /
+
 # ============================================
 # BING & MICROSOFT CRAWLERS
 # ============================================
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 1
 
 User-agent: MSNBot
 Allow: /
 
 User-agent: BingPreview
+Allow: /
+
+User-agent: msnbot-media
 Allow: /
 
 # ============================================
@@ -61,6 +69,12 @@ User-agent: Baiduspider
 Allow: /
 
 User-agent: YandexBot
+Allow: /
+
+User-agent: Sogou
+Allow: /
+
+User-agent: Exabot
 Allow: /
 
 # ============================================
@@ -87,6 +101,12 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
+User-agent: CCBot
+Allow: /
+
+User-agent: Omgilibot
+Allow: /
+
 # ============================================
 # SOCIAL MEDIA CRAWLERS
 # ============================================
@@ -111,6 +131,12 @@ Allow: /
 User-agent: TelegramBot
 Allow: /
 
+User-agent: Slackbot
+Allow: /
+
+User-agent: Discordbot
+Allow: /
+
 # ============================================
 # SEO & ANALYTICS TOOLS
 # ============================================
@@ -126,14 +152,23 @@ Allow: /
 User-agent: DotBot
 Allow: /
 
+User-agent: Screaming Frog SEO Spider
+Allow: /
+
+User-agent: rogerbot
+Allow: /
+
+User-agent: SiteAuditBot
+Allow: /
+
 # ============================================
-# SITEMAPS - Comprehensive Coverage
+# SITEMAPS - COMPREHENSIVE COVERAGE
 # ============================================
 Sitemap: https://whycreatives.in/sitemap.xml
 Sitemap: https://whycreatives.in/sitemap-pages.xml
-Sitemap: https://whycreatives.in/sitemap-locations.xml
 Sitemap: https://whycreatives.in/sitemap-services.xml
-Sitemap: https://whycreatives.in/sitemap-blog.xml
+Sitemap: https://whycreatives.in/sitemap-locations.xml
+Sitemap: https://whycreatives.in/api/sitemap-blog
 
 # ============================================
 # DUPLICATE CONTENT PREVENTION
@@ -145,7 +180,16 @@ Allow: /insights?page=
 # Block internal search results
 Disallow: /search?
 
+# Block hash fragments (handled client-side)
+Disallow: /*#
+
 # ============================================
-# HOST
+# HOST DIRECTIVE
 # ============================================
 Host: https://whycreatives.in
+
+# ============================================
+# CLEAN URLS - NO TRAILING SLASHES
+# ============================================
+# Canonical URLs should not have trailing slashes
+# Example: https://whycreatives.in/agartala (not /agartala/)

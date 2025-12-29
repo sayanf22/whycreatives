@@ -330,22 +330,44 @@ curl -X POST \
 
 ---
 
-## SITEMAP AUTO-UPDATE
+## SITEMAP AUTO-UPDATE ✅ FULLY AUTOMATED
 
-The sitemap should be dynamically generated. Add this to your build process or create a Supabase function to regenerate `sitemap-blog.xml` after each new article.
+The blog sitemap is now **100% automatic** - no manual work needed!
 
-```typescript
-// Generate sitemap entries from database
-const { data: insights } = await supabase
-  .from('insights')
-  .select('slug, published_at')
-  .eq('is_published', true)
-  .order('published_at', { ascending: false })
+### How It Works
 
-const sitemapEntries = insights.map(i => ({
-  loc: `https://whycreatives.in/insights/${i.slug}`,
-  lastmod: i.published_at.split('T')[0],
-  changefreq: 'weekly',
-  priority: 0.7
-}))
+1. **Dynamic Sitemap Edge Function**: `sitemap-blog` 
+   - URL: `https://renskjrttadhptrwnobz.supabase.co/functions/v1/sitemap-blog`
+   - Generates XML sitemap on-the-fly from database
+   - Always returns current articles
+   - Cached for 1 hour for performance
+
+2. **Netlify Redirect**: `/api/sitemap-blog` → Supabase Edge Function
+   - Clean URL for Google Search Console
+
+3. **Main Sitemap Index**: Points to dynamic blog sitemap
+   - `https://whycreatives.in/sitemap.xml` includes all sitemaps
+   - Blog sitemap URL: `https://whycreatives.in/api/sitemap-blog`
+
+### Workflow
+
 ```
+New Article Published → Database Updated → Sitemap Auto-Updates
+                                              ↓
+                              Google crawls /api/sitemap-blog
+                                              ↓
+                              New article indexed automatically
+```
+
+### Test the Dynamic Sitemap
+
+```bash
+curl https://renskjrttadhptrwnobz.supabase.co/functions/v1/sitemap-blog
+```
+
+### No Manual Steps Required!
+
+- ✅ New articles automatically appear in sitemap
+- ✅ No build/deploy needed for sitemap updates
+- ✅ Google will crawl and find new content
+- ✅ Sitemap always reflects current database state

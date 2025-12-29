@@ -4,5 +4,156 @@
 # Old URL redirects
 /comparison /pricing-comparison 301
 
+# Dynamic blog sitemap - served from Supabase Edge Function
+/api/sitemap-blog https://renskjrttadhptrwnobz.supabase.co/functions/v1/sitemap-blog 200
+
+# ============================================
+# MISSPELLING REDIRECTS - SEO OPTIMIZATION
+# Common misspellings redirect to correct URLs
+# ============================================
+
+# Agartala misspellings
+/agartla /agartala 301
+/agartalla /agartala 301
+/agaratala /agartala 301
+/agratala /agartala 301
+/agartal /agartala 301
+
+# Tripura misspellings
+/tripuara /tripura 301
+/tripuraa /tripura 301
+/tripra /tripura 301
+/tripur /tripura 301
+
+# Guwahati misspellings
+/guwahti /guwahati 301
+/guwhati /guwahati 301
+/guwahatti /guwahati 301
+/gauhati /guwahati 301
+/guwahathy /guwahati 301
+
+# Shillong misspellings
+/shilong /shillong 301
+/shilling /shillong 301
+/shilongg /shillong 301
+
+# Kolkata misspellings
+/kolkatta /kolkata 301
+/kolkta /kolkata 301
+/kolkatha /kolkata 301
+/calcutta /kolkata 301
+/kolkota /kolkata 301
+
+# Delhi misspellings
+/dilli /delhi 301
+/dehli /delhi 301
+/delhii /delhi 301
+/delih /delhi 301
+
+# Mumbai misspellings
+/mumbaii /mumbai 301
+/mumabi /mumbai 301
+/mubai /mumbai 301
+/bombay /mumbai 301
+/mumbay /mumbai 301
+
+# Bangalore misspellings
+/banglore /bangalore 301
+/bangalor /bangalore 301
+/banglaore /bangalore 301
+/bangluru /bengaluru 301
+/bengalure /bengaluru 301
+
+# Hyderabad misspellings
+/hydrabad /hyderabad 301
+/hyderabd /hyderabad 301
+/hiderabad /hyderabad 301
+
+# Chennai misspellings
+/chenai /chennai 301
+/chennaii /chennai 301
+/madras /chennai 301
+
+# Pune misspellings
+/puna /pune 301
+/punne /pune 301
+/poona /pune 301
+
+# Ahmedabad misspellings
+/ahemdabad /ahmedabad 301
+/ahmedabd /ahmedabad 301
+/ahmadabad /ahmedabad 301
+
+# Jaipur misspellings
+/jaipr /jaipur 301
+/jaipure /jaipur 301
+/jaypur /jaipur 301
+
+# Lucknow misspellings
+/lucknw /lucknow 301
+/luckno /lucknow 301
+/luknow /lucknow 301
+
+# Imphal misspellings
+/impal /imphal 301
+/impahl /imphal 301
+/imfal /imphal 301
+
+# Aizawl misspellings
+/aizwal /aizawl 301
+/aizawal /aizawl 301
+/aizal /aizawl 301
+
+# Kohima misspellings
+/kohma /kohima 301
+/kohimaa /kohima 301
+/koheema /kohima 301
+
+# Itanagar misspellings
+/itangar /itanagar 301
+/itanagarr /itanagar 301
+/itanagr /itanagar 301
+
+# Gangtok misspellings
+/gangtk /gangtok 301
+/gangtokk /gangtok 301
+/gangtak /gangtok 301
+
+# Silchar misspellings
+/silchr /silchar 301
+/silcharr /silchar 301
+/silcar /silchar 301
+
+# Dibrugarh misspellings
+/dibrugrah /dibrugarh 301
+/dibrughar /dibrugarh 301
+/dibrugar /dibrugarh 301
+
+# Kochi/Cochin
+/cochin /kochi 301
+
+# Trivandrum
+/trivandrum /thiruvananthapuram 301
+
+# Vizag
+/vizag /visakhapatnam 301
+
+# Baroda
+/baroda /vadodara 301
+
+# Mysuru
+/mysuru /mysore 301
+
+# ============================================
+# SERVICE KEYWORD REDIRECTS
+# ============================================
+/video-editing /what-we-do 301
+/web-design /what-we-do 301
+/digital-marketing /what-we-do 301
+/branding /what-we-do 301
+/logo-design /what-we-do 301
+/motion-graphics /what-we-do 301
+/social-media-marketing /what-we-do 301
+
 # SPA fallback - must be last (handles all location pages via React Router)
 /* /index.html 200

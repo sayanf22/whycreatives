@@ -1,20 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- WhyCreatives - Sitemap Index - Updated: 2025-12-29 -->
+  <!-- 
+    WhyCreatives - Master Sitemap Index
+    India's Most Affordable Creative Agency
+    Updated: 2025-01-01
+  -->
+  
+  <!-- Core Pages -->
   <sitemap>
     <loc>https://whycreatives.in/sitemap-pages.xml</loc>
-    <lastmod>2025-12-29</lastmod>
+    <lastmod>2025-01-01</lastmod>
   </sitemap>
+  
+  <!-- Service Pages -->
   <sitemap>
     <loc>https://whycreatives.in/sitemap-services.xml</loc>
-    <lastmod>2025-12-29</lastmod>
+    <lastmod>2025-01-01</lastmod>
   </sitemap>
+  
+  <!-- Location Pages (150+ cities) -->
   <sitemap>
     <loc>https://whycreatives.in/sitemap-locations.xml</loc>
-    <lastmod>2025-12-29</lastmod>
+    <lastmod>2025-01-01</lastmod>
   </sitemap>
+  
+  <!-- Blog/Insights (Dynamic - auto-updates) -->
   <sitemap>
-    <loc>https://whycreatives.in/sitemap-blog.xml</loc>
-    <lastmod>2025-12-29</lastmod>
+    <loc>https://whycreatives.in/api/sitemap-blog</loc>
+    <lastmod>2025-01-01</lastmod>
   </sitemap>
 </sitemapindex>
