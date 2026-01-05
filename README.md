@@ -348,8 +348,8 @@ npm run build
 - **Twitter:** (Add when available)
 
 ### Location
-- **City:** Agartala
-- **State:** Tripura
+- **City:** Guwahati
+- **State:** Assam
 - **Country:** India 🇮🇳
 
 ---
@@ -395,23 +395,23 @@ All critical functionality is working, code is clean, database is configured, an
 
 ### Implemented Features
 - ✅ **Multi-sitemap strategy** (4 sitemaps for better indexing)
-- ✅ **Local SEO** optimized for Tripura & Northeast India
+- ✅ **Local SEO** optimized for Guwahati & Northeast India
 - ✅ **Schema.org markup** (Local Business + Services)
-- ✅ **Geo-targeting** (Agartala coordinates)
-- ✅ **Location-specific keywords** (Tripura, Assam, Guwahati, etc.)
+- ✅ **Geo-targeting** (Guwahati coordinates)
+- ✅ **Location-specific keywords** (Assam, Tripura, Guwahati, etc.)
 - ✅ **Robots.txt** configured
 - ✅ **Open Graph & Twitter Cards**
 
 ### Sitemaps
 - `/sitemap.xml` - Main sitemap index
 - `/sitemap-pages.xml` - All pages
-- `/sitemap-locations.xml` - Location targeting (Tripura, Northeast states)
+- `/sitemap-locations.xml` - Location targeting (Assam, Northeast states)
 - `/sitemap-services.xml` - Service pages
 - `/sitemap-portfolio.xml` - Portfolio items
 
 ### Target Keywords
 **National:** Best creative agency India, Affordable creative services India, Top digital marketing India  
-**Primary:** Creative agency Agartala, Video editing Tripura, Web design Agartala  
+**Primary:** Creative agency Guwahati, Video editing Assam, Web design Guwahati  
 **Regional:** Creative agency Northeast India, Digital marketing Guwahati, Branding Assam  
 **Metro:** Creative agency Mumbai, Delhi, Bangalore, Hyderabad, Chennai, Pune, Kolkata
 
@@ -419,12 +419,12 @@ All critical functionality is working, code is clean, database is configured, an
 - ✅ **All 28 States** of India
 - ✅ **8 Union Territories**
 - ✅ **50+ Major Cities**
-- ✅ **Primary Focus:** Tripura & Northeast India
+- ✅ **Primary Focus:** Guwahati & Northeast India
 - ✅ **National Reach:** Serving all of India
 
 ### Post-Launch SEO Tasks
 1. Submit all sitemaps to Google Search Console
-2. Set up Google My Business (Agartala, Tripura)
+2. Set up Google My Business (Guwahati, Assam)
 3. Create listings on IndiaMART, JustDial, Sulekha
 4. Build backlinks from Indian business websites
 5. Generate Google reviews (target: 100+)
@@ -437,4 +437,4 @@ All critical functionality is working, code is clean, database is configured, an
 
 **Built with ❤️ for WhyCreatives**  
 **Professional creative services at 90% less cost**  
-**Serving Agartala, Tripura & all of Northeast India** 🇮🇳
+**Serving Guwahati, Assam & all of Northeast India** 🇮🇳

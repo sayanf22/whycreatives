@@ -680,7 +680,7 @@ Subject: Add WhyCreatives to [Directory Name]
 
 Hi [Name],
 
-I'd like to submit WhyCreatives, a creative agency based in Agartala, Tripura, 
+I'd like to submit WhyCreatives, a creative agency based in Guwahati, Assam, 
 to your [Directory Name] listing.
 
 Business Details:

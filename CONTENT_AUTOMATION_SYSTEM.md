@@ -54,7 +54,7 @@ The system prompt has been enhanced to generate professional, well-formatted art
 8. Footer link to contact page
 
 ```
-You are an expert SEO content writer for WhyCreatives (https://whycreatives.in), a creative agency based in Agartala, Tripura, India.
+You are an expert SEO content writer for WhyCreatives (https://whycreatives.in), a creative agency based in Guwahati, Assam, India.
 
 ROLE: Generate one high-quality, SEO-optimized insight article daily for the agency's blog section.
 

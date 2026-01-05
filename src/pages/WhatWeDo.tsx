@@ -2,7 +2,7 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Timeline } from "@/components/ui/timeline";
 import { FadeInWhenVisible } from "@/components/FadeInWhenVisible";
-import { Video, Globe, Share2, Megaphone, Sparkles } from "lucide-react";
+import { Video, Globe, Share2, Megaphone, Sparkles, Palette } from "lucide-react";
 
 const WhatWeDo = () => {
   const timelineData = [
@@ -206,6 +206,47 @@ const WhatWeDo = () => {
             <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
               <span className="w-2 h-2 bg-white rounded-full"></span>
               Social Media Shorts
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: "Logo Design",
+      content: (
+        <div>
+          <div className="flex items-center gap-4 mb-8">
+            <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-white/10 to-transparent border border-white/20 shadow-xl backdrop-blur-md flex items-center justify-center">
+              <Palette className="w-10 h-10 text-white" />
+            </div>
+            <div>
+              <h4 className="text-white text-xl md:text-2xl font-bold mb-2">Memorable Brand Identity</h4>
+              <p className="text-neutral-400 text-base md:text-lg">Crafting logos that leave lasting impressions.</p>
+            </div>
+          </div>
+          <p className="text-neutral-300 text-base md:text-lg font-normal mb-8">
+            Your logo is the face of your brand. We design unique, versatile logos that capture your essence and stand out in any market.
+          </p>
+          <div className="space-y-4">
+            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-white rounded-full"></span>
+              Multiple Concept Designs
+            </div>
+            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-white rounded-full"></span>
+              Unlimited Revisions
+            </div>
+            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-white rounded-full"></span>
+              Vector & Print-Ready Files
+            </div>
+            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-white rounded-full"></span>
+              Brand Color Palette
+            </div>
+            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-white rounded-full"></span>
+              Social Media Kit Included
             </div>
           </div>
         </div>

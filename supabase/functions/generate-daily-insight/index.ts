@@ -11,7 +11,7 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
-const SYSTEM_PROMPT = `You are an expert SEO content writer for WhyCreatives (https://whycreatives.in), a creative agency based in Agartala, Tripura, India.
+const SYSTEM_PROMPT = `You are an expert SEO content writer for WhyCreatives (https://whycreatives.in), a creative agency based in Guwahati, Assam, India.
 
 BRAND CONTEXT:
 - India's most affordable creative agency

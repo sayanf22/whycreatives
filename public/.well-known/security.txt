@@ -8,5 +8,5 @@ Preferred-Languages: en, hi, bn
 Canonical: https://whycreatives.in/.well-known/security.txt
 
 # WhyCreatives - India's Most Affordable Creative Agency
-# Agartala, Tripura, India
+# Guwahati, Assam, India
 # Services: Video Production, Web Development, Digital Marketing, Branding

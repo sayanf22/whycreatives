@@ -220,7 +220,7 @@
 1. **Location-Specific:** Only agency focused on Tripura/Northeast
 2. **Pricing:** 90% less than competitors
 3. **Transparency:** Clear pricing displayed
-4. **Local Presence:** Based in Agartala
+4. **Local Presence:** Based in Guwahati
 5. **Regional Focus:** Serving all 8 Northeast states
 
 ---

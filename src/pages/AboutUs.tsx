@@ -10,7 +10,7 @@ const AboutUs = () => {
 
       <About3
         title="About WhyCreatives"
-        description="We are a full-service creative agency based in Agartala, Tripura, dedicated to transforming brands through innovative storytelling, cutting-edge design, and strategic digital solutions. Our mission is to empower businesses with world-class creative services that drive measurable results and lasting impact."
+        description="We are a full-service creative agency based in Guwahati, Assam, dedicated to transforming brands through innovative storytelling, cutting-edge design, and strategic digital solutions. Our mission is to empower businesses with world-class creative services that drive measurable results and lasting impact."
         mainImage={{
           src: "/creative-office.png",
           alt: "Modern creative office space",

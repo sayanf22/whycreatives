@@ -9,15 +9,13 @@ import { ArrowRight, Video, Globe, Share2, Megaphone, Sparkles, Palette, Phone, 
 import RadialOrbitalTimeline from "@/components/ui/radial-orbital-timeline";
 import { getLocationData, getMisspellingRedirect, isValidLocationSlug } from "@/data/seoLocations";
 
-// Services with CORRECT pricing from pricing-comparison page
+// Services with pricing
 const services = [
   { 
     icon: Video, 
     name: "Video Production", 
     desc: "Professional editing, color grading, motion graphics & post-production",
     price: "₹6,999",
-    oldPrice: "₹45,000",
-    savings: "90%",
     duration: "3-5 Days"
   },
   { 
@@ -25,8 +23,6 @@ const services = [
     name: "Web Development", 
     desc: "Modern, responsive, conversion-focused custom websites",
     price: "₹4,999",
-    oldPrice: "₹35,000",
-    savings: "85%",
     duration: "1 Week"
   },
   { 
@@ -34,8 +30,6 @@ const services = [
     name: "Brand Presence", 
     desc: "Complete brand identity, visual guidelines & strategic positioning",
     price: "₹5,999/mo",
-    oldPrice: "₹40,000/mo",
-    savings: "85%",
     duration: "Monthly"
   },
   { 
@@ -43,8 +37,6 @@ const services = [
     name: "Performance Marketing", 
     desc: "High ROI ad campaigns, SEO & targeted advertising",
     price: "₹4,999/mo",
-    oldPrice: "₹18,500/mo",
-    savings: "73%",
     duration: "Ongoing"
   },
   { 
@@ -52,8 +44,6 @@ const services = [
     name: "Motion Graphics", 
     desc: "4K animations, explainers, visual effects & intros",
     price: "₹3,999",
-    oldPrice: "₹36,500",
-    savings: "89%",
     duration: "48 Hours"
   },
   { 
@@ -61,8 +51,6 @@ const services = [
     name: "Logo Design", 
     desc: "Unique, memorable logos with multiple concepts & revisions",
     price: "₹2,999",
-    oldPrice: "₹25,000",
-    savings: "88%",
     duration: "2-3 Days"
   },
 ];
@@ -151,7 +139,7 @@ const LocationPage = () => {
   }
 
   const pageTitle = `Best Creative Agency in ${data.name} | Video Production, Web Design, Digital Marketing - WhyCreatives`;
-  const pageDescription = `WhyCreatives is the #1 creative agency in ${data.name}, ${data.state}. Professional video production from ₹6,999, web development from ₹4,999, digital marketing & branding. Up to 90% more affordable than local agencies. ${data.description}`;
+  const pageDescription = `WhyCreatives is the #1 creative agency in ${data.name}, ${data.state}. Professional video production from ₹6,999, web development from ₹4,999, digital marketing & branding. Affordable pricing with exceptional quality. ${data.description}`;
   const pageKeywords = data.keywords.join(", ");
 
   return (
@@ -316,7 +304,7 @@ const LocationPage = () => {
             {/* Stats */}
             <div className="grid grid-cols-3 gap-3 sm:gap-8 mt-10 sm:mt-16 pt-10 sm:pt-16 border-t border-border animate-fade-in" style={{ animationDelay: "0.6s" }}>
               <div className="text-center">
-                <div className="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mb-1 sm:mb-2">90%</div>
+                <div className="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mb-1 sm:mb-2">Big</div>
                 <div className="text-[11px] sm:text-sm text-muted-foreground uppercase tracking-wide font-medium">SAVINGS</div>
               </div>
               <div className="text-center">
@@ -356,7 +344,7 @@ const LocationPage = () => {
                   Our Services in {data.name}
                 </h2>
                 <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-                  Premium quality at up to 90% less cost. Same professional results, exceptional value.
+                  Premium quality at affordable prices. Same professional results, exceptional value.
                 </p>
               </div>
             </FadeInWhenVisible>
@@ -370,14 +358,13 @@ const LocationPage = () => {
                         <service.icon className="w-6 h-6" />
                       </div>
                       <span className="px-3 py-1 rounded-full bg-green-500/20 text-green-400 text-xs font-bold">
-                        Save {service.savings}
+                        Savings
                       </span>
                     </div>
                     <h3 className="text-xl font-bold mb-2">{service.name}</h3>
                     <p className="text-muted-foreground text-sm mb-4">{service.desc}</p>
                     <div className="flex items-end justify-between pt-4 border-t border-white/10">
                       <div>
-                        <span className="text-xs text-muted-foreground line-through">{service.oldPrice}</span>
                         <div className="text-2xl font-black text-white">{service.price}</div>
                       </div>
                       <span className="text-xs text-muted-foreground bg-white/5 px-3 py-1 rounded-full">{service.duration}</span>
@@ -416,8 +403,8 @@ const LocationPage = () => {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
               <FadeInWhenVisible delay={0.1}>
                 <div className="p-6 rounded-3xl bg-white/5 border border-white/10">
-                  <div className="text-4xl sm:text-5xl font-black mb-2 bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">90%</div>
-                  <div className="text-sm text-muted-foreground">Cost Savings vs Local Agencies</div>
+                  <div className="text-4xl sm:text-5xl font-black mb-2 bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">Big</div>
+                  <div className="text-sm text-muted-foreground">Savings vs Local Agencies</div>
                 </div>
               </FadeInWhenVisible>
               <FadeInWhenVisible delay={0.2}>
@@ -488,7 +475,7 @@ const LocationPage = () => {
                 </h2>
                 <div className="text-muted-foreground space-y-4 text-center">
                   <p>
-                    WhyCreatives is {data.name}'s premier creative agency, offering world-class video production, web development, digital marketing, and branding services at prices up to 90% lower than traditional agencies. Based in Agartala, Tripura, we serve businesses across {data.state} and all of India with the same commitment to quality and excellence.
+                    WhyCreatives is {data.name}'s premier creative agency, offering world-class video production, web development, digital marketing, and branding services at affordable prices. Based in Guwahati, Assam, we serve businesses across {data.state} and all of India with the same commitment to quality and excellence.
                   </p>
                   <p>
                     Whether you're a startup looking for your first website, an established business needing video content, or an enterprise requiring comprehensive digital marketing - WhyCreatives delivers premium results without the premium price tag. Our team of experienced professionals understands the unique needs of {data.name} businesses and delivers solutions that drive real results.

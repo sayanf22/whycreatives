@@ -286,9 +286,9 @@ export const locationSEOData: Record<string, LocationSEO> = {
     name: "Agartala",
     state: "Tripura",
     region: "Northeast India",
-    description: "As the capital city of Tripura, Agartala is home to WhyCreatives headquarters. We understand the local market, culture, and business needs of Agartala businesses. From Ujjayanta Palace to the bustling markets, we've helped hundreds of local businesses grow their digital presence.",
-    tagline: "Your Local Creative Partner in Agartala",
-    highlights: ["Same-day meetings available", "Local market expertise", "Tripura's #1 rated agency", "500+ local projects completed"],
+    description: "Agartala, the capital city of Tripura, is a key market for WhyCreatives. We understand the local market, culture, and business needs of Agartala businesses. From Ujjayanta Palace to the bustling markets, we've helped hundreds of local businesses grow their digital presence.",
+    tagline: "Your Creative Partner in Agartala",
+    highlights: ["Local market expertise", "Tripura's #1 rated agency", "Quick turnaround", "500+ local projects completed"],
     population: "5 lakh+",
     keywords: ["video editing agartala", "web design agartala", "digital marketing agartala", "creative agency agartala", "best agency in agartala", "agartala video editor", "website design agartala"],
     misspellings: ["agartla", "agartalla", "agaratala", "agratala"],
@@ -468,35 +468,35 @@ export const locationSEOData: Record<string, LocationSEO> = {
   },
 
   // ============================================
-  // ASSAM
+  // ASSAM - PRIMARY MARKET (HEADQUARTERS)
   // ============================================
   "guwahati": {
     slug: "guwahati",
     name: "Guwahati",
     state: "Assam",
     region: "Northeast India",
-    description: "Guwahati, the gateway to Northeast India and the largest city in the region, deserves world-class creative services. WhyCreatives serves Guwahati businesses with premium video editing, web design, and digital marketing at prices 90% lower than local agencies.",
-    tagline: "Premium Creative Services for Guwahati",
-    highlights: ["Northeast's largest city coverage", "Quick project delivery", "Competitive metro pricing", "Assamese language support"],
+    description: "Guwahati, the gateway to Northeast India and the largest city in the region, is home to WhyCreatives headquarters. We understand the local market, culture, and business needs of Guwahati businesses. From Kamakhya Temple to the bustling markets, we've helped hundreds of local businesses grow their digital presence.",
+    tagline: "Your Local Creative Partner in Guwahati",
+    highlights: ["Same-day meetings available", "Local market expertise", "Northeast's #1 rated agency", "500+ local projects completed"],
     population: "10 lakh+",
     keywords: ["video editing guwahati", "web design guwahati", "digital marketing guwahati", "creative agency guwahati", "best agency in guwahati"],
     misspellings: ["guwahti", "guwhati", "guwahatti", "gauhati", "guwahathi"],
     nearbyAreas: ["Dispur", "Kamrup", "Nalbari", "Barpeta", "Goalpara"],
-    priority: 0.95
+    priority: 1.0
   },
   "assam": {
     slug: "assam",
     name: "Assam",
     state: "Northeast India",
     region: "Northeast India",
-    description: "From Guwahati to Silchar, WhyCreatives serves businesses across Assam with affordable creative solutions. Tea gardens, startups, oil companies, or enterprises - we've got you covered.",
-    tagline: "Creative Excellence Across Assam",
+    description: "WhyCreatives is Assam's leading creative agency, serving businesses across all districts. From Guwahati to Silchar, we bring world-class creative services to every corner of Assam. Tea gardens, startups, oil companies, or enterprises - we've got you covered.",
+    tagline: "Assam's Most Trusted Creative Agency",
     highlights: ["Pan-Assam coverage", "Tea industry expertise", "Startup-friendly pricing", "Bengali & Assamese support"],
     population: "3.5 crore+",
     keywords: ["video editing assam", "web design assam", "digital marketing assam", "creative agency assam"],
     misspellings: ["asam", "assamm", "assaam"],
     nearbyAreas: ["Guwahati", "Silchar", "Dibrugarh", "Jorhat", "Tezpur"],
-    priority: 0.95
+    priority: 1.0
   },
   "silchar": {
     slug: "silchar",
