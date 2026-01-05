@@ -188,7 +188,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                     </div>
                     <div className="flex-1">
                       <p className="text-xs font-bold text-muted-foreground mb-0.5 uppercase tracking-wide">Location</p>
-                      <p className="text-foreground font-semibold text-sm">Agartala, Tripura 🇮🇳</p>
+                      <p className="text-foreground font-semibold text-sm">Guwahati, Assam 🇮🇳</p>
                     </div>
                   </div>
                 </FadeInWhenVisible>
