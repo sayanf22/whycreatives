@@ -86,7 +86,7 @@ export const Hero = ({ title, subtitle }: HeroProps) => {
                   <br />
                   Excellence
                   <br />
-                  <span className="text-muted-foreground">at 90% Less</span>
+                  <span className="text-muted-foreground">Affordable Prices</span>
                 </>
               )}
             </h1>
@@ -138,7 +138,7 @@ export const Hero = ({ title, subtitle }: HeroProps) => {
         {/* Stats */}
         <div className="grid grid-cols-3 gap-3 sm:gap-8 mt-10 sm:mt-20 pt-10 sm:pt-20 border-t border-border animate-fade-in" style={{ animationDelay: "0.6s" }}>
           <div className="text-center">
-            <div className="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mb-1 sm:mb-2">90%</div>
+            <div className="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mb-1 sm:mb-2">Big</div>
             <div className="text-[11px] sm:text-sm text-muted-foreground uppercase tracking-wide font-medium">SAVINGS</div>
           </div>
           <div className="text-center">

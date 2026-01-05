@@ -59,7 +59,7 @@ const AboutUs = () => {
         achievementsDescription="We've partnered with businesses across India to deliver exceptional creative solutions. Our commitment to excellence, innovation, and client success has made us a trusted partner for brands looking to make a lasting impact in their industries."
         achievements={[
           { label: "Projects Completed", value: "500+" },
-          { label: "Cost Savings", value: "90%" },
+          { label: "Cost Savings", value: "Big" },
           { label: "Client Satisfaction", value: "100%" },
           { label: "Support Available", value: "24/7" },
         ]}

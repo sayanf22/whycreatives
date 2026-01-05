@@ -154,7 +154,7 @@ export const Navigation = () => {
                 className="flex-shrink-0 bg-background border-t border-border/50"
               >
                 <div className="container mx-auto px-6 lg:px-12 py-4 md:py-5">
-                  <p className="text-xs md:text-sm text-muted-foreground">Tripura, Agartala 🇮🇳</p>
+                  <p className="text-xs md:text-sm text-muted-foreground">Guwahati, Assam 🇮🇳</p>
                 </div>
               </motion.div>
             </div>

@@ -8,7 +8,7 @@ export default function PricingHero() {
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4 sm:mb-6">
             Premium Quality At
             <br className="hidden sm:block" />
-            <span className="block sm:inline"> Up to 90% Less Cost</span>
+            <span className="block sm:inline"> Affordable Prices</span>
           </h1>
           <p className="text-base sm:text-lg text-muted-foreground mb-6 sm:mb-8 leading-relaxed">
             Compare our transparent pricing with traditional agencies. Same professional quality,

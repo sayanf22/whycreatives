@@ -8,7 +8,7 @@ export const WhyChooseUs = () => {
   const cards = [
     {
       icon: <DollarSign className="size-5 text-white" />,
-      title: "90% Savings",
+      title: "Big Savings",
       description: "Premium quality, fraction of cost",
       date: "Cost Effective",
       iconClassName: "text-white",
@@ -65,14 +65,14 @@ export const WhyChooseUs = () => {
             </h2>
             <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-6 sm:mb-10 leading-relaxed max-w-xl">
               We combine exceptional quality with unbeatable pricing to help your business grow. 
-              Our India-based team delivers professional creative services at 90% less cost than traditional agencies.
+              Our India-based team delivers professional creative services at significantly lower cost than traditional agencies.
             </p>
             <div className="space-y-4 sm:space-y-6">
               <div className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 border-l-2 border-white/20 hover:border-white transition-colors duration-300">
                 <DollarSign className="w-6 h-6 sm:w-8 sm:h-8 mt-1 text-white flex-shrink-0" />
                 <div>
                   <h3 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">Unbeatable Value</h3>
-                  <p className="text-sm sm:text-base text-muted-foreground">Save 90% without compromising on quality or professionalism</p>
+                  <p className="text-sm sm:text-base text-muted-foreground">Big savings without compromising on quality or professionalism</p>
                 </div>
               </div>
               <div className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 border-l-2 border-white/20 hover:border-white transition-colors duration-300">

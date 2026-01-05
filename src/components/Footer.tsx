@@ -21,9 +21,9 @@ const footerLinks = {
     { name: "Careers", href: "/join-us" },
   ],
   locations: [
+    { name: "Guwahati", href: "/guwahati" },
     { name: "Agartala", href: "/agartala" },
     { name: "Tripura", href: "/tripura" },
-    { name: "Guwahati", href: "/guwahati" },
     { name: "Kolkata", href: "/kolkata" },
     { name: "Delhi", href: "/delhi" },
     { name: "Mumbai", href: "/mumbai" },
@@ -173,7 +173,7 @@ export const Footer = () => {
                   <BlurRevealItem delay={0.45}>
                     <div className="flex items-start gap-3 text-muted-foreground text-sm">
                       <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                      <span>Agartala, Tripura, India</span>
+                      <span>Guwahati, Assam, India</span>
                     </div>
                   </BlurRevealItem>
                 </li>

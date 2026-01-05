@@ -8,19 +8,29 @@
   -->
   
   <!-- ============================================ -->
-  <!-- TRIPURA - PRIMARY MARKET (HIGHEST PRIORITY) -->
+  <!-- GUWAHATI - HEADQUARTERS (HIGHEST PRIORITY) -->
+  <!-- ============================================ -->
+  <url>
+    <loc>https://whycreatives.in/guwahati</loc>
+    <lastmod>2025-01-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <!-- ============================================ -->
+  <!-- TRIPURA - SECONDARY MARKET (HIGH PRIORITY) -->
   <!-- ============================================ -->
   <url>
     <loc>https://whycreatives.in/agartala</loc>
     <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <priority>0.95</priority>
   </url>
   <url>
     <loc>https://whycreatives.in/tripura</loc>
     <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <priority>0.95</priority>
   </url>
   <url>
     <loc>https://whycreatives.in/udaipur-tripura</loc>
@@ -98,12 +108,6 @@
   <!-- ============================================ -->
   <!-- ASSAM - HIGH PRIORITY -->
   <!-- ============================================ -->
-  <url>
-    <loc>https://whycreatives.in/guwahati</loc>
-    <lastmod>2025-01-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.95</priority>
-  </url>
   <url>
     <loc>https://whycreatives.in/assam</loc>
     <lastmod>2025-01-01</lastmod>
