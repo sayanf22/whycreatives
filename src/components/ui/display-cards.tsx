@@ -33,51 +33,46 @@ function DisplayCard({
   return (
     <div
       className={cn(
-        "relative flex h-36 select-none flex-col justify-between rounded-xl border-2 bg-muted/70 backdrop-blur-sm px-4 py-3 cursor-pointer",
-        /* Responsive width */
-        "w-[15rem] sm:w-[18rem] md:w-[22rem]",
-        /* Skew for stacked look */
-        "-skew-y-[8deg]",
-        /* Right-fade gradient overlay */
-        "after:absolute after:-right-1 after:top-[-5%] after:h-[110%] after:w-[12rem] sm:after:w-[16rem] md:after:w-[20rem] after:bg-gradient-to-l after:from-background after:to-transparent after:content-['']",
+        "relative flex select-none flex-col justify-between rounded-xl border-2 cursor-pointer overflow-hidden",
+        /* Background: solid on mobile, glassmorphic on desktop */
+        "bg-card sm:bg-muted/70 sm:backdrop-blur-sm",
+        /* Responsive height */
+        "h-32 sm:h-36",
+        /* Responsive width — wider on mobile */
+        "w-[17rem] sm:w-[18rem] md:w-[22rem]",
+        /* Padding */
+        "px-4 sm:px-4 py-2.5 sm:py-3",
+        /* Skew — removed when expanded via the transition */
+        isExpanded ? "skew-y-0" : "-skew-y-[8deg]",
+        /* Right-fade gradient — HIDDEN on mobile, visible on sm+ */
+        "sm:after:absolute sm:after:-right-1 sm:after:top-[-5%] sm:after:h-[110%] sm:after:w-[16rem] md:after:w-[20rem] sm:after:bg-gradient-to-l sm:after:from-background sm:after:to-transparent sm:after:content-['']",
+        /* Border */
+        "border-border",
         /* Hover & interaction */
         "hover:border-white/20 hover:bg-muted",
         /* Row layout for children */
         "[&>*]:flex [&>*]:items-center [&>*]:gap-2",
-        /* Smooth transition */
-        "transition-all duration-500 ease-out",
-        /* Expanded state: stronger shadow */
-        isExpanded && "shadow-2xl z-50 !-skew-y-0 !border-primary/30",
+        /* SMOOTH ANIMATION — key for the slide-up + straighten effect */
+        "transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
+        /* Expanded: lift up, scale, bring to front, stronger shadow */
+        isExpanded && "!-translate-y-[160px] !translate-x-0 scale-105 shadow-2xl z-50 !border-primary/40",
         className
       )}
-      style={
-        isExpanded
-          ? {
-            transform: "translateX(0px) translateY(-140px) skewY(0deg) scale(1.05)",
-            zIndex: 50,
-          }
-          : undefined
-      }
       onClick={onClick}
     >
       <div>
-        <span
-          className={cn(
-            "relative inline-block rounded-full p-1",
-            iconClassName ? "" : "bg-blue-800"
-          )}
-          style={
-            !iconClassName
-              ? undefined
-              : undefined
-          }
-        >
+        <span className="relative inline-block rounded-full bg-foreground/10 p-1">
           {icon}
         </span>
-        <p className={cn("text-lg font-medium", titleClassName)}>{title}</p>
+        <p className={cn("text-base sm:text-lg font-medium leading-tight", titleClassName)}>
+          {title}
+        </p>
       </div>
-      <p className="whitespace-nowrap text-lg">{description}</p>
-      <p className="text-muted-foreground">{date}</p>
+      {/* Description: wraps on mobile */}
+      <p className="text-sm sm:text-base sm:whitespace-nowrap text-foreground/80 leading-snug line-clamp-2">
+        {description}
+      </p>
+      <p className="text-xs sm:text-sm text-muted-foreground">{date}</p>
     </div>
   );
 }

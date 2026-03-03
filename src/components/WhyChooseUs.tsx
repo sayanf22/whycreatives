@@ -6,8 +6,9 @@ export const WhyChooseUs = () => {
   const { ref, isVisible } = useScrollAnimation();
 
   /* ---------- grayscale overlay classes (shared by rear cards) ---------- */
+  /* Rear card overlay: grayscale + dim on desktop only. On mobile just a subtle border overlay */
   const rearOverlay =
-    "before:absolute before:w-[100%] before:outline-1 before:rounded-xl before:outline-border before:h-[100%] before:content-[''] before:bg-blend-overlay before:bg-background/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0";
+    "before:absolute before:w-[100%] before:rounded-xl before:h-[100%] before:content-[''] before:left-0 before:top-0 before:transition-opacity before:duration-700 hover:before:opacity-0 sm:before:bg-blend-overlay sm:before:bg-background/50 sm:before:outline-1 sm:before:outline-border sm:grayscale-[100%] sm:hover:grayscale-0";
 
   const cards = [
     {
