@@ -164,7 +164,7 @@ export default function RadialOrbitalTimeline({
 
   return (
     <div
-      className="w-full h-full flex flex-col items-center justify-center bg-transparent overflow-hidden"
+      className="w-full h-full flex flex-col items-center justify-center bg-transparent overflow-visible"
       ref={containerRef}
       onClick={handleContainerClick}
     >

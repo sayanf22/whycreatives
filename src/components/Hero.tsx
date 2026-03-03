@@ -123,7 +123,7 @@ export const Hero = ({ title, subtitle }: HeroProps) => {
             style={{ animationDelay: "0.2s" }}
           >
             {/* Mobile version - scaled to fit */}
-            <div className="lg:hidden w-full h-[350px] sm:h-[450px] flex items-center justify-center overflow-hidden">
+            <div className="lg:hidden w-full h-[350px] sm:h-[450px] flex items-center justify-center overflow-visible">
               <div className="w-full h-full flex items-center justify-center">
                 <RadialOrbitalTimeline timelineData={timelineData} />
               </div>
