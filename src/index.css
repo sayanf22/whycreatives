@@ -290,7 +290,8 @@ body {
   .backdrop-blur-lg {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
-    background-color: rgba(0, 0, 0, 0.95) !important;
+    /* Use theme-aware background instead of hardcoded black */
+    background-color: hsl(var(--background) / 0.95) !important;
   }
 }
 
