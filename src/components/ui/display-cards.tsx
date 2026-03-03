@@ -36,25 +36,25 @@ function DisplayCard({
         "relative flex select-none flex-col justify-between rounded-xl border-2 cursor-pointer overflow-hidden",
         /* Background: solid on mobile, glassmorphic on desktop */
         "bg-card sm:bg-muted/70 sm:backdrop-blur-sm",
-        /* Responsive height */
+        /* Height: SAME across breakpoints — don't increase */
         "h-32 sm:h-36",
-        /* Responsive width — wider on mobile */
-        "w-[17rem] sm:w-[18rem] md:w-[22rem]",
+        /* Width: wider at every breakpoint, fills viewport properly */
+        "w-[19rem] sm:w-[21rem] md:w-[22rem]",
         /* Padding */
-        "px-4 sm:px-4 py-2.5 sm:py-3",
-        /* Skew — removed when expanded via the transition */
+        "px-4 py-2.5 sm:py-3",
+        /* Skew — straightens when expanded */
         isExpanded ? "skew-y-0" : "-skew-y-[8deg]",
         /* Right-fade gradient — HIDDEN on mobile, visible on sm+ */
         "sm:after:absolute sm:after:-right-1 sm:after:top-[-5%] sm:after:h-[110%] sm:after:w-[16rem] md:after:w-[20rem] sm:after:bg-gradient-to-l sm:after:from-background sm:after:to-transparent sm:after:content-['']",
         /* Border */
         "border-border",
-        /* Hover & interaction */
+        /* Hover */
         "hover:border-white/20 hover:bg-muted",
         /* Row layout for children */
         "[&>*]:flex [&>*]:items-center [&>*]:gap-2",
-        /* SMOOTH ANIMATION — key for the slide-up + straighten effect */
+        /* Smooth spring animation */
         "transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
-        /* Expanded: lift up, scale, bring to front, stronger shadow */
+        /* Expanded: slide up, straighten, scale, bring to front */
         isExpanded && "!-translate-y-[160px] !translate-x-0 scale-105 shadow-2xl z-50 !border-primary/40",
         className
       )}
@@ -68,7 +68,6 @@ function DisplayCard({
           {title}
         </p>
       </div>
-      {/* Description: wraps on mobile */}
       <p className="text-sm sm:text-base sm:whitespace-nowrap text-foreground/80 leading-snug line-clamp-2">
         {description}
       </p>

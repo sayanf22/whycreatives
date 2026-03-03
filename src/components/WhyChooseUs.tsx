@@ -27,7 +27,7 @@ export const WhyChooseUs = () => {
       date: "Lightning Speed",
       iconClassName: "text-amber-500",
       titleClassName: "text-amber-400",
-      className: `[grid-area:stack] translate-x-6 translate-y-8 sm:translate-x-12 sm:translate-y-10 md:translate-x-16 md:translate-y-10 hover:-translate-y-1 ${rearOverlay}`,
+      className: `[grid-area:stack] translate-x-[14px] translate-y-[24px] sm:translate-x-[20px] sm:translate-y-10 md:translate-x-16 md:translate-y-10 hover:-translate-y-1 ${rearOverlay}`,
     },
     {
       icon: <Shield className="size-4 text-violet-400" />,
@@ -36,7 +36,7 @@ export const WhyChooseUs = () => {
       date: "Honest Pricing",
       iconClassName: "text-violet-500",
       titleClassName: "text-violet-400",
-      className: `[grid-area:stack] translate-x-12 translate-y-16 sm:translate-x-24 sm:translate-y-20 md:translate-x-32 md:translate-y-20 hover:translate-y-6 sm:hover:translate-y-10 ${rearOverlay}`,
+      className: `[grid-area:stack] translate-x-[28px] translate-y-[48px] sm:translate-x-[40px] sm:translate-y-20 md:translate-x-32 md:translate-y-20 hover:translate-y-6 sm:hover:translate-y-10 ${rearOverlay}`,
     },
     {
       icon: <Users className="size-4 text-blue-300" />,
@@ -46,7 +46,7 @@ export const WhyChooseUs = () => {
       iconClassName: "text-blue-500",
       titleClassName: "text-blue-500",
       className:
-        "[grid-area:stack] translate-x-[72px] translate-y-24 sm:translate-x-36 sm:translate-y-[120px] md:translate-x-48 md:translate-y-[120px] hover:translate-y-14 sm:hover:translate-y-[100px]",
+        "[grid-area:stack] translate-x-[42px] translate-y-[72px] sm:translate-x-[60px] sm:translate-y-[120px] md:translate-x-48 md:translate-y-[120px] hover:translate-y-14 sm:hover:translate-y-[100px]",
     },
   ];
 
@@ -115,7 +115,7 @@ export const WhyChooseUs = () => {
           {/* Display Cards — responsive */}
           <div className="lg:order-2 flex items-center justify-center w-full overflow-visible">
             {/* Mobile & Tablet */}
-            <div className="lg:hidden w-full h-[320px] sm:h-[380px] flex items-start justify-start pl-2 pt-4 overflow-visible">
+            <div className="lg:hidden w-full h-[320px] sm:h-[380px] flex items-center overflow-visible" style={{ paddingLeft: 'calc((100% - 346px) / 2)' }}>
               <DisplayCards cards={cards} />
             </div>
             {/* Desktop */}
