@@ -5,49 +5,54 @@ import DisplayCards from "@/components/ui/display-cards";
 export const WhyChooseUs = () => {
   const { ref, isVisible } = useScrollAnimation();
 
+  /* ---------- grayscale overlay classes (shared by rear cards) ---------- */
+  const rearOverlay =
+    "before:absolute before:w-[100%] before:outline-1 before:rounded-xl before:outline-border before:h-[100%] before:content-[''] before:bg-blend-overlay before:bg-background/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0";
+
   const cards = [
     {
-      icon: <DollarSign className="size-4" />,
+      icon: <DollarSign className="size-4 text-emerald-400" />,
       title: "Big Savings",
       description: "Premium quality, fraction of cost",
       date: "Cost Effective",
-      variant: "silver" as const,
-      className:
-        "[grid-area:stack] hover:-translate-y-6 transition-all duration-700",
+      iconClassName: "text-emerald-500",
+      titleClassName: "text-emerald-400",
+      className: `[grid-area:stack] hover:-translate-y-10 ${rearOverlay}`,
     },
     {
-      icon: <Zap className="size-4" />,
+      icon: <Zap className="size-4 text-amber-400" />,
       title: "Fast Delivery",
       description: "Rapid turnaround, top quality",
       date: "Lightning Speed",
-      variant: "silver" as const,
-      className:
-        "[grid-area:stack] translate-x-[40px] translate-y-[20px] sm:translate-x-[60px] sm:translate-y-[24px] lg:translate-x-24 lg:translate-y-16 hover:translate-y-0 transition-all duration-700",
+      iconClassName: "text-amber-500",
+      titleClassName: "text-amber-400",
+      className: `[grid-area:stack] translate-x-6 translate-y-8 sm:translate-x-12 sm:translate-y-10 md:translate-x-16 md:translate-y-10 hover:-translate-y-1 ${rearOverlay}`,
     },
     {
-      icon: <Shield className="size-4" />,
+      icon: <Shield className="size-4 text-violet-400" />,
       title: "100% Transparent",
       description: "No hidden fees, clear pricing",
       date: "Honest Pricing",
-      variant: "silver" as const,
-      className:
-        "[grid-area:stack] translate-x-[80px] translate-y-[40px] sm:translate-x-[120px] sm:translate-y-[48px] lg:translate-x-48 lg:translate-y-32 hover:translate-y-[20px] transition-all duration-700",
+      iconClassName: "text-violet-500",
+      titleClassName: "text-violet-400",
+      className: `[grid-area:stack] translate-x-12 translate-y-16 sm:translate-x-24 sm:translate-y-20 md:translate-x-32 md:translate-y-20 hover:translate-y-6 sm:hover:translate-y-10 ${rearOverlay}`,
     },
     {
-      icon: <Users className="size-4" />,
+      icon: <Users className="size-4 text-blue-300" />,
       title: "24/7 Support",
       description: "Dedicated team, always available",
       date: "Always Here",
-      variant: "dark" as const,
+      iconClassName: "text-blue-500",
+      titleClassName: "text-blue-500",
       className:
-        "[grid-area:stack] translate-x-[120px] translate-y-[60px] sm:translate-x-[180px] sm:translate-y-[72px] lg:translate-x-72 lg:translate-y-48 hover:translate-y-[40px] transition-all duration-700",
+        "[grid-area:stack] translate-x-[72px] translate-y-24 sm:translate-x-36 sm:translate-y-[120px] md:translate-x-48 md:translate-y-[120px] hover:translate-y-14 sm:hover:translate-y-[100px]",
     },
   ];
 
   return (
     <section
       ref={ref}
-      className={`py-16 sm:py-24 md:py-32 px-5 sm:px-6 bg-background transition-all duration-1000 overflow-hidden ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
+      className={`py-16 sm:py-24 md:py-32 px-5 sm:px-6 bg-background transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
         }`}
     >
       <div className="w-full max-w-7xl mx-auto">
@@ -64,7 +69,7 @@ export const WhyChooseUs = () => {
             </p>
           </div>
 
-          {/* Desktop: Full text content */}
+          {/* Desktop: Full text content with feature list */}
           <div className="hidden lg:block order-1 w-full">
             <h2 className="text-6xl lg:text-7xl font-black mb-6 leading-tight">
               Why Choose <br />
@@ -106,14 +111,14 @@ export const WhyChooseUs = () => {
             </div>
           </div>
 
-          {/* Display Cards */}
-          <div className="lg:order-2 flex items-center justify-center w-full">
-            {/* Mobile */}
-            <div className="lg:hidden w-full h-[280px] sm:h-[320px] flex items-start justify-start pl-2 pt-2 overflow-visible">
+          {/* Display Cards — responsive */}
+          <div className="lg:order-2 flex items-center justify-center w-full overflow-visible">
+            {/* Mobile & Tablet */}
+            <div className="lg:hidden w-full h-[320px] sm:h-[380px] flex items-start justify-start pl-2 pt-4 overflow-visible">
               <DisplayCards cards={cards} />
             </div>
             {/* Desktop */}
-            <div className="hidden lg:flex items-center justify-center min-h-[500px] w-full">
+            <div className="hidden lg:flex items-center justify-center min-h-[500px] w-full overflow-visible">
               <DisplayCards cards={cards} />
             </div>
           </div>

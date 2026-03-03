@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Sparkles } from "lucide-react";
@@ -11,106 +12,72 @@ interface DisplayCardProps {
   date?: string;
   iconClassName?: string;
   titleClassName?: string;
-  variant?: "silver" | "dark";
 }
 
-interface InternalDisplayCardProps extends DisplayCardProps {
+interface InternalCardProps extends DisplayCardProps {
   isExpanded?: boolean;
   onClick?: () => void;
 }
 
 function DisplayCard({
   className,
-  icon = <Sparkles className="size-4" />,
+  icon = <Sparkles className="size-4 text-blue-300" />,
   title = "Featured",
   description = "Discover amazing content",
   date = "Just now",
-  iconClassName = "",
-  titleClassName = "",
-  variant = "silver",
+  iconClassName = "text-blue-500",
+  titleClassName = "text-blue-500",
   isExpanded = false,
   onClick,
-}: InternalDisplayCardProps) {
-  const isDark = variant === "dark";
-
+}: InternalCardProps) {
   return (
     <div
       className={cn(
-        "relative flex select-none flex-col justify-between rounded-2xl overflow-hidden cursor-pointer",
-        /* Size: landscape proportion, wider than tall */
-        "w-[15rem] h-[7.5rem] sm:w-[18rem] sm:h-[9rem] md:w-[22rem] md:h-[10rem]",
-        /* Padding */
-        "px-4 sm:px-5 py-3 sm:py-4",
-        /* Shadow — stronger when expanded */
-        isExpanded ? "shadow-2xl" : "shadow-lg",
-        /* Smooth transition for transform */
+        "relative flex h-36 select-none flex-col justify-between rounded-xl border-2 bg-muted/70 backdrop-blur-sm px-4 py-3 cursor-pointer",
+        /* Responsive width */
+        "w-[15rem] sm:w-[18rem] md:w-[22rem]",
+        /* Skew for stacked look */
+        "-skew-y-[8deg]",
+        /* Right-fade gradient overlay */
+        "after:absolute after:-right-1 after:top-[-5%] after:h-[110%] after:w-[12rem] sm:after:w-[16rem] md:after:w-[20rem] after:bg-gradient-to-l after:from-background after:to-transparent after:content-['']",
+        /* Hover & interaction */
+        "hover:border-white/20 hover:bg-muted",
+        /* Row layout for children */
+        "[&>*]:flex [&>*]:items-center [&>*]:gap-2",
+        /* Smooth transition */
         "transition-all duration-500 ease-out",
+        /* Expanded state: stronger shadow */
+        isExpanded && "shadow-2xl z-50 !-skew-y-0 !border-primary/30",
         className
       )}
-      style={{
-        ...(isDark
+      style={
+        isExpanded
           ? {
-            background:
-              "linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%)",
-          }
-          : {
-            background:
-              "linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 25%, #d4d4d4 50%, #e0e0e0 75%, #f0f0f0 100%)",
-            borderTop: "1px solid rgba(255,255,255,0.8)",
-            borderLeft: "1px solid rgba(255,255,255,0.6)",
-          }),
-        /* When expanded: lift card high above the stack */
-        ...(isExpanded
-          ? {
-            transform: "translateX(0px) translateY(-160px) scale(1.08)",
+            transform: "translateX(0px) translateY(-140px) skewY(0deg) scale(1.05)",
             zIndex: 50,
           }
-          : {}),
-      }}
+          : undefined
+      }
       onClick={onClick}
     >
-      {/* Row 1: Icon + Title */}
-      <div className="flex items-center gap-2.5">
+      <div>
         <span
           className={cn(
-            "inline-flex items-center justify-center rounded-full p-2 flex-shrink-0",
-            isDark ? "bg-white/15" : "bg-black/10"
+            "relative inline-block rounded-full p-1",
+            iconClassName ? "" : "bg-blue-800"
           )}
+          style={
+            !iconClassName
+              ? undefined
+              : undefined
+          }
         >
-          <span className={isDark ? "text-white" : "text-neutral-700"}>
-            {icon}
-          </span>
+          {icon}
         </span>
-        <p
-          className={cn(
-            "text-base sm:text-lg font-bold leading-tight",
-            isDark ? "text-white" : "text-neutral-800",
-            titleClassName
-          )}
-        >
-          {title}
-        </p>
+        <p className={cn("text-lg font-medium", titleClassName)}>{title}</p>
       </div>
-
-      {/* Row 2: Description */}
-      <p
-        className={cn(
-          "text-xs sm:text-sm font-medium leading-snug line-clamp-2",
-          isDark ? "text-neutral-300" : "text-neutral-500"
-        )}
-      >
-        {description}
-      </p>
-
-      {/* Row 3: Date */}
-      <p
-        className={cn(
-          "text-[10px] sm:text-xs font-medium",
-          isDark ? "text-neutral-400" : "text-neutral-400"
-        )}
-      >
-        {date}
-      </p>
+      <p className="whitespace-nowrap text-lg">{description}</p>
+      <p className="text-muted-foreground">{date}</p>
     </div>
   );
 }
@@ -125,15 +92,15 @@ export default function DisplayCards({ cards }: DisplayCardsProps) {
   const defaultCards: DisplayCardProps[] = [
     {
       className:
-        "[grid-area:stack] md:hover:-translate-y-10 transition-all duration-700",
+        "[grid-area:stack] hover:-translate-y-10 before:absolute before:w-[100%] before:outline-1 before:rounded-xl before:outline-border before:h-[100%] before:content-[''] before:bg-blend-overlay before:bg-background/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0",
     },
     {
       className:
-        "[grid-area:stack] md:translate-x-16 md:translate-y-10 md:hover:-translate-y-1 transition-all duration-700",
+        "[grid-area:stack] translate-x-16 translate-y-10 hover:-translate-y-1 before:absolute before:w-[100%] before:outline-1 before:rounded-xl before:outline-border before:h-[100%] before:content-[''] before:bg-blend-overlay before:bg-background/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0",
     },
     {
       className:
-        "[grid-area:stack] md:translate-x-32 md:translate-y-20 md:hover:translate-y-10 transition-all duration-700",
+        "[grid-area:stack] translate-x-32 translate-y-20 hover:translate-y-10",
     },
   ];
 
