@@ -119,11 +119,11 @@ export function BackgroundPaths({
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ delay: 1.2, duration: 0.5 }}
-                        className="inline-block group relative bg-gradient-to-b from-foreground/10 to-transparent p-px rounded-2xl backdrop-blur-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
+                        className="inline-block group"
                     >
                         <Button
-                            variant="ghost"
-                            className="rounded-[1.15rem] px-8 py-6 text-lg font-semibold backdrop-blur-md bg-background hover:bg-muted text-foreground transition-all duration-300 group-hover:-translate-y-0.5 border border-border hover:shadow-md"
+                            variant="outline"
+                            className="rounded-2xl px-8 py-6 text-lg font-semibold bg-card text-card-foreground border-2 border-border shadow-lg hover:shadow-xl hover:bg-accent hover:text-accent-foreground transition-all duration-300 group-hover:-translate-y-0.5"
                             onClick={() => window.location.href = buttonLink}
                         >
                             <span className="opacity-90 group-hover:opacity-100 transition-opacity">
