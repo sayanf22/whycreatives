@@ -1,0 +1,172 @@
+﻿
+> vite_react_shadcn_ts@0.0.0 build
+> node generate_blog_sitemap.js && npx vite-ssg build
+
+Fetching insights from Supabase...
+Found 42 published insights
+Ô£ô Generated public/sitemap-blog.xml
+Ô£ô Updated public/sitemap.xml
+
+[90m[vite-ssg][39m [33mBuild for client...[39m
+[36mvite v7.0.6 [32mbuilding for production...[36m[39m
+transforming...
+node.exe : 
+Browserslist: 
+browsers data 
+(caniuse-lite) is 9 
+months old. Please 
+run:
+At C:\Program Files\no
+dejs\npm.ps1:29 char:3
++   & $NODE_EXE 
+$NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~
+    + CategoryInfo    
+          : NotSpeci  
+  fied: (Browsersli   
+ st: b...ld. Pleas    
+e run::String) []    
+, RemoteException
+    + FullyQualifiedE 
+   rrorId : NativeCo  
+  mmandError
+ 
+  npx update-browsersl
+ist-db@latest
+  Why you should do 
+it regularly: https://
+github.com/browserslis
+t/update-db#readme
+[33mnode_modules/reac
+t-helmet-async/lib/ind
+ex.module.js 
+(1:7186): A comment
+
+"/*#__PURE__*/"
+
+in "node_modules/react
+-helmet-async/lib/inde
+x.module.js" contains 
+an annotation that 
+Rollup cannot 
+interpret due to the 
+position of the 
+comment. The comment 
+will be removed to 
+avoid issues.[39m
+[33mnode_modules/reac
+t-helmet-async/lib/ind
+ex.module.js 
+(1:13561): A comment
+
+"/*#__PURE__*/"
+
+in "node_modules/react
+-helmet-async/lib/inde
+x.module.js" contains 
+an annotation that 
+Rollup cannot 
+interpret due to the 
+position of the 
+comment. The comment 
+will be removed to 
+avoid issues.[39m
+
+[1m[33mwarn[39m[22
+m - The class `ease-[c
+ubic-bezier(0.34,1.56,
+0.64,1)]` is 
+ambiguous and matches 
+multiple utilities.
+[1m[33mwarn[39m[22
+m - If this is 
+content and not a 
+class, replace it 
+with `ease-&lsqb;cubic
+-bezier(0.34,1.56,0.64
+,1)&rsqb;` to silence 
+this warning.
+[32mÔ£ô[39m 2468 modules transformed.
+rendering chunks...
+computing gzip size...
+[2mdist/[22m[32mindex.html                              [39m[1m[2m 19.87 kB[22m[1m[22m[2m Ôöé gzip:   4.37 kB[22m
+[2mdist/[22m[32m.vite/ssr-manifest.json                 [39m[1m[2m 54.88 kB[22m[1m[22m[2m Ôöé gzip:   6.59 kB[22m
+[2mdist/[22m[35massets/app-neRBVVbS.css                 [39m[1m[2m115.52 kB[22m[1m[22m[2m Ôöé gzip:  18.36 kB[22m
+[2mdist/[22m[36massets/textarea-BcnF6evu.js             [39m[1m[2m  0.48 kB[22m[1m[22m[2m Ôöé gzip:   0.31 kB[22m
+[2mdist/[22m[36massets/NotFound-B3fzn29U.js             [39m[1m[2m  0.55 kB[22m[1m[22m[2m Ôöé gzip:   0.33 kB[22m
+[2mdist/[22m[36massets/client-vu6Gi3ck.js               [39m[1m[2m  0.57 kB[22m[1m[22m[2m Ôöé gzip:   0.38 kB[22m
+[2mdist/[22m[36massets/input-BiLkREwK.js                [39m[1m[2m  0.57 kB[22m[1m[22m[2m Ôöé gzip:   0.35 kB[22m
+[2mdist/[22m[36massets/use-portfolio-works-QT3zYoYf.js  [39m[1m[2m  0.64 kB[22m[1m[22m[2m Ôöé gzip:   0.34 kB[22m
+[2mdist/[22m[36massets/People-BuCbbyZU.js               [39m[1m[2m  2.39 kB[22m[1m[22m[2m Ôöé gzip:   0.92 kB[22m
+[2mdist/[22m[36massets/AdminLogin-lcC9RcnQ.js           [39m[1m[2m  2.57 kB[22m[1m[22m[2m Ôöé gzip:   1.22 kB[22m
+[2mdist/[22m[36massets/PortfolioGallery-BxzCrLWd.js     [39m[1m[2m  3.20 kB[22m[1m[22m[2m Ôöé gzip:   1.18 kB[22m
+[2mdist/[22m[36massets/JoinUs-6VJ-E82C.js               [39m[1m[2m  6.47 kB[22m[1m[22m[2m Ôöé gzip:   1.95 kB[22m
+[2mdist/[22m[36massets/AboutUs-DRpxJxvq.js              [39m[1m[2m  6.95 kB[22m[1m[22m[2m Ôöé gzip:   2.27 kB[22m
+[2mdist/[22m[36massets/Comparison-ZI2iqkUa.js           [39m[1m[2m  7.09 kB[22m[1m[22m[2m Ôöé gzip:   2.37 kB[22m
+[2mdist/[22m[36massets/AdminDashboard-BOxVKUWy.js       [39m[1m[2m 12.39 kB[22m[1m[22m[2m Ôöé gzip:   3.75 kB[22m
+[2mdist/[22m[36massets/ContactPage-Fcz3clnf.js          [39m[1m[2m 14.82 kB[22m[1m[22m[2m Ôöé gzip:   5.05 kB[22m
+[2mdist/[22m[36massets/WhatWeDo-CWQYdUeo.js             [39m[1m[2m 22.35 kB[22m[1m[22m[2m Ôöé gzip:   6.03 kB[22m
+[2mdist/[22m[36massets/OurWork-F0r16CbD.js              [39m[1m[2m 27.29 kB[22m[1m[22m[2m Ôöé gzip:  10.21 kB[22m
+[2mdist/[22m[36massets/LocationPage-m9xMAdyB.js         [39m[1m[2m 69.64 kB[22m[1m[22m[2m Ôöé gzip:  17.22 kB[22m
+[2mdist/[22m[36massets/app-zbgSz-y0.js                  [39m[1m[2m910.02 kB[22m[1m[22m[2m Ôöé gzip: 269.70 kB[22m
+[32mÔ£ô built in 7.20s[39m
+
+[90m[vite-ssg][39m [33mBuild for server...[39m
+[36mvite v7.0.6 [32mbuilding SSR bundle for production...[36m[39m
+transforming...
+[33m"toast" is 
+imported from 
+external module 
+"sonner" but never 
+used in "src/component
+s/ui/sonner.tsx".[39m
+[32mÔ£ô[39m 64 modules transformed.
+rendering chunks...
+[2m.vite-ssg-temp/64wc3sxo5m/[22m[35massets/style-neRBVVbS.css               [39m[1m[2m115.52 kB[22m[1m[22m
+[2m.vite-ssg-temp/64wc3sxo5m/[22m[36massets/textarea-6Ttc-Vmm.js             [39m[1m[2m  0.69 kB[22m[1m[22m
+[2m.vite-ssg-temp/64wc3sxo5m/[22m[36massets/input-6XZgwDxx.js                [39m[1m[2m  0.81 kB[22m[1m[22m
+[2m.vite-ssg-temp/64wc3sxo5m/[22m[36massets/NotFound-B8NgJ_7D.js             [39m[1m[2m  0.90 kB[22m[1m[22m
+[2m.vite-ssg-temp/64wc3sxo5m/[22m[36massets/use-portfolio-works-DMD5TthV.js  [39m[1m[2m  1.20 kB[22m[1m[22m
+[2m.vite-ssg-temp/64wc3sxo5m/[22m[36massets/People-DOuH2V-k.js               [39m[1m[2m  4.09 kB[22m[1m[22m
+[2m.vite-ssg-temp/64wc3sxo5m/[22m[36massets/AdminLogin-C14nYeKv.js           [39m[1m[2m  4.36 kB[22m[1m[22m
+[2m.vite-ssg-temp/64wc3sxo5m/[22m[36massets/PortfolioGallery-XZiqso7e.js     [39m[1m[2m  5.71 kB[22m[1m[22m
+[2m.vite-ssg-temp/64wc3sxo5m/[22m[36massets/AboutUs-BmF6T0kq.js              [39m[1m[2m 10.20 kB[22m[1m[22m
+[2m.vite-ssg-temp/64wc3sxo5m/[22m[36massets/OurWork-DzMGIWFm.js              [39m[1m[2m 10.91 kB[22m[1m[22m
+[2m.vite-ssg-temp/64wc3sxo5m/[22m[36massets/JoinUs-CbrfCmdW.js               [39m[1m[2m 11.62 kB[22m[1m[22m
+[2m.vite-ssg-temp/64wc3sxo5m/[22m[36massets/Comparison-BlWqKSDR.js           [39m[1m[2m 12.00 kB[22m[1m[22m
+[2m.vite-ssg-temp/64wc3sxo5m/[22m[36massets/ContactPage-GjvrijaC.js          [39m[1m[2m 16.58 kB[22m[1m[22m
+[2m.vite-ssg-temp/64wc3sxo5m/[22m[36massets/AdminDashboard-ChWWpnFS.js       [39m[1m[2m 20.74 kB[22m[1m[22m
+[2m.vite-ssg-temp/64wc3sxo5m/[22m[36massets/WhatWeDo-D3Is0DLL.js             [39m[1m[2m 22.76 kB[22m[1m[22m
+[2m.vite-ssg-temp/64wc3sxo5m/[22m[36massets/LocationPage-D_EsTChV.js         [39m[1m[2m 88.15 kB[22m[1m[22m
+[2m.vite-ssg-temp/64wc3sxo5m/[22m[36mmain.mjs                                [39m[1m[2m138.20 kB[22m[1m[22m
+[32mÔ£ô built in 416ms[39m
+file:///C:/Users/admin
+/AppData/Local/npm-cac
+he/_npx/f7f24b6825a9b7
+56/node_modules/vite-s
+sg/dist/shared/vite-ss
+g.D5Fdxh1E.mjs:1425
+  const { routes } = 
+await createApp();
+                      
+     ^
+
+TypeError: createApp 
+is not a function
+    at build (file:///
+C:/Users/admin/AppData
+/Local/npm-cache/_npx/
+f7f24b6825a9b756/node_
+modules/vite-ssg/dist/
+shared/vite-ssg.D5Fdxh
+1E.mjs:1425:28)
+    at async 
+CAC.<anonymous> (file:
+///C:/Users/admin/AppD
+ata/Local/npm-cache/_n
+px/f7f24b6825a9b756/no
+de_modules/vite-ssg/di
+st/node/cli.mjs:22:3)
+
+Node.js v22.16.0

@@ -1,0 +1,88 @@
+﻿
+> vite_react_shadcn_ts@0.0.0 build
+> node generate_blog_sitemap.js && vite build
+
+Fetching insights from Supabase...
+Found 42 published insights
+Ô£ô Generated public/sitemap-blog.xml
+Ô£ô Updated public/sitemap.xml
+node.exe : 
+[31mfailed to load 
+config from 
+D:\Projects with IDE\c
+risp-contrast-site-mai
+n\vite.config.ts[39m
+At C:\Program Files\no
+dejs\npm.ps1:29 char:3
++   & $NODE_EXE 
+$NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~
+    + CategoryInfo    
+          : NotSpeci  
+  fied: ([31mfaile   
+ d to ....config.t    
+s[39m:String) []    
+, RemoteException
+    + FullyQualifiedE 
+   rrorId : NativeCo  
+  mmandError
+ 
+[31merror during 
+build:
+ReferenceError: 
+require is not 
+defined in ES module 
+scope, you can use 
+import instead
+    at file:///D:/Proj
+ects%20with%20IDE/cris
+p-contrast-site-main/n
+ode_modules/vite-plugi
+n-prerender/dist/index
+.mjs:6:21
+    at ModuleJob.run (
+node:internal/modules/
+esm/module_job:274:25)
+    at async onImport.
+tracePromise.__proto__
+ (node:internal/module
+s/esm/loader:644:26)
+    at async loadConfi
+gFromBundledFile (file
+:///D:/Projects%20with
+%20IDE/crisp-contrast-
+site-main/node_modules
+/vite/dist/node/chunks
+/dep-C6uTJdX2.js:66958
+:15)
+    at async 
+loadConfigFromFile (fi
+le:///D:/Projects%20wi
+th%20IDE/crisp-contras
+t-site-main/node_modul
+es/vite/dist/node/chun
+ks/dep-C6uTJdX2.js:667
+99:24)
+    at async 
+resolveConfig (file://
+/D:/Projects%20with%20
+IDE/crisp-contrast-sit
+e-main/node_modules/vi
+te/dist/node/chunks/de
+p-C6uTJdX2.js:66399:24
+)
+    at async build (fi
+le:///D:/Projects%20wi
+th%20IDE/crisp-contras
+t-site-main/node_modul
+es/vite/dist/node/chun
+ks/dep-C6uTJdX2.js:654
+87:18)
+    at async 
+CAC.<anonymous> (file:
+///D:/Projects%20with%
+20IDE/crisp-contrast-s
+ite-main/node_modules/
+vite/dist/node/cli.js:
+829:5)[39m

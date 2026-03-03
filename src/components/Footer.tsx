@@ -21,14 +21,54 @@ const footerLinks = {
     { name: "Careers", href: "/join-us" },
   ],
   locations: [
-    { name: "Guwahati", href: "/guwahati" },
     { name: "Agartala", href: "/agartala" },
-    { name: "Tripura", href: "/tripura" },
-    { name: "Kolkata", href: "/kolkata" },
-    { name: "Delhi", href: "/delhi" },
-    { name: "Mumbai", href: "/mumbai" },
+    { name: "Agra", href: "/agra" },
+    { name: "Ahmedabad", href: "/ahmedabad" },
+    { name: "Amritsar", href: "/amritsar" },
     { name: "Bangalore", href: "/bangalore" },
+    { name: "Bhopal", href: "/bhopal" },
+    { name: "Bhubaneswar", href: "/bhubaneswar" },
+    { name: "Chandigarh", href: "/chandigarh" },
     { name: "Chennai", href: "/chennai" },
+    { name: "Coimbatore", href: "/coimbatore" },
+    { name: "Dehradun", href: "/dehradun" },
+    { name: "Delhi", href: "/delhi" },
+    { name: "Faridabad", href: "/faridabad" },
+    { name: "Ghaziabad", href: "/ghaziabad" },
+    { name: "Goa", href: "/goa" },
+    { name: "Gurgaon", href: "/gurgaon" },
+    { name: "Guwahati", href: "/guwahati" },
+    { name: "Hyderabad", href: "/hyderabad" },
+    { name: "Indore", href: "/indore" },
+    { name: "Jaipur", href: "/jaipur" },
+    { name: "Jodhpur", href: "/jodhpur" },
+    { name: "Kanpur", href: "/kanpur" },
+    { name: "Kochi", href: "/kochi" },
+    { name: "Kolkata", href: "/kolkata" },
+    { name: "Lucknow", href: "/lucknow" },
+    { name: "Ludhiana", href: "/ludhiana" },
+    { name: "Madurai", href: "/madurai" },
+    { name: "Meerut", href: "/meerut" },
+    { name: "Mumbai", href: "/mumbai" },
+    { name: "Mysore", href: "/mysore" },
+    { name: "Nagpur", href: "/nagpur" },
+    { name: "Nashik", href: "/nashik" },
+    { name: "Navi Mumbai", href: "/navi-mumbai" },
+    { name: "Noida", href: "/noida" },
+    { name: "Patna", href: "/patna" },
+    { name: "Pune", href: "/pune" },
+    { name: "Raipur", href: "/raipur" },
+    { name: "Rajkot", href: "/rajkot" },
+    { name: "Ranchi", href: "/ranchi" },
+    { name: "Shillong", href: "/shillong" },
+    { name: "Siliguri", href: "/siliguri" },
+    { name: "Surat", href: "/surat" },
+    { name: "Thane", href: "/thane" },
+    { name: "Thiruvananthapuram", href: "/thiruvananthapuram" },
+    { name: "Vadodara", href: "/vadodara" },
+    { name: "Varanasi", href: "/varanasi" },
+    { name: "Vijayawada", href: "/vijayawada" },
+    { name: "Visakhapatnam", href: "/visakhapatnam" }
   ],
 };
 
@@ -86,6 +126,10 @@ export const Footer = () => {
                   <img
                     src="/logo.png"
                     alt="WhyCreatives Logo"
+                    loading="lazy"
+                    decoding="async"
+                    width="40"
+                    height="40"
                     className="w-10 h-10 dark:invert"
                   />
                   <span className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
@@ -144,18 +188,18 @@ export const Footer = () => {
                 </ul>
               </div>
 
-              {/* Locations Column */}
-              <div>
+              {/* Locations Column - Takes up 2 cols on md screens due to size */}
+              <div className="md:col-span-2">
                 <BlurReveal delay={0.3}>
-                  <h3 className="text-foreground font-bold text-sm uppercase tracking-wider mb-6">Locations</h3>
+                  <h3 className="text-foreground font-bold text-sm uppercase tracking-wider mb-6">Locations We Serve</h3>
                 </BlurReveal>
-                <ul className="space-y-3">
+                <ul className="columns-2 sm:columns-3 gap-4 space-y-3">
                   {footerLinks.locations.map((link, index) => (
-                    <li key={link.name}>
-                      <BlurRevealItem delay={0.35 + 0.05 * index}>
+                    <li key={link.name} className="break-inside-avoid">
+                      <BlurRevealItem delay={0.35 + 0.02 * (index % 10)}>
                         <Link
                           to={link.href}
-                          className="text-muted-foreground hover:text-foreground transition-colors text-sm"
+                          className="text-muted-foreground hover:text-foreground transition-colors text-sm whitespace-nowrap"
                         >
                           {link.name}
                         </Link>
@@ -163,6 +207,11 @@ export const Footer = () => {
                     </li>
                   ))}
                 </ul>
+                <div className="mt-6">
+                  <Link to="/areas-we-serve" className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-semibold transition-colors">
+                    View All 250+ Service Areas <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
               </div>
 
               {/* Contact Column */}

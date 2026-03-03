@@ -1,0 +1,169 @@
+﻿
+> vite_react_shadcn_ts@0.0.0 build
+> node generate_blog_sitemap.js && npx vite-ssg build
+
+Fetching insights from Supabase...
+Found 42 published insights
+Ô£ô Generated public/sitemap-blog.xml
+Ô£ô Updated public/sitemap.xml
+
+[90m[vite-ssg][39m [33mBuild for client...[39m
+[36mvite v7.0.6 [32mbuilding for production...[36m[39m
+transforming...
+node.exe : 
+Browserslist: 
+browsers data 
+(caniuse-lite) is 9 
+months old. Please 
+run:
+At C:\Program Files\no
+dejs\npm.ps1:29 char:3
++   & $NODE_EXE 
+$NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~
+    + CategoryInfo    
+          : NotSpeci  
+  fied: (Browsersli   
+ st: b...ld. Pleas    
+e run::String) []    
+, RemoteException
+    + FullyQualifiedE 
+   rrorId : NativeCo  
+  mmandError
+ 
+  npx update-browsersl
+ist-db@latest
+  Why you should do 
+it regularly: https://
+github.com/browserslis
+t/update-db#readme
+[33mnode_modules/reac
+t-helmet-async/lib/ind
+ex.module.js 
+(1:7186): A comment
+
+"/*#__PURE__*/"
+
+in "node_modules/react
+-helmet-async/lib/inde
+x.module.js" contains 
+an annotation that 
+Rollup cannot 
+interpret due to the 
+position of the 
+comment. The comment 
+will be removed to 
+avoid issues.[39m
+[33mnode_modules/reac
+t-helmet-async/lib/ind
+ex.module.js 
+(1:13561): A comment
+
+"/*#__PURE__*/"
+
+in "node_modules/react
+-helmet-async/lib/inde
+x.module.js" contains 
+an annotation that 
+Rollup cannot 
+interpret due to the 
+position of the 
+comment. The comment 
+will be removed to 
+avoid issues.[39m
+
+[1m[33mwarn[39m[22
+m - The class `ease-[c
+ubic-bezier(0.34,1.56,
+0.64,1)]` is 
+ambiguous and matches 
+multiple utilities.
+[1m[33mwarn[39m[22
+m - If this is 
+content and not a 
+class, replace it 
+with `ease-&lsqb;cubic
+-bezier(0.34,1.56,0.64
+,1)&rsqb;` to silence 
+this warning.
+[32mÔ£ô[39m 2468 modules transformed.
+rendering chunks...
+computing gzip size...
+[2mdist/[22m[32mindex.html                              [39m[1m[2m 20.03 kB[22m[1m[22m[2m Ôöé gzip:   4.41 kB[22m
+[2mdist/[22m[32m.vite/ssr-manifest.json                 [39m[1m[2m235.58 kB[22m[1m[22m[2m Ôöé gzip:  15.32 kB[22m
+[2mdist/[22m[35massets/app-neRBVVbS.css                 [39m[1m[2m115.52 kB[22m[1m[22m[2m Ôöé gzip:  18.36 kB[22m
+[2mdist/[22m[36massets/textarea-Ceww0Ce4.js             [39m[1m[2m  0.56 kB[22m[1m[22m[2m Ôöé gzip:   0.35 kB[22m
+[2mdist/[22m[36massets/client-C8utMamJ.js               [39m[1m[2m  0.57 kB[22m[1m[22m[2m Ôöé gzip:   0.38 kB[22m
+[2mdist/[22m[36massets/NotFound-BWnP30zd.js             [39m[1m[2m  0.59 kB[22m[1m[22m[2m Ôöé gzip:   0.35 kB[22m
+[2mdist/[22m[36massets/use-portfolio-works-BFaFOyYK.js  [39m[1m[2m  0.64 kB[22m[1m[22m[2m Ôöé gzip:   0.34 kB[22m
+[2mdist/[22m[36massets/input-Dqx3irVj.js                [39m[1m[2m  0.66 kB[22m[1m[22m[2m Ôöé gzip:   0.39 kB[22m
+[2mdist/[22m[36massets/AdminLogin-DRdQq0sy.js           [39m[1m[2m  2.34 kB[22m[1m[22m[2m Ôöé gzip:   1.05 kB[22m
+[2mdist/[22m[36massets/People-BVNfUIew.js               [39m[1m[2m  2.46 kB[22m[1m[22m[2m Ôöé gzip:   0.96 kB[22m
+[2mdist/[22m[36massets/PortfolioGallery-T_Z_Yje6.js     [39m[1m[2m  3.27 kB[22m[1m[22m[2m Ôöé gzip:   1.22 kB[22m
+[2mdist/[22m[36massets/JoinUs-BxyaVs5o.js               [39m[1m[2m  5.81 kB[22m[1m[22m[2m Ôöé gzip:   1.70 kB[22m
+[2mdist/[22m[36massets/AboutUs-DsGjo-X1.js              [39m[1m[2m  7.02 kB[22m[1m[22m[2m Ôöé gzip:   2.31 kB[22m
+[2mdist/[22m[36massets/Comparison-BFm7RS7I.js           [39m[1m[2m  7.17 kB[22m[1m[22m[2m Ôöé gzip:   2.41 kB[22m
+[2mdist/[22m[36massets/AdminDashboard-gX9Wt61E.js       [39m[1m[2m 10.93 kB[22m[1m[22m[2m Ôöé gzip:   3.15 kB[22m
+[2mdist/[22m[36massets/ContactPage-04c5e1gP.js          [39m[1m[2m 13.82 kB[22m[1m[22m[2m Ôöé gzip:   4.63 kB[22m
+[2mdist/[22m[36massets/WhatWeDo-DDkKa_Z-.js             [39m[1m[2m 15.46 kB[22m[1m[22m[2m Ôöé gzip:   3.29 kB[22m
+[2mdist/[22m[36massets/OurWork-RsRSi1rq.js              [39m[1m[2m 26.80 kB[22m[1m[22m[2m Ôöé gzip:  10.02 kB[22m
+[2mdist/[22m[36massets/LocationPage-CTKFDcYG.js         [39m[1m[2m 68.85 kB[22m[1m[22m[2m Ôöé gzip:  16.72 kB[22m
+[2mdist/[22m[36massets/ui-vendor-AzAvBnQ5.js            [39m[1m[2m134.48 kB[22m[1m[22m[2m Ôöé gzip:  44.29 kB[22m
+[2mdist/[22m[36massets/react-vendor-C_BJ8lFb.js         [39m[1m[2m202.98 kB[22m[1m[22m[2m Ôöé gzip:  65.41 kB[22m
+[2mdist/[22m[36massets/app-7FMR2fvU.js                  [39m[1m[2m583.71 kB[22m[1m[22m[2m Ôöé gzip: 165.13 kB[22m
+[32mÔ£ô built in 6.07s[39m
+
+[90m[vite-ssg][39m [33mBuild for server...[39m
+[36mvite v7.0.6 [32mbuilding SSR bundle for production...[36m[39m
+transforming...
+[33m"toast" is 
+imported from 
+external module 
+"sonner" but never 
+used in "src/component
+s/ui/sonner.tsx".[39m
+[32mÔ£ô[39m 64 modules transformed.
+[31mÔ£ù[39m Build 
+failed in 353ms
+node:internal/process/
+promises:394
+    triggerUncaughtExc
+eption(err, true /* 
+fromPromise */);
+    ^
+
+[31m"react" cannot 
+be included in 
+manualChunks because 
+it is resolved as an 
+external module by 
+the "external" option 
+or plugins.[39m
+    at getRollupError 
+(file:///C:/Users/admi
+n/node_modules/rollup/
+dist/es/shared/parseAs
+t.js:401:41)
+    at error (file:///
+C:/Users/admin/node_mo
+dules/rollup/dist/es/s
+hared/parseAst.js:397:
+42)
+    at ModuleLoader.lo
+adEntryModule (file://
+/C:/Users/admin/node_m
+odules/rollup/dist/es/
+shared/node-entry.js:2
+1517:20)
+    at async 
+Promise.all (index 0)
+    at async 
+Promise.all (index 0) 
+{
+  code: 'EXTERNAL_MODU
+LES_CANNOT_BE_INCLUDED
+_IN_MANUAL_CHUNKS'
+}
+
+Node.js v22.16.0

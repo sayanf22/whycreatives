@@ -86,6 +86,8 @@ export const PricingCard = React.forwardRef<HTMLDivElement, PricingCardProps>(
                     <img
                         src={imageUrl}
                         alt={service}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover grayscale opacity-80"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 to-transparent" />

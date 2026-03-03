@@ -108,6 +108,8 @@ export const About3 = ({
             <img
               src={mainImage.src}
               alt={mainImage.alt}
+              loading="lazy"
+              decoding="async"
               className="size-full max-h-[620px] rounded-3xl object-cover lg:col-span-2 shadow-2xl"
             />
             <div className="flex flex-col gap-7 md:flex-row lg:flex-col">
@@ -115,6 +117,8 @@ export const About3 = ({
                 <img
                   src={breakout.src}
                   alt={breakout.alt}
+                  loading="lazy"
+                  decoding="async"
                   className="mr-auto h-24 w-auto rounded-lg shadow-lg mb-4 object-cover"
                 />
                 <div>
@@ -130,6 +134,8 @@ export const About3 = ({
               <img
                 src={secondaryImage.src}
                 alt={secondaryImage.alt}
+                loading="lazy"
+                decoding="async"
                 className="grow basis-0 rounded-3xl object-cover md:w-1/2 lg:min-h-0 lg:w-auto shadow-2xl"
               />
             </div>
@@ -145,6 +151,8 @@ export const About3 = ({
                   <img
                     src={company.src}
                     alt={company.alt}
+                    loading="lazy"
+                    decoding="async"
                     className="h-6 w-auto md:h-8"
                   />
                 </div>

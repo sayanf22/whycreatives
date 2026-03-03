@@ -1,0 +1,31 @@
+/* TEAM */
+Company: WhyCreatives
+Location: Agartala, Tripura, India
+Contact: hello@whycreatives.in
+Phone: +91 81198 11655
+Website: https://whycreatives.in
+
+/* SERVICES */
+Video Production & Editing
+Web Design & Development
+Digital Marketing
+Brand Identity Design
+Motion Graphics & Animation
+Social Media Marketing
+
+/* SITE */
+Last update: 2025-12-02
+Language: English, Hindi, Bengali
+Standards: HTML5, CSS3, JavaScript
+Framework: React, Vite, TailwindCSS
+Hosting: Cloudflare Pages
+
+/* COVERAGE */
+Primary: Tripura, Northeast India
+Secondary: All India (28 States)
+Cities: Agartala, Guwahati, Shillong, Imphal, Kolkata, Delhi, Mumbai, Bangalore
+
+/* SOCIAL */
+Instagram: @whycreatives
+LinkedIn: WhyCreatives
+Twitter: @whycreatives

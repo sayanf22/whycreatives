@@ -20,7 +20,7 @@ export const supabase = createClient<Database>(
   SUPABASE_PUBLISHABLE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJlbnNranJ0dGFkaHB0cndub2J6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI5MzE2MTgsImV4cCI6MjA3ODUwNzYxOH0.w1njTYtB3x9QVErGQJJLsCWA3jv2LAsQQdt-2ZW0NoU',
   {
     auth: {
-      storage: localStorage,
+      storage: typeof window !== "undefined" ? window.localStorage : undefined,
       persistSession: true,
       autoRefreshToken: true,
       detectSessionInUrl: true,

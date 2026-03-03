@@ -3,6 +3,7 @@ import { Footer } from "@/components/Footer";
 import { Timeline } from "@/components/ui/timeline";
 import { FadeInWhenVisible } from "@/components/FadeInWhenVisible";
 import { Video, Globe, Share2, Megaphone, Sparkles, Palette } from "lucide-react";
+import { Helmet } from "react-helmet";
 
 const WhatWeDo = () => {
   const timelineData = [
@@ -254,8 +255,53 @@ const WhatWeDo = () => {
     },
   ];
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What video production services do you offer?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We offer full-service video production including professional cinematography, scriptwriting, advanced color grading, sound design, and drone videography."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do you build custom websites or use templates?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We provide high-performance custom full-stack web development, e-commerce solutions, PWAs, and custom UI/UX design systems optimized for conversions."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much does professional video marketing cost?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Our professional video editing starts from ₹6,999. Web design starts from ₹4,999. We offer agency-level performance at highly affordable pricing across India."
+        }
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>Creative Services | Web Design, Video Production & Marketing</title>
+        <meta name="description" content="Discover WhyCreatives' premium services: High-end video production, custom web development, performance marketing, and branding. Award-winning agency quality at affordable prices." />
+        <meta name="keywords" content="creative services, video production agency, web development company, digital marketing services, branding agency, logo design, performance marketing" />
+        <link rel="canonical" href="https://whycreatives.in/what-we-do" />
+        <meta property="og:title" content="Creative Services | Web Design, Video Production & Marketing" />
+        <meta property="og:description" content="Discover WhyCreatives' premium services. Award-winning agency quality at affordable prices." />
+        <meta property="og:url" content="https://whycreatives.in/what-we-do" />
+        <meta property="og:type" content="website" />
+        <script type="application/ld+json">
+          {JSON.stringify(faqSchema)}
+        </script>
+      </Helmet>
+
       <Navigation />
       <FadeInWhenVisible>
         <div className="pt-20">

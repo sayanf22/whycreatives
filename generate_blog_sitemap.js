@@ -11,7 +11,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 async function generateBlogSitemap() {
   console.log('Fetching insights from Supabase...');
-  
+
   const { data: insights, error } = await supabase
     .from('insights')
     .select('slug, published_at, updated_at')
@@ -26,7 +26,7 @@ async function generateBlogSitemap() {
   console.log(`Found ${insights.length} published insights`);
 
   const today = new Date().toISOString().split('T')[0];
-  
+
   let xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- 
@@ -45,10 +45,10 @@ async function generateBlogSitemap() {
 `;
 
   for (const insight of insights) {
-    const lastmod = insight.updated_at 
-      ? insight.updated_at.split('T')[0] 
+    const lastmod = insight.updated_at
+      ? insight.updated_at.split('T')[0]
       : insight.published_at?.split('T')[0] || today;
-    
+
     xml += `
   <url>
     <loc>https://whycreatives.in/insights/${insight.slug}</loc>
@@ -62,7 +62,15 @@ async function generateBlogSitemap() {
 
   fs.writeFileSync('public/sitemap-blog.xml', xml);
   console.log('✓ Generated public/sitemap-blog.xml');
-  
+
+  // Also save the slugs for Vite SSG to pre-render
+  const blogRoutes = insights.map(b => `/insights/${b.slug}`);
+  // Add the main insights hub page
+  blogRoutes.push('/insights');
+  fs.mkdirSync('src/data', { recursive: true });
+  fs.writeFileSync('src/data/blogRoutes.json', JSON.stringify(blogRoutes, null, 2));
+  console.log('✓ Generated src/data/blogRoutes.json for Vite SSG');
+
   // Also update the main sitemap index
   const mainSitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

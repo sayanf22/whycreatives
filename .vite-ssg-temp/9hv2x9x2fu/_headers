@@ -1,0 +1,45 @@
+# WhyCreatives - Cloudflare Pages Headers
+# Optimized for SEO and performance
+
+# All pages
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# Static assets - long cache
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Images - long cache
+/*.png
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.jpg
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.svg
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.ico
+  Cache-Control: public, max-age=31536000, immutable
+
+# Sitemaps - short cache for frequent updates
+/sitemap*.xml
+  Cache-Control: public, max-age=3600
+  Content-Type: application/xml
+
+# Robots.txt - short cache
+/robots.txt
+  Cache-Control: public, max-age=3600
+  Content-Type: text/plain
+
+# JSON files
+/*.json
+  Cache-Control: public, max-age=3600
+  Content-Type: application/json
+
+# HTML pages - no cache for fresh content
+/*.html
+  Cache-Control: no-cache

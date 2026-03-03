@@ -24,6 +24,7 @@ const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const LocationPage = lazy(() => import("./pages/LocationPage"));
+const AllLocations = lazy(() => import("./pages/AllLocations"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -56,39 +57,43 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
-          <ScrollToTop />
-          <Suspense fallback={<PageLoader />}>
-            <Routes>
-              {/* Main Pages */}
-              <Route path="/" element={<Index />} />
-              <Route path="/what-we-do" element={<WhatWeDo />} />
-              <Route path="/our-work" element={<OurWork />} />
-              <Route path="/portfolio-gallery" element={<PortfolioGallery />} />
-              <Route path="/insights" element={<Insights />} />
-              <Route path="/insights/:slug" element={<InsightArticle />} />
-              <Route path="/about-us" element={<AboutUs />} />
-              <Route path="/people" element={<People />} />
-              <Route path="/join-us" element={<JoinUs />} />
-              <Route path="/pricing-comparison" element={<Comparison />} />
-              <Route path="/contact" element={<ContactPage />} />
+        <Toaster />
+        <Sonner />
+        <ScrollToTop />
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            {/* Main Pages */}
+            <Route path="/" element={<Index />} />
+            <Route path="/what-we-do" element={<WhatWeDo />} />
+            <Route path="/our-work" element={<OurWork />} />
+            <Route path="/portfolio-gallery" element={<PortfolioGallery />} />
+            <Route path="/insights" element={<Insights />} />
+            <Route path="/insights/:slug" element={<InsightArticle />} />
+            <Route path="/about-us" element={<AboutUs />} />
+            <Route path="/people" element={<People />} />
+            <Route path="/join-us" element={<JoinUs />} />
+            <Route path="/pricing-comparison" element={<Comparison />} />
+            <Route path="/contact" element={<ContactPage />} />
 
-              {/* Admin Routes */}
-              <Route path="/admin-login" element={<AdminLogin />} />
-              <Route path="/admindashboard" element={<AdminDashboard />} />
+            {/* Admin Routes */}
+            <Route path="/admin-login" element={<AdminLogin />} />
+            <Route path="/admindashboard" element={<AdminDashboard />} />
 
-              {/* Redirects */}
-              <Route path="/comparison" element={<Navigate to="/pricing-comparison" replace />} />
+            {/* Redirects */}
+            <Route path="/comparison" element={<Navigate to="/pricing-comparison" replace />} />
 
-              {/* SEO Location Pages - Professional Landing Pages */}
-              <Route path="/:location" element={<LocationPage />} />
+            {/* SEO Location Pages - Professional Landing Pages */}
+            <Route path="/areas-we-serve" element={<AllLocations />} />
+            <Route path="/:location" element={<LocationPage />} />
 
-              {/* 404 Page */}
-              <Route path="/404" element={<NotFound />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
-        </BrowserRouter>
+            {/* SEO Services Catch-all */}
+            <Route path="/services/*" element={<Navigate to="/what-we-do" replace />} />
+
+            {/* 404 Page */}
+            <Route path="/404" element={<NotFound />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
       </TooltipProvider>
     </QueryClientProvider>
   </ThemeProvider>

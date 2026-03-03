@@ -74,6 +74,8 @@ export const FlightCard = React.forwardRef<HTMLDivElement, FlightCardProps>(
                     <img
                         src={imageUrl}
                         alt="View from airplane window"
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover"
                     />
                 </div>

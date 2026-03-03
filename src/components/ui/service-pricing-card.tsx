@@ -74,6 +74,8 @@ export const ServicePricingCard = React.forwardRef<HTMLDivElement, ServicePricin
                     <img
                         src={imageUrl}
                         alt={serviceName}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
