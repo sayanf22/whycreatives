@@ -175,7 +175,7 @@ export const Footer = () => {
                     <BlurRevealItem delay={0.45}>
                       <a
                         href="mailto:hello@whycreatives.in"
-                        className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors text-sm"
+                        className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors text-sm break-all"
                       >
                         <Mail className="w-4 h-4 flex-shrink-0" />
                         hello@whycreatives.in
