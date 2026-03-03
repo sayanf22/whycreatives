@@ -83,15 +83,15 @@ export const Navigation = () => {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className="fixed inset-0 z-50 bg-background"
+            className="fixed inset-0 z-50 bg-background/95 backdrop-blur-xl"
           >
-            <div className="h-full flex flex-col overflow-hidden">
+            <div className="h-full flex flex-col overflow-hidden relative">
               {/* Header with Logo - Fixed at top */}
               <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.4 }}
-                className="flex-shrink-0 bg-background z-10 border-b border-border/50"
+                className="flex-shrink-0 bg-transparent z-10 border-b border-border/10"
               >
                 <div className="container mx-auto px-6 lg:px-12 py-5 md:py-6 flex justify-between items-center">
                   <div className="flex items-center">

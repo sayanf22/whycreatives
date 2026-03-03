@@ -82,12 +82,10 @@ export const Footer = () => {
             {/* Logo & Description Column (Left) */}
             <div className="w-full lg:w-1/3 flex flex-col items-center sm:items-start text-center sm:text-left gap-6">
               <BlurReveal delay={0}>
-                <div className="p-4 bg-foreground dark:bg-transparent rounded-2xl flex items-center justify-center">
-                  <img
-                    src="/logo.png"
-                    alt="WhyCreatives Logo"
-                    className="h-16 sm:h-20 md:h-24 lg:h-32 w-auto object-contain invert dark:invert-0 dark:brightness-200"
-                  />
+                <div className="flex items-center sm:items-start">
+                  <span className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
+                    WhyCreatives
+                  </span>
                 </div>
               </BlurReveal>
               <BlurReveal delay={0.1}>
