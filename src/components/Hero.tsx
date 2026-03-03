@@ -69,7 +69,7 @@ export const Hero = ({ title, subtitle }: HeroProps) => {
   ];
 
   return (
-    <section className="min-h-screen flex flex-col justify-start md:justify-center px-5 sm:px-6 pt-28 sm:pt-32 md:pt-36 pb-10 sm:pb-12 relative overflow-x-hidden">
+    <section className="min-h-screen flex flex-col justify-start md:justify-center px-5 sm:px-6 pt-28 sm:pt-32 pb-10 sm:pb-12 relative overflow-x-hidden">
       <Spotlight
         className="hidden md:block -top-40 left-0 md:left-60 md:-top-20 opacity-20"
         fill="white"
@@ -90,7 +90,7 @@ export const Hero = ({ title, subtitle }: HeroProps) => {
                 </>
               )}
             </h1>
-            <p className="text-sm sm:text-xl md:text-2xl text-muted-foreground mb-5 sm:mb-12 leading-relaxed">
+            <p className="text-base sm:text-xl md:text-2xl text-muted-foreground mb-5 sm:mb-12 leading-relaxed">
               {subtitle || "Professional video editing, web design, and social media management. Transparent pricing. Zero hidden fees."}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
@@ -122,9 +122,9 @@ export const Hero = ({ title, subtitle }: HeroProps) => {
             className="relative w-full flex items-center justify-center animate-fade-in my-8 lg:my-0"
             style={{ animationDelay: "0.2s" }}
           >
-            {/* Mobile version - scaled to fit perfectly */}
-            <div className="lg:hidden w-[120%] -mx-[10%] h-[600px] flex items-center justify-center overflow-visible py-12">
-              <div className="w-full h-full scale-[0.85]">
+            {/* Mobile version - scaled to fit */}
+            <div className="lg:hidden w-full h-[350px] sm:h-[450px] flex items-center justify-center overflow-hidden">
+              <div className="w-full h-full flex items-center justify-center">
                 <RadialOrbitalTimeline timelineData={timelineData} />
               </div>
             </div>

@@ -62,7 +62,7 @@ const Insights = () => {
   const otherArticles = articles.slice(1);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a]">
+    <div className="min-h-screen bg-background text-foreground">
       <Helmet>
         <title>Insights & Resources | WhyCreatives - Marketing Tips & Strategies</title>
         <meta name="description" content="Expert insights on digital marketing, SEO, video production, and creative strategies for Indian businesses." />
@@ -79,19 +79,19 @@ const Insights = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-center max-w-3xl mx-auto"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full mb-6 border border-white/10">
-              <Sparkles className="w-4 h-4 text-yellow-400" />
-              <span className="text-sm text-white/70">Fresh insights every week</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-muted/50 rounded-full mb-6 border border-border">
+              <Sparkles className="w-4 h-4 text-emerald-500" />
+              <span className="text-sm text-muted-foreground">Fresh insights every week</span>
             </div>
-            
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-6 tracking-tight">
+
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-foreground mb-6 tracking-tight">
               Insights &{" "}
-              <span className="text-white/60">
+              <span className="text-muted-foreground">
                 Resources
               </span>
             </h1>
-            
-            <p className="text-xl text-white/60 leading-relaxed max-w-2xl mx-auto">
+
+            <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
               Expert perspectives on digital marketing, creative strategies, and business growth for Indian businesses.
             </p>
           </motion.div>
@@ -101,10 +101,10 @@ const Insights = () => {
         {loading && (
           <section className="max-w-6xl mx-auto px-6">
             <div className="grid lg:grid-cols-2 gap-8 mb-12">
-              <div className="bg-white/5 rounded-3xl p-8 animate-pulse h-[400px]" />
+              <div className="bg-muted/30 rounded-3xl p-8 animate-pulse h-[400px]" />
               <div className="space-y-6">
                 {[1, 2].map((i) => (
-                  <div key={i} className="bg-white/5 rounded-2xl p-6 animate-pulse h-[180px]" />
+                  <div key={i} className="bg-muted/30 rounded-2xl p-6 animate-pulse h-[180px]" />
                 ))}
               </div>
             </div>
@@ -141,28 +141,28 @@ const Insights = () => {
                   >
                     <Link
                       to={`/insights/${featuredArticle.slug}`}
-                      className="group block h-full bg-gradient-to-br from-white/10 to-white/5 rounded-3xl p-8 border border-white/10 hover:border-white/20 transition-all duration-300"
+                      className="group block h-full bg-card hover:bg-muted/50 rounded-3xl p-8 shadow-sm hover:shadow-md border border-border/50 hover:border-border transition-all duration-300"
                     >
                       <div className="flex items-center gap-3 mb-6">
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-xs font-semibold">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-full text-xs font-semibold">
                           <TrendingUp className="w-3 h-3" />
                           Featured
                         </span>
-                        <span className="text-xs text-white/40 uppercase tracking-wider">
+                        <span className="text-xs text-muted-foreground uppercase tracking-wider">
                           {featuredArticle.category}
                         </span>
                       </div>
-                      
-                      <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 leading-tight group-hover:text-white/90 transition-colors">
+
+                      <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4 leading-tight group-hover:text-primary transition-colors">
                         {featuredArticle.title}
                       </h2>
-                      
-                      <p className="text-white/60 mb-6 leading-relaxed line-clamp-3">
+
+                      <p className="text-muted-foreground mb-6 leading-relaxed line-clamp-3">
                         {featuredArticle.meta_description}
                       </p>
-                      
-                      <div className="flex items-center justify-between mt-auto pt-6 border-t border-white/10">
-                        <div className="flex items-center gap-4 text-sm text-white/40">
+
+                      <div className="flex items-center justify-between mt-auto pt-6 border-t border-border/50">
+                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
                           <span>{formatDate(featuredArticle.published_at)}</span>
                           {featuredArticle.read_time && (
                             <span className="flex items-center gap-1">
@@ -171,7 +171,7 @@ const Insights = () => {
                             </span>
                           )}
                         </div>
-                        <span className="flex items-center gap-2 text-white font-medium group-hover:gap-3 transition-all">
+                        <span className="flex items-center gap-2 text-foreground font-medium group-hover:gap-3 transition-all">
                           Read <ArrowRight className="w-4 h-4" />
                         </span>
                       </div>
@@ -190,34 +190,34 @@ const Insights = () => {
                     >
                       <Link
                         to={`/insights/${article.slug}`}
-                        className="group block bg-white/5 rounded-2xl p-6 border border-white/10 hover:border-white/20 hover:bg-white/[0.07] transition-all duration-300"
+                        className="group block bg-card hover:bg-muted/50 rounded-2xl p-6 shadow-sm hover:shadow-md border border-border/50 hover:border-border transition-all duration-300"
                       >
                         <div className="flex items-center gap-2 mb-3">
-                          <span className="text-xs text-white/40 uppercase tracking-wider">
+                          <span className="text-xs text-muted-foreground uppercase tracking-wider">
                             {article.category}
                           </span>
-                          <span className="text-white/20">•</span>
-                          <span className="text-xs text-white/40">
+                          <span className="text-muted-foreground/40">•</span>
+                          <span className="text-xs text-muted-foreground">
                             {formatDate(article.published_at)}
                           </span>
                         </div>
-                        
-                        <h3 className="text-xl font-bold text-white mb-2 group-hover:text-white/90 transition-colors line-clamp-2">
+
+                        <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
                           {article.title}
                         </h3>
-                        
-                        <p className="text-white/50 text-sm mb-4 line-clamp-2">
+
+                        <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
                           {article.meta_description}
                         </p>
-                        
+
                         <div className="flex items-center justify-between">
                           {article.read_time && (
-                            <span className="text-xs text-white/40 flex items-center gap-1">
+                            <span className="text-xs text-muted-foreground flex items-center gap-1">
                               <Clock className="w-3 h-3" />
                               {article.read_time} min read
                             </span>
                           )}
-                          <span className="text-sm text-white/60 flex items-center gap-1 group-hover:text-white group-hover:gap-2 transition-all">
+                          <span className="text-sm text-muted-foreground flex items-center gap-1 group-hover:text-foreground group-hover:gap-2 transition-all">
                             Read more <ArrowRight className="w-4 h-4" />
                           </span>
                         </div>
@@ -231,7 +231,7 @@ const Insights = () => {
             {/* All Articles Grid */}
             {otherArticles.length > 2 && (
               <section className="max-w-6xl mx-auto px-6">
-                <h2 className="text-2xl font-bold text-white mb-8">More Articles</h2>
+                <h2 className="text-2xl font-bold text-foreground mb-8">More Articles</h2>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {otherArticles.slice(2).map((article, i) => (
                     <motion.div
@@ -242,25 +242,25 @@ const Insights = () => {
                     >
                       <Link
                         to={`/insights/${article.slug}`}
-                        className="group block h-full bg-white/5 rounded-2xl p-6 border border-white/10 hover:border-white/20 hover:bg-white/[0.07] transition-all duration-300"
+                        className="group block h-full bg-card hover:bg-muted/50 rounded-2xl p-6 shadow-sm hover:shadow-md border border-border/50 hover:border-border transition-all duration-300"
                       >
-                        <span className="text-xs text-white/40 uppercase tracking-wider">
+                        <span className="text-xs text-muted-foreground uppercase tracking-wider">
                           {article.category}
                         </span>
-                        
-                        <h3 className="text-lg font-bold text-white mt-3 mb-2 group-hover:text-white/90 transition-colors line-clamp-2">
+
+                        <h3 className="text-lg font-bold text-foreground mt-3 mb-2 group-hover:text-primary transition-colors line-clamp-2">
                           {article.title}
                         </h3>
-                        
-                        <p className="text-white/50 text-sm mb-4 line-clamp-2">
+
+                        <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
                           {article.meta_description}
                         </p>
-                        
-                        <div className="flex items-center justify-between pt-4 border-t border-white/10 mt-auto">
-                          <span className="text-xs text-white/40">
+
+                        <div className="flex items-center justify-between pt-4 border-t border-border/50 mt-auto">
+                          <span className="text-xs text-muted-foreground">
                             {formatDate(article.published_at)}
                           </span>
-                          <span className="text-sm text-white/60 flex items-center gap-1 group-hover:text-white transition-colors">
+                          <span className="text-sm text-muted-foreground flex items-center gap-1 group-hover:text-foreground transition-colors">
                             Read <ArrowRight className="w-4 h-4" />
                           </span>
                         </div>
@@ -277,27 +277,27 @@ const Insights = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                className="relative overflow-hidden rounded-3xl bg-white/5 p-10 md:p-14 border border-white/10"
+                className="relative overflow-hidden rounded-3xl shadow-sm bg-card border border-border/50 p-10 md:p-14"
               >
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.03),transparent_50%)]" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(150,150,150,0.03),transparent_50%)]" />
                 <div className="relative text-center">
-                  <Sparkles className="w-10 h-10 text-white/40 mx-auto mb-4" />
-                  <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+                  <Sparkles className="w-10 h-10 text-muted-foreground mx-auto mb-4" />
+                  <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
                     Need Expert Creative Services?
                   </h2>
-                  <p className="text-white/60 mb-8 max-w-xl mx-auto text-lg">
+                  <p className="text-muted-foreground mb-8 max-w-xl mx-auto text-lg">
                     From video production to web design, we help Indian businesses grow with affordable, high-quality creative solutions.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <Link
                       to="/contact"
-                      className="inline-flex items-center justify-center gap-2 bg-white text-black px-8 py-4 rounded-full font-bold hover:bg-white/90 transition-all hover:scale-105"
+                      className="inline-flex items-center justify-center gap-2 bg-foreground text-background px-8 py-4 rounded-full font-bold hover:opacity-90 transition-all hover:scale-105"
                     >
                       Get Free Quote <ArrowRight className="w-5 h-5" />
                     </Link>
                     <Link
                       to="/what-we-do"
-                      className="inline-flex items-center justify-center gap-2 bg-white/10 text-white px-8 py-4 rounded-full font-bold hover:bg-white/20 transition-all border border-white/20"
+                      className="inline-flex items-center justify-center gap-2 bg-transparent text-foreground px-8 py-4 rounded-full font-bold hover:bg-muted transition-all border border-border/50"
                     >
                       View Services
                     </Link>

@@ -116,9 +116,16 @@ export default function RadialOrbitalTimeline({
     setRotationAngle(270 - targetAngle);
   };
 
+  const getRadius = () => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 640 ? 120 : 200;
+    }
+    return 200;
+  };
+
   const calculateNodePosition = (index: number, total: number) => {
     const angle = ((index / total) * 360 + rotationAngle) % 360;
-    const radius = 200;
+    const radius = getRadius();
     const radian = (angle * Math.PI) / 180;
     const x = radius * Math.cos(radian) + centerOffset.x;
     const y = radius * Math.sin(radian) + centerOffset.y;
@@ -179,7 +186,7 @@ export default function RadialOrbitalTimeline({
             <div className="w-8 h-8 rounded-full bg-background backdrop-blur-md border border-foreground/10"></div>
           </div>
 
-          <div className="absolute w-96 h-96 rounded-full border border-foreground/10"></div>
+          <div className="absolute w-64 h-64 sm:w-96 sm:h-96 rounded-full border border-foreground/10"></div>
 
           {timelineData.map((item, index) => {
             const position = calculateNodePosition(index, timelineData.length);
@@ -248,7 +255,7 @@ export default function RadialOrbitalTimeline({
                 </div>
 
                 {isExpanded && (
-                  <Card className="absolute top-20 left-1/2 -translate-x-1/2 w-64 bg-background/90 backdrop-blur-lg border-border shadow-xl shadow-foreground/10 overflow-visible">
+                  <Card className="absolute top-16 sm:top-20 left-1/2 -translate-x-1/2 w-52 sm:w-64 bg-card border-border shadow-xl shadow-foreground/10 overflow-visible z-50">
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-px h-3 bg-foreground/50"></div>
                     <CardHeader className="pb-2">
                       <div className="flex justify-between items-center">
