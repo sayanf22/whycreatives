@@ -61,15 +61,15 @@ export const Navigation = () => {
               WhyCreatives
             </span>
           </Link>
-          <div className="flex items-center gap-1 ml-auto">
+          <div className="flex items-center gap-0 ml-auto">
             <ThemeToggle />
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setIsOpen(true)}
-              className="text-foreground hover:bg-secondary/80 h-14 w-14 md:h-16 md:w-16 flex-shrink-0"
+              className="text-foreground hover:bg-secondary/80 h-10 w-10 md:h-12 md:w-12 flex-shrink-0"
             >
-              <Menu className="h-8 w-8 md:h-9 md:w-9" />
+              <Menu className="h-6 w-6 md:h-7 md:w-7" />
             </Button>
           </div>
         </div>
