@@ -11,44 +11,44 @@ import { getLocationData, getMisspellingRedirect, isValidLocationSlug } from "@/
 
 // Services with pricing
 const services = [
-  { 
-    icon: Video, 
-    name: "Video Production", 
+  {
+    icon: Video,
+    name: "Video Production",
     desc: "Professional editing, color grading, motion graphics & post-production",
     price: "₹6,999",
     duration: "3-5 Days"
   },
-  { 
-    icon: Globe, 
-    name: "Web Development", 
+  {
+    icon: Globe,
+    name: "Web Development",
     desc: "Modern, responsive, conversion-focused custom websites",
     price: "₹4,999",
     duration: "1 Week"
   },
-  { 
-    icon: Palette, 
-    name: "Brand Presence", 
+  {
+    icon: Palette,
+    name: "Brand Presence",
     desc: "Complete brand identity, visual guidelines & strategic positioning",
     price: "₹5,999/mo",
     duration: "Monthly"
   },
-  { 
-    icon: Megaphone, 
-    name: "Performance Marketing", 
+  {
+    icon: Megaphone,
+    name: "Performance Marketing",
     desc: "High ROI ad campaigns, SEO & targeted advertising",
     price: "₹4,999/mo",
     duration: "Ongoing"
   },
-  { 
-    icon: Sparkles, 
-    name: "Motion Graphics", 
+  {
+    icon: Sparkles,
+    name: "Motion Graphics",
     desc: "4K animations, explainers, visual effects & intros",
     price: "₹3,999",
     duration: "48 Hours"
   },
-  { 
-    icon: Share2, 
-    name: "Logo Design", 
+  {
+    icon: Share2,
+    name: "Logo Design",
     desc: "Unique, memorable logos with multiple concepts & revisions",
     price: "₹2,999",
     duration: "2-3 Days"
@@ -116,7 +116,7 @@ const timelineData = [
 
 const LocationPage = () => {
   const { location } = useParams<{ location: string }>();
-  
+
   if (!location) {
     return <Navigate to="/" replace />;
   }
@@ -153,7 +153,7 @@ const LocationPage = () => {
         <meta property="og:description" content={pageDescription} />
         <meta property="og:url" content={`https://whycreatives.in/${location}`} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://whycreatives.in/logo.png" />
+        <meta property="og:image" content="https://whycreatives.in/favicon.png" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={pageTitle} />
         <meta name="twitter:description" content={pageDescription} />
@@ -220,9 +220,9 @@ const LocationPage = () => {
           })}
         </script>
       </Helmet>
-      
+
       <Navigation />
-      
+
       <main>
         {/* Hero Section - Same style as homepage */}
         <section className="min-h-screen flex flex-col justify-start md:justify-center px-5 sm:px-6 pt-28 sm:pt-32 md:pt-36 pb-10 sm:pb-12 relative overflow-x-hidden">
@@ -348,7 +348,7 @@ const LocationPage = () => {
                 </p>
               </div>
             </FadeInWhenVisible>
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {services.map((service, index) => (
                 <FadeInWhenVisible key={index} delay={index * 0.1}>
@@ -399,7 +399,7 @@ const LocationPage = () => {
                 </p>
               </div>
             </FadeInWhenVisible>
-            
+
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
               <FadeInWhenVisible delay={0.1}>
                 <div className="p-6 rounded-3xl bg-white/5 border border-white/10">

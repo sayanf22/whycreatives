@@ -48,46 +48,50 @@ const PageLoader = () => (
   </div>
 );
 
+import { ThemeProvider } from "@/components/ThemeProvider";
+
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <ScrollToTop />
-        <Suspense fallback={<PageLoader />}>
-          <Routes>
-            {/* Main Pages */}
-            <Route path="/" element={<Index />} />
-            <Route path="/what-we-do" element={<WhatWeDo />} />
-            <Route path="/our-work" element={<OurWork />} />
-            <Route path="/portfolio-gallery" element={<PortfolioGallery />} />
-            <Route path="/insights" element={<Insights />} />
-            <Route path="/insights/:slug" element={<InsightArticle />} />
-            <Route path="/about-us" element={<AboutUs />} />
-            <Route path="/people" element={<People />} />
-            <Route path="/join-us" element={<JoinUs />} />
-            <Route path="/pricing-comparison" element={<Comparison />} />
-            <Route path="/contact" element={<ContactPage />} />
-            
-            {/* Admin Routes */}
-            <Route path="/admin-login" element={<AdminLogin />} />
-            <Route path="/admindashboard" element={<AdminDashboard />} />
+  <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <ScrollToTop />
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              {/* Main Pages */}
+              <Route path="/" element={<Index />} />
+              <Route path="/what-we-do" element={<WhatWeDo />} />
+              <Route path="/our-work" element={<OurWork />} />
+              <Route path="/portfolio-gallery" element={<PortfolioGallery />} />
+              <Route path="/insights" element={<Insights />} />
+              <Route path="/insights/:slug" element={<InsightArticle />} />
+              <Route path="/about-us" element={<AboutUs />} />
+              <Route path="/people" element={<People />} />
+              <Route path="/join-us" element={<JoinUs />} />
+              <Route path="/pricing-comparison" element={<Comparison />} />
+              <Route path="/contact" element={<ContactPage />} />
 
-            {/* Redirects */}
-            <Route path="/comparison" element={<Navigate to="/pricing-comparison" replace />} />
-            
-            {/* SEO Location Pages - Professional Landing Pages */}
-            <Route path="/:location" element={<LocationPage />} />
+              {/* Admin Routes */}
+              <Route path="/admin-login" element={<AdminLogin />} />
+              <Route path="/admindashboard" element={<AdminDashboard />} />
 
-            {/* 404 Page */}
-            <Route path="/404" element={<NotFound />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Suspense>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
+              {/* Redirects */}
+              <Route path="/comparison" element={<Navigate to="/pricing-comparison" replace />} />
+
+              {/* SEO Location Pages - Professional Landing Pages */}
+              <Route path="/:location" element={<LocationPage />} />
+
+              {/* 404 Page */}
+              <Route path="/404" element={<NotFound />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  </ThemeProvider>
 );
 
 export default App;

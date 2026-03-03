@@ -60,7 +60,7 @@ export const ServicePricingCard = React.forwardRef<HTMLDivElement, ServicePricin
             <motion.div
                 ref={ref}
                 className={cn(
-                    "max-w-3xl w-full font-sans rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl bg-black/40 border border-white/10 backdrop-blur-md my-4 sm:my-6",
+                    "max-w-3xl w-full font-sans rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_10px_40px_-10px_rgba(0,0,0,0.12)] hover:shadow-[0_15px_50px_-10px_rgba(0,0,0,0.18)] dark:shadow-2xl bg-card border border-border/50 backdrop-blur-md transition-all duration-300 my-4 sm:my-6",
                     className
                 )}
                 variants={cardVariants}
@@ -104,35 +104,35 @@ export const ServicePricingCard = React.forwardRef<HTMLDivElement, ServicePricin
                         className="flex flex-col sm:flex-row items-center justify-between mb-8 gap-6 sm:gap-0"
                     >
                         <div className="text-center sm:text-left w-full sm:w-auto">
-                            <p className="text-xs sm:text-base text-neutral-400 mb-2 font-medium">Traditional Agency</p>
-                            <p className="text-2xl sm:text-3xl md:text-5xl font-bold text-neutral-600 line-through decoration-red-500/50 decoration-2">
+                            <p className="text-xs sm:text-base text-muted-foreground mb-2 font-medium">Traditional Agency</p>
+                            <p className="text-2xl sm:text-3xl md:text-5xl font-bold text-muted-foreground line-through decoration-red-500 decoration-2">
                                 {oldPrice}
                             </p>
-                            <p className="text-xs sm:text-sm text-neutral-500 mt-2 font-medium">{oldPriceLabel}</p>
+                            <p className="text-xs sm:text-sm text-muted-foreground mt-2 font-medium">{oldPriceLabel}</p>
                         </div>
 
                         <div className="text-center px-2 sm:px-4 flex flex-col items-center">
-                            <div className="flex items-center gap-2 sm:gap-3 my-2 justify-center opacity-50">
-                                <div className="h-px w-6 sm:w-8 md:w-16 bg-white/20" />
+                            <div className="flex items-center gap-2 sm:gap-3 my-2 justify-center opacity-70">
+                                <div className="h-px w-6 sm:w-8 md:w-16 bg-border" />
                                 <ArrowRight className="h-5 w-5 sm:h-6 sm:w-6 text-emerald-500" />
-                                <div className="h-px w-6 sm:w-8 md:w-16 bg-white/20" />
+                                <div className="h-px w-6 sm:w-8 md:w-16 bg-border" />
                             </div>
-                            <p className="text-[10px] sm:text-xs md:text-sm text-emerald-500 font-bold tracking-widest uppercase">SWITCH & SAVE</p>
+                            <p className="text-[10px] sm:text-xs md:text-sm text-emerald-600 dark:text-emerald-500 font-bold tracking-widest uppercase">SWITCH & SAVE</p>
                         </div>
 
                         <div className="text-center sm:text-right w-full sm:w-auto">
-                            <p className="text-xs sm:text-base text-emerald-400 mb-2 font-medium">WhyCreatives</p>
-                            <p className="text-3xl sm:text-4xl md:text-6xl font-black text-white shadow-emerald-glow">
+                            <p className="text-xs sm:text-base text-emerald-600 dark:text-emerald-400 mb-2 font-bold tracking-wide">WhyCreatives</p>
+                            <p className="text-3xl sm:text-4xl md:text-6xl font-black text-foreground drop-shadow-sm dark:shadow-emerald-glow">
                                 {newPrice}
                             </p>
-                            <p className="text-xs sm:text-sm text-neutral-400 mt-2 font-medium">{newPriceLabel}</p>
+                            <p className="text-xs sm:text-sm text-muted-foreground mt-2 font-medium">{newPriceLabel}</p>
                         </div>
                     </motion.div>
 
                     {/* Divider */}
                     <motion.div
                         variants={itemVariants}
-                        className="border-t border-dashed border-white/10 my-4 sm:my-6 md:my-8"
+                        className="border-t border-dashed border-border my-4 sm:my-6 md:my-8"
                     />
 
                     {/* Additional Details */}
@@ -153,8 +153,8 @@ export const ServicePricingCard = React.forwardRef<HTMLDivElement, ServicePricin
 ServicePricingCard.displayName = "ServicePricingCard";
 
 const InfoItem = ({ label, value }: { label: string; value: string }) => (
-    <div className="flex flex-col items-center px-2 sm:px-4">
-        <span className="text-[10px] sm:text-xs md:text-sm text-neutral-500 uppercase tracking-wider mb-1 sm:mb-2 font-semibold">{label}</span>
-        <span className="font-bold text-white text-xs sm:text-base md:text-lg text-center">{value}</span>
+    <div className="flex flex-col items-center px-2 sm:px-4 w-1/3">
+        <span className="text-[10px] sm:text-xs md:text-sm text-muted-foreground uppercase tracking-wider mb-1 sm:mb-2 font-semibold">{label}</span>
+        <span className="font-bold text-foreground text-xs sm:text-base md:text-lg text-center">{value}</span>
     </div>
 );

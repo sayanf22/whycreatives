@@ -17,7 +17,7 @@ function FloatingPaths({ position }: { position: number }) {
     return (
         <div className="absolute inset-0 pointer-events-none">
             <svg
-                className="w-full h-full text-white"
+                className="w-full h-full text-foreground"
                 viewBox="0 0 696 316"
                 fill="none"
             >
@@ -61,7 +61,7 @@ export function BackgroundPaths({
     const words = title.split(" ");
 
     return (
-        <div className="relative min-h-[60vh] w-full flex items-center justify-center overflow-hidden bg-black">
+        <div className="relative min-h-[60vh] w-full flex items-center justify-center overflow-hidden bg-background">
             <div className="absolute inset-0">
                 <FloatingPaths position={1} />
                 <FloatingPaths position={-1} />
@@ -95,7 +95,7 @@ export function BackgroundPaths({
                                             stiffness: 150,
                                             damping: 25,
                                         }}
-                                        className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-white to-white/80"
+                                        className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-foreground to-foreground/80"
                                     >
                                         {letter}
                                     </motion.span>
@@ -109,7 +109,7 @@ export function BackgroundPaths({
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 1, duration: 0.8 }}
-                        className="text-xl text-gray-300 mb-10"
+                        className="text-xl text-muted-foreground mb-10"
                     >
                         {description}
                     </motion.p>
@@ -119,11 +119,11 @@ export function BackgroundPaths({
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ delay: 1.2, duration: 0.5 }}
-                        className="inline-block group relative bg-gradient-to-b from-white/10 to-black/10 p-px rounded-2xl backdrop-blur-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
+                        className="inline-block group relative bg-gradient-to-b from-foreground/10 to-transparent p-px rounded-2xl backdrop-blur-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
                     >
                         <Button
                             variant="ghost"
-                            className="rounded-[1.15rem] px-8 py-6 text-lg font-semibold backdrop-blur-md bg-black/95 hover:bg-black/100 text-white transition-all duration-300 group-hover:-translate-y-0.5 border border-white/10 hover:shadow-md hover:shadow-neutral-800/50"
+                            className="rounded-[1.15rem] px-8 py-6 text-lg font-semibold backdrop-blur-md bg-background hover:bg-muted text-foreground transition-all duration-300 group-hover:-translate-y-0.5 border border-border hover:shadow-md"
                             onClick={() => window.location.href = buttonLink}
                         >
                             <span className="opacity-90 group-hover:opacity-100 transition-opacity">

@@ -29,13 +29,13 @@ function DisplayCard({
       )}
     >
       <div>
-        <span className="relative inline-block rounded-full bg-white/10 p-2">
+        <span className="relative inline-block rounded-full bg-foreground/10 p-2">
           {icon}
         </span>
         <p className={cn("text-xl font-bold", titleClassName)}>{title}</p>
       </div>
-      <p className="whitespace-nowrap text-lg font-medium text-white">{description}</p>
-      <p className="text-neutral-300 font-medium">{date}</p>
+      <p className="whitespace-nowrap text-lg font-medium text-foreground">{description}</p>
+      <p className="text-muted-foreground font-medium">{date}</p>
     </div>
   );
 }

@@ -5,7 +5,7 @@ export default function PricingHero() {
     <section className="bg-background py-12 sm:py-16 lg:py-24 relative overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4 sm:mb-6">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-4 sm:mb-6">
             Premium Quality At
             <br className="hidden sm:block" />
             <span className="block sm:inline"> Affordable Prices</span>

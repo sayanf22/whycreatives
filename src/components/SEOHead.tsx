@@ -15,7 +15,7 @@ export const SEOHead = ({
   title,
   description,
   canonical,
-  ogImage = 'https://whycreatives.in/logo.png',
+  ogImage = 'https://whycreatives.in/favicon.png',
   ogType = 'website',
   keywords,
   schema,
@@ -51,7 +51,7 @@ export const SEOHead = ({
     // Set meta tags
     setMeta('description', description);
     setMeta('robots', noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large');
-    
+
     if (keywords) {
       setMeta('keywords', keywords);
     }
@@ -147,7 +147,7 @@ export const generateLocalBusinessSchema = (city: string, coords?: { lat: number
   '@type': 'LocalBusiness',
   '@id': `https://whycreatives.in/${city.toLowerCase()}#localbusiness`,
   name: `WhyCreatives - Creative Agency ${city}`,
-  image: 'https://whycreatives.in/logo.png',
+  image: 'https://whycreatives.in/favicon.png',
   url: `https://whycreatives.in/${city.toLowerCase()}`,
   telephone: '+918119811655',
   email: 'hello@whycreatives.in',

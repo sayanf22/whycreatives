@@ -3,6 +3,7 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const menuItems = [
   { label: "What We Do", href: "/what-we-do" },
@@ -37,7 +38,7 @@ export const Navigation = () => {
       document.body.style.overflow = "";
       document.body.style.touchAction = "";
     }
-    
+
     return () => {
       document.body.style.overflow = "";
       document.body.style.touchAction = "";
@@ -51,24 +52,26 @@ export const Navigation = () => {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-          scrolled ? "bg-background/95 backdrop-blur-sm border-b border-border" : "bg-transparent"
-        }`}
+        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${scrolled ? "bg-background/95 backdrop-blur-sm border-b border-border" : "bg-transparent"
+          }`}
       >
         <div className="container mx-auto px-6 lg:px-16 py-5 md:py-6 flex justify-between items-center">
           <Link to="/" className="flex items-center transition-transform hover:scale-105 duration-300">
-            <span className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground">
+            <span className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
               WhyCreatives
             </span>
           </Link>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsOpen(true)}
-            className="text-foreground hover:bg-secondary/80 h-14 w-14 md:h-16 md:w-16 flex-shrink-0"
-          >
-            <Menu className="h-8 w-8 md:h-9 md:w-9" />
-          </Button>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsOpen(true)}
+              className="text-foreground hover:bg-secondary/80 h-14 w-14 md:h-16 md:w-16 flex-shrink-0"
+            >
+              <Menu className="h-8 w-8 md:h-9 md:w-9" />
+            </Button>
+          </div>
         </div>
       </nav>
 
@@ -84,16 +87,18 @@ export const Navigation = () => {
           >
             <div className="h-full flex flex-col overflow-hidden">
               {/* Header with Logo - Fixed at top */}
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.4 }}
                 className="flex-shrink-0 bg-background z-10 border-b border-border/50"
               >
                 <div className="container mx-auto px-6 lg:px-12 py-5 md:py-6 flex justify-between items-center">
-                  <span className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground">
-                    WhyCreatives
-                  </span>
+                  <div className="flex items-center">
+                    <span className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-foreground">
+                      WhyCreatives
+                    </span>
+                  </div>
                   <Button
                     variant="ghost"
                     size="icon"
@@ -106,7 +111,7 @@ export const Navigation = () => {
               </motion.div>
 
               {/* Menu Items - Scrollable content */}
-              <div 
+              <div
                 className="flex-1 overflow-y-auto overflow-x-hidden"
                 style={{
                   WebkitOverflowScrolling: 'touch',
@@ -119,12 +124,12 @@ export const Navigation = () => {
                     {menuItems.map((item, index) => (
                       <motion.div
                         key={item.label}
-                        initial={{ 
-                          opacity: 0, 
+                        initial={{
+                          opacity: 0,
                           x: -30
                         }}
-                        animate={{ 
-                          opacity: 1, 
+                        animate={{
+                          opacity: 1,
                           x: 0
                         }}
                         transition={{
@@ -147,7 +152,7 @@ export const Navigation = () => {
               </div>
 
               {/* Footer - Fixed at bottom */}
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5, duration: 0.4 }}
