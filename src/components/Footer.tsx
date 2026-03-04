@@ -20,56 +20,6 @@ const footerLinks = {
     { name: "Contact", href: "/contact" },
     { name: "Careers", href: "/join-us" },
   ],
-  locations: [
-    { name: "Agartala", href: "/agartala" },
-    { name: "Agra", href: "/agra" },
-    { name: "Ahmedabad", href: "/ahmedabad" },
-    { name: "Amritsar", href: "/amritsar" },
-    { name: "Bangalore", href: "/bangalore" },
-    { name: "Bhopal", href: "/bhopal" },
-    { name: "Bhubaneswar", href: "/bhubaneswar" },
-    { name: "Chandigarh", href: "/chandigarh" },
-    { name: "Chennai", href: "/chennai" },
-    { name: "Coimbatore", href: "/coimbatore" },
-    { name: "Dehradun", href: "/dehradun" },
-    { name: "Delhi", href: "/delhi" },
-    { name: "Faridabad", href: "/faridabad" },
-    { name: "Ghaziabad", href: "/ghaziabad" },
-    { name: "Goa", href: "/goa" },
-    { name: "Gurgaon", href: "/gurgaon" },
-    { name: "Guwahati", href: "/guwahati" },
-    { name: "Hyderabad", href: "/hyderabad" },
-    { name: "Indore", href: "/indore" },
-    { name: "Jaipur", href: "/jaipur" },
-    { name: "Jodhpur", href: "/jodhpur" },
-    { name: "Kanpur", href: "/kanpur" },
-    { name: "Kochi", href: "/kochi" },
-    { name: "Kolkata", href: "/kolkata" },
-    { name: "Lucknow", href: "/lucknow" },
-    { name: "Ludhiana", href: "/ludhiana" },
-    { name: "Madurai", href: "/madurai" },
-    { name: "Meerut", href: "/meerut" },
-    { name: "Mumbai", href: "/mumbai" },
-    { name: "Mysore", href: "/mysore" },
-    { name: "Nagpur", href: "/nagpur" },
-    { name: "Nashik", href: "/nashik" },
-    { name: "Navi Mumbai", href: "/navi-mumbai" },
-    { name: "Noida", href: "/noida" },
-    { name: "Patna", href: "/patna" },
-    { name: "Pune", href: "/pune" },
-    { name: "Raipur", href: "/raipur" },
-    { name: "Rajkot", href: "/rajkot" },
-    { name: "Ranchi", href: "/ranchi" },
-    { name: "Shillong", href: "/shillong" },
-    { name: "Siliguri", href: "/siliguri" },
-    { name: "Surat", href: "/surat" },
-    { name: "Thane", href: "/thane" },
-    { name: "Thiruvananthapuram", href: "/thiruvananthapuram" },
-    { name: "Vadodara", href: "/vadodara" },
-    { name: "Varanasi", href: "/varanasi" },
-    { name: "Vijayawada", href: "/vijayawada" },
-    { name: "Visakhapatnam", href: "/visakhapatnam" }
-  ],
 };
 
 export const Footer = () => {
@@ -188,30 +138,43 @@ export const Footer = () => {
                 </ul>
               </div>
 
-              {/* Locations Column - Takes up 2 cols on md screens due to size */}
+              {/* Locations Column */}
               <div className="md:col-span-2">
                 <BlurReveal delay={0.3}>
-                  <h3 className="text-foreground font-bold text-sm uppercase tracking-wider mb-6">Locations We Serve</h3>
+                  <h3 className="text-foreground font-bold text-sm uppercase tracking-wider mb-4">We Serve Across India</h3>
+                  <p className="text-muted-foreground text-sm mb-4">
+                    Delivering premium creative services to 250+ cities across all 28 states and 8 union territories.
+                  </p>
                 </BlurReveal>
-                <ul className="columns-2 sm:columns-3 gap-4 space-y-3">
-                  {footerLinks.locations.map((link, index) => (
-                    <li key={link.name} className="break-inside-avoid">
-                      <BlurRevealItem delay={0.35 + 0.02 * (index % 10)}>
-                        <Link
-                          to={link.href}
-                          className="text-muted-foreground hover:text-foreground transition-colors text-sm whitespace-nowrap"
-                        >
-                          {link.name}
-                        </Link>
-                      </BlurRevealItem>
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-6">
-                  <Link to="/areas-we-serve" className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-semibold transition-colors">
+                <BlurReveal delay={0.35}>
+                  <div className="flex flex-wrap gap-2 mb-5">
+                    {[
+                      { name: "Mumbai", href: "/mumbai" },
+                      { name: "Delhi", href: "/delhi" },
+                      { name: "Bangalore", href: "/bangalore" },
+                      { name: "Kolkata", href: "/kolkata" },
+                      { name: "Chennai", href: "/chennai" },
+                      { name: "Hyderabad", href: "/hyderabad" },
+                    ].map((city) => (
+                      <Link
+                        key={city.name}
+                        to={city.href}
+                        className="text-muted-foreground hover:text-foreground text-sm transition-colors"
+                      >
+                        {city.name}
+                        <span className="text-border ml-2">·</span>
+                      </Link>
+                    ))}
+                  </div>
+                </BlurReveal>
+                <BlurReveal delay={0.4}>
+                  <Link
+                    to="/areas-we-serve"
+                    className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-semibold text-sm transition-colors"
+                  >
                     View All 250+ Service Areas <ArrowRight className="w-4 h-4" />
                   </Link>
-                </div>
+                </BlurReveal>
               </div>
 
               {/* Contact Column */}

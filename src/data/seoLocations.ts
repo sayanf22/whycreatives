@@ -421,14 +421,14 @@ export const misspellingRedirects: Record<string, string> = {
   "agartal": "agartala",
   "agartaal": "agartala",
   "agartela": "agartala",
-  
+
   // Tripura misspellings
   "tripuara": "tripura",
   "tripuraa": "tripura",
   "tripra": "tripura",
   "tripur": "tripura",
   "tripoor": "tripura",
-  
+
   // Guwahati misspellings
   "guwahti": "guwahati",
   "guwhati": "guwahati",
@@ -437,33 +437,33 @@ export const misspellingRedirects: Record<string, string> = {
   "guwahathi": "guwahati",
   "guwahaty": "guwahati",
   "guwahat": "guwahati",
-  
+
   // Shillong misspellings
   "shilong": "shillong",
   "shilling": "shillong",
   "shilongg": "shillong",
-  
+
   // Kolkata misspellings
   "kolkatta": "kolkata",
   "kolkta": "kolkata",
   "kolkatha": "kolkata",
   "calcutta": "kolkata",
   "kolkota": "kolkata",
-  
+
   // Delhi misspellings
   "dilli": "delhi",
   "dehli": "delhi",
   "delhii": "delhi",
   "delih": "delhi",
   "deli": "delhi",
-  
+
   // Mumbai misspellings
   "mumbaii": "mumbai",
   "mumabi": "mumbai",
   "mubai": "mumbai",
   "bombay": "mumbai",
   "mumbay": "mumbai",
-  
+
   // Bangalore misspellings
   "banglore": "bangalore",
   "bangalor": "bangalore",
@@ -471,87 +471,87 @@ export const misspellingRedirects: Record<string, string> = {
   "bangluru": "bengaluru",
   "bengalure": "bengaluru",
   "bangaluru": "bengaluru",
-  
+
   // Hyderabad misspellings
   "hydrabad": "hyderabad",
   "hyderabd": "hyderabad",
   "hiderabad": "hyderabad",
   "hyderabadh": "hyderabad",
   "hyderabaad": "hyderabad",
-  
+
   // Chennai misspellings
   "chenai": "chennai",
   "chennaii": "chennai",
   "chennnai": "chennai",
   "madras": "chennai",
   "chenna": "chennai",
-  
+
   // Pune misspellings
   "puna": "pune",
   "punne": "pune",
   "poona": "pune",
   "pone": "pune",
-  
+
   // Ahmedabad misspellings
   "ahemdabad": "ahmedabad",
   "ahmedabd": "ahmedabad",
   "ahmadabad": "ahmedabad",
   "ahmdabad": "ahmedabad",
-  
+
   // Jaipur misspellings
   "jaipr": "jaipur",
   "jaipure": "jaipur",
   "jaypur": "jaipur",
   "jaiur": "jaipur",
-  
+
   // Lucknow misspellings
   "lucknw": "lucknow",
   "luckno": "lucknow",
   "luknow": "lucknow",
   "lakhnow": "lucknow",
-  
+
   // Imphal misspellings
   "impal": "imphal",
   "impahl": "imphal",
   "imfal": "imphal",
   "imphl": "imphal",
-  
+
   // Aizawl misspellings
   "aizwal": "aizawl",
   "aizawal": "aizawl",
   "aizawll": "aizawl",
   "aizal": "aizawl",
-  
+
   // Kohima misspellings
   "kohma": "kohima",
   "kohimaa": "kohima",
   "koheema": "kohima",
   "kohim": "kohima",
-  
+
   // Itanagar misspellings
   "itangar": "itanagar",
   "itanagarr": "itanagar",
   "itanagr": "itanagar",
   "itanagaar": "itanagar",
-  
+
   // Gangtok misspellings
   "gangtk": "gangtok",
   "gangtokk": "gangtok",
   "gangtak": "gangtok",
   "gangtook": "gangtok",
-  
+
   // Silchar misspellings
   "silchr": "silchar",
   "silcharr": "silchar",
   "silcar": "silchar",
   "silchaar": "silchar",
-  
+
   // Dibrugarh misspellings
   "dibrugrah": "dibrugarh",
   "dibrughar": "dibrugarh",
   "dibrugar": "dibrugarh",
   "dibrugaarh": "dibrugarh",
-  
+
   // Service-related misspellings
   "vedio": "video",
   "vidio": "video",
@@ -1188,9 +1188,9 @@ export const locationSEOData: Record<string, LocationSEO> = {
     name: "Mumbai",
     state: "Maharashtra",
     region: "West India",
-    description: "India's financial capital meets India's most affordable creative agency. Get Bollywood-quality video editing and world-class web design at a fraction of Mumbai prices.",
-    tagline: "Bollywood Quality, Smart Pricing",
-    highlights: ["Film industry quality", "Startup-friendly rates", "24/7 availability", "Premium deliverables"],
+    description: "India's financial capital deserves world-class creative solutions. WhyCreatives delivers premium video production, web design, and digital marketing for Mumbai's ambitious businesses — at rates that make enterprise-quality accessible to everyone.",
+    tagline: "Premium Creativity, Smart Pricing",
+    highlights: ["Enterprise-grade quality", "Startup-friendly rates", "24/7 availability", "Premium deliverables"],
     population: "2 crore+",
     keywords: ["video editing mumbai", "web design mumbai", "digital marketing mumbai", "creative agency mumbai", "best agency in mumbai"],
     misspellings: ["mumbaii", "mumabi", "mubai", "bombay", "mumbay"],
@@ -1633,7 +1633,7 @@ export function getLocationData(slug: string): LocationSEO | null {
   if (correctedSlug && locationSEOData[correctedSlug]) {
     return locationSEOData[correctedSlug];
   }
-  
+
   // Direct lookup
   if (locationSEOData[slug]) {
     return locationSEOData[slug];
@@ -1645,7 +1645,7 @@ export function getLocationData(slug: string): LocationSEO | null {
       .split('-')
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
-      
+
     // Categorize generic vs specific
     const isBrand = slug.includes('creative') || slug.includes('ycreative');
     const name = isBrand ? "India" : formattedName;
@@ -1664,7 +1664,7 @@ export function getLocationData(slug: string): LocationSEO | null {
       priority: 0.8
     };
   }
-  
+
   return null;
 }
 
