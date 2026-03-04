@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node generate_blog_sitemap.js && npx vite-react-ssg build",
+    "build": "node generate_blog_sitemap.js && vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
