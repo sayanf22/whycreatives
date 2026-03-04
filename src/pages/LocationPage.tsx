@@ -3,7 +3,7 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { FadeInWhenVisible } from "@/components/FadeInWhenVisible";
 import { Link, useParams, Navigate } from "react-router-dom";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { Spotlight } from "@/components/ui/spotlight-aceternity";
 import { ArrowRight, Video, Globe, Share2, Megaphone, Sparkles, Palette, Phone, Mail, MapPin, Star, Users, Clock, Shield, CheckCircle2, TrendingUp } from "lucide-react";
 import RadialOrbitalTimeline from "@/components/ui/radial-orbital-timeline";

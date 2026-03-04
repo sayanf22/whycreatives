@@ -1,6 +1,6 @@
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { validLocationSlugs } from "@/data/seoLocations";
 import { MapPin } from "lucide-react";

@@ -4,7 +4,7 @@ import { Footer } from "@/components/Footer";
 import { Link } from "react-router-dom";
 import { Clock, ArrowRight, Sparkles, BookOpen, TrendingUp } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 
 interface Article {

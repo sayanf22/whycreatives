@@ -8,7 +8,7 @@ import { Testimonials } from "@/components/Testimonials";
 import { CTA } from "@/components/CTA";
 import { GooeySection } from "@/components/GooeySection";
 import { Footer } from "@/components/Footer";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const Index = () => {
   const organizationSchema = {

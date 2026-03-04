@@ -3,7 +3,7 @@ import { Footer } from "@/components/Footer";
 import { Timeline } from "@/components/ui/timeline";
 import { FadeInWhenVisible } from "@/components/FadeInWhenVisible";
 import { Video, Globe, Share2, Megaphone, Sparkles, Palette } from "lucide-react";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const WhatWeDo = () => {
   const timelineData = [

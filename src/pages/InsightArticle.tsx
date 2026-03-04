@@ -4,7 +4,7 @@ import { Link, useParams, Navigate } from "react-router-dom";
 import { Clock, ArrowLeft, User, Calendar, Share2, Bookmark, ChevronRight } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { motion } from "framer-motion";
