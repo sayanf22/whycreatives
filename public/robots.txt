@@ -168,7 +168,7 @@ Sitemap: https://whycreatives.in/sitemap.xml
 Sitemap: https://whycreatives.in/sitemap-pages.xml
 Sitemap: https://whycreatives.in/sitemap-services.xml
 Sitemap: https://whycreatives.in/sitemap-locations.xml
-Sitemap: https://whycreatives.in/api/sitemap-blog
+Sitemap: https://whycreatives.in/sitemap-blog.xml
 
 # ============================================
 # DUPLICATE CONTENT PREVENTION
@@ -180,8 +180,7 @@ Allow: /insights?page=
 # Block internal search results
 Disallow: /search?
 
-# Block hash fragments (handled client-side)
-Disallow: /*#
+# Note: Hash fragments are not sent to the server, so no need to disallow them
 
 # ============================================
 # HOST DIRECTIVE
