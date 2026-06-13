@@ -226,6 +226,7 @@ const AdminDashboard = () => {
       .from("portfolio-images")
       .upload(filePath, uploadFile, {
         contentType: file.type.startsWith("image/") ? "image/webp" : file.type,
+        cacheControl: "31536000",
       });
 
     if (uploadError) throw uploadError;

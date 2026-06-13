@@ -34,7 +34,16 @@ const PortfolioGallery = () => {
 
   const filteredItems = useMemo(() => {
     if (!portfolioItems) return [];
-    if (selectedCategory === "All") return portfolioItems;
+    if (selectedCategory === "All") {
+      // Sort video items first, keeping the display_order sorting within each group
+      return [...portfolioItems].sort((a, b) => {
+        const aIsVideo = a.category === "Video" || a.media_type === "video";
+        const bIsVideo = b.category === "Video" || b.media_type === "video";
+        if (aIsVideo && !bIsVideo) return -1;
+        if (!aIsVideo && bIsVideo) return 1;
+        return (a.display_order || 0) - (b.display_order || 0);
+      });
+    }
     return portfolioItems.filter((item) => item.category === selectedCategory);
   }, [portfolioItems, selectedCategory]);
 
