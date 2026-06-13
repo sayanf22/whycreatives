@@ -4,6 +4,7 @@ import { Carousel } from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
 import { FadeInWhenVisible } from "@/components/FadeInWhenVisible";
 import { usePortfolioWorks, getStorageUrl } from "@/hooks/use-portfolio-works";
+import { MediaRenderer } from "@/components/MediaRenderer";
 
 const OurWork = () => {
   const { data: portfolioWorks, isLoading } = usePortfolioWorks();
@@ -13,14 +14,13 @@ const OurWork = () => {
       key={work.id}
       className="border w-full relative overflow-hidden rounded-lg bg-card text-card-foreground aspect-[16/9]"
     >
-      <img
-        src={getStorageUrl(work.image_url)}
+      <MediaRenderer
+        url={getStorageUrl(work.image_url)}
+        mediaType={work.media_type}
         alt={work.title}
-        loading="lazy"
-        decoding="async"
         className="object-cover h-full w-full"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6 pointer-events-none">
         <div>
           <h3 className="text-2xl font-bold text-white mb-2">{work.title}</h3>
           <p className="text-white/80">{work.description}</p>

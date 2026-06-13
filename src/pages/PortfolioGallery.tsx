@@ -3,6 +3,7 @@ import { Footer } from "@/components/Footer";
 import { FadeInWhenVisible } from "@/components/FadeInWhenVisible";
 import { useState, useMemo } from "react";
 import { usePortfolioWorksByCategory, getStorageUrl } from "@/hooks/use-portfolio-works";
+import { MediaRenderer } from "@/components/MediaRenderer";
 
 const PortfolioGallery = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -79,14 +80,13 @@ const PortfolioGallery = () => {
                 key={item.id}
                 className="group relative overflow-hidden rounded-lg border border-white/10 bg-card hover:border-white/30 transition-all duration-300 cursor-pointer aspect-[4/3]"
               >
-                <img
-                  src={getStorageUrl(item.image_url)}
+                <MediaRenderer
+                  url={getStorageUrl(item.image_url)}
+                  mediaType={item.media_type}
                   alt={item.title}
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
                   <div className="absolute bottom-0 left-0 right-0 p-6">
                     <p className="text-sm text-white/70 mb-2">{item.category}</p>
                     <h3 className="text-xl font-bold text-white">{item.title}</h3>

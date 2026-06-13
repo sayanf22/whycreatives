@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Upload, Image as ImageIcon, Trash2, Plus, LogOut, RefreshCw } from "lucide-react";
+import { Upload, Image as ImageIcon, Trash2, Plus, LogOut, RefreshCw, Star, Play } from "lucide-react";
 import { usePortfolioWorks } from "@/hooks/use-portfolio-works";
 
 const AdminDashboard = () => {
@@ -84,6 +84,30 @@ const AdminDashboard = () => {
       });
     }
   };
+
+  const toggleFeatured = async (id: string, currentStatus: boolean) => {
+    try {
+      const { error } = await supabase
+        .from("portfolio_works")
+        .update({ is_featured: !currentStatus })
+        .eq("id", id);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: `Item updated to ${!currentStatus ? "Featured" : "Regular"}.`,
+      });
+      refetch();
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to update item.",
+        variant: "destructive",
+      });
+    }
+  };
+
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -96,6 +120,7 @@ const AdminDashboard = () => {
     imageUrl: "",
     tags: "",
     isFeatured: false,
+    mediaType: "image",
   });
 
   if (checkingAuth) {
@@ -116,6 +141,12 @@ const AdminDashboard = () => {
     const file = e.target.files?.[0];
     if (file) {
       setImageFile(file);
+      const isVideoFile = file.type.startsWith("video/");
+      setFormData((prev) => ({
+        ...prev,
+        mediaType: isVideoFile ? "video" : "image",
+      }));
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result as string);
@@ -150,13 +181,13 @@ const AdminDashboard = () => {
     try {
       let imageUrl = formData.imageUrl;
 
-      // Upload image if file is selected
+      // Upload image/video if file is selected
       if (imageFile) {
         imageUrl = await uploadImage(imageFile);
       }
 
       if (!imageUrl) {
-        throw new Error("Please provide an image");
+        throw new Error("Please provide an image or video");
       }
 
       const { error } = await supabase.from("portfolio_works").insert([
@@ -165,6 +196,7 @@ const AdminDashboard = () => {
           description: formData.description,
           category: formData.category,
           image_url: imageUrl,
+          media_type: formData.mediaType,
           is_featured: formData.isFeatured,
           display_order: 999,
         },
@@ -184,6 +216,7 @@ const AdminDashboard = () => {
         imageUrl: "",
         tags: "",
         isFeatured: false,
+        mediaType: "image",
       });
       setImageFile(null);
       setImagePreview("");
@@ -255,11 +288,18 @@ const AdminDashboard = () => {
                     key={item.id}
                     className="flex flex-col sm:flex-row sm:items-center gap-4 p-4 bg-white/5 rounded-lg border border-white/10 hover:border-white/20 transition-colors"
                   >
-                    <img
-                      src={item.image_url}
-                      alt={item.title}
-                      className="w-full sm:w-20 h-48 sm:h-20 object-cover rounded-md"
-                    />
+                    <div className="relative w-full sm:w-20 h-48 sm:h-20 flex-shrink-0">
+                      <img
+                        src={item.image_url}
+                        alt={item.title}
+                        className="w-full h-full object-cover rounded-md"
+                      />
+                      {item.media_type === "video" && (
+                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center rounded-md">
+                          <Play className="w-6 h-6 text-white" fill="white" />
+                        </div>
+                      )}
+                    </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="text-white font-semibold text-lg sm:text-base truncate">{item.title}</h3>
                       <p className="text-sm text-muted-foreground truncate">
@@ -271,7 +311,18 @@ const AdminDashboard = () => {
                         </span>
                       )}
                     </div>
-                    <div className="flex justify-end w-full sm:w-auto">
+                    <div className="flex flex-wrap items-center gap-2 justify-end w-full sm:w-auto">
+                      <Button
+                        onClick={() => toggleFeatured(item.id, !!item.is_featured)}
+                        variant="outline"
+                        size="sm"
+                        className={`w-full sm:w-auto border-white/20 hover:bg-white/10 ${
+                          item.is_featured ? "text-yellow-400 border-yellow-400/50 hover:text-yellow-500" : "text-white"
+                        }`}
+                      >
+                        <Star className="w-4 h-4 mr-2" fill={item.is_featured ? "currentColor" : "none"} />
+                        <span>{item.is_featured ? "Featured" : "Feature"}</span>
+                      </Button>
                       <Button
                         onClick={() => handleDelete(item.id, item.image_url)}
                         variant="outline"
@@ -332,25 +383,43 @@ const AdminDashboard = () => {
                   />
                 </div>
 
-                <div>
-                  <label className="block text-white font-semibold mb-2">
-                    Category *
-                  </label>
-                  <Input
-                    type="text"
-                    placeholder="e.g., Video Editing, Web Design"
-                    value={formData.category}
-                    onChange={(e) =>
-                      setFormData({ ...formData, category: e.target.value })
-                    }
-                    className="bg-background border-white/20 text-white"
-                    required
-                  />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-white font-semibold mb-2">
+                      Category *
+                    </label>
+                    <Input
+                      type="text"
+                      placeholder="e.g., Video Editing, Web Design"
+                      value={formData.category}
+                      onChange={(e) =>
+                        setFormData({ ...formData, category: e.target.value })
+                      }
+                      className="bg-background border-white/20 text-white"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-white font-semibold mb-2">
+                      Media Type *
+                    </label>
+                    <select
+                      value={formData.mediaType}
+                      onChange={(e) =>
+                        setFormData({ ...formData, mediaType: e.target.value })
+                      }
+                      className="w-full bg-background border border-white/20 text-white rounded-md h-10 px-3 focus:outline-none focus:ring-2 focus:ring-white"
+                    >
+                      <option value="image">Image</option>
+                      <option value="video">Video</option>
+                    </select>
+                  </div>
                 </div>
 
                 <div>
                   <label className="block text-white font-semibold mb-2">
-                    Upload Image *
+                    Upload Media (Image or Video) *
                   </label>
                   <div className="space-y-3">
                     <div className="flex items-center gap-3">
@@ -358,15 +427,15 @@ const AdminDashboard = () => {
                         <div className="border-2 border-dashed border-white/20 rounded-lg p-6 hover:border-white/40 transition-colors text-center">
                           <Upload className="w-8 h-8 text-white mx-auto mb-2" />
                           <p className="text-sm text-white mb-1">
-                            Click to upload image
+                            Click to upload image or video
                           </p>
                           <p className="text-xs text-muted-foreground">
-                            PNG, JPG, WEBP up to 5MB
+                            PNG, JPG, WEBP, MP4, WEBM up to 10MB
                           </p>
                         </div>
                         <input
                           type="file"
-                          accept="image/*"
+                          accept="image/*,video/*"
                           onChange={handleImageChange}
                           className="hidden"
                         />
@@ -375,11 +444,19 @@ const AdminDashboard = () => {
                     
                     {imagePreview && (
                       <div className="relative">
-                        <img
-                          src={imagePreview}
-                          alt="Preview"
-                          className="w-full h-48 object-cover rounded-lg border border-white/20"
-                        />
+                        {formData.mediaType === "video" ? (
+                          <video
+                            src={imagePreview}
+                            controls
+                            className="w-full h-48 object-cover rounded-lg border border-white/20"
+                          />
+                        ) : (
+                          <img
+                            src={imagePreview}
+                            alt="Preview"
+                            className="w-full h-48 object-cover rounded-lg border border-white/20"
+                          />
+                        )}
                         <button
                           type="button"
                           onClick={() => {
@@ -399,7 +476,7 @@ const AdminDashboard = () => {
 
                     <Input
                       type="url"
-                      placeholder="Or paste image URL"
+                      placeholder="Or paste media URL (e.g. YouTube or direct mp4)"
                       value={formData.imageUrl}
                       onChange={(e) =>
                         setFormData({ ...formData, imageUrl: e.target.value })
@@ -442,7 +519,7 @@ const AdminDashboard = () => {
                 <Button
                   type="submit"
                   disabled={loading || uploading}
-                  className="w-full bg-white text-black hover:bg-neutral-200 font-bold"
+                  className="w-full bg-white text-black hover:bg-neutral-200 font-bold h-12"
                 >
                   {uploading ? "Uploading..." : loading ? "Adding..." : "Add Portfolio Item"}
                 </Button>
@@ -480,12 +557,12 @@ const AdminDashboard = () => {
 
               <Card className="p-4 sm:p-8 border-2 border-white/20 bg-background">
                 <h3 className="text-xl font-bold text-white mb-4">
-                  Image Guidelines
+                  Media Guidelines
                 </h3>
                 <ul className="space-y-3 text-sm text-muted-foreground">
                   <li className="flex items-start gap-2">
                     <span className="text-white mt-1">•</span>
-                    <span>Use high-quality images (min 1200x800px)</span>
+                    <span>Use high-quality images and video formats (mp4, webm)</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-white mt-1">•</span>
@@ -493,15 +570,15 @@ const AdminDashboard = () => {
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-white mt-1">•</span>
-                    <span>Use Unsplash for stock images</span>
+                    <span>YouTube and Vimeo URLs are fully supported and will embed automatically</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-white mt-1">•</span>
-                    <span>Keep file sizes under 2MB for faster loading</span>
+                    <span>Keep direct file uploads under 10MB for optimal performance</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-white mt-1">•</span>
-                    <span>Use descriptive titles and tags for better organization</span>
+                    <span>Use descriptive titles and tags for search engine optimization (SEO)</span>
                   </li>
                 </ul>
               </Card>
