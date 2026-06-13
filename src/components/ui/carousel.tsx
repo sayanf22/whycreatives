@@ -41,15 +41,15 @@ const Carousel: React.FC<PropType> = (props) => {
         </div>
       </div>
 
-      <div className="flex mx-auto w-full max-w-sm justify-between items-center gap-4 mt-7 px-4">
-        <div className="flex justify-center gap-2 shrink-0">
+      <div className="flex mx-auto w-full max-w-sm justify-center sm:justify-between items-center gap-4 mt-7 px-4">
+        <div className="flex justify-center items-center gap-1.5 sm:gap-2 shrink-0 flex-wrap max-w-full">
           {scrollSnaps.map((_, index) => (
             <DotButton
               key={index}
               onClick={() =>
                 onAutoplayButtonClick(() => onDotButtonClick(index))
               }
-              className={`w-3 h-3 rounded-full border border-neutral-300 dark:border-neutral-700 transition-all duration-200 shrink-0 ${
+              className={`w-2.5 h-2.5 sm:w-3 sm:h-3 p-0 rounded-full border border-neutral-300 dark:border-neutral-700 transition-all duration-200 shrink-0 aspect-square block outline-none ${
                 index === selectedIndex
                   ? "bg-neutral-900 dark:bg-neutral-100 scale-110"
                   : "bg-transparent hover:bg-neutral-200 dark:hover:bg-neutral-800"
@@ -59,7 +59,7 @@ const Carousel: React.FC<PropType> = (props) => {
         </div>
 
         <div
-          className={`rounded-full bg-neutral-200/60 dark:bg-neutral-800 relative h-1.5 w-24 overflow-hidden transition-opacity duration-300 ease-in-out shrink-0 ${
+          className={`hidden sm:block rounded-full bg-neutral-200/60 dark:bg-neutral-800 relative h-1.5 w-24 overflow-hidden transition-opacity duration-300 ease-in-out shrink-0 ${
             showAutoplayProgress ? "opacity-100" : "opacity-0"
           }`}
         >
@@ -75,7 +75,7 @@ const Carousel: React.FC<PropType> = (props) => {
         <button
           onClick={toggleAutoplay}
           type="button"
-          className="w-10 h-10 rounded-full flex items-center justify-center bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-neutral-900 dark:text-neutral-50 transition-all shadow-sm hover:shadow active:scale-95 shrink-0 border border-neutral-200/50 dark:border-neutral-700/50"
+          className="hidden sm:flex w-10 h-10 rounded-full items-center justify-center bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-neutral-900 dark:text-neutral-50 transition-all shadow-sm hover:shadow active:scale-95 shrink-0 border border-neutral-200/50 dark:border-neutral-700/50"
         >
           {autoplayIsPlaying ? (
             <Pause className="w-4 h-4 fill-current text-current" />

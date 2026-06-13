@@ -30,7 +30,7 @@ export const MediaRenderer: React.FC<MediaRendererProps> = ({
         alt={alt}
         loading="lazy"
         decoding="async"
-        className={className}
+        className={`${className} transform-gpu will-change-transform`}
       />
     );
   }
@@ -74,13 +74,87 @@ export const MediaRenderer: React.FC<MediaRendererProps> = ({
   }
 
   // Otherwise treat as direct video file (e.g. mp4 upload from Supabase)
+  const [isInView, setIsInView] = React.useState(false);
+  const videoRef = React.useRef<HTMLVideoElement>(null);
+
+  React.useEffect(() => {
+    const node = videoRef.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+        } else {
+          // Pause when out of view to save CPU/battery
+          node.pause();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(node);
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  React.useEffect(() => {
+    const node = videoRef.current;
+    if (!node || !isInView || !url) return;
+
+    // Explicitly set muted, playsInline, autoplay and loop properties on the DOM element
+    // to force compliance with strict mobile autoplay policies
+    node.muted = true;
+    node.playsInline = true;
+    node.autoplay = true;
+    node.loop = true;
+
+    let isPlaying = false;
+    const playVideo = () => {
+      if (!isPlaying && node.src) {
+        node.play()
+          .then(() => {
+            isPlaying = true;
+          })
+          .catch((err) => {
+            console.warn("Autoplay failed/prevented:", err);
+          });
+      }
+    };
+
+    // If readyState is already loaded enough, play immediately
+    if (node.readyState >= 3) {
+      playVideo();
+    }
+
+    node.addEventListener("canplay", playVideo);
+    node.addEventListener("loadeddata", playVideo);
+
+    // Backup timer in case readyState transitions don't fire events
+    const timer = setTimeout(() => {
+      if (node.readyState >= 2) {
+        playVideo();
+      }
+    }, 200);
+
+    return () => {
+      node.removeEventListener("canplay", playVideo);
+      node.removeEventListener("loadeddata", playVideo);
+      clearTimeout(timer);
+    };
+  }, [isInView, url]);
+
   return (
     <video
-      src={url}
-      controls
-      preload="metadata"
+      ref={videoRef}
+      src={isInView ? url : undefined}
+      autoPlay
+      loop
+      muted
       playsInline
-      className={className}
+      className={`${className} transform-gpu will-change-transform`}
+      style={{ pointerEvents: "none" }}
     />
   );
 };

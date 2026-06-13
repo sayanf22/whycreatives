@@ -25,11 +25,23 @@ const PortfolioGallery = () => {
   const [activeLightboxItem, setActiveLightboxItem] = useState<PortfolioWork | null>(null);
   const { data: portfolioItems, isLoading } = usePortfolioWorks();
 
-  // Get unique categories from the full dataset
+  // Get unique categories from the full dataset, ordered with Video before Website
   const categories = useMemo(() => {
     if (!portfolioItems) return ["All"];
     const uniqueCategories = Array.from(new Set(portfolioItems.map(item => item.category)));
-    return ["All", ...uniqueCategories];
+    
+    // Video icon/tab should show before Website
+    const customOrder = ["Video", "Website", "Graphics Design"];
+    const sortedCategories = uniqueCategories.sort((a, b) => {
+      const indexA = customOrder.indexOf(a);
+      const indexB = customOrder.indexOf(b);
+      if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+      if (indexA !== -1) return -1;
+      if (indexB !== -1) return 1;
+      return a.localeCompare(b);
+    });
+    
+    return ["All", ...sortedCategories];
   }, [portfolioItems]);
 
   const filteredItems = useMemo(() => {
@@ -139,9 +151,9 @@ const PortfolioGallery = () => {
                     }}
                     key={item.id}
                     onClick={() => setActiveLightboxItem(item)}
-                    className="group relative rounded-2xl bg-white dark:bg-neutral-900 shadow-[0_15px_35px_rgba(0,0,0,0.08)] dark:shadow-[0_20px_45px_rgba(0,0,0,0.65)] hover:shadow-[0_30px_60px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_30px_60px_rgba(0,0,0,0.85)] hover:-translate-y-2.5 transition-all duration-500 cursor-pointer aspect-[16/10]"
+                    className="group relative cursor-pointer aspect-[16/10]"
                   >
-                    <div className="w-full h-full overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 relative">
+                    <div className="w-full h-full overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 relative bg-white dark:bg-neutral-900 shadow-[0_15px_35px_rgba(0,0,0,0.08)] dark:shadow-[0_20px_45px_rgba(0,0,0,0.65)] group-hover:shadow-[0_30px_60px_rgba(0,0,0,0.15)] dark:group-hover:shadow-[0_30px_60px_rgba(0,0,0,0.85)] group-hover:-translate-y-2.5 transition-all duration-500 transform-gpu will-change-transform">
                       <MediaRenderer
                         url={getStorageUrl(item.image_url)}
                         mediaType={item.media_type}

@@ -29,9 +29,9 @@ const OurWork = () => {
       href={work.website_url || undefined}
       target="_blank"
       rel="noopener noreferrer"
-      className="w-full aspect-[16/9] block bg-white dark:bg-neutral-900 rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.07)] dark:shadow-[0_20px_45px_rgba(0,0,0,0.65)] hover:shadow-[0_30px_60px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_30px_60px_rgba(0,0,0,0.85)] hover:-translate-y-2 transition-all duration-500 cursor-pointer group"
+      className="w-full aspect-[16/9] block cursor-pointer group"
     >
-      <div className="w-full h-full overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 relative">
+      <div className="w-full h-full overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 relative bg-white dark:bg-neutral-900 shadow-[0_15px_35px_rgba(0,0,0,0.07)] dark:shadow-[0_20px_45px_rgba(0,0,0,0.65)] group-hover:shadow-[0_30px_60px_rgba(0,0,0,0.15)] dark:group-hover:shadow-[0_30px_60px_rgba(0,0,0,0.85)] group-hover:-translate-y-2 transition-all duration-500 transform-gpu will-change-transform">
         <MediaRenderer
           url={getStorageUrl(work.image_url)}
           mediaType={work.media_type}
