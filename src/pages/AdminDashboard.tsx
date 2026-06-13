@@ -251,7 +251,17 @@ const AdminDashboard = () => {
       }
 
       if (!imageUrl) {
-        throw new Error("Please provide an image or video");
+        throw new Error("Please provide an image or video file");
+      }
+
+      // Auto-detect media type if URL was entered manually
+      let finalMediaType = formData.mediaType;
+      if (!imageFile && imageUrl) {
+        const isVideo = imageUrl.includes("youtube.com") || 
+                        imageUrl.includes("youtu.be") || 
+                        imageUrl.includes("vimeo.com") || 
+                        /\.(mp4|webm|ogg|mov|m4v)($|\?)/i.test(imageUrl);
+        finalMediaType = isVideo ? "video" : "image";
       }
 
       const { error } = await supabase.from("portfolio_works").insert([
@@ -260,7 +270,7 @@ const AdminDashboard = () => {
           description: formData.description,
           category: formData.category,
           image_url: imageUrl,
-          media_type: formData.mediaType,
+          media_type: finalMediaType,
           is_featured: formData.isFeatured,
           website_url: formData.websiteUrl || null,
           display_order: 999,
@@ -475,34 +485,18 @@ const AdminDashboard = () => {
 
                   <div>
                     <label className="block text-white font-semibold mb-2">
-                      Media Type *
+                      Website URL
                     </label>
-                    <select
-                      value={formData.mediaType}
+                    <Input
+                      type="url"
+                      placeholder="https://example.com (optional)"
+                      value={formData.websiteUrl}
                       onChange={(e) =>
-                        setFormData({ ...formData, mediaType: e.target.value })
+                        setFormData({ ...formData, websiteUrl: e.target.value })
                       }
-                      className="w-full bg-background border border-white/20 text-white rounded-md h-10 px-3 focus:outline-none focus:ring-2 focus:ring-white"
-                    >
-                      <option value="image">Image</option>
-                      <option value="video">Video</option>
-                    </select>
+                      className="bg-background border-white/20 text-white h-10"
+                    />
                   </div>
-                </div>
-
-                <div>
-                  <label className="block text-white font-semibold mb-2">
-                    Website URL
-                  </label>
-                  <Input
-                    type="url"
-                    placeholder="https://example.com"
-                    value={formData.websiteUrl}
-                    onChange={(e) =>
-                      setFormData({ ...formData, websiteUrl: e.target.value })
-                    }
-                    className="bg-background border-white/20 text-white"
-                  />
                 </div>
 
                 <div>
@@ -569,27 +563,21 @@ const AdminDashboard = () => {
                       type="url"
                       placeholder="Or paste media URL (e.g. YouTube or direct mp4)"
                       value={formData.imageUrl}
-                      onChange={(e) =>
-                        setFormData({ ...formData, imageUrl: e.target.value })
-                      }
+                      onChange={(e) => {
+                        const url = e.target.value;
+                        const isVideo = url.includes("youtube.com") || 
+                                        url.includes("youtu.be") || 
+                                        url.includes("vimeo.com") || 
+                                        /\.(mp4|webm|ogg|mov|m4v)($|\?)/i.test(url);
+                        setFormData({ 
+                          ...formData, 
+                          imageUrl: url,
+                          mediaType: isVideo ? "video" : "image"
+                        });
+                      }}
                       className="bg-background border-white/20 text-white"
                     />
                   </div>
-                </div>
-
-                <div>
-                  <label className="block text-white font-semibold mb-2">
-                    Tags (comma-separated)
-                  </label>
-                  <Input
-                    type="text"
-                    placeholder="design, branding, modern"
-                    value={formData.tags}
-                    onChange={(e) =>
-                      setFormData({ ...formData, tags: e.target.value })
-                    }
-                    className="bg-background border-white/20 text-white"
-                  />
                 </div>
 
                 <div className="flex items-start gap-3">
