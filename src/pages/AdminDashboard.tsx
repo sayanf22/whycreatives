@@ -13,6 +13,7 @@ import { usePortfolioWorks } from "@/hooks/use-portfolio-works";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
+  const [checkingAuth, setCheckingAuth] = useState(true);
 
   useEffect(() => {
     // Check if user is authenticated with Supabase
@@ -20,6 +21,8 @@ const AdminDashboard = () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) {
         navigate("/admin-login");
+      } else {
+        setCheckingAuth(false);
       }
     };
     checkAuth();
@@ -28,6 +31,8 @@ const AdminDashboard = () => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       if (!session) {
         navigate("/admin-login");
+      } else {
+        setCheckingAuth(false);
       }
     });
 
@@ -92,6 +97,20 @@ const AdminDashboard = () => {
     tags: "",
     isFeatured: false,
   });
+
+  if (checkingAuth) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center px-4">
+        <div className="text-center">
+          <div className="relative w-16 h-16 mx-auto mb-4">
+            <div className="absolute inset-0 rounded-full border-4 border-white/20"></div>
+            <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-white animate-spin"></div>
+          </div>
+          <p className="text-muted-foreground animate-pulse">Checking credentials...</p>
+        </div>
+      </div>
+    );
+  }
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -184,10 +203,10 @@ const AdminDashboard = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <main className="pt-32 pb-24 px-6">
+      <main className="pt-24 sm:pt-32 pb-16 sm:pb-24 px-4 sm:px-6">
         <div className="container mx-auto max-w-6xl">
           {/* Header */}
-          <div className="text-center mb-16 animate-fade-in-up">
+          <div className="text-center mb-8 sm:mb-16 animate-fade-in-up">
             <div className="flex justify-end mb-4">
               <Button
                 onClick={handleLogout}
@@ -198,26 +217,26 @@ const AdminDashboard = () => {
                 Logout
               </Button>
             </div>
-            <h1 className="text-5xl md:text-7xl font-black text-white mb-6">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-black text-white mb-4 sm:mb-6">
               Admin Dashboard
             </h1>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-lg sm:text-xl text-muted-foreground">
               Manage portfolio items and uploads
             </p>
           </div>
 
           {/* Portfolio Items List */}
-          <Card className="p-8 border-2 border-white/20 bg-background mb-8">
-            <div className="flex items-center justify-between mb-6">
+          <Card className="p-4 sm:p-8 border-2 border-white/20 bg-background mb-8">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
               <div className="flex items-center gap-3">
                 <ImageIcon className="w-6 h-6 text-white" />
-                <h2 className="text-2xl font-bold text-white">Portfolio Items</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-white">Portfolio Items</h2>
               </div>
               <Button
                 onClick={() => refetch()}
                 variant="outline"
                 size="sm"
-                className="border-white/20 text-white hover:bg-white/10"
+                className="w-full sm:w-auto border-white/20 text-white hover:bg-white/10"
               >
                 <RefreshCw className="w-4 h-4 mr-2" />
                 Refresh
@@ -230,19 +249,19 @@ const AdminDashboard = () => {
                 <p className="text-muted-foreground mt-2">Loading items...</p>
               </div>
             ) : portfolioItems && portfolioItems.length > 0 ? (
-              <div className="space-y-4 max-h-96 overflow-y-auto">
+              <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2">
                 {portfolioItems.map((item) => (
                   <div
                     key={item.id}
-                    className="flex items-center gap-4 p-4 bg-white/5 rounded-lg border border-white/10 hover:border-white/20 transition-colors"
+                    className="flex flex-col sm:flex-row sm:items-center gap-4 p-4 bg-white/5 rounded-lg border border-white/10 hover:border-white/20 transition-colors"
                   >
                     <img
                       src={item.image_url}
                       alt={item.title}
-                      className="w-20 h-20 object-cover rounded"
+                      className="w-full sm:w-20 h-48 sm:h-20 object-cover rounded-md"
                     />
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-white font-semibold truncate">{item.title}</h3>
+                      <h3 className="text-white font-semibold text-lg sm:text-base truncate">{item.title}</h3>
                       <p className="text-sm text-muted-foreground truncate">
                         {item.category}
                       </p>
@@ -252,14 +271,17 @@ const AdminDashboard = () => {
                         </span>
                       )}
                     </div>
-                    <Button
-                      onClick={() => handleDelete(item.id, item.image_url)}
-                      variant="outline"
-                      size="sm"
-                      className="border-red-500/50 text-red-500 hover:bg-red-500/10 hover:border-red-500"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </Button>
+                    <div className="flex justify-end w-full sm:w-auto">
+                      <Button
+                        onClick={() => handleDelete(item.id, item.image_url)}
+                        variant="outline"
+                        size="sm"
+                        className="w-full sm:w-auto border-red-500/50 text-red-500 hover:bg-red-500/10 hover:border-red-500"
+                      >
+                        <Trash2 className="w-4 h-4 mr-2 sm:mr-0" />
+                        <span className="sm:hidden">Delete Item</span>
+                      </Button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -272,10 +294,10 @@ const AdminDashboard = () => {
 
           <div className="grid lg:grid-cols-2 gap-8">
             {/* Upload Form */}
-            <Card className="p-8 border-2 border-white/20 bg-background">
+            <Card className="p-4 sm:p-8 border-2 border-white/20 bg-background">
               <div className="flex items-center gap-3 mb-6">
                 <Plus className="w-6 h-6 text-white" />
-                <h2 className="text-2xl font-bold text-white">Add Portfolio Item</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-white">Add Portfolio Item</h2>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -402,7 +424,7 @@ const AdminDashboard = () => {
                   />
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-start gap-3">
                   <input
                     type="checkbox"
                     id="featured"
@@ -410,9 +432,9 @@ const AdminDashboard = () => {
                     onChange={(e) =>
                       setFormData({ ...formData, isFeatured: e.target.checked })
                     }
-                    className="w-5 h-5 rounded border-white/20 bg-background text-white focus:ring-white"
+                    className="w-5 h-5 rounded border-white/20 bg-background text-white focus:ring-white mt-1"
                   />
-                  <label htmlFor="featured" className="text-white font-semibold cursor-pointer">
+                  <label htmlFor="featured" className="text-white font-semibold cursor-pointer text-sm sm:text-base">
                     Mark as Featured (will appear on homepage)
                   </label>
                 </div>
@@ -429,10 +451,10 @@ const AdminDashboard = () => {
 
             {/* Quick Actions & Info */}
             <div className="space-y-6">
-              <Card className="p-8 border-2 border-white/20 bg-background">
+              <Card className="p-4 sm:p-8 border-2 border-white/20 bg-background">
                 <div className="flex items-center gap-3 mb-6">
                   <ImageIcon className="w-6 h-6 text-white" />
-                  <h2 className="text-2xl font-bold text-white">Quick Actions</h2>
+                  <h2 className="text-xl sm:text-2xl font-bold text-white">Quick Actions</h2>
                 </div>
 
                 <div className="space-y-4">
@@ -456,7 +478,7 @@ const AdminDashboard = () => {
                 </div>
               </Card>
 
-              <Card className="p-8 border-2 border-white/20 bg-background">
+              <Card className="p-4 sm:p-8 border-2 border-white/20 bg-background">
                 <h3 className="text-xl font-bold text-white mb-4">
                   Image Guidelines
                 </h3>
@@ -484,7 +506,7 @@ const AdminDashboard = () => {
                 </ul>
               </Card>
 
-              <Card className="p-8 border-2 border-white/20 bg-background">
+              <Card className="p-4 sm:p-8 border-2 border-white/20 bg-background">
                 <h3 className="text-xl font-bold text-white mb-4">
                   Category Suggestions
                 </h3>
