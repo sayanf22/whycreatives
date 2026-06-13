@@ -430,7 +430,7 @@ const AdminDashboard = () => {
                             Click to upload image or video
                           </p>
                           <p className="text-xs text-muted-foreground">
-                            PNG, JPG, WEBP, MP4, WEBM up to 10MB
+                            PNG, JPG, WEBP, MP4, WEBM formats
                           </p>
                         </div>
                         <input
@@ -574,7 +574,7 @@ const AdminDashboard = () => {
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-white mt-1">•</span>
-                    <span>Keep direct file uploads under 10MB for optimal performance</span>
+                    <span>Supports direct high-quality file size uploads</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-white mt-1">•</span>
