@@ -48,7 +48,8 @@ export const usePortfolioWorksByCategory = (category?: string) => {
 
 // Helper function to get Supabase storage URL
 export const getStorageUrl = (path: string) => {
-  if (path.startsWith("http")) return path; // External URL
+  if (path.startsWith("http") || path.startsWith("/")) return path; // External or local asset URL
   const { data } = supabase.storage.from("portfolio-images").getPublicUrl(path);
   return data.publicUrl;
 };
+

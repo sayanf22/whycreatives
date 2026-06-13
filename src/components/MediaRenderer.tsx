@@ -48,6 +48,7 @@ export const MediaRenderer: React.FC<MediaRendererProps> = ({
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
+        loading="lazy"
         className={className}
       ></iframe>
     );
@@ -66,6 +67,7 @@ export const MediaRenderer: React.FC<MediaRendererProps> = ({
         frameBorder="0"
         allow="autoplay; fullscreen; picture-in-picture"
         allowFullScreen
+        loading="lazy"
         className={className}
       ></iframe>
     );

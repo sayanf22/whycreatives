@@ -5,28 +5,48 @@ import { Button } from "@/components/ui/button";
 import { FadeInWhenVisible } from "@/components/FadeInWhenVisible";
 import { usePortfolioWorks, getStorageUrl } from "@/hooks/use-portfolio-works";
 import { MediaRenderer } from "@/components/MediaRenderer";
+import { Globe, Palette, Video, LayoutGrid } from "lucide-react";
+
+const getCategoryIcon = (category: string, className = "w-4 h-4") => {
+  switch (category) {
+    case "Website":
+      return <Globe className={className} />;
+    case "Graphics Design":
+      return <Palette className={className} />;
+    case "Video":
+      return <Video className={className} />;
+    default:
+      return <LayoutGrid className={className} />;
+  }
+};
 
 const OurWork = () => {
   const { data: portfolioWorks, isLoading } = usePortfolioWorks();
 
   const workSlides = portfolioWorks?.map((work) => (
-    <div
+    <a
       key={work.id}
-      className="border w-full relative overflow-hidden rounded-lg bg-card text-card-foreground aspect-[16/9]"
+      href={work.website_url || undefined}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="w-full aspect-[16/9] block bg-white dark:bg-neutral-900 rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.07)] dark:shadow-[0_20px_45px_rgba(0,0,0,0.65)] hover:shadow-[0_30px_60px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_30px_60px_rgba(0,0,0,0.85)] hover:-translate-y-2 transition-all duration-500 cursor-pointer group"
     >
-      <MediaRenderer
-        url={getStorageUrl(work.image_url)}
-        mediaType={work.media_type}
-        alt={work.title}
-        className="object-cover h-full w-full"
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6 pointer-events-none">
-        <div>
-          <h3 className="text-2xl font-bold text-white mb-2">{work.title}</h3>
-          <p className="text-white/80">{work.description}</p>
+      <div className="w-full h-full overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 relative">
+        <MediaRenderer
+          url={getStorageUrl(work.image_url)}
+          mediaType={work.media_type}
+          alt={work.title}
+          className="object-cover h-full w-full transition-transform duration-500 group-hover:scale-[1.02]"
+        />
+        {/* Sleek Minimalist Tag - Always visible */}
+        <div className="absolute bottom-4 left-4 pointer-events-none">
+          <span className="backdrop-blur-md bg-white/80 dark:bg-black/60 border border-black/10 dark:border-white/10 text-black dark:text-white px-4 py-2 rounded-xl text-sm font-semibold tracking-wide shadow-lg flex items-center gap-2">
+            {getCategoryIcon(work.category, "w-4 h-4")}
+            <span>{work.title}</span>
+          </span>
         </div>
       </div>
-    </div>
+    </a>
   )) || [];
 
   if (isLoading) {

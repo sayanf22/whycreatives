@@ -121,6 +121,7 @@ const AdminDashboard = () => {
     tags: "",
     isFeatured: false,
     mediaType: "image",
+    websiteUrl: "",
   });
 
   if (checkingAuth) {
@@ -147,22 +148,85 @@ const AdminDashboard = () => {
         mediaType: isVideoFile ? "video" : "image",
       }));
 
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      if (imagePreview && imagePreview.startsWith("blob:")) {
+        URL.revokeObjectURL(imagePreview);
+      }
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
+  const compressImage = (file: File, quality: number = 0.8): Promise<Blob> => {
+    return new Promise((resolve) => {
+      if (!file.type.startsWith("image/")) {
+        resolve(file);
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+          if (!ctx) {
+            resolve(file);
+            return;
+          }
+
+          const maxDim = 1600;
+          let width = img.width;
+          let height = img.height;
+          if (width > maxDim || height > maxDim) {
+            if (width > height) {
+              height = Math.round((height * maxDim) / width);
+              width = maxDim;
+            } else {
+              width = Math.round((width * maxDim) / height);
+              height = maxDim;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          ctx.drawImage(img, 0, 0, width, height);
+
+          canvas.toBlob(
+            (blob) => {
+              resolve(blob || file);
+            },
+            "image/webp",
+            quality
+          );
+        };
+        img.onerror = () => resolve(file);
+        img.src = event.target?.result as string;
+      };
+      reader.onerror = () => resolve(file);
+      reader.readAsDataURL(file);
+    });
+  };
+
   const uploadImage = async (file: File): Promise<string> => {
-    const fileExt = file.name.split(".").pop();
+    let uploadFile: Blob | File = file;
+    let fileExt = file.name.split(".").pop();
+    
+    if (file.type.startsWith("image/")) {
+      try {
+        const compressedBlob = await compressImage(file, 0.8);
+        uploadFile = compressedBlob;
+        fileExt = "webp";
+      } catch (err) {
+        console.error("Client compression failed, using original:", err);
+      }
+    }
+
     const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
     const filePath = `portfolio/${fileName}`;
 
     const { error: uploadError } = await supabase.storage
       .from("portfolio-images")
-      .upload(filePath, file);
+      .upload(filePath, uploadFile, {
+        contentType: file.type.startsWith("image/") ? "image/webp" : file.type,
+      });
 
     if (uploadError) throw uploadError;
 
@@ -198,6 +262,7 @@ const AdminDashboard = () => {
           image_url: imageUrl,
           media_type: formData.mediaType,
           is_featured: formData.isFeatured,
+          website_url: formData.websiteUrl || null,
           display_order: 999,
         },
       ]);
@@ -217,7 +282,11 @@ const AdminDashboard = () => {
         tags: "",
         isFeatured: false,
         mediaType: "image",
+        websiteUrl: "",
       });
+      if (imagePreview && imagePreview.startsWith("blob:")) {
+        URL.revokeObjectURL(imagePreview);
+      }
       setImageFile(null);
       setImagePreview("");
     } catch (error: any) {
@@ -292,6 +361,7 @@ const AdminDashboard = () => {
                       <img
                         src={item.image_url}
                         alt={item.title}
+                        loading="lazy"
                         className="w-full h-full object-cover rounded-md"
                       />
                       {item.media_type === "video" && (
@@ -388,16 +458,19 @@ const AdminDashboard = () => {
                     <label className="block text-white font-semibold mb-2">
                       Category *
                     </label>
-                    <Input
-                      type="text"
-                      placeholder="e.g., Video Editing, Web Design"
+                    <select
                       value={formData.category}
                       onChange={(e) =>
                         setFormData({ ...formData, category: e.target.value })
                       }
-                      className="bg-background border-white/20 text-white"
+                      className="w-full bg-background border border-white/20 text-white rounded-md h-10 px-3 focus:outline-none focus:ring-2 focus:ring-white"
                       required
-                    />
+                    >
+                      <option value="" disabled>Select category</option>
+                      <option value="Website">Website</option>
+                      <option value="Graphics Design">Graphics Design</option>
+                      <option value="Video">Video</option>
+                    </select>
                   </div>
 
                   <div>
@@ -415,6 +488,21 @@ const AdminDashboard = () => {
                       <option value="video">Video</option>
                     </select>
                   </div>
+                </div>
+
+                <div>
+                  <label className="block text-white font-semibold mb-2">
+                    Website URL
+                  </label>
+                  <Input
+                    type="url"
+                    placeholder="https://example.com"
+                    value={formData.websiteUrl}
+                    onChange={(e) =>
+                      setFormData({ ...formData, websiteUrl: e.target.value })
+                    }
+                    className="bg-background border-white/20 text-white"
+                  />
                 </div>
 
                 <div>
@@ -460,6 +548,9 @@ const AdminDashboard = () => {
                         <button
                           type="button"
                           onClick={() => {
+                            if (imagePreview && imagePreview.startsWith("blob:")) {
+                              URL.revokeObjectURL(imagePreview);
+                            }
                             setImageFile(null);
                             setImagePreview("");
                           }}
