@@ -1,11 +1,11 @@
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Carousel } from "@/components/ui/carousel";
-import { Button } from "@/components/ui/button";
 import { FadeInWhenVisible } from "@/components/FadeInWhenVisible";
 import { usePortfolioWorks, getStorageUrl } from "@/hooks/use-portfolio-works";
 import { MediaRenderer } from "@/components/MediaRenderer";
-import { Globe, Palette, Video, LayoutGrid } from "lucide-react";
+import { Globe, Palette, Video, LayoutGrid, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
 
 const getCategoryIcon = (category: string, className = "w-4 h-4") => {
   switch (category) {
@@ -104,12 +104,15 @@ const OurWork = () => {
           
           <FadeInWhenVisible delay={0.3}>
             <div className="flex justify-center mt-10">
-              <Button 
+              <motion.button 
+                whileHover={{ scale: 1.04, translateY: -2 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => window.location.href = '/portfolio-gallery'}
-                className="h-14 rounded-full px-10 bg-white text-black hover:bg-muted-foreground font-bold"
+                className="group h-14 rounded-full px-10 bg-white text-black hover:bg-neutral-50 font-bold border border-black/10 dark:border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.15)] transition-all duration-300 flex items-center gap-2"
               >
-                See All Works
-              </Button>
+                <span>See All Works</span>
+                <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+              </motion.button>
             </div>
           </FadeInWhenVisible>
         </div>
