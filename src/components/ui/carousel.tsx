@@ -5,7 +5,6 @@ import type { EmblaCarouselType, EmblaOptionsType } from "embla-carousel";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { Pause, Play } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 type PropType = {
   slides: React.ReactNode[];
@@ -42,30 +41,30 @@ const Carousel: React.FC<PropType> = (props) => {
         </div>
       </div>
 
-      <div className="flex mx-auto max-w-80 justify-between items-center gap-3 mt-7">
-        <div className="flex justify-center gap-2">
+      <div className="flex mx-auto w-full max-w-sm justify-between items-center gap-4 mt-7 px-4">
+        <div className="flex justify-center gap-2 shrink-0">
           {scrollSnaps.map((_, index) => (
             <DotButton
               key={index}
               onClick={() =>
                 onAutoplayButtonClick(() => onDotButtonClick(index))
               }
-              className={`w-3 h-3 rounded-full border-2 border-border transition-colors duration-200 ${
+              className={`w-3 h-3 rounded-full border border-neutral-300 dark:border-neutral-700 transition-all duration-200 shrink-0 ${
                 index === selectedIndex
-                  ? "bg-foreground"
-                  : "bg-transparent hover:bg-muted"
+                  ? "bg-neutral-900 dark:bg-neutral-100 scale-110"
+                  : "bg-transparent hover:bg-neutral-200 dark:hover:bg-neutral-800"
               }`}
             />
           ))}
         </div>
 
         <div
-          className={`rounded-[1.8rem] border-2 border-border bg-background relative h-2 justify-self-center self-center w-40 max-w-[90%] overflow-hidden transition-opacity duration-300 ease-in-out ${
+          className={`rounded-full bg-neutral-200/60 dark:bg-neutral-800 relative h-1.5 w-24 overflow-hidden transition-opacity duration-300 ease-in-out shrink-0 ${
             showAutoplayProgress ? "opacity-100" : "opacity-0"
           }`}
         >
           <div
-            className="bg-foreground absolute w-full top-0 bottom-0 -left-full animate-[autoplay-progress_linear_1] [animation-play-state:running]"
+            className="bg-neutral-800 dark:bg-neutral-100 absolute w-full top-0 bottom-0 -left-full animate-[autoplay-progress_linear_1] [animation-play-state:running]"
             ref={progressNode}
             style={{
               animationPlayState: showAutoplayProgress ? "running" : "paused",
@@ -73,18 +72,17 @@ const Carousel: React.FC<PropType> = (props) => {
           />
         </div>
 
-        <Button
-          size={"icon"}
-          variant={"secondary"}
+        <button
           onClick={toggleAutoplay}
           type="button"
+          className="w-10 h-10 rounded-full flex items-center justify-center bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-neutral-900 dark:text-neutral-50 transition-all shadow-sm hover:shadow active:scale-95 shrink-0 border border-neutral-200/50 dark:border-neutral-700/50"
         >
           {autoplayIsPlaying ? (
-            <Pause fill="currentColor" />
+            <Pause className="w-4 h-4 fill-current text-current" />
           ) : (
-            <Play fill="currentColor" />
+            <Play className="w-4 h-4 fill-current text-current ml-0.5" />
           )}
-        </Button>
+        </button>
       </div>
     </div>
   );
