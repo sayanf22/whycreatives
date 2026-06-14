@@ -12,36 +12,36 @@ const WhatWeDo = () => {
       content: (
         <div>
           <div className="flex items-center gap-4 mb-8">
-            <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-white/10 to-transparent border border-white/20 shadow-xl backdrop-blur-md flex items-center justify-center">
-              <Video className="w-10 h-10 text-white" />
+            <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-black/5 dark:from-white/10 to-transparent border border-black/10 dark:border-white/20 shadow-xl backdrop-blur-md flex items-center justify-center">
+              <Video className="w-10 h-10 text-black dark:text-white" />
             </div>
             <div>
-              <h4 className="text-white text-xl md:text-2xl font-bold mb-2">Full-Service Video Production</h4>
-              <p className="text-neutral-400 text-base md:text-lg">From concept to final cut, we craft cinematic experiences.</p>
+              <h4 className="text-foreground dark:text-white text-xl md:text-2xl font-bold mb-2">Full-Service Video Production</h4>
+              <p className="text-muted-foreground dark:text-neutral-400 text-base md:text-lg">From concept to final cut, we craft cinematic experiences.</p>
             </div>
           </div>
-          <p className="text-neutral-300 text-base md:text-lg font-normal mb-8">
+          <p className="text-neutral-600 dark:text-neutral-300 text-base md:text-lg font-normal mb-8">
             We handle everything from on-location shooting with cinema-grade equipment to high-end post-production.
           </p>
           <div className="space-y-4">
-            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
-              <span className="w-2 h-2 bg-white rounded-full"></span>
+            <div className="flex gap-3 items-center text-neutral-600 dark:text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
               Professional Cinematography & Shooting
             </div>
-            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
-              <span className="w-2 h-2 bg-white rounded-full"></span>
+            <div className="flex gap-3 items-center text-neutral-600 dark:text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
               Scriptwriting & Storyboarding
             </div>
-            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
-              <span className="w-2 h-2 bg-white rounded-full"></span>
+            <div className="flex gap-3 items-center text-neutral-600 dark:text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
               Advanced Color Grading & Editing
             </div>
-            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
-              <span className="w-2 h-2 bg-white rounded-full"></span>
+            <div className="flex gap-3 items-center text-neutral-600 dark:text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
               Sound Design & Audio Mixing
             </div>
-            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
-              <span className="w-2 h-2 bg-white rounded-full"></span>
+            <div className="flex gap-3 items-center text-neutral-600 dark:text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
               Drone & Aerial Videography
             </div>
           </div>
@@ -53,36 +53,36 @@ const WhatWeDo = () => {
       content: (
         <div>
           <div className="flex items-center gap-4 mb-8">
-            <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-white/10 to-transparent border border-white/20 shadow-xl backdrop-blur-md flex items-center justify-center">
-              <Globe className="w-10 h-10 text-white" />
+            <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-black/5 dark:from-white/10 to-transparent border border-black/10 dark:border-white/20 shadow-xl backdrop-blur-md flex items-center justify-center">
+              <Globe className="w-10 h-10 text-black dark:text-white" />
             </div>
             <div>
-              <h4 className="text-white text-xl md:text-2xl font-bold mb-2">High-Performance Web Development</h4>
-              <p className="text-neutral-400 text-base md:text-lg">Digital experiences engineered for growth.</p>
+              <h4 className="text-foreground dark:text-white text-xl md:text-2xl font-bold mb-2">High-Performance Web Development</h4>
+              <p className="text-muted-foreground dark:text-neutral-400 text-base md:text-lg">Digital experiences engineered for growth.</p>
             </div>
           </div>
-          <p className="text-neutral-300 text-base md:text-lg font-normal mb-8">
+          <p className="text-neutral-600 dark:text-neutral-300 text-base md:text-lg font-normal mb-8">
             We build scalable, secure, and lightning-fast websites that serve as the foundation of your digital presence.
           </p>
           <div className="space-y-4">
-            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
-              <span className="w-2 h-2 bg-white rounded-full"></span>
+            <div className="flex gap-3 items-center text-neutral-600 dark:text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
               Custom Full-Stack Development
             </div>
-            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
-              <span className="w-2 h-2 bg-white rounded-full"></span>
+            <div className="flex gap-3 items-center text-neutral-600 dark:text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
               E-commerce Solutions
             </div>
-            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
-              <span className="w-2 h-2 bg-white rounded-full"></span>
+            <div className="flex gap-3 items-center text-neutral-600 dark:text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
               Technical SEO & Optimization
             </div>
-            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
-              <span className="w-2 h-2 bg-white rounded-full"></span>
+            <div className="flex gap-3 items-center text-neutral-600 dark:text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
               Progressive Web Apps (PWA)
             </div>
-            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
-              <span className="w-2 h-2 bg-white rounded-full"></span>
+            <div className="flex gap-3 items-center text-neutral-600 dark:text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
               UI/UX Design Systems
             </div>
           </div>
@@ -94,36 +94,36 @@ const WhatWeDo = () => {
       content: (
         <div>
           <div className="flex items-center gap-4 mb-8">
-            <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-white/10 to-transparent border border-white/20 shadow-xl backdrop-blur-md flex items-center justify-center">
-              <Share2 className="w-10 h-10 text-white" />
+            <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-black/5 dark:from-white/10 to-transparent border border-black/10 dark:border-white/20 shadow-xl backdrop-blur-md flex items-center justify-center">
+              <Share2 className="w-10 h-10 text-black dark:text-white" />
             </div>
             <div>
-              <h4 className="text-white text-xl md:text-2xl font-bold mb-2">Strategic Brand Management</h4>
-              <p className="text-neutral-400 text-base md:text-lg">Cultivating communities and driving engagement.</p>
+              <h4 className="text-foreground dark:text-white text-xl md:text-2xl font-bold mb-2">Strategic Brand Management</h4>
+              <p className="text-muted-foreground dark:text-neutral-400 text-base md:text-lg">Cultivating communities and driving engagement.</p>
             </div>
           </div>
-          <p className="text-neutral-300 text-base md:text-lg font-normal mb-8">
+          <p className="text-neutral-600 dark:text-neutral-300 text-base md:text-lg font-normal mb-8">
             We don't just post; we curate a cohesive brand identity that resonates with your target audience across all channels.
           </p>
           <div className="space-y-4">
-            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
-              <span className="w-2 h-2 bg-white rounded-full"></span>
+            <div className="flex gap-3 items-center text-neutral-600 dark:text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
               Cross-Platform Strategy
             </div>
-            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
-              <span className="w-2 h-2 bg-white rounded-full"></span>
+            <div className="flex gap-3 items-center text-neutral-600 dark:text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
               Content Calendar & Production
             </div>
-            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
-              <span className="w-2 h-2 bg-white rounded-full"></span>
+            <div className="flex gap-3 items-center text-neutral-600 dark:text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
               Audience Analytics & Insights
             </div>
-            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
-              <span className="w-2 h-2 bg-white rounded-full"></span>
+            <div className="flex gap-3 items-center text-neutral-600 dark:text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
               Community Engagement
             </div>
-            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
-              <span className="w-2 h-2 bg-white rounded-full"></span>
+            <div className="flex gap-3 items-center text-neutral-600 dark:text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
               Influencer Partnerships
             </div>
           </div>
@@ -135,36 +135,36 @@ const WhatWeDo = () => {
       content: (
         <div>
           <div className="flex items-center gap-4 mb-8">
-            <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-white/10 to-transparent border border-white/20 shadow-xl backdrop-blur-md flex items-center justify-center">
-              <Megaphone className="w-10 h-10 text-white" />
+            <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-black/5 dark:from-white/10 to-transparent border border-black/10 dark:border-white/20 shadow-xl backdrop-blur-md flex items-center justify-center">
+              <Megaphone className="w-10 h-10 text-black dark:text-white" />
             </div>
             <div>
-              <h4 className="text-white text-xl md:text-2xl font-bold mb-2">Data-Driven Advertising</h4>
-              <p className="text-neutral-400 text-base md:text-lg">Turning ad spend into measurable revenue.</p>
+              <h4 className="text-foreground dark:text-white text-xl md:text-2xl font-bold mb-2">Data-Driven Advertising</h4>
+              <p className="text-muted-foreground dark:text-neutral-400 text-base md:text-lg">Turning ad spend into measurable revenue.</p>
             </div>
           </div>
-          <p className="text-neutral-300 text-base md:text-lg font-normal mb-8">
+          <p className="text-neutral-600 dark:text-neutral-300 text-base md:text-lg font-normal mb-8">
             Our campaigns are built on data, optimized for conversion, and scaled for maximum return on investment.
           </p>
           <div className="space-y-4">
-            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
-              <span className="w-2 h-2 bg-white rounded-full"></span>
+            <div className="flex gap-3 items-center text-neutral-600 dark:text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
               Multi-Channel Campaigns (Meta, Google, LinkedIn)
             </div>
-            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
-              <span className="w-2 h-2 bg-white rounded-full"></span>
+            <div className="flex gap-3 items-center text-neutral-600 dark:text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
               Conversion Rate Optimization (CRO)
             </div>
-            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
-              <span className="w-2 h-2 bg-white rounded-full"></span>
+            <div className="flex gap-3 items-center text-neutral-600 dark:text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
               A/B Testing & Iteration
             </div>
-            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
-              <span className="w-2 h-2 bg-white rounded-full"></span>
+            <div className="flex gap-3 items-center text-neutral-600 dark:text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
               Detailed ROI Reporting
             </div>
-            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
-              <span className="w-2 h-2 bg-white rounded-full"></span>
+            <div className="flex gap-3 items-center text-neutral-600 dark:text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
               Retargeting Strategies
             </div>
           </div>
@@ -176,36 +176,36 @@ const WhatWeDo = () => {
       content: (
         <div>
           <div className="flex items-center gap-4 mb-8">
-            <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-white/10 to-transparent border border-white/20 shadow-xl backdrop-blur-md flex items-center justify-center">
-              <Sparkles className="w-10 h-10 text-white" />
+            <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-black/5 dark:from-white/10 to-transparent border border-black/10 dark:border-white/20 shadow-xl backdrop-blur-md flex items-center justify-center">
+              <Sparkles className="w-10 h-10 text-black dark:text-white" />
             </div>
             <div>
-              <h4 className="text-white text-xl md:text-2xl font-bold mb-2">Animated Storytelling</h4>
-              <p className="text-neutral-400 text-base md:text-lg">Captivating visuals that explain and engage.</p>
+              <h4 className="text-foreground dark:text-white text-xl md:text-2xl font-bold mb-2">Animated Storytelling</h4>
+              <p className="text-muted-foreground dark:text-neutral-400 text-base md:text-lg">Captivating visuals that explain and engage.</p>
             </div>
           </div>
-          <p className="text-neutral-300 text-base md:text-lg font-normal mb-8">
+          <p className="text-neutral-600 dark:text-neutral-300 text-base md:text-lg font-normal mb-8">
             We simplify complex ideas into stunning 2D animations and motion graphics that keep viewers watching.
           </p>
           <div className="space-y-4">
-            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
-              <span className="w-2 h-2 bg-white rounded-full"></span>
+            <div className="flex gap-3 items-center text-neutral-600 dark:text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
               2D Explainer Videos
             </div>
-            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
-              <span className="w-2 h-2 bg-white rounded-full"></span>
+            <div className="flex gap-3 items-center text-neutral-600 dark:text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
               Logo Animation & Intros
             </div>
-            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
-              <span className="w-2 h-2 bg-white rounded-full"></span>
+            <div className="flex gap-3 items-center text-neutral-600 dark:text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
               Typography & Kinetic Text
             </div>
-            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
-              <span className="w-2 h-2 bg-white rounded-full"></span>
+            <div className="flex gap-3 items-center text-neutral-600 dark:text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
               UI/UX Interaction Demos
             </div>
-            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
-              <span className="w-2 h-2 bg-white rounded-full"></span>
+            <div className="flex gap-3 items-center text-neutral-600 dark:text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
               Social Media Shorts
             </div>
           </div>
@@ -217,36 +217,36 @@ const WhatWeDo = () => {
       content: (
         <div>
           <div className="flex items-center gap-4 mb-8">
-            <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-white/10 to-transparent border border-white/20 shadow-xl backdrop-blur-md flex items-center justify-center">
-              <Palette className="w-10 h-10 text-white" />
+            <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-black/5 dark:from-white/10 to-transparent border border-black/10 dark:border-white/20 shadow-xl backdrop-blur-md flex items-center justify-center">
+              <Palette className="w-10 h-10 text-black dark:text-white" />
             </div>
             <div>
-              <h4 className="text-white text-xl md:text-2xl font-bold mb-2">Memorable Brand Identity</h4>
-              <p className="text-neutral-400 text-base md:text-lg">Crafting logos that leave lasting impressions.</p>
+              <h4 className="text-foreground dark:text-white text-xl md:text-2xl font-bold mb-2">Memorable Brand Identity</h4>
+              <p className="text-muted-foreground dark:text-neutral-400 text-base md:text-lg">Crafting logos that leave lasting impressions.</p>
             </div>
           </div>
-          <p className="text-neutral-300 text-base md:text-lg font-normal mb-8">
+          <p className="text-neutral-600 dark:text-neutral-300 text-base md:text-lg font-normal mb-8">
             Your logo is the face of your brand. We design unique, versatile logos that capture your essence and stand out in any market.
           </p>
           <div className="space-y-4">
-            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
-              <span className="w-2 h-2 bg-white rounded-full"></span>
+            <div className="flex gap-3 items-center text-neutral-600 dark:text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
               Multiple Concept Designs
             </div>
-            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
-              <span className="w-2 h-2 bg-white rounded-full"></span>
+            <div className="flex gap-3 items-center text-neutral-600 dark:text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
               Unlimited Revisions
             </div>
-            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
-              <span className="w-2 h-2 bg-white rounded-full"></span>
+            <div className="flex gap-3 items-center text-neutral-600 dark:text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
               Vector & Print-Ready Files
             </div>
-            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
-              <span className="w-2 h-2 bg-white rounded-full"></span>
+            <div className="flex gap-3 items-center text-neutral-600 dark:text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
               Brand Color Palette
             </div>
-            <div className="flex gap-3 items-center text-neutral-300 text-base md:text-lg">
-              <span className="w-2 h-2 bg-white rounded-full"></span>
+            <div className="flex gap-3 items-center text-neutral-600 dark:text-neutral-300 text-base md:text-lg">
+              <span className="w-2 h-2 bg-black dark:bg-white rounded-full"></span>
               Social Media Kit Included
             </div>
           </div>

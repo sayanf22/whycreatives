@@ -13,7 +13,7 @@ export const MediaRenderer: React.FC<MediaRendererProps> = ({
   alt,
   className = "w-full h-full object-cover",
 }) => {
-  const isVideo = mediaType === "video";
+  const isVideo = typeof mediaType === 'string' && mediaType.toLowerCase() === "video";
 
   if (!url) {
     return (
