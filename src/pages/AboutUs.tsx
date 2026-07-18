@@ -2,6 +2,8 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { About3 } from "@/components/ui/about-3";
 import { FadeInWhenVisible } from "@/components/FadeInWhenVisible";
+import { Button } from "@/components/ui/button";
+import { Instagram, ArrowUpRight } from "lucide-react";
 
 const AboutUs = () => {
   return (
@@ -38,6 +40,47 @@ const AboutUs = () => {
           { label: "Support Available", value: "24/7" },
         ]}
       />
+
+      {/* Founder's Journey Section */}
+      <section className="pb-24 sm:pb-32 px-4 sm:px-6 relative overflow-hidden bg-background animate-fade-in" style={{ animationDelay: "0.2s" }}>
+        <div className="container mx-auto max-w-5xl">
+          <FadeInWhenVisible>
+            <div className="relative rounded-[2rem] bg-gradient-to-br from-primary/10 via-primary/5 to-transparent p-8 md:p-12 border border-border/50 overflow-hidden group shadow-xl">
+              {/* Background gradient orb */}
+              <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors duration-500 pointer-events-none -translate-y-12 translate-x-12" />
+              
+              <div className="flex flex-col md:flex-row gap-8 items-center justify-between relative z-10">
+                <div className="flex-1 text-center md:text-left">
+                  <span className="text-xs font-bold uppercase tracking-widest text-primary/70 mb-2 block">
+                    Our Creative Leadership
+                  </span>
+                  <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground mb-4">
+                    Follow Our Founder's Journey
+                  </h2>
+                  <p className="text-muted-foreground text-base sm:text-lg mb-6 leading-relaxed">
+                    Meet the creative force behind WhyCreatives. As a passionate content creator, she shares behind-the-scenes vlogs, creative processes, and the agency's journey on Instagram. Follow along to get an insider's look at how we build, create, and innovate.
+                  </p>
+                  <div className="flex flex-wrap gap-4 items-center justify-center md:justify-start">
+                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/80 text-foreground font-semibold text-sm border border-border/50">
+                      <Instagram className="w-4 h-4 text-pink-500" />
+                      @areyparo
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex-shrink-0 w-full md:w-auto flex justify-center">
+                  <Button size="lg" className="rounded-full font-bold px-8 py-6 flex items-center gap-2 group-hover:scale-102 transition-transform duration-300" asChild>
+                    <a href="https://www.instagram.com/areyparo" target="_blank" rel="noopener noreferrer">
+                      Follow on Instagram
+                      <ArrowUpRight className="w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    </a>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </FadeInWhenVisible>
+        </div>
+      </section>
 
       <Footer />
     </div>
