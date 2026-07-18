@@ -58,7 +58,7 @@ const AboutUs = () => {
                     Follow Our Journey
                   </h2>
                   <p className="text-muted-foreground text-base sm:text-lg mb-6 leading-relaxed">
-                    Follow our founder on Instagram, where she uploads daily vlogs and videos sharing her real-world experiences, creative process, and behind-the-scenes stories of running a creative agency. Follow along to see how we build, create, and grow together!
+                    Follow our founder on Instagram, where she shares posts and videos documenting her real-world experiences, creative process, and behind-the-scenes journey of running a creative agency. Follow along to see how we build, create, and grow together!
                   </p>
                   <div className="flex flex-wrap gap-4 items-center justify-center md:justify-start">
                     <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/80 text-foreground font-semibold text-sm border border-border/50">
