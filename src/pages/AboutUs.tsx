@@ -52,13 +52,13 @@ const AboutUs = () => {
               <div className="flex flex-col md:flex-row gap-8 items-center justify-between relative z-10">
                 <div className="flex-1 text-center md:text-left">
                   <span className="text-xs font-bold uppercase tracking-widest text-primary/70 mb-2 block">
-                    Our Agency Journey
+                    Our Founder's Experience
                   </span>
                   <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground mb-4">
                     Follow Our Journey
                   </h2>
                   <p className="text-muted-foreground text-base sm:text-lg mb-6 leading-relaxed">
-                    Meet the creative force behind WhyCreatives. She shares behind-the-scenes vlogs, creative processes, and our agency's journey on Instagram. Follow along to get an insider's look at how we build, create, and innovate.
+                    Follow our founder on Instagram, where she uploads daily vlogs and videos sharing her real-world experiences, creative process, and behind-the-scenes stories of running a creative agency. Follow along to see how we build, create, and grow together!
                   </p>
                   <div className="flex flex-wrap gap-4 items-center justify-center md:justify-start">
                     <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/80 text-foreground font-semibold text-sm border border-border/50">
