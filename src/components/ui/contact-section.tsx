@@ -102,7 +102,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
     } else {
       // Default WhatsApp integration
       const message = `*New Project Inquiry*%0A%0A*Name:* ${formData.name}%0A*Email:* ${formData.email}%0A*Project Types:* ${formData.projectType.join(', ') || 'Not specified'}%0A%0A*Message:*%0A${formData.message}`;
-      window.open(`https://wa.me/918119811655?text=${message}`, "_blank");
+      window.open(`https://wa.me/918210198880?text=${message}`, "_blank");
     }
     
     // Reset form
@@ -172,10 +172,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                     <div className="flex-1">
                       <p className="text-xs font-bold text-muted-foreground mb-0.5 uppercase tracking-wide">Call us</p>
                       <a 
-                        href="tel:+918119811655" 
+                        href="tel:+918210198880" 
                         className="text-foreground hover:text-primary transition-colors font-semibold text-sm"
                       >
-                        +91 81198 11655
+                        +91 82101 98880
                       </a>
                     </div>
                   </div>

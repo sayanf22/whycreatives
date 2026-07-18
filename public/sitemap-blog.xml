@@ -3,17 +3,77 @@
   <!-- 
     WhyCreatives - Blog/Insights Sitemap
     Auto-generated from Supabase
-    Updated: 2026-06-14
+    Updated: 2026-07-18
   -->
   
   <!-- Blog Hub Page -->
   <url>
     <loc>https://whycreatives.in/insights</loc>
-    <lastmod>2026-06-14</lastmod>
+    <lastmod>2026-07-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
 
+  <url>
+    <loc>https://whycreatives.in/insights/building-brand-resonance-in-india</loc>
+    <lastmod>2026-07-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://whycreatives.in/insights/branding-and-brand-identity-strategies</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://whycreatives.in/insights/india-web-development-trends</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://whycreatives.in/insights/video-marketing-for-india</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://whycreatives.in/insights/revitalizing-digital-marketing-strategies</loc>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://whycreatives.in/insights/india-entrepreneurial-growth-tips</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://whycreatives.in/insights/indian-startup-success-strategies</loc>
+    <lastmod>2026-06-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://whycreatives.in/insights/branding-beyond-visuals</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://whycreatives.in/insights/video-marketing-strategy-for-indian-businesses</loc>
+    <lastmod>2026-06-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://whycreatives.in/insights/brand-identity-in-india</loc>
+    <lastmod>2026-06-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
   <url>
     <loc>https://whycreatives.in/insights/sustainable-business-expansion</loc>
     <lastmod>2026-06-07</lastmod>

@@ -15,7 +15,7 @@ export const HowItWorks = () => {
       icon: FileCheck,
       number: "02",
       title: "Get Your Quote",
-      description: "Receive a transparent, detailed quote with no hidden fees. We'll break down the timeline and deliverables so you know exactly what to expect.",
+      description: "Receive a transparent, detailed quote with clear upfront terms. We'll break down the timeline and deliverables so you know exactly what to expect.",
     },
     {
       icon: Rocket,

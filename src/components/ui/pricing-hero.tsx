@@ -6,13 +6,13 @@ export default function PricingHero() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-4 sm:mb-6">
-            Premium Quality At
+            Premium Quality Without
             <br className="hidden sm:block" />
-            <span className="block sm:inline"> Affordable Prices</span>
+            <span className="block sm:inline"> Premium Pricing</span>
           </h1>
           <p className="text-base sm:text-lg text-muted-foreground mb-6 sm:mb-8 leading-relaxed">
             Compare our transparent pricing with traditional agencies. Same professional quality,
-            exceptional value. No hidden fees, no surprises - just honest pricing that helps your business grow.
+            exceptional value. Upfront agreements, no surprises - just honest pricing that helps your business grow.
           </p>
         </div>
 

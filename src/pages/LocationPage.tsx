@@ -167,7 +167,7 @@ const LocationPage = () => {
             "name": `WhyCreatives - Creative Agency ${data.name}`,
             "description": pageDescription,
             "url": `https://whycreatives.in/${location}`,
-            "telephone": "+918119811655",
+            "telephone": "+918210198880",
             "email": "hello@whycreatives.in",
             "address": {
               "@type": "PostalAddress",
@@ -438,7 +438,7 @@ const LocationPage = () => {
                   Ready to Start Your Project?
                 </h2>
                 <p className="text-muted-foreground mb-8 max-w-2xl mx-auto text-lg">
-                  Get a free consultation and quote within 2 hours. No commitment, no hidden fees. Just honest pricing that helps your business grow.
+                  Get a free consultation and quote within 2 hours. No commitment, 100% transparent. Just honest pricing that helps your business grow.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                   <Button size="lg" asChild className="bg-foreground text-background hover:bg-muted-foreground font-bold text-lg px-10 py-7 rounded-full">
@@ -447,14 +447,14 @@ const LocationPage = () => {
                     </Link>
                   </Button>
                   <Button size="lg" variant="outline" asChild className="border-2 border-foreground text-lg px-10 py-7 rounded-full font-bold">
-                    <a href="tel:+918119811655">
+                    <a href="tel:+918210198880">
                       <Phone className="mr-2 h-5 w-5" /> Call Now
                     </a>
                   </Button>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center text-sm text-muted-foreground">
-                  <a href="tel:+918119811655" className="flex items-center gap-2 hover:text-white transition-colors bg-white/5 px-4 py-2 rounded-full">
-                    <Phone className="w-4 h-4" /> +91 81198 11655
+                  <a href="tel:+918210198880" className="flex items-center gap-2 hover:text-white transition-colors bg-white/5 px-4 py-2 rounded-full">
+                    <Phone className="w-4 h-4" /> +91 82101 98880
                   </a>
                   <a href="mailto:hello@whycreatives.in" className="flex items-center gap-2 hover:text-white transition-colors bg-white/5 px-4 py-2 rounded-full">
                     <Mail className="w-4 h-4" /> hello@whycreatives.in

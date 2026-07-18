@@ -25,7 +25,7 @@ const JoinUs = () => {
     const message = `*New Job Application*%0A%0A*Name:* ${formData.name}%0A*Email:* ${formData.email}%0A*Phone:* ${formData.phone}%0A*Position:* ${formData.position}%0A*Portfolio:* ${formData.portfolio || "Not provided"}%0A%0A*About:*%0A${formData.message}`;
 
     // Redirect to WhatsApp
-    window.open(`https://wa.me/918119811655?text=${message}`, "_blank");
+    window.open(`https://wa.me/918210198880?text=${message}`, "_blank");
   };
 
   const inputVariants = {
@@ -131,7 +131,7 @@ const JoinUs = () => {
                   </label>
                   <Input
                     type="tel"
-                    placeholder="+91 81198 11655"
+                    placeholder="+91 82101 98880"
                     className="bg-background border-border/50 text-foreground placeholder:text-muted-foreground focus:border-foreground/40 transition-colors rounded-xl"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}

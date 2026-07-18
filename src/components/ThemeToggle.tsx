@@ -20,11 +20,11 @@ export function ThemeToggle() {
             variant="ghost"
             size="icon"
             onClick={toggleTheme}
-            className="text-foreground hover:bg-secondary/80 h-10 w-10 md:h-12 md:w-12 flex-shrink-0 relative overflow-hidden"
+            className="text-foreground hover:bg-secondary/80 h-10 w-10 md:h-11 md:w-11 rounded-full flex-shrink-0 relative overflow-hidden transition-colors"
             aria-label="Toggle theme"
         >
-            <Sun className="h-5 w-5 md:h-6 md:w-6 transition-all duration-500 rotate-0 scale-100 dark:-rotate-90 dark:scale-0" />
-            <Moon className="absolute h-5 w-5 md:h-6 md:w-6 transition-all duration-500 rotate-90 scale-0 dark:rotate-0 dark:scale-100" />
+            <Sun className="h-5 w-5 md:h-[1.35rem] md:w-[1.35rem] transition-all duration-500 rotate-0 scale-100 dark:-rotate-90 dark:scale-0" />
+            <Moon className="absolute h-5 w-5 md:h-[1.35rem] md:w-[1.35rem] transition-all duration-500 rotate-90 scale-0 dark:rotate-0 dark:scale-100" />
             <span className="sr-only">Toggle theme</span>
         </Button>
     );

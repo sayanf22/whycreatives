@@ -8,8 +8,8 @@ function FloatingPaths({ position }: { position: number }) {
         id: i,
         d: `M-${380 - i * 5 * position} -${189 + i * 6}C-${380 - i * 5 * position
             } -${189 + i * 6} -${312 - i * 5 * position} ${216 - i * 6} ${152 - i * 5 * position
-            } ${343 - i * 6}C${616 - i * 5 * position} ${470 - i * 6} ${684 - i * 5 * position
-            } ${875 - i * 6} ${684 - i * 5 * position} ${875 - i * 6}`,
+            } ${343 - i * 6}C${750 - i * 5 * position} ${470 - i * 6} ${850 - i * 5 * position
+            } ${875 - i * 6} ${850 - i * 5 * position} ${875 - i * 6}`,
         color: "currentColor",
         width: 0.5 + i * 0.03,
     }));
@@ -17,9 +17,10 @@ function FloatingPaths({ position }: { position: number }) {
     return (
         <div className="absolute inset-0 pointer-events-none">
             <svg
-                className="w-full h-full text-foreground"
+                className="w-full h-full text-foreground overflow-visible"
                 viewBox="0 0 696 316"
                 fill="none"
+                preserveAspectRatio="xMidYMid slice"
             >
                 <title>Background Paths</title>
                 {paths.map((path) => (
@@ -65,6 +66,11 @@ export function BackgroundPaths({
             <div className="absolute inset-0">
                 <FloatingPaths position={1} />
                 <FloatingPaths position={-1} />
+                {/* Fade overlays to prevent lines from cutting off abruptly at top/bottom */}
+                <div className="absolute inset-0 pointer-events-none">
+                    <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-background to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background via-background/90 to-transparent" />
+                </div>
             </div>
 
             <div className="relative z-10 container mx-auto px-4 md:px-6 text-center">

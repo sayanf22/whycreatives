@@ -1,6 +1,5 @@
 import { Navigation } from "@/components/Navigation";
 import { Hero } from "@/components/Hero";
-import { TrustedBy } from "@/components/TrustedBy";
 import { ServicesBento } from "@/components/ServicesBento";
 import { WhyChooseUs } from "@/components/WhyChooseUs";
 import { HowItWorks } from "@/components/HowItWorks";
@@ -24,7 +23,7 @@ const Index = () => {
     ],
     "contactPoint": {
       "@type": "ContactPoint",
-      "telephone": "+91-81198-11655",
+      "telephone": "+91-82101-98880",
       "contactType": "customer service",
       "areaServed": "IN",
       "availableLanguage": ["en", "hi"]
@@ -46,7 +45,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>WhyCreatives | India's #1 Most Affordable Creative Agency</title>
+        <title>WhyCreatives | Premium Video Editing, Web Design & Creative Agency</title>
         <meta name="description" content="Award-winning video editing, web design, and digital marketing agency in India. Premium quality starting at ₹4,999. Get your free consultation today!" />
         <link rel="canonical" href="https://whycreatives.in" />
         <script type="application/ld+json">
@@ -59,7 +58,6 @@ const Index = () => {
 
       <Navigation />
       <Hero />
-      <TrustedBy />
       <ServicesBento />
       <WhyChooseUs />
       <HowItWorks />

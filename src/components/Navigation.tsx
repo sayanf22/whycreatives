@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -52,24 +51,39 @@ export const Navigation = () => {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 bg-white dark:bg-black ${scrolled ? "border-b border-border shadow-sm" : ""
-          }`}
+        className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-500 ${
+          isOpen
+            ? "bg-transparent border-b border-transparent py-5 md:py-6"
+            : scrolled
+            ? "bg-white/80 dark:bg-black/80 backdrop-blur-md border-b border-border/40 shadow-sm py-3 md:py-4"
+            : "bg-transparent py-5 md:py-6 border-b border-transparent"
+        }`}
       >
-        <div className="container mx-auto px-6 lg:px-16 py-5 md:py-6 flex justify-between items-center">
-          <Link to="/" className="flex items-center transition-transform hover:scale-105 duration-300">
-            <span className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
+        <div className="w-full max-w-7xl mx-auto px-5 sm:px-6 flex justify-between items-center">
+          <Link to="/" className="flex items-center gap-2.5 transition-transform hover:scale-[1.02] duration-300">
+            <img
+              src="/logo.png"
+              alt="WhyCreatives Logo"
+              width="32"
+              height="32"
+              className="w-7 h-7 md:w-8 md:h-8 dark:invert object-contain"
+            />
+            <span className="text-xl md:text-2xl lg:text-3xl font-extrabold tracking-tight text-foreground">
               WhyCreatives
             </span>
           </Link>
-          <div className="flex items-center gap-0 ml-auto">
+          <div className="flex items-center gap-1.5 ml-auto">
             <ThemeToggle />
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setIsOpen(true)}
-              className="text-foreground hover:bg-secondary/80 h-10 w-10 md:h-12 md:w-12 flex-shrink-0"
+              onClick={() => setIsOpen(!isOpen)}
+              className="text-foreground hover:bg-secondary/80 h-10 w-10 md:h-11 md:w-11 rounded-full flex-shrink-0 flex flex-col items-center justify-center gap-1.5 z-[60] relative transition-colors animate-fade-in"
+              aria-label="Toggle menu"
             >
-              <Menu className="h-6 w-6 md:h-7 md:w-7" />
+              <span className={`h-[2px] w-5 rounded-full bg-current transition-all duration-300 ease-out ${isOpen ? "rotate-45 translate-y-2" : ""}`} />
+              <span className={`h-[2px] w-5 rounded-full bg-current transition-all duration-300 ease-out ${isOpen ? "opacity-0" : ""}`} />
+              <span className={`h-[2px] w-5 rounded-full bg-current transition-all duration-300 ease-out ${isOpen ? "-rotate-45 -translate-y-2" : ""}`} />
             </Button>
           </div>
         </div>
@@ -82,34 +96,10 @@ export const Navigation = () => {
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
-            transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className="fixed inset-0 z-50 bg-white/95 dark:bg-black/95 backdrop-blur-xl"
+            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 z-50 bg-white/95 dark:bg-black/95 backdrop-blur-xl pt-28 md:pt-32"
           >
             <div className="h-full flex flex-col overflow-hidden relative">
-              {/* Header with Logo - Fixed at top */}
-              <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.4 }}
-                className="flex-shrink-0 bg-transparent z-10 border-b border-border/10"
-              >
-                <div className="container mx-auto px-6 lg:px-12 py-5 md:py-6 flex justify-between items-center">
-                  <div className="flex items-center">
-                    <span className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-foreground">
-                      WhyCreatives
-                    </span>
-                  </div>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => setIsOpen(false)}
-                    className="text-foreground hover:bg-secondary h-12 w-12 md:h-14 md:w-14 flex-shrink-0"
-                  >
-                    <X className="h-7 w-7 md:h-9 md:w-9" />
-                  </Button>
-                </div>
-              </motion.div>
-
               {/* Menu Items - Scrollable content */}
               <div
                 className="flex-1 overflow-y-auto overflow-x-hidden"
@@ -133,9 +123,9 @@ export const Navigation = () => {
                           x: 0
                         }}
                         transition={{
-                          delay: 0.3 + index * 0.1,
-                          duration: 0.6,
-                          ease: [0.22, 1, 0.36, 1]
+                          delay: 0.15 + index * 0.05,
+                          duration: 0.5,
+                          ease: [0.16, 1, 0.3, 1]
                         }}
                       >
                         <Link
@@ -155,7 +145,7 @@ export const Navigation = () => {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.4 }}
+                transition={{ delay: 0.4, duration: 0.4 }}
                 className="flex-shrink-0 bg-background border-t border-border/50"
               >
                 <div className="container mx-auto px-6 lg:px-12 py-4 md:py-5">

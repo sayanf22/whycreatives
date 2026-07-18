@@ -24,7 +24,7 @@ export const Testimonials = () => {
         handle: "Founder, Digital Dreams",
         avatar: "",
       },
-      text: "The transparency and communication throughout the project was outstanding. No hidden fees, no surprises - just exceptional work delivered on time.",
+      text: "The transparency and communication throughout the project was outstanding. Clear agreements, no surprises - just exceptional work delivered on time.",
     },
     {
       author: {

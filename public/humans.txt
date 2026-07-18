@@ -2,7 +2,7 @@
 Company: WhyCreatives
 Location: Agartala, Tripura, India
 Contact: hello@whycreatives.in
-Phone: +91 81198 11655
+Phone: +91 82101 98880
 Website: https://whycreatives.in
 
 /* SERVICES */

@@ -149,7 +149,7 @@ export const generateLocalBusinessSchema = (city: string, coords?: { lat: number
   name: `WhyCreatives - Creative Agency ${city}`,
   image: 'https://whycreatives.in/favicon.png',
   url: `https://whycreatives.in/${city.toLowerCase()}`,
-  telephone: '+918119811655',
+  telephone: '+918210198880',
   email: 'hello@whycreatives.in',
   priceRange: '₹₹',
   address: {

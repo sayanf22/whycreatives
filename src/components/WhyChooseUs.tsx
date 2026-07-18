@@ -12,10 +12,10 @@ export const WhyChooseUs = () => {
 
   const cards = [
     {
-      icon: <DollarSign className="size-4 text-emerald-400" />,
-      title: "Big Savings",
-      description: "Premium quality, fraction of cost",
-      date: "Cost Effective",
+      icon: <Users className="size-4 text-emerald-400" />,
+      title: "Happy Clients",
+      description: "200+ businesses served with care",
+      date: "Client First",
       iconClassName: "text-emerald-500",
       titleClassName: "text-emerald-400",
       className: `[grid-area:stack] hover:-translate-y-10 ${rearOverlay}`,
@@ -32,7 +32,7 @@ export const WhyChooseUs = () => {
     {
       icon: <Shield className="size-4 text-violet-400" />,
       title: "100% Transparent",
-      description: "No hidden fees, clear pricing",
+      description: "Simple agreements, upfront pricing",
       date: "Honest Pricing",
       iconClassName: "text-violet-500",
       titleClassName: "text-violet-400",
@@ -99,7 +99,7 @@ export const WhyChooseUs = () => {
                 <Shield className="w-8 h-8 mt-1 text-foreground flex-shrink-0" />
                 <div>
                   <h3 className="text-xl font-bold mb-2 text-foreground">100% Transparent</h3>
-                  <p className="text-base text-muted-foreground">Clear pricing, no hidden fees, regular updates</p>
+                  <p className="text-base text-muted-foreground">Clear pricing, upfront terms, regular updates</p>
                 </div>
               </div>
               <div className="flex items-start gap-4 p-4 border-l-2 border-border hover:border-foreground transition-colors duration-300">

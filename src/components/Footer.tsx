@@ -55,7 +55,7 @@ export const Footer = () => {
                   </Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild className="border-border hover:bg-muted text-foreground px-8 py-6 rounded-full bg-transparent">
-                  <a href="tel:+918119811655" className="flex items-center gap-2">
+                  <a href="tel:+918210198880" className="flex items-center gap-2">
                     <Phone className="w-5 h-5" />
                     Call Us
                   </a>
@@ -197,11 +197,11 @@ export const Footer = () => {
                   <li>
                     <BlurRevealItem delay={0.5}>
                       <a
-                        href="tel:+918119811655"
+                        href="tel:+918210198880"
                         className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors text-sm"
                       >
                         <Phone className="w-4 h-4 flex-shrink-0" />
-                        +91 81198 11655
+                        +91 82101 98880
                       </a>
                     </BlurRevealItem>
                   </li>
