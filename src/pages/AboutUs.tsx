@@ -28,33 +28,7 @@ const AboutUs = () => {
           buttonText: "Explore Our Services",
           buttonUrl: "/what-we-do",
         }}
-        companiesTitle="Trusted by businesses across industries"
-        companies={[
-          {
-            src: "https://shadcnblocks.com/images/block/logos/company/fictional-company-logo-1.svg",
-            alt: "Client 1",
-          },
-          {
-            src: "https://shadcnblocks.com/images/block/logos/company/fictional-company-logo-2.svg",
-            alt: "Client 2",
-          },
-          {
-            src: "https://shadcnblocks.com/images/block/logos/company/fictional-company-logo-3.svg",
-            alt: "Client 3",
-          },
-          {
-            src: "https://shadcnblocks.com/images/block/logos/company/fictional-company-logo-4.svg",
-            alt: "Client 4",
-          },
-          {
-            src: "https://shadcnblocks.com/images/block/logos/company/fictional-company-logo-5.svg",
-            alt: "Client 5",
-          },
-          {
-            src: "https://shadcnblocks.com/images/block/logos/company/fictional-company-logo-6.svg",
-            alt: "Client 6",
-          },
-        ]}
+        companies={[]}
         achievementsTitle="Our Impact in Numbers"
         achievementsDescription="We've partnered with businesses across India to deliver exceptional creative solutions. Our commitment to excellence, innovation, and client success has made us a trusted partner for brands looking to make a lasting impact in their industries."
         achievements={[

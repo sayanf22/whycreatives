@@ -142,24 +142,26 @@ export const About3 = ({
           </div>
         </FadeInWhenVisible>
 
-        <FadeInWhenVisible delay={0.3}>
-          <div className="py-32">
-            <p className="text-center">{companiesTitle} </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-8">
-              {companies.map((company, idx) => (
-                <div className="flex items-center gap-3" key={company.src + idx}>
-                  <img
-                    src={company.src}
-                    alt={company.alt}
-                    loading="lazy"
-                    decoding="async"
-                    className="h-6 w-auto md:h-8"
-                  />
-                </div>
-              ))}
+        {companies && companies.length > 0 && (
+          <FadeInWhenVisible delay={0.3}>
+            <div className="py-32">
+              <p className="text-center">{companiesTitle} </p>
+              <div className="mt-8 flex flex-wrap justify-center gap-8">
+                {companies.map((company, idx) => (
+                  <div className="flex items-center gap-3" key={company.src + idx}>
+                    <img
+                      src={company.src}
+                      alt={company.alt}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-6 w-auto md:h-8"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        </FadeInWhenVisible>
+          </FadeInWhenVisible>
+        )}
 
         <FadeInWhenVisible delay={0.4}>
           <div className="relative overflow-hidden rounded-xl bg-muted p-10 md:p-16">
