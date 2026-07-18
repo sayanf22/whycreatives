@@ -86,30 +86,20 @@ export function BackgroundPaths({
                 >
                     <h1 className="text-5xl sm:text-7xl md:text-8xl font-bold mb-8 tracking-tighter">
                         {words.map((word, wordIndex) => (
-                            <span
+                            <motion.span
                                 key={wordIndex}
-                                className="inline-block mr-4 last:mr-0"
+                                initial={{ y: 30, opacity: 0 }}
+                                whileInView={{ y: 0, opacity: 1 }}
+                                viewport={{ once: true }}
+                                transition={{
+                                    delay: wordIndex * 0.12,
+                                    duration: 0.6,
+                                    ease: [0.16, 1, 0.3, 1],
+                                }}
+                                className="inline-block mr-4 last:mr-0 text-foreground"
                             >
-                                {word.split("").map((letter, letterIndex) => (
-                                    <motion.span
-                                        key={`${wordIndex}-${letterIndex}`}
-                                        initial={{ y: 100, opacity: 0 }}
-                                        whileInView={{ y: 0, opacity: 1 }}
-                                        viewport={{ once: true }}
-                                        transition={{
-                                            delay:
-                                                wordIndex * 0.1 +
-                                                letterIndex * 0.03,
-                                            type: "spring",
-                                            stiffness: 150,
-                                            damping: 25,
-                                        }}
-                                        className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-foreground to-foreground/80"
-                                    >
-                                        {letter}
-                                    </motion.span>
-                                ))}
-                            </span>
+                                {word}
+                            </motion.span>
                         ))}
                     </h1>
 
