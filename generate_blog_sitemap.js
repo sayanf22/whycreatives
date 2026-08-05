@@ -4,8 +4,8 @@
 import { createClient } from '@supabase/supabase-js';
 import fs from 'fs';
 
-const SUPABASE_URL = 'https://renskjrttadhptrwnobz.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJlbnNranJ0dGFkaHB0cndub2J6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI5MzE2MTgsImV4cCI6MjA3ODUwNzYxOH0.w1njTYtB3x9QVErGQJJLsCWA3jv2LAsQQdt-2ZW0NoU';
+const SUPABASE_URL = 'https://arhsjfguddgoqnsxydzc.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_y5FG3pMb3Eg5EiDpq8SVfQ_q6US8yvE';
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 

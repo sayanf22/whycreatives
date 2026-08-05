@@ -5,7 +5,7 @@ import { FadeInWhenVisible } from "@/components/FadeInWhenVisible";
 import { Link, useParams, Navigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Spotlight } from "@/components/ui/spotlight-aceternity";
-import { ArrowRight, Video, Globe, Share2, Megaphone, Sparkles, Palette, Phone, Mail, MapPin, Star, Users, Clock, Shield, CheckCircle2, TrendingUp } from "lucide-react";
+import { ArrowRight, Video, Globe, Share2, Megaphone, Instagram, Palette, Phone, Mail, MapPin, Star, Users, Clock, Shield, CheckCircle2, TrendingUp } from "lucide-react";
 import RadialOrbitalTimeline from "@/components/ui/radial-orbital-timeline";
 import { getLocationData, getMisspellingRedirect, isValidLocationSlug } from "@/data/seoLocations";
 
@@ -40,11 +40,11 @@ const services = [
     duration: "Ongoing"
   },
   {
-    icon: Sparkles,
-    name: "Motion Graphics",
-    desc: "4K animations, explainers, visual effects & intros",
-    price: "₹3,999",
-    duration: "48 Hours"
+    icon: Instagram,
+    name: "@AreyParo UGC & Collaborations",
+    desc: "UGC Reels & Joint Collaboration posts by @AreyParo",
+    price: "₹3,000",
+    duration: "Flexible"
   },
   {
     icon: Share2,

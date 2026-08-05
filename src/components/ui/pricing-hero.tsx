@@ -64,14 +64,14 @@ export default function PricingHero() {
           />
           <ServicePricingCard
             imageUrl="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2000&auto=format&fit=crop"
-            serviceName="Motion Graphics"
-            savings="89%"
-            quality="4K Render"
-            oldPrice="₹36.5k"
-            oldPriceLabel="Per Min"
-            newPrice="₹3,999"
+            serviceName="@AreyParo UGC & Collabs"
+            savings="80%"
+            quality="High Engagement"
+            oldPrice="₹15k"
+            oldPriceLabel="Avg. Creator"
+            newPrice="₹3,000"
             newPriceLabel="Starting"
-            duration="48 Hours"
+            duration="Flexible"
           />
           <ServicePricingCard
             imageUrl="https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=2000&auto=format&fit=crop"

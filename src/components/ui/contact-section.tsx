@@ -121,7 +121,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
     'Web App',
     'E-Commerce',
     'Brand Identity',
-    'Motion Graphics',
+    '@AreyParo UGC & Collaborations',
     'Social Media Marketing',
     'Ad Campaigns',
     'Other'

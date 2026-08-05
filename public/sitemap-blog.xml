@@ -3,17 +3,47 @@
   <!-- 
     WhyCreatives - Blog/Insights Sitemap
     Auto-generated from Supabase
-    Updated: 2026-07-18
+    Updated: 2026-08-05
   -->
   
   <!-- Blog Hub Page -->
   <url>
     <loc>https://whycreatives.in/insights</loc>
-    <lastmod>2026-07-18</lastmod>
+    <lastmod>2026-08-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
 
+  <url>
+    <loc>https://whycreatives.in/insights/india-digital-leap-strategies</loc>
+    <lastmod>2026-08-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://whycreatives.in/insights/scaling-indian-businesses</loc>
+    <lastmod>2026-08-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://whycreatives.in/insights/brand-loyalty-in-india</loc>
+    <lastmod>2026-07-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://whycreatives.in/insights/video-storytelling-for-indian-audiences</loc>
+    <lastmod>2026-07-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://whycreatives.in/insights/seo-and-content-marketing-for-indian-businesses</loc>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
   <url>
     <loc>https://whycreatives.in/insights/building-brand-resonance-in-india</loc>
     <lastmod>2026-07-16</lastmod>

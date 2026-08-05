@@ -211,11 +211,13 @@ const AdminDashboard = () => {
     
     if (file.type.startsWith("image/")) {
       try {
-        const compressedBlob = await compressImage(file, 0.8);
+        console.log(`[Compression] Starting client-side compression for: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`);
+        const compressedBlob = await compressImage(file, 0.7);
         uploadFile = compressedBlob;
         fileExt = "webp";
+        console.log(`[Compression] Compression complete. New size: ${(compressedBlob.size / 1024).toFixed(1)} KB (Saved: ${(((file.size - compressedBlob.size) / file.size) * 100).toFixed(0)}%)`);
       } catch (err) {
-        console.error("Client compression failed, using original:", err);
+        console.error("[Compression] Client-side compression failed, uploading original:", err);
       }
     }
 
@@ -601,7 +603,7 @@ const AdminDashboard = () => {
                   disabled={loading || uploading}
                   className="w-full bg-white text-black hover:bg-neutral-200 font-bold h-12"
                 >
-                  {uploading ? "Uploading..." : loading ? "Adding..." : "Add Portfolio Item"}
+                  {uploading ? "Compressing & Uploading..." : loading ? "Adding..." : "Add Portfolio Item"}
                 </Button>
               </form>
             </Card>
@@ -673,7 +675,7 @@ const AdminDashboard = () => {
                     "Web Design",
                     "Social Media",
                     "Branding",
-                    "Motion Graphics",
+                    "UGC & Collabs",
                     "Ad Campaign",
                     "Logo Design",
                     "UI/UX",

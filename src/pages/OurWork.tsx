@@ -53,23 +53,32 @@ const OurWork = () => {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
-        <div className="pt-32 pb-24 px-4 flex items-center justify-center min-h-[60vh]">
-          <div className="text-center">
-            <div className="relative w-24 h-24 mx-auto mb-6">
-              {/* Outer ring - static */}
-              <div className="absolute inset-0 rounded-full border-4 border-white/20"></div>
-              {/* Middle ring - spinning clockwise */}
-              <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-white border-r-white animate-spin"></div>
-              {/* Inner ring - spinning counter-clockwise */}
-              <div 
-                className="absolute inset-2 rounded-full border-4 border-transparent border-b-white/60 border-l-white/60"
-                style={{ 
-                  animation: 'spin 1.5s linear infinite reverse'
-                }}
-              ></div>
+        <div className="pt-32 pb-24 px-4">
+          <div className="max-w-7xl mx-auto animate-pulse">
+            {/* Header Skeleton */}
+            <div className="text-center mb-16 space-y-4">
+              <div className="h-16 w-64 bg-neutral-900 dark:bg-neutral-800 rounded-2xl mx-auto" />
+              <div className="h-6 w-full max-w-xl bg-neutral-900/60 dark:bg-neutral-800/60 rounded-xl mx-auto" />
+              <div className="h-6 w-full max-w-md bg-neutral-900/40 dark:bg-neutral-800/40 rounded-xl mx-auto" />
             </div>
-            <h2 className="text-2xl font-bold mb-2 animate-pulse">Loading Portfolio</h2>
-            <p className="text-muted-foreground animate-pulse">Fetching creative works...</p>
+
+            {/* Cards Grid Skeleton */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+              {[...Array(3)].map((_, i) => (
+                <div 
+                  key={i} 
+                  className="w-full aspect-[16/9] bg-neutral-900/40 dark:bg-neutral-800/40 rounded-2xl border border-neutral-900 relative overflow-hidden"
+                >
+                  {/* Bottom Tag Skeleton */}
+                  <div className="absolute bottom-4 left-4 w-44 h-10 bg-neutral-900/60 dark:bg-neutral-800/60 rounded-xl" />
+                </div>
+              ))}
+            </div>
+
+            {/* Button Skeleton */}
+            <div className="flex justify-center mt-12">
+              <div className="w-44 h-14 bg-neutral-900/40 dark:bg-neutral-800/40 rounded-full" />
+            </div>
           </div>
         </div>
         <Footer />

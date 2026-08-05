@@ -1,282 +1,228 @@
 import { Link } from "react-router-dom";
+import { Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
+import { motion } from "framer-motion";
 import { BlurReveal, BlurRevealItem } from "@/components/BlurReveal";
-import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-
-const footerLinks = {
-  services: [
-    { name: "Video Production", href: "/what-we-do" },
-    { name: "Web Development", href: "/what-we-do" },
-    { name: "Brand Presence", href: "/what-we-do" },
-    { name: "Performance Marketing", href: "/what-we-do" },
-    { name: "Motion Graphics", href: "/what-we-do" },
-    { name: "Logo Design", href: "/what-we-do" },
-  ],
-  company: [
-    { name: "About Us", href: "/about-us" },
-    { name: "Our Work", href: "/our-work" },
-    { name: "Pricing", href: "/pricing-comparison" },
-    { name: "Insights", href: "/insights" },
-    { name: "Contact", href: "/contact" },
-    { name: "Careers", href: "/join-us" },
-  ],
-};
 
 export const Footer = () => {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
-    <footer className="relative bg-background overflow-hidden">
-      {/* Gradient Background */}
-      <div className="absolute inset-0 bg-gradient-to-t from-foreground/[0.02] to-transparent pointer-events-none" />
+    <footer className="relative bg-[#0d0d0d] text-white rounded-t-[3rem] md:rounded-t-[4.5rem] mt-16 pt-24 pb-12 px-6 md:px-12 lg:px-20 overflow-hidden border-t border-neutral-900 shadow-2xl">
+      {/* Decorative top border glow */}
+      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#a8ff35]/30 to-transparent" />
+      
+      <div className="max-w-7xl mx-auto relative">
+        
+        {/* Left Floating Socials (Desktop only) */}
+        <motion.div 
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="hidden xl:flex flex-col gap-3.5 absolute -left-[4.5rem] top-12 bg-[#121212] p-2.5 rounded-[20px] border border-neutral-800/80 shadow-2xl z-20"
+        >
+          <a 
+            href="https://www.linkedin.com/company/whycreatives/" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="w-9 h-9 rounded-full bg-[#b5ff2b] text-black flex items-center justify-center font-bold text-sm hover:scale-110 hover:shadow-[0_0_15px_rgba(181,255,43,0.3)] transition-all font-sans"
+            aria-label="LinkedIn"
+          >
+            in
+          </a>
+          <a 
+            href="https://twitter.com/why_creatives" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="w-9 h-9 rounded-full bg-[#b5ff2b] text-black flex items-center justify-center font-bold text-sm hover:scale-110 hover:shadow-[0_0_15px_rgba(181,255,43,0.3)] transition-all font-sans"
+            aria-label="Twitter/X"
+          >
+            X
+          </a>
+          <a 
+            href="https://www.instagram.com/why_creatives/" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="w-9 h-9 rounded-full bg-[#b5ff2b] text-black flex items-center justify-center hover:scale-110 hover:shadow-[0_0_15px_rgba(181,255,43,0.3)] transition-all"
+            aria-label="Instagram"
+          >
+            <svg className="w-4 h-4 fill-black" viewBox="0 0 24 24">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+          </a>
+          <a 
+            href="https://dribbble.com" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="w-9 h-9 rounded-full bg-[#b5ff2b] text-black flex items-center justify-center hover:scale-110 hover:shadow-[0_0_15px_rgba(181,255,43,0.3)] transition-all font-bold text-xs"
+            aria-label="Dribbble"
+          >
+            <svg className="w-4 h-4 fill-black" viewBox="0 0 24 24">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm7.65 4.81c.54.76.94 1.63 1.15 2.57-1.39-.32-2.73-.47-4.01-.44-.22-1.02-.48-2-.79-2.91 1.48.16 2.76.47 3.65.78zm-5.61-1.42c.31.87.56 1.8.76 2.78-1.28-.03-2.67-.18-4.14-.49.46-1.03.95-1.92 1.45-2.65.65.12 1.29.24 1.93.36zm-3.69.61c-.48.7-.93 1.55-1.37 2.53-2.09-.59-4.08-.85-5.91-.77.58-1.63 1.71-3 3.19-3.89 1.13.72 2.5 1.43 4.09 2.13zM3.19 10.9c1.94-.09 4.06.18 6.27.81-.39 1.11-.84 2.27-1.36 3.44-2.8-.82-5.41-1.12-7.79-.88-.17-.79-.24-1.62-.24-2.47.38-.3.76-.6 1.12-.9zm1.18 6.01c2.19-.24 4.62.01 7.24.77-.52 1.09-1.08 2.06-1.68 2.87-1.99-.95-3.61-2.44-4.56-4.44.33-.4.67-.8.99-1.2zm6.75 3.51c.56-.76 1.08-1.67 1.56-2.69 1.46.43 2.78 1.01 3.93 1.74-.91.73-1.98 1.29-3.14 1.62-.78-.22-1.57-.45-2.35-.67zm5.2-2.37c-1.07-.68-2.3-1.22-3.66-1.62.48-1.1.9-2.19 1.25-3.23 1.53.11 3.13.43 4.79.95-.31 1.51-1.09 2.85-2.38 3.9z"/>
+            </svg>
+          </a>
+          <a 
+            href="https://behance.net" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="w-9 h-9 rounded-full bg-[#b5ff2b] text-black flex items-center justify-center hover:scale-110 hover:shadow-[0_0_15px_rgba(181,255,43,0.3)] transition-all font-bold text-xs font-sans"
+            aria-label="Behance"
+          >
+            Be
+          </a>
+        </motion.div>
 
-      {/* Main Footer Content */}
-      <div className="relative border-t border-border/50">
-        {/* CTA Section */}
-        <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-16 sm:py-20">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
-            <div className="text-center lg:text-left max-w-2xl">
-              <BlurReveal delay={0}>
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4 text-foreground">
-                  Ready to create
-                  <span className="text-muted-foreground"> something amazing?</span>
-                </h2>
-              </BlurReveal>
-              <BlurReveal delay={0.1}>
-                <p className="text-muted-foreground text-lg">
-                  Let's bring your vision to life. Get a free quote within 2 hours.
-                </p>
-              </BlurReveal>
-            </div>
-            <BlurReveal delay={0.2}>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" asChild className="bg-background text-foreground hover:bg-muted font-bold px-8 py-6 rounded-full group shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-border/50 hover:shadow-[0_8px_30px_rgb(0,0,0,0.16)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.5)] transition-all">
-                  <Link to="/contact" className="flex items-center gap-2">
-                    Start a Project
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                </Button>
-                <Button size="lg" variant="outline" asChild className="border-border hover:bg-muted text-foreground px-8 py-6 rounded-full bg-transparent">
-                  <a href="tel:+918210198880" className="flex items-center gap-2">
-                    <Phone className="w-5 h-5" />
-                    Call Us
-                  </a>
-                </Button>
-              </div>
+        {/* Top Scroll to Top link */}
+        <motion.div 
+          initial={{ opacity: 0, y: -10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+          className="absolute right-0 top-0 text-[11px] sm:text-xs text-neutral-400 hover:text-white cursor-pointer flex items-center gap-1 transition-colors z-10 font-sans tracking-wide" 
+          onClick={scrollToTop}
+        >
+          <span>Sh*t I've gone too far, send me back up</span>
+          <span>👈</span>
+        </motion.div>
+
+        {/* Main Columns Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pt-12 pb-16">
+          
+          {/* Col 1: Do you like what you see? */}
+          <div className="flex flex-col gap-6">
+            <BlurReveal delay={0.1}>
+              <h2 className="text-4xl sm:text-5xl font-bold tracking-tight leading-tight text-white font-sans">
+                Do you like<br />what you see?
+              </h2>
             </BlurReveal>
-          </div>
-        </div>
-
-        {/* Links Section */}
-        <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-12 border-t border-border/50">
-          <div className="flex flex-col lg:flex-row justify-between gap-12 lg:gap-16">
-
-            {/* Logo & Description Column (Left) */}
-            <div className="w-full lg:w-1/3 flex flex-col items-center sm:items-start text-center sm:text-left gap-6">
-              <BlurReveal delay={0}>
-                <div className="flex items-center gap-3">
-                  <img
-                    src="/logo.png"
-                    alt="WhyCreatives Logo"
-                    loading="lazy"
-                    decoding="async"
-                    width="40"
-                    height="40"
-                    className="w-10 h-10 dark:invert"
-                  />
-                  <span className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
-                    WhyCreatives
-                  </span>
-                </div>
+            <div className="flex flex-col gap-4 items-start">
+              <BlurReveal delay={0.2}>
+                <Link 
+                  to="/contact" 
+                  className="inline-flex items-center gap-2 bg-[#b5ff2b] text-black font-bold px-6 py-3 rounded-full hover:bg-[#9ee024] hover:shadow-[0_0_20px_rgba(181,255,43,0.4)] transition-all hover:scale-[1.03] group"
+                >
+                  <span>Start a project</span>
+                  <ArrowUpRight className="w-4.5 h-4.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                </Link>
               </BlurReveal>
-              <BlurReveal delay={0.1}>
-                <p className="text-muted-foreground text-sm max-w-sm">
-                  We are a full-service creative agency based in Guwahati, Assam, dedicated to transforming brands through innovative storytelling, cutting-edge design, and strategic digital solutions.
-                </p>
-              </BlurReveal>
-            </div>
-
-            {/* Links Grid (Right) */}
-            <div className="w-full lg:w-2/3 grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12">
-              {/* Services Column */}
-              <div>
-                <BlurReveal delay={0.1}>
-                  <h3 className="text-foreground font-bold text-sm uppercase tracking-wider mb-6">Services</h3>
-                </BlurReveal>
-                <ul className="space-y-3">
-                  {footerLinks.services.map((link, index) => (
-                    <li key={link.name}>
-                      <BlurRevealItem delay={0.15 + 0.05 * index}>
-                        <Link
-                          to={link.href}
-                          className="text-muted-foreground hover:text-foreground transition-colors text-sm"
-                        >
-                          {link.name}
-                        </Link>
-                      </BlurRevealItem>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Company Column */}
-              <div>
-                <BlurReveal delay={0.2}>
-                  <h3 className="text-foreground font-bold text-sm uppercase tracking-wider mb-6">Company</h3>
-                </BlurReveal>
-                <ul className="space-y-3">
-                  {footerLinks.company.map((link, index) => (
-                    <li key={link.name}>
-                      <BlurRevealItem delay={0.25 + 0.05 * index}>
-                        <Link
-                          to={link.href}
-                          className="text-muted-foreground hover:text-foreground transition-colors text-sm"
-                        >
-                          {link.name}
-                        </Link>
-                      </BlurRevealItem>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Locations Column */}
-              <div className="md:col-span-2">
-                <BlurReveal delay={0.3}>
-                  <h3 className="text-foreground font-bold text-sm uppercase tracking-wider mb-4">We Serve Across India</h3>
-                  <p className="text-muted-foreground text-sm mb-4">
-                    Delivering premium creative services to 250+ cities across all 28 states and 8 union territories.
-                  </p>
-                </BlurReveal>
-                <BlurReveal delay={0.35}>
-                  <div className="flex flex-wrap gap-2 mb-5">
-                    {[
-                      { name: "Mumbai", href: "/mumbai" },
-                      { name: "Delhi", href: "/delhi" },
-                      { name: "Bangalore", href: "/bangalore" },
-                      { name: "Kolkata", href: "/kolkata" },
-                      { name: "Chennai", href: "/chennai" },
-                      { name: "Hyderabad", href: "/hyderabad" },
-                    ].map((city) => (
-                      <Link
-                        key={city.name}
-                        to={city.href}
-                        className="text-muted-foreground hover:text-foreground text-sm transition-colors"
-                      >
-                        {city.name}
-                        <span className="text-border ml-2">·</span>
-                      </Link>
+              
+              <BlurReveal delay={0.3}>
+                <div className="flex items-center gap-2 mt-2">
+                  <span className="text-[11px] sm:text-xs font-semibold text-neutral-400 font-sans">5.0 from 120+ reviews</span>
+                  <div className="flex gap-0.5">
+                    {/* Google G Icon */}
+                    <svg className="w-3.5 h-3.5 mr-1" viewBox="0 0 24 24">
+                      <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                      <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                      <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l3.66-2.85z"/>
+                      <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.85c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    {[...Array(5)].map((_, i) => (
+                      <svg key={i} className="w-3.5 h-3.5 fill-[#f59e0b] text-[#f59e0b]" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
                     ))}
                   </div>
-                </BlurReveal>
-                <BlurReveal delay={0.4}>
-                  <Link
-                    to="/areas-we-serve"
-                    className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-semibold text-sm transition-colors"
-                  >
-                    View All 250+ Service Areas <ArrowRight className="w-4 h-4" />
-                  </Link>
-                </BlurReveal>
-              </div>
-
-              {/* Contact Column */}
-              <div>
-                <BlurReveal delay={0.4}>
-                  <h3 className="text-foreground font-bold text-sm uppercase tracking-wider mb-6">Contact</h3>
-                </BlurReveal>
-                <ul className="space-y-4">
-                  <li>
-                    <BlurRevealItem delay={0.45}>
-                      <a
-                        href="mailto:hello@whycreatives.in"
-                        className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors text-sm break-all"
-                      >
-                        <Mail className="w-4 h-4 flex-shrink-0" />
-                        hello@whycreatives.in
-                      </a>
-                    </BlurRevealItem>
-                  </li>
-                  <li>
-                    <BlurRevealItem delay={0.5}>
-                      <a
-                        href="tel:+918210198880"
-                        className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors text-sm"
-                      >
-                        <Phone className="w-4 h-4 flex-shrink-0" />
-                        +91 82101 98880
-                      </a>
-                    </BlurRevealItem>
-                  </li>
-                  <li>
-                    <BlurRevealItem delay={0.55}>
-                      <div className="flex items-start gap-3 text-muted-foreground text-sm">
-                        <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                        <span>Guwahati, Assam, India</span>
-                      </div>
-                    </BlurRevealItem>
-                  </li>
-                </ul>
-
-                {/* Social Links */}
-                <BlurReveal delay={0.5}>
-                  <div className="flex items-center gap-4 mt-6">
-                    <a
-                      href="https://www.instagram.com/why_creatives/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-10 h-10 rounded-full bg-foreground/5 hover:bg-foreground/10 text-foreground flex items-center justify-center transition-colors"
-                      aria-label="Instagram"
-                    >
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                      </svg>
-                    </a>
-                    <a
-                      href="https://www.linkedin.com/company/whycreatives/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-10 h-10 rounded-full bg-foreground/5 hover:bg-foreground/10 text-foreground flex items-center justify-center transition-colors"
-                      aria-label="LinkedIn"
-                    >
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                      </svg>
-                    </a>
-                    <a
-                      href="https://twitter.com/why_creatives"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-10 h-10 rounded-full bg-foreground/5 hover:bg-foreground/10 text-foreground flex items-center justify-center transition-colors"
-                      aria-label="Twitter"
-                    >
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                      </svg>
-                    </a>
-                  </div>
-                </BlurReveal>
-              </div>
+                </div>
+              </BlurReveal>
             </div>
           </div>
+
+          {/* Col 2: Learn */}
+          <div className="flex flex-col gap-4">
+            <BlurReveal delay={0.15}>
+              <h3 className="text-neutral-600 font-bold tracking-wider text-xs uppercase font-sans">Learn</h3>
+            </BlurReveal>
+            <ul className="flex flex-col gap-2.5 text-neutral-400 text-sm font-sans">
+              <BlurRevealItem delay={0.2}><Link to="/about-us" className="hover:text-white transition-colors">About</Link></BlurRevealItem>
+              <BlurRevealItem delay={0.23}><Link to="/about-us" className="hover:text-white transition-colors">Culture</Link></BlurRevealItem>
+              <BlurRevealItem delay={0.26}><Link to="/what-we-do" className="hover:text-white transition-colors">Testimonials</Link></BlurRevealItem>
+              <BlurRevealItem delay={0.29}><Link to="/what-we-do" className="hover:text-white transition-colors">Processes</Link></BlurRevealItem>
+              <BlurRevealItem delay={0.32}><Link to="/contact" className="hover:text-white transition-colors">FAQs</Link></BlurRevealItem>
+              <BlurRevealItem delay={0.35}><Link to="/contact" className="hover:text-white transition-colors">Branding FAQs</Link></BlurRevealItem>
+              <BlurRevealItem delay={0.38}><Link to="/insights" className="hover:text-white transition-colors">Blog</Link></BlurRevealItem>
+            </ul>
+          </div>
+
+          {/* Col 3: Explore */}
+          <div className="flex flex-col gap-4">
+            <BlurReveal delay={0.2}>
+              <h3 className="text-neutral-600 font-bold tracking-wider text-xs uppercase font-sans">Explore</h3>
+            </BlurReveal>
+            <ul className="flex flex-col gap-2.5 text-neutral-400 text-sm font-sans">
+              <BlurRevealItem delay={0.25}><Link to="/" className="hover:text-white transition-colors">Home</Link></BlurRevealItem>
+              <BlurRevealItem delay={0.28} className="flex items-center gap-2">
+                <Link to="/our-work" className="hover:text-white transition-colors">Work</Link>
+                <span className="bg-[#b5ff2b] text-black font-extrabold text-[8px] px-1.5 py-0.5 rounded uppercase tracking-wider scale-90">New</span>
+              </BlurRevealItem>
+              <BlurRevealItem delay={0.31}><Link to="/what-we-do" className="hover:text-white transition-colors">Services</Link></BlurRevealItem>
+              <BlurRevealItem delay={0.34}><Link to="/join-us" className="hover:text-white transition-colors">Careers</Link></BlurRevealItem>
+              <BlurRevealItem delay={0.37}><Link to="/areas-we-serve" className="hover:text-white transition-colors">Sectors</Link></BlurRevealItem>
+              <BlurRevealItem delay={0.4}><Link to="/pricing-comparison" className="hover:text-white transition-colors">Hex Test</Link></BlurRevealItem>
+              <BlurRevealItem delay={0.43}><Link to="/contact" className="hover:text-white transition-colors">Contact</Link></BlurRevealItem>
+            </ul>
+          </div>
+
+          {/* Col 4: Get in touch */}
+          <div className="flex flex-col gap-4">
+            <BlurReveal delay={0.25}>
+              <h3 className="text-neutral-600 font-bold tracking-wider text-xs uppercase font-sans">Get in touch</h3>
+            </BlurReveal>
+            <ul className="flex flex-col gap-4 text-neutral-400 text-sm font-sans">
+              <BlurRevealItem delay={0.3} className="flex items-center gap-3">
+                <Phone className="w-4 h-4 text-neutral-600 flex-shrink-0" />
+                <a href="tel:+918210198880" className="hover:text-white transition-colors">+91 82101 98880</a>
+              </BlurRevealItem>
+              <BlurRevealItem delay={0.35} className="flex items-center gap-3">
+                <Mail className="w-4 h-4 text-neutral-600 flex-shrink-0" />
+                <a href="mailto:hello@whycreatives.in" className="hover:text-white transition-colors break-all">hello@whycreatives.in</a>
+              </BlurRevealItem>
+              <BlurRevealItem delay={0.4} className="flex items-start gap-3">
+                <MapPin className="w-4 h-4 text-neutral-600 mt-1 flex-shrink-0" />
+                <div>
+                  <p className="font-semibold text-white">WhyCreatives</p>
+                  <p className="text-neutral-400">Guwahati, Assam</p>
+                  <p className="text-neutral-400">India</p>
+                </div>
+              </BlurRevealItem>
+              <BlurRevealItem delay={0.45} className="flex items-center gap-3">
+                <span className="text-neutral-600 text-base font-bold flex-shrink-0">///</span>
+                <span className="hover:text-white transition-colors text-neutral-400">why.creatives.guwahati</span>
+              </BlurRevealItem>
+            </ul>
+          </div>
+
         </div>
 
-        {/* Bottom Bar */}
-        <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-6 border-t border-border/50">
-          <BlurReveal delay={0.6}>
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-              <p className="text-muted-foreground text-sm">
-                © {new Date().getFullYear()} Why Creatives. All rights reserved.
-              </p>
-              <div className="flex items-center gap-6">
-                <Link to="/privacy-policy" className="text-muted-foreground hover:text-foreground text-sm transition-colors">
-                  Privacy Policy
-                </Link>
-                <Link to="/terms" className="text-muted-foreground hover:text-foreground text-sm transition-colors">
-                  Terms of Service
-                </Link>
-              </div>
+        {/* Giant Text Section */}
+        <div className="border-t border-neutral-900 pt-8 pb-10 overflow-hidden select-none">
+          <BlurReveal delay={0.3} duration={0.8} className="w-full">
+            <h1 className="text-[12vw] sm:text-[10vw] font-black text-white tracking-tight leading-none text-center lg:text-left opacity-90 uppercase font-sans">
+              Crafting since 2020
+            </h1>
+          </BlurReveal>
+        </div>
+
+        {/* Fine Print Bottom Bar */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 border-t border-neutral-900 pt-6 text-[10px] sm:text-xs text-neutral-500 font-sans">
+          <BlurReveal delay={0.4}>
+            <span>WhyCreatives. © WhyCreatives Agency 2026 | Company Reg Number 10529055</span>
+          </BlurReveal>
+          <BlurReveal delay={0.45}>
+            <div className="flex flex-wrap gap-2 sm:gap-4 justify-center">
+              <span>Web Design Assam</span>
+              <span>|</span>
+              <span>All Rights Reserved</span>
+              <span>|</span>
+              <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy (you really care?)</Link>
             </div>
           </BlurReveal>
         </div>
+
       </div>
     </footer>
   );
 };
+
