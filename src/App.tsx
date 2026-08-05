@@ -25,6 +25,7 @@ const AdminLogin = lazy(() => import("./pages/AdminLogin"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const LocationPage = lazy(() => import("./pages/LocationPage"));
 const AllLocations = lazy(() => import("./pages/AllLocations"));
+const ServiceDetails = lazy(() => import("./pages/ServiceDetails"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -86,8 +87,8 @@ const App = () => (
             <Route path="/areas-we-serve" element={<AllLocations />} />
             <Route path="/:location" element={<LocationPage />} />
 
-            {/* SEO Services Catch-all */}
-            <Route path="/services/*" element={<Navigate to="/what-we-do" replace />} />
+            {/* Service Details Page */}
+            <Route path="/services/:slug" element={<ServiceDetails />} />
 
             {/* 404 Page */}
             <Route path="/404" element={<NotFound />} />
