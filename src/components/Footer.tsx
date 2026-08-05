@@ -80,7 +80,7 @@ export const Footer = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: 0.1 }}
-          className="absolute right-0 top-0 text-[11px] sm:text-xs text-neutral-400 hover:text-white cursor-pointer flex items-center gap-1 transition-colors z-10 font-sans tracking-wide" 
+          className="absolute right-0 top-0 text-[11px] sm:text-xs text-neutral-300 hover:text-white cursor-pointer flex items-center gap-1 transition-colors z-10 font-sans tracking-wide font-medium" 
           onClick={scrollToTop}
         >
           <span>Sh*t I've gone too far, send me back up</span>
@@ -110,7 +110,7 @@ export const Footer = () => {
               
               <BlurReveal delay={0.3}>
                 <div className="flex items-center gap-2 mt-2">
-                  <span className="text-[11px] sm:text-xs font-semibold text-neutral-400 font-sans">5.0 from 120+ reviews</span>
+                  <span className="text-[11px] sm:text-xs font-semibold text-neutral-300 font-sans">5.0 from 120+ reviews</span>
                   <div className="flex gap-0.5">
                     {/* Google G Icon */}
                     <svg className="w-3.5 h-3.5 mr-1" viewBox="0 0 24 24">
@@ -133,63 +133,63 @@ export const Footer = () => {
           {/* Col 2: Learn */}
           <div className="flex flex-col gap-4">
             <BlurReveal delay={0.15}>
-              <h3 className="text-neutral-600 font-bold tracking-wider text-xs uppercase font-sans">Learn</h3>
+              <h3 className="text-white font-extrabold tracking-widest text-[11px] uppercase font-sans opacity-95">Learn</h3>
             </BlurReveal>
-            <ul className="flex flex-col gap-2.5 text-neutral-400 text-sm font-sans">
-              <BlurRevealItem delay={0.2}><Link to="/about-us" className="hover:text-white transition-colors">About</Link></BlurRevealItem>
-              <BlurRevealItem delay={0.23}><Link to="/about-us" className="hover:text-white transition-colors">Culture</Link></BlurRevealItem>
-              <BlurRevealItem delay={0.26}><Link to="/what-we-do" className="hover:text-white transition-colors">Testimonials</Link></BlurRevealItem>
-              <BlurRevealItem delay={0.29}><Link to="/what-we-do" className="hover:text-white transition-colors">Processes</Link></BlurRevealItem>
-              <BlurRevealItem delay={0.32}><Link to="/contact" className="hover:text-white transition-colors">FAQs</Link></BlurRevealItem>
-              <BlurRevealItem delay={0.35}><Link to="/contact" className="hover:text-white transition-colors">Branding FAQs</Link></BlurRevealItem>
-              <BlurRevealItem delay={0.38}><Link to="/insights" className="hover:text-white transition-colors">Blog</Link></BlurRevealItem>
+            <ul className="flex flex-col gap-2.5 text-neutral-300 text-sm font-sans">
+              <BlurRevealItem delay={0.2}><Link to="/about-us" className="hover:text-[#b5ff2b] transition-colors">About</Link></BlurRevealItem>
+              <BlurRevealItem delay={0.23}><Link to="/about-us" className="hover:text-[#b5ff2b] transition-colors">Culture</Link></BlurRevealItem>
+              <BlurRevealItem delay={0.26}><Link to="/what-we-do" className="hover:text-[#b5ff2b] transition-colors">Testimonials</Link></BlurRevealItem>
+              <BlurRevealItem delay={0.29}><Link to="/what-we-do" className="hover:text-[#b5ff2b] transition-colors">Processes</Link></BlurRevealItem>
+              <BlurRevealItem delay={0.32}><Link to="/contact" className="hover:text-[#b5ff2b] transition-colors">FAQs</Link></BlurRevealItem>
+              <BlurRevealItem delay={0.35}><Link to="/contact" className="hover:text-[#b5ff2b] transition-colors">Branding FAQs</Link></BlurRevealItem>
+              <BlurRevealItem delay={0.38}><Link to="/insights" className="hover:text-[#b5ff2b] transition-colors">Blog</Link></BlurRevealItem>
             </ul>
           </div>
 
           {/* Col 3: Explore */}
           <div className="flex flex-col gap-4">
             <BlurReveal delay={0.2}>
-              <h3 className="text-neutral-600 font-bold tracking-wider text-xs uppercase font-sans">Explore</h3>
+              <h3 className="text-white font-extrabold tracking-widest text-[11px] uppercase font-sans opacity-95">Explore</h3>
             </BlurReveal>
-            <ul className="flex flex-col gap-2.5 text-neutral-400 text-sm font-sans">
-              <BlurRevealItem delay={0.25}><Link to="/" className="hover:text-white transition-colors">Home</Link></BlurRevealItem>
+            <ul className="flex flex-col gap-2.5 text-neutral-300 text-sm font-sans">
+              <BlurRevealItem delay={0.25}><Link to="/" className="hover:text-[#b5ff2b] transition-colors">Home</Link></BlurRevealItem>
               <BlurRevealItem delay={0.28} className="flex items-center gap-2">
-                <Link to="/our-work" className="hover:text-white transition-colors">Work</Link>
+                <Link to="/our-work" className="hover:text-[#b5ff2b] transition-colors">Work</Link>
                 <span className="bg-[#b5ff2b] text-black font-extrabold text-[8px] px-1.5 py-0.5 rounded uppercase tracking-wider scale-90">New</span>
               </BlurRevealItem>
-              <BlurRevealItem delay={0.31}><Link to="/what-we-do" className="hover:text-white transition-colors">Services</Link></BlurRevealItem>
-              <BlurRevealItem delay={0.34}><Link to="/join-us" className="hover:text-white transition-colors">Careers</Link></BlurRevealItem>
-              <BlurRevealItem delay={0.37}><Link to="/areas-we-serve" className="hover:text-white transition-colors">Sectors</Link></BlurRevealItem>
-              <BlurRevealItem delay={0.4}><Link to="/pricing-comparison" className="hover:text-white transition-colors">Hex Test</Link></BlurRevealItem>
-              <BlurRevealItem delay={0.43}><Link to="/contact" className="hover:text-white transition-colors">Contact</Link></BlurRevealItem>
+              <BlurRevealItem delay={0.31}><Link to="/what-we-do" className="hover:text-[#b5ff2b] transition-colors">Services</Link></BlurRevealItem>
+              <BlurRevealItem delay={0.34}><Link to="/join-us" className="hover:text-[#b5ff2b] transition-colors">Careers</Link></BlurRevealItem>
+              <BlurRevealItem delay={0.37}><Link to="/areas-we-serve" className="hover:text-[#b5ff2b] transition-colors">Sectors</Link></BlurRevealItem>
+              <BlurRevealItem delay={0.4}><Link to="/pricing-comparison" className="hover:text-[#b5ff2b] transition-colors">Hex Test</Link></BlurRevealItem>
+              <BlurRevealItem delay={0.43}><Link to="/contact" className="hover:text-[#b5ff2b] transition-colors">Contact</Link></BlurRevealItem>
             </ul>
           </div>
 
           {/* Col 4: Get in touch */}
           <div className="flex flex-col gap-4">
             <BlurReveal delay={0.25}>
-              <h3 className="text-neutral-600 font-bold tracking-wider text-xs uppercase font-sans">Get in touch</h3>
+              <h3 className="text-white font-extrabold tracking-widest text-[11px] uppercase font-sans opacity-95">Get in touch</h3>
             </BlurReveal>
-            <ul className="flex flex-col gap-4 text-neutral-400 text-sm font-sans">
+            <ul className="flex flex-col gap-4 text-neutral-300 text-sm font-sans">
               <BlurRevealItem delay={0.3} className="flex items-center gap-3">
-                <Phone className="w-4 h-4 text-neutral-600 flex-shrink-0" />
+                <Phone className="w-4 h-4 text-[#b5ff2b] flex-shrink-0" />
                 <a href="tel:+918210198880" className="hover:text-white transition-colors">+91 82101 98880</a>
               </BlurRevealItem>
               <BlurRevealItem delay={0.35} className="flex items-center gap-3">
-                <Mail className="w-4 h-4 text-neutral-600 flex-shrink-0" />
+                <Mail className="w-4 h-4 text-[#b5ff2b] flex-shrink-0" />
                 <a href="mailto:hello@whycreatives.in" className="hover:text-white transition-colors break-all">hello@whycreatives.in</a>
               </BlurRevealItem>
               <BlurRevealItem delay={0.4} className="flex items-start gap-3">
-                <MapPin className="w-4 h-4 text-neutral-600 mt-1 flex-shrink-0" />
+                <MapPin className="w-4 h-4 text-[#b5ff2b] mt-1 flex-shrink-0" />
                 <div>
                   <p className="font-semibold text-white">WhyCreatives</p>
-                  <p className="text-neutral-400">Guwahati, Assam</p>
-                  <p className="text-neutral-400">India</p>
+                  <p className="text-neutral-300">Guwahati, Assam</p>
+                  <p className="text-neutral-300">India</p>
                 </div>
               </BlurRevealItem>
               <BlurRevealItem delay={0.45} className="flex items-center gap-3">
-                <span className="text-neutral-600 text-base font-bold flex-shrink-0">///</span>
-                <span className="hover:text-white transition-colors text-neutral-400">why.creatives.guwahati</span>
+                <span className="text-[#b5ff2b] text-base font-bold flex-shrink-0">///</span>
+                <span className="hover:text-white transition-colors text-neutral-300">why.creatives.in</span>
               </BlurRevealItem>
             </ul>
           </div>
@@ -206,7 +206,7 @@ export const Footer = () => {
         </div>
 
         {/* Fine Print Bottom Bar */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 border-t border-neutral-900 pt-6 text-[10px] sm:text-xs text-neutral-500 font-sans">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 border-t border-neutral-900 pt-6 text-[10px] sm:text-xs text-neutral-400 font-sans">
           <BlurReveal delay={0.4}>
             <span>WhyCreatives. © WhyCreatives Agency 2026 | Company Reg Number 10529055</span>
           </BlurReveal>
