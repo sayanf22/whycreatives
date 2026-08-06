@@ -1,9 +1,8 @@
-import { useState, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
 const SPRING = { type: "spring", stiffness: 200, damping: 25, mass: 0.8 } as const;
-const SPRING_POP = { type: "spring", stiffness: 380, damping: 22, mass: 0.6 } as const;
 
 const services = [
   {
@@ -45,7 +44,6 @@ const services = [
 
 export const ServicesInteractive = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   return (
     <section
@@ -56,21 +54,15 @@ export const ServicesInteractive = () => {
 
         {/* ── HEADER ─────────────────────────────────────────────── */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-16 mb-16 lg:mb-24 items-start">
-
-          {/* Left badge + nothing (matches MadeByShape layout exactly) */}
           <div className="flex items-start gap-2 text-neutral-500 text-xs tracking-[0.2em] uppercase font-semibold pt-1">
             <span className="mt-[3px] w-1 h-1 rounded-full bg-neutral-500 flex-shrink-0" />
             Our Expertise
           </div>
-
-          {/* Centre heading */}
           <div className="text-center">
             <h2 className="text-3xl sm:text-4xl lg:text-[2.6rem] xl:text-5xl font-bold text-white leading-tight tracking-tight">
               How we take your<br />business to the next level
             </h2>
           </div>
-
-          {/* Right sub-copy + CTA pill */}
           <div className="flex flex-col gap-5 items-start lg:items-end text-left lg:text-right">
             <p className="text-neutral-400 text-sm leading-relaxed max-w-[260px] lg:ml-auto">
               We are a creative agency with expertise, and we're on a mission to help you take the next step in your business.
@@ -89,7 +81,6 @@ export const ServicesInteractive = () => {
 
         {/* ── INTERACTIVE SERVICE LIST ─────────────────────────────── */}
         <div
-          ref={containerRef}
           onMouseLeave={() => setHoveredIndex(null)}
           className="flex flex-col"
         >
@@ -103,96 +94,82 @@ export const ServicesInteractive = () => {
                 onMouseEnter={() => setHoveredIndex(i)}
                 animate={{ opacity: isDimmed ? 0.22 : 1 }}
                 transition={SPRING}
-                className="relative group"
+                className="relative"
               >
-                {/* Top border line */}
+                {/* Top border */}
                 <div className="w-full h-px bg-zinc-800" />
 
                 <Link
                   to={service.href}
-                  className="flex items-center w-full py-5 sm:py-6 lg:py-7 relative overflow-hidden"
                   tabIndex={0}
                   aria-label={service.title}
+                  className="block w-full"
                 >
-                  {/* ── DESKTOP HOVER LAYOUT ─── */}
-                  <div className="hidden lg:flex items-center w-full">
+                  {/* ── DESKTOP (lg+): Fixed-height row, no layout shift ─── */}
+                  <div className="hidden lg:flex items-center w-full h-[100px] overflow-hidden">
 
-                    {/* Thumbnail — expands from left */}
+                    {/* Thumbnail container — fixed slot, width animates via transform */}
                     <motion.div
                       animate={{
                         width: isHovered ? 110 : 0,
-                        opacity: isHovered ? 1 : 0,
-                        marginRight: isHovered ? 24 : 0,
+                        marginRight: isHovered ? 20 : 0,
                       }}
                       transition={SPRING}
                       className="flex-shrink-0 h-[72px] rounded-xl overflow-hidden"
-                      style={{ willChange: "width, opacity" }}
                     >
                       <motion.img
                         src={service.image}
-                        alt={service.title}
-                        animate={{ scale: isHovered ? 1 : 0.85 }}
+                        alt=""
+                        animate={{
+                          opacity: isHovered ? 1 : 0,
+                          scale: isHovered ? 1 : 0.85,
+                        }}
                         transition={SPRING}
-                        className="w-full h-full object-cover"
+                        className="w-[110px] h-full object-cover"
                         loading="lazy"
                       />
                     </motion.div>
 
-                    {/* CTA Arrow pill — pops in */}
-                    <AnimatePresence>
-                      {isHovered && (
-                        <motion.div
-                          key="pill"
-                          initial={{ scale: 0, opacity: 0 }}
-                          animate={{ scale: 1, opacity: 1 }}
-                          exit={{ scale: 0, opacity: 0 }}
-                          transition={SPRING_POP}
-                          className="flex-shrink-0 w-10 h-10 rounded-full bg-[#b5ff2b] flex items-center justify-center mr-5 z-10"
-                          style={{ willChange: "transform, opacity" }}
-                        >
-                          <span className="text-black font-black text-base leading-none">↗</span>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-
-                    {/* Title — slides right on hover */}
+                    {/* CTA pill — always in DOM, animate scale/opacity only (no mount/unmount) */}
                     <motion.div
-                      animate={{ x: isHovered ? 0 : 0 }}
-                      className="flex-1 min-w-0"
+                      animate={{
+                        scale: isHovered ? 1 : 0,
+                        opacity: isHovered ? 1 : 0,
+                        width: isHovered ? 40 : 0,
+                        marginRight: isHovered ? 16 : 0,
+                      }}
+                      transition={SPRING}
+                      className="flex-shrink-0 h-10 rounded-full bg-[#b5ff2b] flex items-center justify-center overflow-hidden"
                     >
-                      <motion.h3
-                        animate={{ x: isHovered ? 0 : 0 }}
-                        className="text-5xl xl:text-6xl font-black text-white tracking-tight leading-none whitespace-nowrap"
-                        style={{ willChange: "transform" }}
-                      >
-                        {service.title}
-                      </motion.h3>
-
-                      {/* Subtext — fades in below on hover */}
-                      <AnimatePresence>
-                        {isHovered && (
-                          <motion.p
-                            key="subtext"
-                            initial={{ opacity: 0, y: 6 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 4 }}
-                            transition={{ duration: 0.22 }}
-                            className="text-neutral-400 text-sm mt-2 max-w-xl"
-                          >
-                            {service.subtext}
-                          </motion.p>
-                        )}
-                      </AnimatePresence>
+                      <span className="text-black font-black text-base leading-none">↗</span>
                     </motion.div>
 
-                    {/* Number — right-aligned */}
+                    {/* Title + subtext — subtext always rendered, opacity-only animation */}
+                    <div className="flex-1 min-w-0 flex flex-col justify-center">
+                      <h3 className="text-5xl xl:text-6xl font-black text-white tracking-tight leading-none whitespace-nowrap">
+                        {service.title}
+                      </h3>
+                      <motion.p
+                        animate={{
+                          opacity: isHovered ? 1 : 0,
+                          y: isHovered ? 0 : 4,
+                        }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                        className="text-neutral-400 text-sm mt-1.5 max-w-xl pointer-events-none"
+                        aria-hidden={!isHovered}
+                      >
+                        {service.subtext}
+                      </motion.p>
+                    </div>
+
+                    {/* Number */}
                     <span className="ml-auto pl-8 text-neutral-700 text-sm font-semibold tabular-nums flex-shrink-0">
                       {service.number}
                     </span>
                   </div>
 
-                  {/* ── MOBILE LAYOUT (below lg) — always visible thumbnails ─── */}
-                  <div className="flex lg:hidden items-center gap-4 w-full">
+                  {/* ── MOBILE (below lg) — static layout ─── */}
+                  <div className="flex lg:hidden items-center gap-4 w-full py-5 sm:py-6">
                     <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0">
                       <img
                         src={service.image}
@@ -213,7 +190,6 @@ export const ServicesInteractive = () => {
                       <span className="text-black font-black text-sm">↗</span>
                     </span>
                   </div>
-
                 </Link>
               </motion.div>
             );
