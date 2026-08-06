@@ -59,7 +59,7 @@ export const Navigation = () => {
             : "bg-transparent py-5 md:py-6 border-b border-transparent"
         }`}
       >
-        <div className="w-full max-w-7xl mx-auto px-5 sm:px-6 flex justify-between items-center">
+        <div className="w-full max-w-[1700px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-20 flex justify-between items-center">
           <Link to="/" className="flex items-center gap-2.5 transition-transform hover:scale-[1.02] duration-300">
             <img
               src="/logo.png"
@@ -109,7 +109,7 @@ export const Navigation = () => {
                   touchAction: 'pan-y'
                 }}
               >
-                <nav className="container mx-auto px-6 lg:px-12 py-8 md:py-12 pb-20">
+                <nav className="w-full max-w-[1700px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-20 py-8 md:py-12 pb-20">
                   <div className="flex flex-col space-y-4 md:space-y-6 lg:space-y-8">
                     {menuItems.map((item, index) => (
                       <motion.div
@@ -148,7 +148,7 @@ export const Navigation = () => {
                 transition={{ delay: 0.4, duration: 0.4 }}
                 className="flex-shrink-0 bg-background border-t border-border/50"
               >
-                <div className="container mx-auto px-6 lg:px-12 py-4 md:py-5">
+                <div className="w-full max-w-[1700px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-20 py-4 md:py-5">
                   <p className="text-xs md:text-sm text-muted-foreground">Guwahati, Assam 🇮🇳</p>
                 </div>
               </motion.div>

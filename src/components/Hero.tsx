@@ -135,53 +135,6 @@ export const Hero = ({ title, subtitle }: HeroProps) => {
             </div>
           </div>
         </div>
-
-        {/* Stats Section with Smooth Framer Motion Animation */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-16 sm:mt-24 pt-10 sm:pt-16 border-t border-border"
-        >
-          <motion.h3
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.7 }}
-            className="text-center text-sm sm:text-base md:text-lg font-bold uppercase tracking-widest text-muted-foreground/80 mb-8 sm:mb-12"
-          >
-            Trusted by Growing Businesses
-          </motion.h3>
-
-          <div className="grid grid-cols-3 gap-3 sm:gap-8 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-              className="flex flex-col items-center"
-            >
-              <div className="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mb-1 sm:mb-2 hover:scale-105 transition-transform duration-300">200+</div>
-              <div className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-widest font-bold">HAPPY CLIENTS</div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.9 }}
-              className="flex flex-col items-center border-l border-border"
-            >
-              <div className="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mb-1 sm:mb-2 hover:scale-105 transition-transform duration-300">500+</div>
-              <div className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-widest font-bold">PROJECTS</div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1.0 }}
-              className="flex flex-col items-center border-l border-border"
-            >
-              <div className="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mb-1 sm:mb-2 hover:scale-105 transition-transform duration-300">100%</div>
-              <div className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-widest font-bold">TRANSPARENCY</div>
-            </motion.div>
-          </div>
-        </motion.div>
       </div>
     </section>
   );
