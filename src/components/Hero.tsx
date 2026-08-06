@@ -73,25 +73,6 @@ export const Hero = () => {
             </motion.div>
           </motion.div>
 
-          {/* ── BOTTOM-RIGHT FLOATING FOUNDER BADGE ───────────────────── */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.7 }}
-            className="absolute bottom-5 right-5 sm:bottom-8 sm:right-8 z-20"
-          >
-            <Link
-              to="/people"
-              className="bg-white/90 dark:bg-black/90 backdrop-blur-md px-4 py-2.5 rounded-full flex items-center gap-3 border border-border/40 shadow-xl text-xs text-foreground font-semibold hover:scale-105 transition-transform group"
-            >
-              <div className="w-8 h-8 rounded-full bg-[#b5ff2b] text-black font-black flex items-center justify-center text-xs">
-                WC
-              </div>
-              <div className="flex flex-col text-left">
-                <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold">Hear from Sayan</span>
-                <span className="text-xs font-bold text-foreground">Co-Founder of WhyCreatives ↗</span>
-              </div>
-            </Link>
           </motion.div>
 
         </div>
