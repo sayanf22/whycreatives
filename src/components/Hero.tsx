@@ -9,7 +9,7 @@ export const Hero = () => {
         {/* ── MADEBYSHAPE WARM BEIGE HERO CONTAINER ──────────────────── */}
         <div className="relative w-full rounded-[24px] sm:rounded-[36px] lg:rounded-[44px] bg-[#EBE7DE] dark:bg-[#141416] border border-border/40 p-4 sm:p-8 lg:p-14 overflow-hidden shadow-xs">
           
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-start relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-center relative z-10">
             
             {/* ── LEFT COLUMN: WHITE/DARK CUT-OUT STATEMENT CARD ─────── */}
             <motion.div
@@ -67,56 +67,28 @@ export const Hero = () => {
               </motion.div>
             </motion.div>
 
-            {/* ── RIGHT COLUMN: FEATURED SHOWCASE CARDS ────────────────── */}
-            <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-12 gap-4 sm:gap-6 items-end self-stretch pt-2 lg:pt-0">
-              
-              {/* Card 1: Main Project Preview (Col 1-8) */}
-              <motion.div
-                initial={{ opacity: 0, y: 25 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-                className="sm:col-span-8 group cursor-pointer"
-              >
-                <Link to="/our-work" className="block">
-                  <div className="w-full aspect-[16/10] sm:aspect-[4/3] rounded-xl sm:rounded-3xl overflow-hidden bg-white/60 dark:bg-black/40 mb-2.5 sm:mb-3 relative shadow-sm border border-black/5 dark:border-white/5">
-                    <img
-                      src="/whycreatives-app.webp"
-                      alt="Next.js & Convex Web Application"
-                      loading="lazy"
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="flex items-center justify-between text-xs text-foreground/80 font-semibold px-1">
-                    <span>Web & App Platforms</span>
-                    <span className="text-muted-foreground text-[11px]">2024</span>
-                  </div>
-                </Link>
-              </motion.div>
-
-              {/* Card 2: Secondary Project Preview (Col 9-12) */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.5 }}
-                className="sm:col-span-4 group cursor-pointer"
-              >
-                <Link to="/our-work" className="block">
-                  <div className="w-full aspect-[16/10] sm:aspect-[3/4] rounded-xl sm:rounded-3xl overflow-hidden bg-white/60 dark:bg-black/40 mb-2.5 sm:mb-3 relative shadow-sm border border-black/5 dark:border-white/5">
-                    <img
-                      src="/whycreatives-brand.webp"
-                      alt="Brand Identity Showcase"
-                      loading="lazy"
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="flex items-center justify-between text-xs text-foreground/80 font-semibold px-1">
-                    <span>Branding</span>
-                    <span className="text-muted-foreground text-[11px]">2024</span>
-                  </div>
-                </Link>
-              </motion.div>
-
-            </div>
+            {/* ── RIGHT COLUMN: SINGLE MAIN FEATURED SHOWCASE CARD ───────── */}
+            <motion.div
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="lg:col-span-6 w-full group cursor-pointer"
+            >
+              <Link to="/our-work" className="block">
+                <div className="w-full aspect-[16/10] sm:aspect-[4/3] rounded-2xl sm:rounded-3xl overflow-hidden bg-white/60 dark:bg-black/40 mb-3 relative shadow-sm border border-black/5 dark:border-white/5">
+                  <img
+                    src="/whycreatives-app.webp"
+                    alt="Next.js & Convex Web Application Showcase"
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                </div>
+                <div className="flex items-center justify-between text-xs text-foreground/80 font-semibold px-1">
+                  <span>Web & App Platforms</span>
+                  <span className="text-muted-foreground text-[11px]">2024</span>
+                </div>
+              </Link>
+            </motion.div>
 
           </div>
 
