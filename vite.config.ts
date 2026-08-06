@@ -20,14 +20,9 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
-      // Optimize for 120fps performance
-      minify: "terser",
-      terserOptions: {
-        compress: {
-          drop_console: mode === "production",
-          drop_debugger: mode === "production",
-          pure_funcs: mode === "production" ? ["console.log"] : [],
-        },
+      minify: "esbuild",
+      esbuild: {
+        drop: mode === "production" ? ["console", "debugger"] : [],
       },
       rollupOptions: {
         output: {
