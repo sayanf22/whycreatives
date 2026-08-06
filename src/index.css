@@ -1,6 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* v2 */
+
+/* Cache-bust: force new asset hash */
+:root { --app-version: 2; }
 
 /* Mobile Optimization */
 * {
