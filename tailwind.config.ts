@@ -14,7 +14,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        sans: ['Schibsted Grotesk', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",

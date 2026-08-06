@@ -47,13 +47,16 @@ export const ServicesInteractive = () => {
 
   return (
     <section
-      className="w-full bg-[#0A0A0C] rounded-t-[28px] md:rounded-t-[40px] font-['Schibsted_Grotesk',sans-serif]"
+      className="w-full bg-[#0A0A0C] rounded-t-[28px] md:rounded-t-[40px]"
       aria-label="Our Services"
     >
-      {/* Full-width inner — no max-width, content touches left and right extremes */}
       <div className="w-full px-6 sm:px-10 md:px-14 lg:px-20 xl:px-28 py-20 sm:py-28 lg:py-36">
 
-        {/* ── HEADER — spread across full width ───────────────────── */}
+        {/* ── HEADER ───────────────────────────────────────────────
+             3-column: badge left | heading center | copy+CTA right
+             Heading is NOT italic — weight 400 normal, matching
+             MadeByShape's Oldschool Grotesk Regular.
+        ─────────────────────────────────────────────────────────── */}
         <div className="flex flex-col lg:flex-row justify-between items-start gap-10 lg:gap-8 mb-20 lg:mb-28">
 
           {/* Far-left badge */}
@@ -62,16 +65,16 @@ export const ServicesInteractive = () => {
             Our Expertise
           </div>
 
-          {/* Centre heading — upright, not italic, max 2 lines */}
+          {/* Centre heading — normal weight, not italic */}
           <div className="text-center flex-shrink-0">
-            <h2 className="text-[1.7rem] sm:text-[2rem] lg:text-[2.4rem] xl:text-[2.8rem] font-semibold text-white leading-[1.2] tracking-[-0.02em] italic">
+            <h2 className="text-[1.7rem] sm:text-[2rem] lg:text-[2.4rem] xl:text-[2.8rem] font-normal text-white leading-[1.2] tracking-[-0.01em]">
               How we take your business<br className="hidden sm:block" /> to the next level
             </h2>
           </div>
 
           {/* Far-right sub-copy + CTA */}
           <div className="flex flex-col gap-5 items-start lg:items-end text-left lg:text-right flex-shrink-0">
-            <p className="text-neutral-400 text-[13px] leading-relaxed max-w-[240px] font-normal">
+            <p className="text-neutral-400 text-[13px] leading-relaxed max-w-[240px] font-light">
               We are a creative agency with expertise, and we're on a mission to help you take the next step in your business.
             </p>
             <Link
@@ -86,7 +89,13 @@ export const ServicesInteractive = () => {
           </div>
         </div>
 
-        {/* ── SERVICE LIST — full-width, massive typography ────────── */}
+        {/* ── SERVICE LIST ─────────────────────────────────────────
+             Left-aligned titles. On hover:
+             1. Thumbnail reveals on the left
+             2. Green CTA pill pops in next to title
+             3. All siblings dim to ~0.15 opacity
+             Fixed-height rows prevent any layout shift.
+        ─────────────────────────────────────────────────────────── */}
         <div
           onMouseLeave={() => setHoveredIndex(null)}
           className="flex flex-col"
@@ -99,11 +108,11 @@ export const ServicesInteractive = () => {
               <motion.div
                 key={service.title}
                 onMouseEnter={() => setHoveredIndex(i)}
-                animate={{ opacity: isDimmed ? 0.2 : 1 }}
+                animate={{ opacity: isDimmed ? 0.15 : 1 }}
                 transition={SPRING}
                 className="relative"
               >
-                {/* Top border */}
+                {/* Top separator */}
                 <div className="w-full h-px bg-white/[0.08]" />
 
                 <Link
@@ -112,17 +121,17 @@ export const ServicesInteractive = () => {
                   aria-label={service.title}
                   className="block w-full"
                 >
-                  {/* ── DESKTOP (lg+) ─── */}
-                  <div className="hidden lg:flex items-center justify-center w-full h-[130px] xl:h-[150px] overflow-hidden">
+                  {/* ── DESKTOP (lg+): fixed-height, left-aligned ─── */}
+                  <div className="hidden lg:flex items-center w-full h-[130px] xl:h-[150px] overflow-hidden">
 
-                    {/* Thumbnail */}
+                    {/* Thumbnail — expands from left */}
                     <motion.div
                       animate={{
-                        width: isHovered ? 110 : 0,
-                        marginRight: isHovered ? 24 : 0,
+                        width: isHovered ? 100 : 0,
+                        marginRight: isHovered ? 20 : 0,
                       }}
                       transition={SPRING}
-                      className="flex-shrink-0 h-[72px] rounded-xl overflow-hidden"
+                      className="flex-shrink-0 h-[72px] rounded-2xl overflow-hidden"
                     >
                       <motion.img
                         src={service.image}
@@ -132,47 +141,29 @@ export const ServicesInteractive = () => {
                           scale: isHovered ? 1 : 0.85,
                         }}
                         transition={SPRING}
-                        className="w-[110px] h-full object-cover"
+                        className="w-[100px] h-full object-cover"
                         loading="lazy"
                       />
                     </motion.div>
 
-                    {/* CTA pill */}
+                    {/* Title — left-aligned, massive */}
+                    <h3 className="text-[3.5rem] lg:text-[4.5rem] xl:text-[5.5rem] 2xl:text-[6.5rem] font-bold text-white tracking-[-0.03em] leading-none whitespace-nowrap flex-1 min-w-0">
+                      {service.title}
+                    </h3>
+
+                    {/* CTA pill — pops in to the right of the title */}
                     <motion.div
                       animate={{
                         scale: isHovered ? 1 : 0,
                         opacity: isHovered ? 1 : 0,
                         width: isHovered ? 48 : 0,
-                        marginRight: isHovered ? 20 : 0,
+                        marginLeft: isHovered ? 20 : 0,
                       }}
                       transition={SPRING}
                       className="flex-shrink-0 h-12 rounded-full bg-[#b5ff2b] flex items-center justify-center overflow-hidden"
                     >
                       <span className="text-black font-black text-lg leading-none">↗</span>
                     </motion.div>
-
-                    {/* Title + subtext */}
-                    <div className="flex-1 min-w-0 flex flex-col justify-center">
-                      <h3 className="text-[4rem] xl:text-[5rem] 2xl:text-[5.5rem] font-bold text-white tracking-[-0.03em] leading-none whitespace-nowrap text-center">
-                        {service.title}
-                      </h3>
-                      <motion.p
-                        animate={{
-                          opacity: isHovered ? 0.65 : 0,
-                          y: isHovered ? 0 : 5,
-                        }}
-                        transition={{ duration: 0.25, ease: "easeOut" }}
-                        className="text-neutral-400 text-[13px] mt-3 max-w-lg pointer-events-none font-normal text-center mx-auto"
-                        aria-hidden={!isHovered}
-                      >
-                        {service.subtext}
-                      </motion.p>
-                    </div>
-
-                    {/* Number — positioned at far right */}
-                    <span className="ml-auto pl-12 text-white/10 text-sm font-medium tabular-nums flex-shrink-0">
-                      {service.number}
-                    </span>
                   </div>
 
                   {/* ── MOBILE (below lg) ─── */}
@@ -189,7 +180,7 @@ export const ServicesInteractive = () => {
                       <h3 className="text-xl sm:text-2xl font-bold text-white tracking-[-0.02em] leading-tight">
                         {service.title}
                       </h3>
-                      <p className="text-neutral-500 text-xs sm:text-[13px] mt-1 line-clamp-2 font-normal">
+                      <p className="text-neutral-500 text-xs sm:text-[13px] mt-1 line-clamp-2 font-light">
                         {service.subtext}
                       </p>
                     </div>
