@@ -1,5 +1,6 @@
-# Cloudflare Pages Redirects
+# Cloudflare Pages Redirects for SPA (Single Page Application)
 # Note: Apex to www redirect is handled by Cloudflare Bulk Redirects
 # See: https://developers.cloudflare.com/pages/how-to/www-redirect/
 
+# SPA fallback - all routes should serve index.html
 /* /index.html 200
