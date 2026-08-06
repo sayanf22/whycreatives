@@ -50,25 +50,25 @@ export const ServicesInteractive = () => {
       className="w-full bg-[#0A0A0C] rounded-t-[28px] md:rounded-t-[40px] overflow-hidden font-['Plus_Jakarta_Sans',sans-serif]"
       aria-label="Our Services"
     >
-      <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 pt-16 pb-24 lg:pt-24 lg:pb-36 max-w-[1700px] mx-auto">
+      <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-20 pt-16 pb-24 lg:pt-24 lg:pb-36 max-w-[1600px] mx-auto">
 
-        {/* ── TOP HEADER (12-Column Grid Matching MadeByShape UI) ─────── */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-20 lg:mb-28 items-start">
+        {/* ── TOP HEADER (12-Column Grid Layout) ──────────────────── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-16 lg:mb-24 items-start">
           
           {/* Col 1-3: Left Badge */}
-          <div className="lg:col-span-4 flex items-center gap-2.5 text-neutral-400 text-xs tracking-[0.2em] uppercase font-medium pt-2">
+          <div className="lg:col-span-3 flex items-center gap-2.5 text-neutral-400 text-xs tracking-[0.2em] uppercase font-medium pt-2">
             <span className="w-1.5 h-1.5 rounded-full bg-neutral-400" />
             Our Expertise
           </div>
 
-          {/* Col 4-8: Center Headline */}
-          <div className="lg:col-span-5">
+          {/* Col 4-9: Center Headline */}
+          <div className="lg:col-span-6">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-[2.6rem] font-semibold text-white tracking-tight leading-[1.2]">
               How we take your business<br className="hidden sm:block" /> to the next level
             </h2>
           </div>
 
-          {/* Col 9-12: Right Sub-copy & CTA Button */}
+          {/* Col 10-12: Right Sub-copy & CTA Button */}
           <div className="lg:col-span-3 flex flex-col gap-4 items-start lg:items-end text-left lg:text-right">
             <p className="text-neutral-400 text-xs sm:text-sm leading-relaxed max-w-[260px] font-normal">
               We are a digital marketing agency with expertise, and we're on a mission to help you take the next step in your business.
@@ -85,16 +85,16 @@ export const ServicesInteractive = () => {
           </div>
         </div>
 
-        {/* ── SERVICE OPTIONS (Offset Grid starting under Center Headline) ── */}
+        {/* ── SERVICE OPTIONS (Flawlessly Aligned 9-Col Span) ─────── */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
           
-          {/* Left empty space (Col 1-4) matching MadeByShape layout */}
-          <div className="hidden lg:block lg:col-span-4" />
+          {/* Left empty space (Col 1-3) matching MadeByShape layout */}
+          <div className="hidden lg:block lg:col-span-3" />
 
-          {/* Service Items (Col 5-12) */}
+          {/* Service Items (Col 4-12) */}
           <div
             onMouseLeave={() => setHoveredIndex(null)}
-            className="col-span-1 lg:col-span-8 flex flex-col"
+            className="col-span-1 lg:col-span-9 flex flex-col"
           >
             {services.map((service, i) => {
               const isHovered = hoveredIndex === i;
@@ -117,29 +117,29 @@ export const ServicesInteractive = () => {
                     aria-label={service.title}
                     className="block w-full"
                   >
-                    {/* ── DESKTOP ROW (Massive Display Typography) ── */}
-                    <div className="hidden lg:flex items-center w-full h-[135px] xl:h-[165px] 2xl:h-[185px] overflow-hidden">
+                    {/* ── DESKTOP ROW (Proportional Display Typography) ── */}
+                    <div className="hidden lg:flex items-center w-full h-[120px] xl:h-[145px] 2xl:h-[160px] overflow-hidden pr-4">
 
                       {/* Thumbnail: reveals smoothly on left of title */}
                       <motion.div
                         animate={{
-                          width: isHovered ? 110 : 0,
-                          marginRight: isHovered ? 24 : 0,
+                          width: isHovered ? 100 : 0,
+                          marginRight: isHovered ? 20 : 0,
                           opacity: isHovered ? 1 : 0,
                         }}
                         transition={SPRING}
-                        className="flex-shrink-0 h-[78px] xl:h-[92px] rounded-2xl overflow-hidden"
+                        className="flex-shrink-0 h-[70px] xl:h-[82px] rounded-2xl overflow-hidden"
                       >
                         <img
                           src={service.image}
                           alt={service.title}
-                          className="w-[110px] h-full object-cover"
+                          className="w-[100px] h-full object-cover"
                           loading="lazy"
                         />
                       </motion.div>
 
-                      {/* Service Title - MASSIVE SIZE */}
-                      <h3 className="text-4xl lg:text-6xl xl:text-7xl 2xl:text-[6.5rem] font-bold text-white tracking-[-0.04em] leading-none whitespace-nowrap">
+                      {/* Service Title - Cleanly scaled display text */}
+                      <h3 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl 2xl:text-[5.25rem] font-bold text-white tracking-[-0.03em] leading-none whitespace-nowrap">
                         {service.title}
                       </h3>
 
@@ -148,17 +148,17 @@ export const ServicesInteractive = () => {
                         animate={{
                           scale: isHovered ? 1 : 0,
                           opacity: isHovered ? 1 : 0,
-                          width: isHovered ? 52 : 0,
-                          marginLeft: isHovered ? 24 : 0,
+                          width: isHovered ? 48 : 0,
+                          marginLeft: isHovered ? 20 : 0,
                         }}
                         transition={SPRING}
-                        className="flex-shrink-0 h-13 xl:h-14 rounded-full bg-[#b5ff2b] flex items-center justify-center overflow-hidden"
+                        className="flex-shrink-0 h-12 xl:h-13 rounded-full bg-[#b5ff2b] flex items-center justify-center overflow-hidden"
                       >
                         <span className="text-black font-black text-xl leading-none">↗</span>
                       </motion.div>
 
                       {/* Number on far right */}
-                      <span className="ml-auto text-white/20 text-xs sm:text-sm font-medium tabular-nums flex-shrink-0">
+                      <span className="ml-auto text-white/20 text-xs sm:text-sm font-medium tabular-nums flex-shrink-0 pl-6">
                         {service.number}
                       </span>
                     </div>
