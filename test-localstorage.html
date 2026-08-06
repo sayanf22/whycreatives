@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>localStorage Test - WhyCreatives</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .success { color: #16a34a; }
+        .error { color: #dc2626; }
+        .info { color: #2563eb; }
+        pre {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        button {
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:hover {
+            background: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>localStorage Security Test</h1>
+    <p>This test simulates the localStorage SecurityError that occurs in Edge browser and verifies the safe storage wrapper.</p>
+
+    <div class="test-card">
+        <h2>Test 1: Direct localStorage (will throw error if blocked)</h2>
+        <button onclick="testDirect()">Test Direct Access</button>
+        <pre id="direct-result">Click button to test...</pre>
+    </div>
+
+    <div class="test-card">
+        <h2>Test 2: Safe Storage Wrapper (should always work)</h2>
+        <button onclick="testSafe()">Test Safe Access</button>
+        <pre id="safe-result">Click button to test...</pre>
+    </div>
+
+    <div class="test-card">
+        <h2>Test 3: Block localStorage Simulation</h2>
+        <button onclick="testBlocked()">Simulate Blocked Storage</button>
+        <pre id="blocked-result">Click button to test...</pre>
+    </div>
+
+    <script>
+        // Safe storage implementation (same as in the app)
+        const memoryStorage = {};
+        
+        function safeGetItem(key) {
+            try {
+                return window.localStorage.getItem(key);
+            } catch (e) {
+                console.warn('[SafeStorage] localStorage.getItem failed:', e);
+                return memoryStorage[key] || null;
+            }
+        }
+
+        function safeSetItem(key, value) {
+            try {
+                window.localStorage.setItem(key, value);
+            } catch (e) {
+                console.warn('[SafeStorage] localStorage.setItem failed:', e);
+                memoryStorage[key] = value;
+            }
+        }
+
+        function testDirect() {
+            const result = document.getElementById('direct-result');
+            try {
+                window.localStorage.setItem('test-key', 'test-value');
+                const value = window.localStorage.getItem('test-key');
+                result.innerHTML = '<span class="success">✓ Success!</span>\n' +
+                    'Direct localStorage is available.\n' +
+                    'Value stored: ' + value;
+                window.localStorage.removeItem('test-key');
+            } catch (e) {
+                result.innerHTML = '<span class="error">✗ Error!</span>\n' +
+                    'Name: ' + e.name + '\n' +
+                    'Message: ' + e.message + '\n\n' +
+                    '<span class="info">This is the error users see in Edge browser!</span>';
+            }
+        }
+
+        function testSafe() {
+            const result = document.getElementById('safe-result');
+            try {
+                safeSetItem('safe-test-key', 'safe-test-value');
+                const value = safeGetItem('safe-test-key');
+                result.innerHTML = '<span class="success">✓ Success!</span>\n' +
+                    'Safe storage wrapper works!\n' +
+                    'Value stored: ' + value + '\n\n' +
+                    '<span class="info">No errors thrown, even if localStorage is blocked.</span>';
+            } catch (e) {
+                result.innerHTML = '<span class="error">✗ Unexpected Error:</span>\n' + e.message;
+            }
+        }
+
+        function testBlocked() {
+            const result = document.getElementById('blocked-result');
+            
+            // Temporarily override localStorage to simulate blocked access
+            const originalLocalStorage = window.localStorage;
+            Object.defineProperty(window, 'localStorage', {
+                get: function() {
+                    throw new DOMException('Failed to read the \'localStorage\' property from \'Window\': Access is denied for this document.', 'SecurityError');
+                },
+                configurable: true
+            });
+
+            try {
+                // Try safe storage with blocked localStorage
+                safeSetItem('blocked-test', 'value');
+                const value = safeGetItem('blocked-test');
+                
+                result.innerHTML = '<span class="success">✓ Success!</span>\n' +
+                    'Safe storage works even with blocked localStorage!\n' +
+                    'Fallback to memory storage.\n' +
+                    'Value stored in memory: ' + value + '\n\n' +
+                    '<span class="info">Your app will continue working in Edge browser!</span>';
+            } catch (e) {
+                result.innerHTML = '<span class="error">✗ Error:</span>\n' + e.message;
+            } finally {
+                // Restore original localStorage
+                Object.defineProperty(window, 'localStorage', {
+                    value: originalLocalStorage,
+                    configurable: true,
+                    writable: true
+                });
+            }
+        }
+    </script>
+</body>
+</html>

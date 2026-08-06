@@ -8,9 +8,7 @@ const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
 // Validate environment variables
 if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
-  console.error('Missing Supabase environment variables');
-  console.error('VITE_SUPABASE_URL:', SUPABASE_URL ? 'Set' : 'Missing');
-  console.error('VITE_SUPABASE_PUBLISHABLE_KEY:', SUPABASE_PUBLISHABLE_KEY ? 'Set' : 'Missing');
+  console.warn('Supabase environment variables not found, using fallback configuration');
 }
 
 // Import the supabase client like this:
