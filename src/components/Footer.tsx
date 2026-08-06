@@ -94,19 +94,19 @@ export const Footer = () => {
         </motion.div>
 
         {/* ========================================================
-            TOP-RIGHT DESKTOP SCROLL-TO-TOP CUTOUT
+            TOP-RIGHT DESKTOP SCROLL-TO-TOP CUTOUT (Extended -right-2 pr-8)
            ======================================================== */}
         
         <div 
           onClick={scrollToTop}
-          className="absolute top-0 right-0 h-[44px] px-6 bg-white dark:bg-[#121212] rounded-bl-[24px] z-20 hidden md:flex items-center gap-1.5 cursor-pointer text-xs text-neutral-800 dark:text-neutral-200 font-semibold select-none hover:opacity-90 transition-opacity"
+          className="absolute top-0 -right-2 h-[44px] pl-6 pr-8 bg-white dark:bg-[#121212] rounded-bl-[24px] z-20 hidden md:flex items-center gap-1.5 cursor-pointer text-xs text-neutral-800 dark:text-neutral-200 font-semibold select-none hover:opacity-90 transition-opacity"
         >
           {/* Left Transition Mask (Attached to left edge: -left-[24px]) */}
           <div className="absolute top-0 -left-[24px] w-[24px] h-[24px] bg-white dark:bg-[#121212] z-20">
             <div className="w-full h-full bg-[#0d0d0d] rounded-tr-[24px]" />
           </div>
-          {/* Bottom Transition Mask (Attached to bottom edge: top-[44px]) */}
-          <div className="absolute top-[44px] right-0 w-[24px] h-[24px] bg-white dark:bg-[#121212] z-20">
+          {/* Bottom Transition Mask (Attached to bottom edge: top-[44px] -right-2) */}
+          <div className="absolute top-[44px] -right-2 w-[32px] h-[24px] bg-white dark:bg-[#121212] z-20">
             <div className="w-full h-full bg-[#0d0d0d] rounded-tr-[24px]" />
           </div>
 
@@ -120,10 +120,10 @@ export const Footer = () => {
         
         <div 
           onClick={scrollToTop}
-          className="absolute bottom-0 right-0 h-[44px] px-4 bg-white dark:bg-[#121212] rounded-tl-[24px] z-20 md:hidden flex items-center gap-1.5 cursor-pointer text-[11px] text-neutral-800 dark:text-neutral-200 font-semibold select-none hover:opacity-90 transition-opacity"
+          className="absolute bottom-0 -right-2 h-[44px] pl-4 pr-6 bg-white dark:bg-[#121212] rounded-tl-[24px] z-20 md:hidden flex items-center gap-1.5 cursor-pointer text-[11px] text-neutral-800 dark:text-neutral-200 font-semibold select-none hover:opacity-90 transition-opacity"
         >
           {/* Top Transition Mask (Attached to top edge: -top-[24px]) */}
-          <div className="absolute -top-[24px] right-0 w-[24px] h-[24px] bg-white dark:bg-[#121212] z-20">
+          <div className="absolute -top-[24px] -right-2 w-[32px] h-[24px] bg-white dark:bg-[#121212] z-20">
             <div className="w-full h-full bg-[#0d0d0d] rounded-br-[24px]" />
           </div>
           {/* Left Transition Mask (Attached dynamically to left edge: -left-[24px]) */}
@@ -142,89 +142,93 @@ export const Footer = () => {
           
           <div className="max-w-7xl mx-auto relative">
             
-            {/* Top Section ("Do you like what you see?") */}
-            <div className="pl-16 sm:pl-20 md:pl-20 lg:pl-20 pt-4 pb-8 flex flex-col gap-6 items-start">
-              <BlurReveal delay={0.1}>
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-tight text-white">
-                  Do you like<br />what you see?
-                </h2>
-              </BlurReveal>
-              <BlurReveal delay={0.2}>
-                <Link 
-                  to="/contact" 
-                  className="inline-flex items-center gap-2 bg-[#b5ff2b] text-black font-bold px-6 py-3 rounded-full hover:bg-[#9ee024] hover:shadow-[0_0_20px_rgba(181,255,43,0.4)] transition-all hover:scale-[1.03] group"
-                >
-                  <span>Start a project</span>
-                  <ArrowUpRight className="w-4.5 h-4.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                </Link>
-              </BlurReveal>
-            </div>
-
-            {/* Main Columns Grid (2 columns on mobile, 4 columns on desktop) */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12 pt-6 pb-16 pl-16 sm:pl-20 md:pl-20 lg:pl-20 border-t border-neutral-900/60">
+            {/* UNIFIED UPPER SECTION (CTA on left, 3 Columns on right in single flex row - MadeByShape Image 1 Spec) */}
+            <div className="pl-16 sm:pl-20 pt-4 pb-12 flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-16">
               
-              {/* Col 1: Learn */}
-              <div className="flex flex-col gap-4">
-                <BlurReveal delay={0.15}>
-                  <h3 className="text-white font-extrabold tracking-widest text-[11px] uppercase opacity-95">Learn</h3>
+              {/* Left CTA Column */}
+              <div className="flex flex-col gap-6 items-start max-w-sm">
+                <BlurReveal delay={0.1}>
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-tight text-white">
+                    Do you like<br />what you see?
+                  </h2>
                 </BlurReveal>
-                <ul className="flex flex-col gap-2.5 text-neutral-300 text-xs sm:text-sm">
-                  <BlurRevealItem delay={0.2}><Link to="/about-us" className="hover:text-[#b5ff2b] transition-colors">About</Link></BlurRevealItem>
-                  <BlurRevealItem delay={0.23}><Link to="/about-us" className="hover:text-[#b5ff2b] transition-colors">Culture</Link></BlurRevealItem>
-                  <BlurRevealItem delay={0.26}><Link to="/what-we-do" className="hover:text-[#b5ff2b] transition-colors">Testimonials</Link></BlurRevealItem>
-                  <BlurRevealItem delay={0.29}><Link to="/what-we-do" className="hover:text-[#b5ff2b] transition-colors">Processes</Link></BlurRevealItem>
-                  <BlurRevealItem delay={0.32}><Link to="/contact" className="hover:text-[#b5ff2b] transition-colors">FAQs</Link></BlurRevealItem>
-                  <BlurRevealItem delay={0.35}><Link to="/contact" className="hover:text-[#b5ff2b] transition-colors">Branding FAQs</Link></BlurRevealItem>
-                  <BlurRevealItem delay={0.38}><Link to="/insights" className="hover:text-[#b5ff2b] transition-colors">Blog</Link></BlurRevealItem>
-                </ul>
-              </div>
-
-              {/* Col 2: Explore */}
-              <div className="flex flex-col gap-4">
                 <BlurReveal delay={0.2}>
-                  <h3 className="text-white font-extrabold tracking-widest text-[11px] uppercase opacity-95">Explore</h3>
+                  <Link 
+                    to="/contact" 
+                    className="inline-flex items-center gap-2 bg-[#b5ff2b] text-black font-bold px-6 py-3 rounded-full hover:bg-[#9ee024] hover:shadow-[0_0_20px_rgba(181,255,43,0.4)] transition-all hover:scale-[1.03] group"
+                  >
+                    <span>Start a project</span>
+                    <ArrowUpRight className="w-4.5 h-4.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  </Link>
                 </BlurReveal>
-                <ul className="flex flex-col gap-2.5 text-neutral-300 text-xs sm:text-sm">
-                  <BlurRevealItem delay={0.25}><Link to="/" className="hover:text-[#b5ff2b] transition-colors">Home</Link></BlurRevealItem>
-                  <BlurRevealItem delay={0.28} className="flex items-center gap-2">
-                    <Link to="/our-work" className="hover:text-[#b5ff2b] transition-colors">Work</Link>
-                    <span className="bg-[#b5ff2b] text-black font-extrabold text-[8px] px-1.5 py-0.5 rounded uppercase tracking-wider scale-90">New</span>
-                  </BlurRevealItem>
-                  <BlurRevealItem delay={0.31}><Link to="/what-we-do" className="hover:text-[#b5ff2b] transition-colors">Services</Link></BlurRevealItem>
-                  <BlurRevealItem delay={0.34}><Link to="/join-us" className="hover:text-[#b5ff2b] transition-colors">Careers</Link></BlurRevealItem>
-                  <BlurRevealItem delay={0.37}><Link to="/areas-we-serve" className="hover:text-[#b5ff2b] transition-colors">Sectors</Link></BlurRevealItem>
-                  <BlurRevealItem delay={0.4}><Link to="/pricing-comparison" className="hover:text-[#b5ff2b] transition-colors">Hex Test</Link></BlurRevealItem>
-                  <BlurRevealItem delay={0.43}><Link to="/contact" className="hover:text-[#b5ff2b] transition-colors">Contact</Link></BlurRevealItem>
-                </ul>
               </div>
 
-              {/* Col 3 & 4: Get in touch */}
-              <div className="col-span-2 lg:col-span-2 flex flex-col gap-4 mt-4 lg:mt-0">
-                <BlurReveal delay={0.25}>
-                  <h3 className="text-white font-extrabold tracking-widest text-[11px] uppercase opacity-95">Get in touch</h3>
-                </BlurReveal>
-                <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 text-neutral-300 text-xs sm:text-sm">
-                  <BlurRevealItem delay={0.3} className="flex items-center gap-3">
-                    <Phone className="w-4 h-4 text-[#b5ff2b] flex-shrink-0" />
-                    <a href="tel:+918210198880" className="hover:text-white transition-colors">+91 82101 98880</a>
-                  </BlurRevealItem>
-                  <BlurRevealItem delay={0.35} className="flex items-center gap-3">
-                    <Mail className="w-4 h-4 text-[#b5ff2b] flex-shrink-0" />
-                    <a href="mailto:hello@whycreatives.in" className="hover:text-white transition-colors break-all">hello@whycreatives.in</a>
-                  </BlurRevealItem>
-                  <BlurRevealItem delay={0.4} className="flex items-start gap-3">
-                    <MapPin className="w-4 h-4 text-[#b5ff2b] mt-1 flex-shrink-0" />
-                    <div>
-                      <p className="font-semibold text-white">WhyCreatives</p>
-                      <p className="text-neutral-300">Guwahati, Assam</p>
-                      <p className="text-neutral-300">India</p>
-                    </div>
-                  </BlurRevealItem>
-                  <BlurRevealItem delay={0.45} className="flex items-center gap-3">
-                    <span className="text-[#b5ff2b] text-base font-bold flex-shrink-0">///</span>
-                    <span className="hover:text-white transition-colors text-neutral-300">why.creatives.in</span>
-                  </BlurRevealItem>
-                </ul>
+              {/* Right Columns Grid (Learn, Explore, Get in touch) */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 sm:gap-12 flex-1 w-full lg:w-auto">
+                
+                {/* Col 1: Learn */}
+                <div className="flex flex-col gap-4">
+                  <BlurReveal delay={0.15}>
+                    <h3 className="text-white font-extrabold tracking-widest text-[11px] uppercase opacity-95">Learn</h3>
+                  </BlurReveal>
+                  <ul className="flex flex-col gap-2.5 text-neutral-300 text-xs sm:text-sm">
+                    <BlurRevealItem delay={0.2}><Link to="/about-us" className="hover:text-[#b5ff2b] transition-colors">About</Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.23}><Link to="/about-us" className="hover:text-[#b5ff2b] transition-colors">Culture</Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.26}><Link to="/what-we-do" className="hover:text-[#b5ff2b] transition-colors">Testimonials</Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.29}><Link to="/what-we-do" className="hover:text-[#b5ff2b] transition-colors">Processes</Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.32}><Link to="/contact" className="hover:text-[#b5ff2b] transition-colors">FAQs</Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.35}><Link to="/contact" className="hover:text-[#b5ff2b] transition-colors">Branding FAQs</Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.38}><Link to="/insights" className="hover:text-[#b5ff2b] transition-colors">Blog</Link></BlurRevealItem>
+                  </ul>
+                </div>
+
+                {/* Col 2: Explore */}
+                <div className="flex flex-col gap-4">
+                  <BlurReveal delay={0.2}>
+                    <h3 className="text-white font-extrabold tracking-widest text-[11px] uppercase opacity-95">Explore</h3>
+                  </BlurReveal>
+                  <ul className="flex flex-col gap-2.5 text-neutral-300 text-xs sm:text-sm">
+                    <BlurRevealItem delay={0.25}><Link to="/" className="hover:text-[#b5ff2b] transition-colors">Home</Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.28} className="flex items-center gap-2">
+                      <Link to="/our-work" className="hover:text-[#b5ff2b] transition-colors">Work</Link>
+                      <span className="bg-[#b5ff2b] text-black font-extrabold text-[8px] px-1.5 py-0.5 rounded uppercase tracking-wider scale-90">New</span>
+                    </BlurRevealItem>
+                    <BlurRevealItem delay={0.31}><Link to="/what-we-do" className="hover:text-[#b5ff2b] transition-colors">Services</Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.34}><Link to="/join-us" className="hover:text-[#b5ff2b] transition-colors">Careers</Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.37}><Link to="/areas-we-serve" className="hover:text-[#b5ff2b] transition-colors">Sectors</Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.4}><Link to="/pricing-comparison" className="hover:text-[#b5ff2b] transition-colors">Hex Test</Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.43}><Link to="/contact" className="hover:text-[#b5ff2b] transition-colors">Contact</Link></BlurRevealItem>
+                  </ul>
+                </div>
+
+                {/* Col 3: Get in touch */}
+                <div className="col-span-2 sm:col-span-1 flex flex-col gap-4">
+                  <BlurReveal delay={0.25}>
+                    <h3 className="text-white font-extrabold tracking-widest text-[11px] uppercase opacity-95">Get in touch</h3>
+                  </BlurReveal>
+                  <ul className="flex flex-col gap-3 text-neutral-300 text-xs sm:text-sm">
+                    <BlurRevealItem delay={0.3} className="flex items-center gap-2.5">
+                      <Phone className="w-3.5 h-3.5 text-[#b5ff2b] flex-shrink-0" />
+                      <a href="tel:+918210198880" className="hover:text-white transition-colors">+91 82101 98880</a>
+                    </BlurRevealItem>
+                    <BlurRevealItem delay={0.35} className="flex items-center gap-2.5">
+                      <Mail className="w-3.5 h-3.5 text-[#b5ff2b] flex-shrink-0" />
+                      <a href="mailto:hello@whycreatives.in" className="hover:text-white transition-colors break-all">hello@whycreatives.in</a>
+                    </BlurRevealItem>
+                    <BlurRevealItem delay={0.4} className="flex items-start gap-2.5">
+                      <MapPin className="w-3.5 h-3.5 text-[#b5ff2b] mt-1 flex-shrink-0" />
+                      <div>
+                        <p className="font-semibold text-white">WhyCreatives</p>
+                        <p className="text-neutral-300 text-xs">Guwahati, Assam, India</p>
+                      </div>
+                    </BlurRevealItem>
+                    <BlurRevealItem delay={0.45} className="flex items-center gap-2.5">
+                      <span className="text-[#b5ff2b] text-sm font-bold flex-shrink-0">///</span>
+                      <span className="hover:text-white transition-colors text-neutral-300 text-xs">why.creatives.in</span>
+                    </BlurRevealItem>
+                  </ul>
+                </div>
+
               </div>
 
             </div>
