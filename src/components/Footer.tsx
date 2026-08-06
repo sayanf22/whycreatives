@@ -94,19 +94,22 @@ export const Footer = () => {
         </motion.div>
 
         {/* ========================================================
-            TOP-RIGHT DESKTOP SCROLL-TO-TOP CUTOUT (Extended -right-4 pr-8)
+            TOP-RIGHT DESKTOP SCROLL-TO-TOP CUTOUT
            ======================================================== */}
         
         <div 
           onClick={scrollToTop}
-          className="absolute top-0 -right-4 h-[44px] pl-6 pr-8 bg-white dark:bg-[#121212] rounded-bl-[24px] z-20 hidden md:flex items-center gap-1.5 cursor-pointer text-xs text-neutral-800 dark:text-neutral-200 font-semibold select-none hover:opacity-90 transition-opacity"
+          className="absolute top-0 right-0 h-[44px] px-6 bg-white dark:bg-[#121212] rounded-bl-[24px] z-20 hidden md:flex items-center gap-1.5 cursor-pointer text-xs text-neutral-800 dark:text-neutral-200 font-semibold select-none hover:opacity-90 transition-opacity"
         >
+          {/* 2px White Cover Strip attached to right edge covering 1px card border along y=0..44px */}
+          <div className="absolute top-0 -right-1 w-2 h-full bg-white dark:bg-[#121212]" />
+
           {/* Left Transition Mask (Attached to left edge: -left-[24px]) */}
           <div className="absolute top-0 -left-[24px] w-[24px] h-[24px] bg-white dark:bg-[#121212] z-20">
             <div className="w-full h-full bg-[#0d0d0d] rounded-tr-[24px]" />
           </div>
-          {/* Bottom Transition Mask (Extended -right-4 w-[40px] to cover card border completely) */}
-          <div className="absolute top-[44px] -right-4 w-[40px] h-[24px] bg-white dark:bg-[#121212] z-20">
+          {/* Bottom Transition Mask (Positioned flush at right-0 w-[24px] h-[24px]) */}
+          <div className="absolute top-[44px] right-0 w-[24px] h-[24px] bg-white dark:bg-[#121212] z-20">
             <div className="w-full h-full bg-[#0d0d0d] rounded-tr-[24px]" />
           </div>
 
@@ -120,10 +123,10 @@ export const Footer = () => {
         
         <div 
           onClick={scrollToTop}
-          className="absolute bottom-0 -right-4 h-[44px] pl-4 pr-6 bg-white dark:bg-[#121212] rounded-tl-[24px] z-20 md:hidden flex items-center gap-1.5 cursor-pointer text-[11px] text-neutral-800 dark:text-neutral-200 font-semibold select-none hover:opacity-90 transition-opacity"
+          className="absolute bottom-0 right-0 h-[44px] px-4 bg-white dark:bg-[#121212] rounded-tl-[24px] z-20 md:hidden flex items-center gap-1.5 cursor-pointer text-[11px] text-neutral-800 dark:text-neutral-200 font-semibold select-none hover:opacity-90 transition-opacity"
         >
           {/* Top Transition Mask (Attached to top edge: -top-[24px]) */}
-          <div className="absolute -top-[24px] -right-4 w-[40px] h-[24px] bg-white dark:bg-[#121212] z-20">
+          <div className="absolute -top-[24px] right-0 w-[24px] h-[24px] bg-white dark:bg-[#121212] z-20">
             <div className="w-full h-full bg-[#0d0d0d] rounded-br-[24px]" />
           </div>
           {/* Left Transition Mask (Attached dynamically to left edge: -left-[24px]) */}
