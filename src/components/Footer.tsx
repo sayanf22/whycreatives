@@ -94,19 +94,19 @@ export const Footer = () => {
         </motion.div>
 
         {/* ========================================================
-            TOP-RIGHT DESKTOP SCROLL-TO-TOP CUTOUT (Extended -right-2 pr-8)
+            TOP-RIGHT DESKTOP SCROLL-TO-TOP CUTOUT
            ======================================================== */}
         
         <div 
           onClick={scrollToTop}
-          className="absolute top-0 -right-2 h-[44px] pl-6 pr-8 bg-white dark:bg-[#121212] rounded-bl-[24px] z-20 hidden md:flex items-center gap-1.5 cursor-pointer text-xs text-neutral-800 dark:text-neutral-200 font-semibold select-none hover:opacity-90 transition-opacity"
+          className="absolute top-0 right-0 h-[44px] px-6 bg-white dark:bg-[#121212] rounded-bl-[24px] z-20 hidden md:flex items-center gap-1.5 cursor-pointer text-xs text-neutral-800 dark:text-neutral-200 font-semibold select-none hover:opacity-90 transition-opacity"
         >
           {/* Left Transition Mask (Attached to left edge: -left-[24px]) */}
           <div className="absolute top-0 -left-[24px] w-[24px] h-[24px] bg-white dark:bg-[#121212] z-20">
             <div className="w-full h-full bg-[#0d0d0d] rounded-tr-[24px]" />
           </div>
-          {/* Bottom Transition Mask (Attached to bottom edge: top-[44px] -right-2) */}
-          <div className="absolute top-[44px] -right-2 w-[32px] h-[24px] bg-white dark:bg-[#121212] z-20">
+          {/* Bottom Transition Mask (Attached to bottom edge: top-[44px] right-0) */}
+          <div className="absolute top-[44px] right-0 w-[24px] h-[24px] bg-white dark:bg-[#121212] z-20">
             <div className="w-full h-full bg-[#0d0d0d] rounded-tr-[24px]" />
           </div>
 
@@ -120,10 +120,10 @@ export const Footer = () => {
         
         <div 
           onClick={scrollToTop}
-          className="absolute bottom-0 -right-2 h-[44px] pl-4 pr-6 bg-white dark:bg-[#121212] rounded-tl-[24px] z-20 md:hidden flex items-center gap-1.5 cursor-pointer text-[11px] text-neutral-800 dark:text-neutral-200 font-semibold select-none hover:opacity-90 transition-opacity"
+          className="absolute bottom-0 right-0 h-[44px] px-4 bg-white dark:bg-[#121212] rounded-tl-[24px] z-20 md:hidden flex items-center gap-1.5 cursor-pointer text-[11px] text-neutral-800 dark:text-neutral-200 font-semibold select-none hover:opacity-90 transition-opacity"
         >
           {/* Top Transition Mask (Attached to top edge: -top-[24px]) */}
-          <div className="absolute -top-[24px] -right-2 w-[32px] h-[24px] bg-white dark:bg-[#121212] z-20">
+          <div className="absolute -top-[24px] right-0 w-[24px] h-[24px] bg-white dark:bg-[#121212] z-20">
             <div className="w-full h-full bg-[#0d0d0d] rounded-br-[24px]" />
           </div>
           {/* Left Transition Mask (Attached dynamically to left edge: -left-[24px]) */}
@@ -142,7 +142,7 @@ export const Footer = () => {
           
           <div className="max-w-7xl mx-auto relative">
             
-            {/* UNIFIED UPPER SECTION (CTA on left, 3 Columns on right in single flex row - MadeByShape Image 1 Spec) */}
+            {/* UNIFIED UPPER SECTION (CTA on left, 3 Columns on right in single flex row) */}
             <div className="pl-16 sm:pl-20 pt-4 pb-12 flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-16">
               
               {/* Left CTA Column */}
@@ -233,10 +233,10 @@ export const Footer = () => {
 
             </div>
 
-            {/* Giant Text Section (Single Line matching MadeByShape) */}
+            {/* Giant Text Section */}
             <div className="border-t border-neutral-900 pt-8 pb-10 overflow-hidden select-none">
               <BlurReveal delay={0.3} duration={0.8} className="w-full overflow-hidden">
-                <h1 className="text-[7.5vw] sm:text-[7.5vw] lg:text-[7.5vw] font-black text-white tracking-tight leading-none text-center lg:text-left opacity-90 uppercase whitespace-nowrap">
+                <h1 className="text-[6.5vw] sm:text-[6.5vw] lg:text-[7vw] font-black text-white tracking-tight leading-none text-center lg:text-left opacity-90 uppercase">
                   Crafting since 2020
                 </h1>
               </BlurReveal>
