@@ -50,26 +50,26 @@ export const ServicesInteractive = () => {
       className="w-full bg-[#0A0A0C] rounded-t-[28px] md:rounded-t-[40px] overflow-hidden font-['Plus_Jakarta_Sans',sans-serif]"
       aria-label="Our Services"
     >
-      <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-20 pt-16 pb-24 lg:pt-24 lg:pb-36 max-w-[1600px] mx-auto">
+      <div className="w-full px-6 sm:px-10 lg:px-16 pt-16 pb-24 lg:pt-24 lg:pb-36">
 
-        {/* ── TOP HEADER (12-Column Grid Layout) ──────────────────── */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-16 lg:mb-24 items-start">
+        {/* ── TOP HEADER (3-Column Layout: Left / Center / Right) ────── */}
+        <div className="max-w-[1500px] mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 mb-20 lg:mb-28 items-start">
           
-          {/* Col 1-3: Left Badge */}
-          <div className="lg:col-span-3 flex items-center gap-2.5 text-neutral-400 text-xs tracking-[0.2em] uppercase font-medium pt-2">
+          {/* Left Column: Badge */}
+          <div className="flex items-center gap-2.5 text-neutral-400 text-xs tracking-[0.2em] uppercase font-medium pt-2">
             <span className="w-1.5 h-1.5 rounded-full bg-neutral-400" />
             Our Expertise
           </div>
 
-          {/* Col 4-9: Center Headline */}
-          <div className="lg:col-span-6">
+          {/* Center Column: Clean Headline */}
+          <div className="text-center">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-[2.6rem] font-semibold text-white tracking-tight leading-[1.2]">
               How we take your business<br className="hidden sm:block" /> to the next level
             </h2>
           </div>
 
-          {/* Col 10-12: Right Sub-copy & CTA Button */}
-          <div className="lg:col-span-3 flex flex-col gap-4 items-start lg:items-end text-left lg:text-right">
+          {/* Right Column: Sub-copy & CTA Button */}
+          <div className="flex flex-col gap-4 items-start lg:items-end text-left lg:text-right">
             <p className="text-neutral-400 text-xs sm:text-sm leading-relaxed max-w-[260px] font-normal">
               We are a digital marketing agency with expertise, and we're on a mission to help you take the next step in your business.
             </p>
@@ -85,114 +85,107 @@ export const ServicesInteractive = () => {
           </div>
         </div>
 
-        {/* ── SERVICE OPTIONS (Flawlessly Aligned 9-Col Span) ─────── */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
-          
-          {/* Left empty space (Col 1-3) matching MadeByShape layout */}
-          <div className="hidden lg:block lg:col-span-3" />
+        {/* ── PERFECTLY CENTERED SERVICE OPTIONS CONTAINER ─────────── */}
+        <div
+          onMouseLeave={() => setHoveredIndex(null)}
+          className="max-w-5xl xl:max-w-6xl mx-auto w-full flex flex-col"
+        >
+          {services.map((service, i) => {
+            const isHovered = hoveredIndex === i;
+            const isDimmed = hoveredIndex !== null && !isHovered;
 
-          {/* Service Items (Col 4-12) */}
-          <div
-            onMouseLeave={() => setHoveredIndex(null)}
-            className="col-span-1 lg:col-span-9 flex flex-col"
-          >
-            {services.map((service, i) => {
-              const isHovered = hoveredIndex === i;
-              const isDimmed = hoveredIndex !== null && !isHovered;
+            return (
+              <motion.div
+                key={service.title}
+                onMouseEnter={() => setHoveredIndex(i)}
+                animate={{ opacity: isDimmed ? 0.22 : 1 }}
+                transition={SPRING}
+                className="relative"
+              >
+                {/* Top Divider Line */}
+                <div className="w-full h-px bg-white/[0.08]" />
 
-              return (
-                <motion.div
-                  key={service.title}
-                  onMouseEnter={() => setHoveredIndex(i)}
-                  animate={{ opacity: isDimmed ? 0.22 : 1 }}
-                  transition={SPRING}
-                  className="relative"
+                <Link
+                  to={service.href}
+                  tabIndex={0}
+                  aria-label={service.title}
+                  className="block w-full"
                 >
-                  {/* Top Divider Line */}
-                  <div className="w-full h-px bg-white/[0.08]" />
+                  {/* ── DESKTOP ROW (Centered, Equal Margins) ── */}
+                  <div className="hidden lg:flex items-center w-full h-[125px] xl:h-[150px] overflow-hidden px-2">
 
-                  <Link
-                    to={service.href}
-                    tabIndex={0}
-                    aria-label={service.title}
-                    className="block w-full"
-                  >
-                    {/* ── DESKTOP ROW (Proportional Display Typography) ── */}
-                    <div className="hidden lg:flex items-center w-full h-[120px] xl:h-[145px] 2xl:h-[160px] overflow-hidden pr-4">
+                    {/* Thumbnail: reveals smoothly on left of title */}
+                    <motion.div
+                      animate={{
+                        width: isHovered ? 105 : 0,
+                        marginRight: isHovered ? 22 : 0,
+                        opacity: isHovered ? 1 : 0,
+                      }}
+                      transition={SPRING}
+                      className="flex-shrink-0 h-[72px] xl:h-[84px] rounded-2xl overflow-hidden"
+                    >
+                      <img
+                        src={service.image}
+                        alt={service.title}
+                        className="w-[105px] h-full object-cover"
+                        loading="lazy"
+                      />
+                    </motion.div>
 
-                      {/* Thumbnail: reveals smoothly on left of title */}
-                      <motion.div
-                        animate={{
-                          width: isHovered ? 100 : 0,
-                          marginRight: isHovered ? 20 : 0,
-                          opacity: isHovered ? 1 : 0,
-                        }}
-                        transition={SPRING}
-                        className="flex-shrink-0 h-[70px] xl:h-[82px] rounded-2xl overflow-hidden"
-                      >
-                        <img
-                          src={service.image}
-                          alt={service.title}
-                          className="w-[100px] h-full object-cover"
-                          loading="lazy"
-                        />
-                      </motion.div>
+                    {/* Service Title */}
+                    <h3 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl 2xl:text-[4.75rem] font-bold text-white tracking-[-0.03em] leading-none whitespace-nowrap">
+                      {service.title}
+                    </h3>
 
-                      {/* Service Title - Cleanly scaled display text */}
-                      <h3 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl 2xl:text-[5.25rem] font-bold text-white tracking-[-0.03em] leading-none whitespace-nowrap">
+                    {/* Green CTA Pill: pops in on right of title */}
+                    <motion.div
+                      animate={{
+                        scale: isHovered ? 1 : 0,
+                        opacity: isHovered ? 1 : 0,
+                        width: isHovered ? 50 : 0,
+                        marginLeft: isHovered ? 22 : 0,
+                      }}
+                      transition={SPRING}
+                      className="flex-shrink-0 h-12 xl:h-13 rounded-full bg-[#b5ff2b] flex items-center justify-center overflow-hidden"
+                    >
+                      <span className="text-black font-black text-xl leading-none">↗</span>
+                    </motion.div>
+
+                    {/* Number on far right */}
+                    <span className="ml-auto text-white/20 text-xs sm:text-sm font-medium tabular-nums flex-shrink-0 pl-6">
+                      {service.number}
+                    </span>
+                  </div>
+
+                  {/* ── MOBILE ROW ── */}
+                  <div className="flex lg:hidden items-center gap-4 w-full py-6 sm:py-7">
+                    <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0">
+                      <img
+                        src={service.image}
+                        alt={service.title}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-2xl sm:text-3xl font-bold text-white tracking-tight leading-tight">
                         {service.title}
                       </h3>
-
-                      {/* Green CTA Pill: pops in on right of title */}
-                      <motion.div
-                        animate={{
-                          scale: isHovered ? 1 : 0,
-                          opacity: isHovered ? 1 : 0,
-                          width: isHovered ? 48 : 0,
-                          marginLeft: isHovered ? 20 : 0,
-                        }}
-                        transition={SPRING}
-                        className="flex-shrink-0 h-12 xl:h-13 rounded-full bg-[#b5ff2b] flex items-center justify-center overflow-hidden"
-                      >
-                        <span className="text-black font-black text-xl leading-none">↗</span>
-                      </motion.div>
-
-                      {/* Number on far right */}
-                      <span className="ml-auto text-white/20 text-xs sm:text-sm font-medium tabular-nums flex-shrink-0 pl-6">
-                        {service.number}
-                      </span>
+                      <p className="text-neutral-400 text-xs mt-1 line-clamp-2">
+                        {service.subtext}
+                      </p>
                     </div>
+                    <span className="flex-shrink-0 w-9 h-9 rounded-full bg-[#b5ff2b] flex items-center justify-center ml-2">
+                      <span className="text-black font-bold text-sm">↗</span>
+                    </span>
+                  </div>
+                </Link>
+              </motion.div>
+            );
+          })}
 
-                    {/* ── MOBILE ROW ── */}
-                    <div className="flex lg:hidden items-center gap-4 w-full py-6 sm:py-7">
-                      <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0">
-                        <img
-                          src={service.image}
-                          alt={service.title}
-                          className="w-full h-full object-cover"
-                          loading="lazy"
-                        />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-2xl sm:text-3xl font-bold text-white tracking-tight leading-tight">
-                          {service.title}
-                        </h3>
-                        <p className="text-neutral-400 text-xs mt-1 line-clamp-2">
-                          {service.subtext}
-                        </p>
-                      </div>
-                      <span className="flex-shrink-0 w-9 h-9 rounded-full bg-[#b5ff2b] flex items-center justify-center ml-2">
-                        <span className="text-black font-bold text-sm">↗</span>
-                      </span>
-                    </div>
-                  </Link>
-                </motion.div>
-              );
-            })}
-
-            {/* Bottom Divider Line */}
-            <div className="w-full h-px bg-white/[0.08]" />
-          </div>
+          {/* Bottom Divider Line */}
+          <div className="w-full h-px bg-white/[0.08]" />
         </div>
 
       </div>
