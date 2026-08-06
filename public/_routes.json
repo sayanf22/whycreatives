@@ -1,5 +1,23 @@
 {
   "version": 1,
   "include": ["/*"],
-  "exclude": []
+  "exclude": [
+    "/assets/*",
+    "/favicon.ico",
+    "/favicon.png",
+    "/logo.png",
+    "/robots.txt",
+    "/sitemap*.xml",
+    "/*.webp",
+    "/*.png",
+    "/*.jpg",
+    "/*.jpeg",
+    "/*.gif",
+    "/*.svg",
+    "/*.ico",
+    "/*.txt",
+    "/*.json",
+    "/*.xml",
+    "/.well-known/*"
+  ]
 }

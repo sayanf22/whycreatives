@@ -1,6 +1,3 @@
-# Cloudflare Pages Redirects for SPA (Single Page Application)
-# Note: Apex to www redirect is handled by Cloudflare Bulk Redirects
-# See: https://developers.cloudflare.com/pages/how-to/www-redirect/
-
-# SPA fallback - all routes should serve index.html
-/* /index.html 200
+# Apex to www redirect handled by Cloudflare Bulk Redirects rule (not here)
+# SPA fallback for React Router - DO NOT use /index.html (causes infinite loop)
+/* / 200

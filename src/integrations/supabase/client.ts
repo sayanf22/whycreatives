@@ -3,20 +3,17 @@ import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 import { safeStorage } from '@/lib/safeStorage';
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
-const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
-
-// Validate environment variables
-if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
-  console.warn('Supabase environment variables not found, using fallback configuration');
-}
+// Hardcoded as public anon keys - safe to include in client bundle
+// These are equivalent to what would be in VITE_ env vars
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL ?? 'https://arhsjfguddgoqnsxydzc.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ?? 'sb_publishable_y5FG3pMb3Eg5EiDpq8SVfQ_q6US8yvE';
 
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";
 
 export const supabase = createClient<Database>(
-  SUPABASE_URL || 'https://arhsjfguddgoqnsxydzc.supabase.co',
-  SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_y5FG3pMb3Eg5EiDpq8SVfQ_q6US8yvE',
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY,
   {
     auth: {
       storage: typeof window !== "undefined" ? safeStorage : undefined,
