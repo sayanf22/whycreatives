@@ -9,8 +9,8 @@ export const Footer = () => {
   };
 
   return (
-    <div className="w-full bg-background py-8 sm:py-12 px-4 sm:px-6 lg:px-8 font-['Plus_Jakarta_Sans',sans-serif]">
-      <div className="max-w-[1340px] mx-auto relative">
+    <div className="w-full bg-background p-3 sm:p-5 md:p-6 mt-12 sm:mt-16 font-['Plus_Jakarta_Sans',sans-serif]">
+      <div className="relative w-full">
         
         {/* ========================================================
             LEFT WHITE SOCIAL STRIP (MADEBYSHAPE EXACT SPEC)
@@ -229,10 +229,10 @@ export const Footer = () => {
 
             </div>
 
-            {/* Giant Text Section */}
+            {/* Giant Text Section (Single Line matching MadeByShape) */}
             <div className="border-t border-neutral-900 pt-8 pb-10 overflow-hidden select-none">
-              <BlurReveal delay={0.3} duration={0.8} className="w-full">
-                <h1 className="text-[12vw] sm:text-[10vw] font-black text-white tracking-tight leading-none text-center lg:text-left opacity-90 uppercase">
+              <BlurReveal delay={0.3} duration={0.8} className="w-full overflow-hidden">
+                <h1 className="text-[7.5vw] sm:text-[7.5vw] lg:text-[7.5vw] font-black text-white tracking-tight leading-none text-center lg:text-left opacity-90 uppercase whitespace-nowrap">
                   Crafting since 2020
                 </h1>
               </BlurReveal>
