@@ -58,13 +58,16 @@ export const Navigation = () => {
         <div className="w-full max-w-[1700px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-20 flex items-center justify-between">
           
           {/* ── LEFT LOGO ────────────────────────────────────────── */}
-          <Link to="/" className="flex items-center gap-2.5 group">
+          <Link to="/" className="flex items-center gap-2.5 group shrink-0">
             <img
               src="/logo.png"
               alt="WhyCreatives Logo"
-              className="w-7 h-7 md:w-8 md:h-8 dark:invert object-contain transition-transform group-hover:scale-105"
+              width="32"
+              height="32"
+              style={{ width: "32px", height: "32px", maxWidth: "32px", maxHeight: "32px" }}
+              className="w-7 h-7 md:w-8 md:h-8 dark:invert object-contain transition-transform group-hover:scale-105 shrink-0"
             />
-            <span className="text-xl md:text-2xl font-extrabold tracking-tight text-foreground">
+            <span className="text-xl md:text-2xl font-extrabold tracking-tight text-foreground whitespace-nowrap">
               WhyCreatives<span className="text-[#b5ff2b]">.</span>
             </span>
           </Link>
