@@ -16,8 +16,8 @@ export const Footer = () => {
             LEFT WHITE SOCIAL STRIP (MADEBYSHAPE EXACT SPEC)
            ======================================================== */}
         
-        {/* White Social Strip Container (Width: 54px, Height: 280px) */}
-        <div className="absolute top-0 left-0 w-[54px] h-[280px] bg-white dark:bg-[#121212] rounded-br-[28px] z-20">
+        {/* White Social Strip Container (Extended -top-1 -left-1 for 100% seamless background blend) */}
+        <div className="absolute -top-1 -left-1 w-[58px] h-[284px] bg-white dark:bg-[#121212] rounded-br-[28px] z-20">
           {/* Inner Corner Mask (Bottom-Right concave curve) */}
           <div className="absolute bottom-0 right-0 w-7 h-7 bg-[#0d0d0d] z-20">
             <div className="w-full h-full bg-white dark:bg-[#121212] rounded-br-[28px]" />
@@ -40,13 +40,13 @@ export const Footer = () => {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="absolute top-4 left-[9px] flex flex-col gap-2.5 z-30"
+          className="absolute top-4 left-[10px] flex flex-col gap-2.5 z-30"
         >
           <a 
             href="https://www.linkedin.com/company/whycreatives/" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="w-9 h-9 rounded-full bg-[#b5ff2b] text-black flex items-center justify-center font-bold text-xs hover:scale-110 active:scale-95 transition-all shadow-md select-none"
+            className="w-9 h-9 rounded-full bg-[#b5ff2b] text-black flex items-center justify-center font-bold text-xs hover:scale-110 active:scale-95 transition-all select-none"
             aria-label="LinkedIn"
           >
             in
@@ -55,7 +55,7 @@ export const Footer = () => {
             href="https://twitter.com/why_creatives" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="w-9 h-9 rounded-full bg-[#b5ff2b] text-black flex items-center justify-center font-bold text-xs hover:scale-110 active:scale-95 transition-all shadow-md select-none"
+            className="w-9 h-9 rounded-full bg-[#b5ff2b] text-black flex items-center justify-center font-bold text-xs hover:scale-110 active:scale-95 transition-all select-none"
             aria-label="Twitter/X"
           >
             X
@@ -64,7 +64,7 @@ export const Footer = () => {
             href="https://github.com" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="w-9 h-9 rounded-full bg-[#b5ff2b] text-black flex items-center justify-center hover:scale-110 active:scale-95 transition-all shadow-md select-none"
+            className="w-9 h-9 rounded-full bg-[#b5ff2b] text-black flex items-center justify-center hover:scale-110 active:scale-95 transition-all select-none"
             aria-label="GitHub"
           >
             <svg className="w-4 h-4 fill-black" viewBox="0 0 24 24">
@@ -75,7 +75,7 @@ export const Footer = () => {
             href="https://www.instagram.com/why_creatives/" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="w-9 h-9 rounded-full bg-[#b5ff2b] text-black flex items-center justify-center hover:scale-110 active:scale-95 transition-all shadow-md select-none"
+            className="w-9 h-9 rounded-full bg-[#b5ff2b] text-black flex items-center justify-center hover:scale-110 active:scale-95 transition-all select-none"
             aria-label="Instagram"
           >
             <svg className="w-4 h-4 fill-black" viewBox="0 0 24 24">
@@ -86,7 +86,7 @@ export const Footer = () => {
             href="https://behance.net" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="w-9 h-9 rounded-full bg-[#b5ff2b] text-black flex items-center justify-center font-bold text-[11px] hover:scale-110 active:scale-95 transition-all shadow-md select-none"
+            className="w-9 h-9 rounded-full bg-[#b5ff2b] text-black flex items-center justify-center font-bold text-[11px] hover:scale-110 active:scale-95 transition-all select-none"
             aria-label="Behance"
           >
             Bē
@@ -99,7 +99,7 @@ export const Footer = () => {
         
         <div 
           onClick={scrollToTop}
-          className="absolute top-0 right-0 h-[48px] px-6 bg-white dark:bg-[#121212] rounded-bl-[28px] z-20 hidden md:flex items-center gap-1.5 cursor-pointer text-xs text-neutral-800 dark:text-neutral-200 font-semibold select-none shadow-sm hover:opacity-90 transition-opacity"
+          className="absolute -top-1 -right-1 h-[52px] px-6 bg-white dark:bg-[#121212] rounded-bl-[28px] z-20 hidden md:flex items-center gap-1.5 cursor-pointer text-xs text-neutral-800 dark:text-neutral-200 font-semibold select-none hover:opacity-90 transition-opacity"
         >
           {/* Left Transition Mask (Anchored to left edge: -left-7) */}
           <div className="absolute top-0 -left-7 w-7 h-7 bg-white dark:bg-[#121212] z-20">
@@ -120,7 +120,7 @@ export const Footer = () => {
         
         <div 
           onClick={scrollToTop}
-          className="absolute bottom-0 right-0 h-[44px] px-4 bg-white dark:bg-[#121212] rounded-tl-[24px] z-20 md:hidden flex items-center gap-1.5 cursor-pointer text-[11px] text-neutral-800 dark:text-neutral-200 font-semibold select-none shadow-sm hover:opacity-90 transition-opacity"
+          className="absolute -bottom-1 -right-1 h-[48px] px-4 bg-white dark:bg-[#121212] rounded-tl-[24px] z-20 md:hidden flex items-center gap-1.5 cursor-pointer text-[11px] text-neutral-800 dark:text-neutral-200 font-semibold select-none hover:opacity-90 transition-opacity"
         >
           {/* Top Transition Mask (Anchored to top edge: -top-6) */}
           <div className="absolute -top-6 right-0 w-6 h-6 bg-white dark:bg-[#121212] z-20">
@@ -138,7 +138,7 @@ export const Footer = () => {
         {/* ========================================================
             MAIN BLACK FOOTER CONTAINER (FLOATING INSET CARD)
            ======================================================== */}
-        <footer className="relative bg-[#0d0d0d] text-white pt-8 md:pt-12 lg:pt-16 pb-16 md:pb-12 px-4 sm:px-8 lg:px-20 overflow-hidden shadow-2xl rounded-2xl md:rounded-3xl">
+        <footer className="relative bg-[#0d0d0d] text-white pt-8 md:pt-12 lg:pt-16 pb-16 md:pb-12 px-4 sm:px-8 lg:px-20 overflow-hidden rounded-2xl md:rounded-3xl">
           
           <div className="max-w-7xl mx-auto relative">
             
