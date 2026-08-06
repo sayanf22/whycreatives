@@ -1,58 +1,98 @@
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
-interface HeroProps {
-  title?: React.ReactNode;
-  subtitle?: string;
-}
-
-export const Hero = ({ title, subtitle }: HeroProps) => {
+export const Hero = () => {
   return (
-    <section className="w-full bg-background pt-32 sm:pt-40 lg:pt-44 pb-16 sm:pb-20 lg:pb-24 px-6 sm:px-10 lg:px-16 xl:px-20 font-['Plus_Jakarta_Sans',sans-serif] relative overflow-hidden">
-      <div className="w-full max-w-[1600px] mx-auto">
+    <section className="w-full bg-background pt-24 sm:pt-28 pb-10 sm:pb-16 px-4 sm:px-6 md:px-8 font-['Plus_Jakarta_Sans',sans-serif]">
+      <div className="max-w-[1700px] mx-auto">
         
-        {/* ── MAIN HERO GRID (Matching MadeByShape Grid Alignment) ───── */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+        {/* ── ROUNDED SHOWCASE HERO CONTAINER ────────────────────────── */}
+        <div className="relative w-full h-[560px] sm:h-[640px] lg:h-[720px] xl:h-[780px] rounded-[28px] sm:rounded-[36px] lg:rounded-[44px] overflow-hidden bg-[#e6e2d8] dark:bg-[#121214] border border-border/30 shadow-sm">
           
-          {/* Left Column: Badge */}
-          <div className="lg:col-span-3 flex items-center gap-2.5 text-muted-foreground text-xs tracking-[0.2em] uppercase font-medium pt-3">
-            <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground" />
-            Creative & Digital Agency
+          {/* Background Showcase Image with Soft Lighting */}
+          <div className="absolute inset-0 z-0">
+            <img
+              src="/whycreatives-app.webp"
+              alt="WhyCreatives Agency Showcase"
+              className="w-full h-full object-cover opacity-90 dark:opacity-40 transition-transform duration-1000 hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20" />
           </div>
 
-          {/* Center/Right Column: Display Headline, Subtitle, & Pill Buttons */}
-          <div className="lg:col-span-9 flex flex-col gap-6 sm:gap-8">
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[6.5rem] font-bold text-foreground tracking-[-0.04em] leading-[1.05] max-w-5xl">
-              {title || (
-                <>
-                  Creative Excellence<br />
-                  <span className="text-muted-foreground font-normal">Redefined.</span>
-                </>
-              )}
-            </h1>
+          {/* ── TOP-LEFT OVERLAPPING CARD CUTOUT (MadeByShape Signature Design) ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute top-0 left-0 z-20 max-w-[92%] sm:max-w-[580px] lg:max-w-[660px] p-6 sm:p-8 lg:p-10 bg-white dark:bg-[#0A0A0C] rounded-br-[28px] sm:rounded-br-[36px] shadow-2xl"
+          >
+            {/* Top Badge */}
+            <motion.div
+              initial={{ opacity: 0, x: -15 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="flex items-center gap-2 text-xs text-muted-foreground uppercase tracking-[0.2em] font-medium mb-4"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-[#b5ff2b]" />
+              Hiya, we're WhyCreatives 👋
+            </motion.div>
 
-            <p className="text-base sm:text-xl lg:text-2xl text-muted-foreground max-w-3xl leading-relaxed font-normal">
-              {subtitle || "WhyCreatives builds high-impact brand identities, custom web & mobile applications (Next.js, Node.js, Supabase, Convex), and viral video content that elevate businesses."}
-            </p>
+            {/* Slide & Stagger Animated Headline */}
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="text-3xl sm:text-5xl lg:text-6xl xl:text-[3.6rem] font-normal text-foreground leading-[1.12] tracking-[-0.03em] mb-6 sm:mb-8"
+            >
+              A video editing, web design and branding agency in India
+            </motion.h1>
 
-            {/* Action Pill Buttons */}
-            <div className="flex flex-wrap items-center gap-4 pt-2">
+            {/* Action Pills */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="flex flex-wrap items-center gap-3.5"
+            >
               <Link
-                to="/contact"
-                className="inline-flex items-center gap-2.5 bg-[#b5ff2b] text-black text-xs sm:text-sm font-bold px-6 py-3 rounded-full hover:bg-[#a8f020] transition-colors group"
+                to="/our-work"
+                className="inline-flex items-center gap-2 bg-black dark:bg-[#b5ff2b] text-white dark:text-black text-xs font-bold px-5 sm:px-6 py-2.5 sm:py-3 rounded-full hover:scale-105 transition-all shadow-sm group"
               >
-                Get Started
-                <span className="w-4 h-4 rounded-full bg-black/15 flex items-center justify-center text-[10px] group-hover:translate-x-0.5 transition-transform">
+                View our work
+                <span className="w-4 h-4 rounded-full bg-white/20 dark:bg-black/20 flex items-center justify-center text-[10px] group-hover:translate-x-0.5 transition-transform">
                   ↗
                 </span>
               </Link>
+
               <Link
-                to="/what-we-do"
-                className="inline-flex items-center gap-2.5 border border-foreground/20 text-foreground text-xs sm:text-sm font-semibold px-6 py-3 rounded-full hover:bg-secondary transition-colors"
+                to="/people"
+                className="inline-flex items-center gap-2 border border-foreground/20 text-foreground text-xs font-semibold px-5 sm:px-6 py-2.5 sm:py-3 rounded-full hover:bg-secondary transition-all"
               >
-                See Our Services ↗
+                Meet the team ↗
               </Link>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
+
+          {/* ── BOTTOM-RIGHT FLOATING FOUNDER BADGE ───────────────────── */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.7 }}
+            className="absolute bottom-5 right-5 sm:bottom-8 sm:right-8 z-20"
+          >
+            <Link
+              to="/people"
+              className="bg-white/90 dark:bg-black/90 backdrop-blur-md px-4 py-2.5 rounded-full flex items-center gap-3 border border-border/40 shadow-xl text-xs text-foreground font-semibold hover:scale-105 transition-transform group"
+            >
+              <div className="w-8 h-8 rounded-full bg-[#b5ff2b] text-black font-black flex items-center justify-center text-xs">
+                WC
+              </div>
+              <div className="flex flex-col text-left">
+                <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold">Hear from Sayan</span>
+                <span className="text-xs font-bold text-foreground">Co-Founder of WhyCreatives ↗</span>
+              </div>
+            </Link>
+          </motion.div>
 
         </div>
 
