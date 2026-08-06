@@ -16,21 +16,21 @@ export const Footer = () => {
             LEFT WHITE SOCIAL STRIP (MADEBYSHAPE EXACT SPEC)
            ======================================================== */}
         
-        {/* White Social Strip Container (Extended -top-1 -left-1 for 100% seamless background blend) */}
-        <div className="absolute -top-1 -left-1 w-[58px] h-[284px] bg-white dark:bg-[#121212] rounded-br-[28px] z-20">
+        {/* White Social Strip Container (Positioned top-0 left-0) */}
+        <div className="absolute top-0 left-0 w-[56px] h-[280px] bg-white dark:bg-[#121212] rounded-br-[24px] z-20">
           {/* Inner Corner Mask (Bottom-Right concave curve) */}
-          <div className="absolute bottom-0 right-0 w-7 h-7 bg-[#0d0d0d] z-20">
-            <div className="w-full h-full bg-white dark:bg-[#121212] rounded-br-[28px]" />
+          <div className="absolute top-[256px] left-[32px] w-[24px] h-[24px] bg-[#0d0d0d] z-20">
+            <div className="w-full h-full bg-white dark:bg-[#121212] rounded-br-[24px]" />
           </div>
 
-          {/* Top-Right Transition Mask (Attached to right edge: -right-7) */}
-          <div className="absolute top-0 -right-7 w-7 h-7 bg-white dark:bg-[#121212] z-20">
-            <div className="w-full h-full bg-[#0d0d0d] rounded-tl-[28px]" />
+          {/* Top-Right Transition Mask (Curves top edge down alongside social strip) */}
+          <div className="absolute top-0 left-[56px] w-[24px] h-[24px] bg-white dark:bg-[#121212] z-20">
+            <div className="w-full h-full bg-[#0d0d0d] rounded-tl-[24px]" />
           </div>
 
-          {/* Bottom-Left Transition Mask (Attached to bottom edge: -bottom-7) */}
-          <div className="absolute -bottom-7 left-0 w-7 h-7 bg-white dark:bg-[#121212] z-20">
-            <div className="w-full h-full bg-[#0d0d0d] rounded-tl-[28px]" />
+          {/* Bottom-Left Transition Mask (Curves black edge under social strip) */}
+          <div className="absolute top-[280px] left-0 w-[24px] h-[24px] bg-white dark:bg-[#121212] z-20">
+            <div className="w-full h-full bg-[#0d0d0d] rounded-tl-[24px]" />
           </div>
         </div>
 
@@ -99,15 +99,15 @@ export const Footer = () => {
         
         <div 
           onClick={scrollToTop}
-          className="absolute -top-1 -right-1 h-[52px] px-6 bg-white dark:bg-[#121212] rounded-bl-[28px] z-20 hidden md:flex items-center gap-1.5 cursor-pointer text-xs text-neutral-800 dark:text-neutral-200 font-semibold select-none hover:opacity-90 transition-opacity"
+          className="absolute top-0 right-0 h-[44px] px-6 bg-white dark:bg-[#121212] rounded-bl-[24px] z-20 hidden md:flex items-center gap-1.5 cursor-pointer text-xs text-neutral-800 dark:text-neutral-200 font-semibold select-none hover:opacity-90 transition-opacity"
         >
-          {/* Left Transition Mask (Anchored to left edge: -left-7) */}
-          <div className="absolute top-0 -left-7 w-7 h-7 bg-white dark:bg-[#121212] z-20">
-            <div className="w-full h-full bg-[#0d0d0d] rounded-tr-[28px]" />
+          {/* Left Transition Mask (Attached to left edge: -left-[24px]) */}
+          <div className="absolute top-0 -left-[24px] w-[24px] h-[24px] bg-white dark:bg-[#121212] z-20">
+            <div className="w-full h-full bg-[#0d0d0d] rounded-tr-[24px]" />
           </div>
-          {/* Bottom Transition Mask (Anchored to bottom edge: -bottom-7) */}
-          <div className="absolute -bottom-7 right-0 w-7 h-7 bg-white dark:bg-[#121212] z-20">
-            <div className="w-full h-full bg-[#0d0d0d] rounded-tr-[28px]" />
+          {/* Bottom Transition Mask (Attached to bottom edge: top-[44px]) */}
+          <div className="absolute top-[44px] right-0 w-[24px] h-[24px] bg-white dark:bg-[#121212] z-20">
+            <div className="w-full h-full bg-[#0d0d0d] rounded-tr-[24px]" />
           </div>
 
           <span>Sh*t I've gone too far, send me back up</span>
@@ -120,14 +120,14 @@ export const Footer = () => {
         
         <div 
           onClick={scrollToTop}
-          className="absolute -bottom-1 -right-1 h-[48px] px-4 bg-white dark:bg-[#121212] rounded-tl-[24px] z-20 md:hidden flex items-center gap-1.5 cursor-pointer text-[11px] text-neutral-800 dark:text-neutral-200 font-semibold select-none hover:opacity-90 transition-opacity"
+          className="absolute bottom-0 right-0 h-[44px] px-4 bg-white dark:bg-[#121212] rounded-tl-[24px] z-20 md:hidden flex items-center gap-1.5 cursor-pointer text-[11px] text-neutral-800 dark:text-neutral-200 font-semibold select-none hover:opacity-90 transition-opacity"
         >
-          {/* Top Transition Mask (Anchored to top edge: -top-6) */}
-          <div className="absolute -top-6 right-0 w-6 h-6 bg-white dark:bg-[#121212] z-20">
+          {/* Top Transition Mask (Attached to top edge: -top-[24px]) */}
+          <div className="absolute -top-[24px] right-0 w-[24px] h-[24px] bg-white dark:bg-[#121212] z-20">
             <div className="w-full h-full bg-[#0d0d0d] rounded-br-[24px]" />
           </div>
-          {/* Left Transition Mask (Anchored dynamically to left edge: -left-6) */}
-          <div className="absolute bottom-0 -left-6 w-6 h-6 bg-white dark:bg-[#121212] z-20">
+          {/* Left Transition Mask (Attached dynamically to left edge: -left-[24px]) */}
+          <div className="absolute bottom-0 -left-[24px] w-[24px] h-[24px] bg-white dark:bg-[#121212] z-20">
             <div className="w-full h-full bg-[#0d0d0d] rounded-br-[24px]" />
           </div>
 
@@ -138,7 +138,7 @@ export const Footer = () => {
         {/* ========================================================
             MAIN BLACK FOOTER CONTAINER (FLOATING INSET CARD)
            ======================================================== */}
-        <footer className="relative bg-[#0d0d0d] text-white pt-8 md:pt-12 lg:pt-16 pb-16 md:pb-12 px-4 sm:px-8 lg:px-20 overflow-hidden rounded-2xl md:rounded-3xl">
+        <footer className="relative bg-[#0d0d0d] text-white pt-8 md:pt-12 lg:pt-16 pb-16 md:pb-12 px-4 sm:px-8 lg:px-20 overflow-hidden rounded-b-2xl md:rounded-b-3xl rounded-t-none">
           
           <div className="max-w-7xl mx-auto relative">
             
