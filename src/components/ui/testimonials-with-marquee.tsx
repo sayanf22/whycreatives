@@ -28,8 +28,8 @@ export function TestimonialsSection({
     <section
       ref={ref}
       className={cn(
-        "bg-background text-foreground",
-        "py-12 sm:py-24 md:py-32 px-0",
+        "bg-background text-foreground font-['Plus_Jakarta_Sans',sans-serif]",
+        "py-16 sm:py-20 lg:py-24 px-0",
         "transition-all duration-1000",
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20",
         className

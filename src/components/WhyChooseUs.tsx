@@ -53,10 +53,11 @@ export const WhyChooseUs = () => {
   return (
     <section
       ref={ref}
-      className={`py-16 sm:py-24 md:py-32 px-5 sm:px-6 bg-background transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
-        }`}
+      className={`py-16 sm:py-20 lg:py-24 px-6 sm:px-10 lg:px-16 xl:px-20 bg-background font-['Plus_Jakarta_Sans',sans-serif] transition-all duration-1000 ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
+      }`}
     >
-      <div className="w-full max-w-7xl mx-auto">
+      <div className="w-full max-w-[1600px] mx-auto">
         <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 sm:gap-16 lg:gap-20 items-center">
 
           {/* Mobile: Heading first */}

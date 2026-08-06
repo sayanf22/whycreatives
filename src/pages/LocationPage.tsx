@@ -6,7 +6,6 @@ import { Link, useParams, Navigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Spotlight } from "@/components/ui/spotlight-aceternity";
 import { ArrowRight, Video, Globe, Share2, Megaphone, Instagram, Palette, Phone, Mail, MapPin, Star, Users, Clock, Shield, CheckCircle2, TrendingUp } from "lucide-react";
-import RadialOrbitalTimeline from "@/components/ui/radial-orbital-timeline";
 import { getLocationData, getMisspellingRedirect, isValidLocationSlug } from "@/data/seoLocations";
 
 // Services with pricing
@@ -273,22 +272,6 @@ const LocationPage = () => {
                 </div>
               </div>
 
-              {/* Right content - Orbital Timeline */}
-              <div
-                className="relative w-full flex items-center justify-center animate-fade-in my-8 lg:my-0"
-                style={{ animationDelay: "0.2s" }}
-              >
-                {/* Mobile version */}
-                <div className="lg:hidden w-[120%] -mx-[10%] h-[500px] flex items-center justify-center overflow-visible py-8">
-                  <div className="w-full h-full scale-[0.75]">
-                    <RadialOrbitalTimeline timelineData={timelineData} />
-                  </div>
-                </div>
-                {/* Desktop version */}
-                <div className="hidden lg:block w-full h-[550px]">
-                  <RadialOrbitalTimeline timelineData={timelineData} />
-                </div>
-              </div>
             </div>
 
             {/* Trust Indicators */}

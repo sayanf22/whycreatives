@@ -34,11 +34,11 @@ export const HowItWorks = () => {
   return (
     <section 
       ref={ref}
-      className={`py-20 px-6 transition-all duration-1000 ${
+      className={`py-16 sm:py-20 lg:py-24 px-6 sm:px-10 lg:px-16 xl:px-20 font-['Plus_Jakarta_Sans',sans-serif] transition-all duration-1000 ${
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
       }`}
     >
-      <div className="container mx-auto max-w-7xl">
+      <div className="max-w-[1600px] mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-black mb-4">
             How It <span className="text-muted-foreground">Works</span>

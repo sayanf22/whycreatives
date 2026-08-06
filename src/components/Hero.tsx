@@ -1,9 +1,4 @@
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Video, Globe, Share2, Palette, TrendingUp } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Spotlight } from "@/components/ui/spotlight-aceternity";
-import RadialOrbitalTimeline from "@/components/ui/radial-orbital-timeline";
-import { motion } from "framer-motion";
 
 interface HeroProps {
   title?: React.ReactNode;
@@ -11,130 +6,56 @@ interface HeroProps {
 }
 
 export const Hero = ({ title, subtitle }: HeroProps) => {
-  const timelineData = [
-    {
-      id: 1,
-      title: "Video Editing",
-      date: "Professional",
-      content: "High-quality video editing with professional transitions and effects.",
-      category: "Video",
-      icon: Video,
-      relatedIds: [2, 4],
-      status: "completed" as const,
-      energy: 100,
-    },
-    {
-      id: 2,
-      title: "Web Design",
-      date: "Modern",
-      content: "Responsive and beautiful web designs that convert.",
-      category: "Design",
-      icon: Globe,
-      relatedIds: [1, 3],
-      status: "completed" as const,
-      energy: 95,
-    },
-    {
-      id: 3,
-      title: "Social Media",
-      date: "Engaging",
-      content: "Strategic social media management and content creation.",
-      category: "Marketing",
-      icon: Share2,
-      relatedIds: [2, 5],
-      status: "in-progress" as const,
-      energy: 85,
-    },
-    {
-      id: 4,
-      title: "Branding",
-      date: "Creative",
-      content: "Unique brand identity and visual design solutions.",
-      category: "Design",
-      icon: Palette,
-      relatedIds: [1, 5],
-      status: "completed" as const,
-      energy: 90,
-    },
-    {
-      id: 5,
-      title: "Growth",
-      date: "Results",
-      content: "Data-driven strategies for business growth and success.",
-      category: "Strategy",
-      icon: TrendingUp,
-      relatedIds: [3, 4],
-      status: "in-progress" as const,
-      energy: 80,
-    },
-  ];
-
   return (
-    <section className="min-h-screen flex flex-col justify-start md:justify-center px-5 sm:px-6 pt-28 sm:pt-32 pb-10 sm:pb-12 relative overflow-x-hidden">
-      <Spotlight
-        className="hidden md:block -top-40 left-0 md:left-60 md:-top-20 opacity-20"
-        fill="white"
-      />
+    <section className="w-full bg-background pt-32 sm:pt-40 lg:pt-44 pb-16 sm:pb-20 lg:pb-24 px-6 sm:px-10 lg:px-16 xl:px-20 font-['Plus_Jakarta_Sans',sans-serif] relative overflow-hidden">
+      <div className="w-full max-w-[1600px] mx-auto">
+        
+        {/* ── MAIN HERO GRID (Matching MadeByShape Grid Alignment) ───── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          
+          {/* Left Column: Badge */}
+          <div className="lg:col-span-3 flex items-center gap-2.5 text-muted-foreground text-xs tracking-[0.2em] uppercase font-medium pt-3">
+            <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground" />
+            Creative & Digital Agency
+          </div>
 
-      <div className="w-full max-w-7xl mx-auto">
-        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-6 lg:gap-12 items-center">
-          {/* Left content */}
-          <div className="relative z-10 w-full animate-fade-in-up">
-            <h1 className="text-[2.2rem] leading-[1.15] sm:text-5xl md:text-7xl lg:text-8xl font-black text-foreground mb-4 sm:mb-6 tracking-tight">
+          {/* Center/Right Column: Display Headline, Subtitle, & Pill Buttons */}
+          <div className="lg:col-span-9 flex flex-col gap-6 sm:gap-8">
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[6.5rem] font-bold text-foreground tracking-[-0.04em] leading-[1.05] max-w-5xl">
               {title || (
                 <>
-                  Creative
-                  <br />
-                  Excellence
-                  <br />
-                  <span className="text-muted-foreground">Redefined.</span>
+                  Creative Excellence<br />
+                  <span className="text-muted-foreground font-normal">Redefined.</span>
                 </>
               )}
             </h1>
-            <p className="text-base sm:text-xl md:text-2xl text-muted-foreground mb-5 sm:mb-12 leading-relaxed">
-              {subtitle || "Professional video editing, web design, and social media management with transparent pricing and clear deliverables."}
+
+            <p className="text-base sm:text-xl lg:text-2xl text-muted-foreground max-w-3xl leading-relaxed font-normal">
+              {subtitle || "WhyCreatives builds high-impact brand identities, custom web & mobile applications (Next.js, Node.js, Supabase, Convex), and viral video content that elevate businesses."}
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-              <Button
-                size="lg"
-                asChild
-                className="bg-foreground text-background hover:bg-muted-foreground text-base sm:text-lg px-8 py-5 sm:py-6 font-bold w-full sm:w-auto"
+
+            {/* Action Pill Buttons */}
+            <div className="flex flex-wrap items-center gap-4 pt-2">
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-2.5 bg-[#b5ff2b] text-black text-xs sm:text-sm font-bold px-6 py-3 rounded-full hover:bg-[#a8f020] transition-colors group"
               >
-                <Link to="/contact" className="flex items-center justify-center gap-2">
-                  Get a Quote
-                  <ArrowRight className="h-5 w-5" />
-                </Link>
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                asChild
-                className="border-2 border-foreground text-foreground hover:bg-foreground hover:text-background text-base sm:text-lg px-8 py-5 sm:py-6 font-bold w-full sm:w-auto"
+                Get Started
+                <span className="w-4 h-4 rounded-full bg-black/15 flex items-center justify-center text-[10px] group-hover:translate-x-0.5 transition-transform">
+                  ↗
+                </span>
+              </Link>
+              <Link
+                to="/what-we-do"
+                className="inline-flex items-center gap-2.5 border border-foreground/20 text-foreground text-xs sm:text-sm font-semibold px-6 py-3 rounded-full hover:bg-secondary transition-colors"
               >
-                <Link to="/what-we-do" className="flex items-center justify-center">
-                  See Our Services
-                </Link>
-              </Button>
+                See Our Services ↗
+              </Link>
             </div>
           </div>
 
-          {/* Right content - Orbital Timeline */}
-          <div
-            className="relative w-full flex items-center justify-center animate-fade-in my-8 lg:my-0"
-            style={{ animationDelay: "0.2s" }}
-          >
-            {/* Mobile version - scaled to fit */}
-            <div className="lg:hidden w-full h-[350px] sm:h-[450px] flex items-center justify-center overflow-visible">
-              <div className="w-full h-full flex items-center justify-center">
-                <RadialOrbitalTimeline timelineData={timelineData} />
-              </div>
-            </div>
-            {/* Desktop version - full size */}
-            <div className="hidden lg:block w-full h-[600px]">
-              <RadialOrbitalTimeline timelineData={timelineData} />
-            </div>
-          </div>
         </div>
+
       </div>
     </section>
   );
