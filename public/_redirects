@@ -1,3 +1,2 @@
-# Apex to www redirect handled by Cloudflare Bulk Redirects rule (not here)
-# SPA fallback for React Router - DO NOT use /index.html (causes infinite loop)
-/* / 200
+# Apex to www redirect is handled by Cloudflare Bulk Redirects rule
+# SPA routing is handled by wrangler.toml [assets] not_found_handling = "single-page-application"
