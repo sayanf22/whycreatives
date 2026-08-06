@@ -140,7 +140,7 @@ export const ServicesInteractive = () => {
           {/* Right Column: Sub-copy & CTA Button */}
           <div className="lg:col-span-3 flex flex-col gap-4 items-start lg:items-end text-left lg:text-right">
             <p className="text-neutral-400 text-xs sm:text-sm leading-relaxed max-w-[260px] font-normal">
-              We are a digital marketing agency with expertise, and we're on a mission to help you take the next step in your business.
+              WhyCreatives is a creative & tech agency on a mission to help you scale your business with modern web, mobile apps, & video production.
             </p>
             <Link
               to="/what-we-do"

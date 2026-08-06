@@ -25,7 +25,7 @@ export const AgencyIntro = () => {
           {/* Center Statement & Action Pills */}
           <div className="lg:col-span-9 flex flex-col gap-8">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-semibold text-foreground leading-[1.2] tracking-[-0.02em] max-w-4xl">
-              An independent creative & digital agency building high-impact brand identities, web experiences, and video production.
+              WhyCreatives is an independent creative & digital agency building high-impact brand identities, custom web & mobile apps, and viral video production.
             </h2>
 
             {/* Action Pill Buttons */}
