@@ -44,7 +44,6 @@ function useAnimatedCounter(target: number, duration = 2) {
 
 export const Hero = () => {
   const [serviceIndex, setServiceIndex] = useState(0);
-  const [prevIndex, setPrevIndex] = useState<number | null>(null);
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -59,11 +58,10 @@ export const Hero = () => {
 
   useEffect(() => {
     const id = setInterval(() => {
-      setPrevIndex(serviceIndex);
       setServiceIndex((i) => (i + 1) % services.length);
     }, 2400);
     return () => clearInterval(id);
-  }, [serviceIndex]);
+  }, []);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
