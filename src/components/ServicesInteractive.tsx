@@ -64,7 +64,7 @@ export const ServicesInteractive = () => {
 
           {/* Centre heading — upright, not italic, max 2 lines */}
           <div className="text-center flex-shrink-0">
-            <h2 className="text-[1.7rem] sm:text-[2rem] lg:text-[2.4rem] xl:text-[2.8rem] font-semibold text-white leading-[1.2] tracking-[-0.02em]">
+            <h2 className="text-[1.7rem] sm:text-[2rem] lg:text-[2.4rem] xl:text-[2.8rem] font-semibold text-white leading-[1.2] tracking-[-0.02em] italic">
               How we take your business<br className="hidden sm:block" /> to the next level
             </h2>
           </div>
@@ -113,7 +113,7 @@ export const ServicesInteractive = () => {
                   className="block w-full"
                 >
                   {/* ── DESKTOP (lg+) ─── */}
-                  <div className="hidden lg:flex items-center w-full h-[130px] xl:h-[150px] overflow-hidden">
+                  <div className="hidden lg:flex items-center justify-center w-full h-[130px] xl:h-[150px] overflow-hidden">
 
                     {/* Thumbnail */}
                     <motion.div
@@ -153,7 +153,7 @@ export const ServicesInteractive = () => {
 
                     {/* Title + subtext */}
                     <div className="flex-1 min-w-0 flex flex-col justify-center">
-                      <h3 className="text-[4rem] xl:text-[5rem] 2xl:text-[5.5rem] font-bold text-white tracking-[-0.03em] leading-none whitespace-nowrap">
+                      <h3 className="text-[4rem] xl:text-[5rem] 2xl:text-[5.5rem] font-bold text-white tracking-[-0.03em] leading-none whitespace-nowrap text-center">
                         {service.title}
                       </h3>
                       <motion.p
@@ -162,14 +162,14 @@ export const ServicesInteractive = () => {
                           y: isHovered ? 0 : 5,
                         }}
                         transition={{ duration: 0.25, ease: "easeOut" }}
-                        className="text-neutral-400 text-[13px] mt-3 max-w-lg pointer-events-none font-normal"
+                        className="text-neutral-400 text-[13px] mt-3 max-w-lg pointer-events-none font-normal text-center mx-auto"
                         aria-hidden={!isHovered}
                       >
                         {service.subtext}
                       </motion.p>
                     </div>
 
-                    {/* Number */}
+                    {/* Number — positioned at far right */}
                     <span className="ml-auto pl-12 text-white/10 text-sm font-medium tabular-nums flex-shrink-0">
                       {service.number}
                     </span>
