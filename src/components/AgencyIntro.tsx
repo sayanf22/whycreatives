@@ -17,8 +17,9 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 const STATEMENT =
   "An independent studio in India covering video editing, motion design, web and app development, and branding, built for founders who want work that looks expensive and still costs less than an in-house hire.";
 
-/* Our own capability strip in place of borrowed client logos — a single
-   scrolling line. Icons carry meaning here (they aid scanning), so they stay. */
+/* Capability strip standing in for a client-logo wall: monochrome lockups,
+   wide even spacing, no separators and no accent colour — the reference strip
+   reads as restrained wordmarks, and anything coloured breaks that. */
 const CAPABILITIES = [
   { label: "Video Editing", Icon: Clapperboard },
   { label: "Motion Design", Icon: Sparkles },
@@ -125,15 +126,15 @@ export const AgencyIntro = () => {
         </div>
       </div>
 
-      {/* ── CAPABILITY STRIP ── one scrolling line, mono type ── */}
-      <div className="mt-20 border-y border-border/60 py-7 lg:mt-28 lg:py-10">
+      {/* ── CAPABILITY STRIP ── monochrome, logo-wall spacing ── */}
+      <div className="mt-20 py-4 lg:mt-28 lg:py-8">
         <div
           className="relative flex select-none overflow-hidden"
           style={{
             maskImage:
-              "linear-gradient(to right, transparent, black 7%, black 93%, transparent)",
+              "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
             WebkitMaskImage:
-              "linear-gradient(to right, transparent, black 7%, black 93%, transparent)",
+              "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
           }}
           aria-hidden="true"
         >
@@ -142,21 +143,20 @@ export const AgencyIntro = () => {
               key={copy}
               className="flex shrink-0 items-center"
               animate={{ x: ["0%", "-100%"] }}
-              transition={{ duration: 44, ease: "linear", repeat: Infinity }}
+              transition={{ duration: 48, ease: "linear", repeat: Infinity }}
             >
               {CAPABILITIES.map(({ label, Icon }) => (
                 <span
                   key={label}
-                  className="flex shrink-0 items-center gap-4 pr-8 sm:gap-6 sm:pr-14"
+                  className="group flex shrink-0 items-center gap-3 pr-14 text-foreground/70 transition-opacity duration-500 hover:text-foreground sm:gap-4 sm:pr-24 lg:pr-28"
                 >
                   <Icon
-                    className="h-4 w-4 shrink-0 text-[#93b81f] sm:h-5 sm:w-5 dark:text-[#d4ff33]"
-                    strokeWidth={1.75}
+                    className="h-5 w-5 shrink-0 sm:h-[22px] sm:w-[22px]"
+                    strokeWidth={1.5}
                   />
-                  <span className="whitespace-nowrap font-mono text-base font-bold uppercase tracking-[0.1em] text-foreground/70 sm:text-xl lg:text-[26px]">
+                  <span className="whitespace-nowrap text-lg font-semibold tracking-[-0.02em] sm:text-xl lg:text-[26px]">
                     {label}
                   </span>
-                  <span className="h-1 w-1 shrink-0 rounded-full bg-foreground/25" />
                 </span>
               ))}
             </motion.div>
