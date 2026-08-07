@@ -206,44 +206,76 @@ const PortfolioGallery = () => {
             </div>
           </FadeInWhenVisible>
 
-          {/* Gallery Grid */}
+          {/* Gallery Grid — caption sits *below* the image now rather than as a
+              pill floating over it: year and category on a meta line, then the
+              project name, then its one-line description from Supabase. */}
           <FadeInWhenVisible delay={0.2}>
-            <motion.div 
+            <motion.div
               layout
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[400px] p-4"
+              className="grid min-h-[400px] grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-2 lg:gap-y-16"
             >
               <AnimatePresence mode="popLayout">
-                {filteredItems.map((item) => (
-                  <motion.div
+                {filteredItems.map((item, i) => (
+                  <motion.article
                     layout
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{ 
-                      opacity: { duration: 0.2 },
+                    initial={{ opacity: 0, y: 24 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.96 }}
+                    transition={{
+                      opacity: { duration: 0.25 },
                       layout: { type: "spring", stiffness: 450, damping: 38 },
-                      scale: { duration: 0.2 }
+                      y: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
                     }}
                     key={item.id}
                     onClick={() => setActiveLightboxItem(item)}
-                    className="group relative cursor-pointer aspect-[16/10]"
+                    /* Odd cards drop down a step on desktop, which is what gives
+                       the grid its staggered, masonry-like rhythm. */
+                    className={`group cursor-pointer ${i % 2 === 1 ? "md:mt-14" : ""}`}
                   >
-                    <div className="w-full h-full overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 relative bg-white dark:bg-neutral-900 shadow-[0_15px_35px_rgba(0,0,0,0.08)] dark:shadow-[0_20px_45px_rgba(0,0,0,0.65)] group-hover:shadow-[0_30px_60px_rgba(0,0,0,0.15)] dark:group-hover:shadow-[0_30px_60px_rgba(0,0,0,0.85)] group-hover:-translate-y-2.5 transition-all duration-500 transform-gpu will-change-transform">
+                    <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-black/10 bg-secondary transition-transform duration-500 will-change-transform group-hover:-translate-y-1.5 motion-reduce:transform-none dark:border-white/10 md:rounded-3xl">
                       <MediaRenderer
                         url={getStorageUrl(item.image_url)}
                         mediaType={item.media_type}
                         alt={item.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                       />
-                      {/* Sleek Minimalist Tag - Always visible */}
-                      <div className="absolute bottom-4 left-4 pointer-events-none">
-                        <span className="backdrop-blur-md bg-white/80 dark:bg-black/60 border border-black/10 dark:border-white/10 text-black dark:text-white px-4 py-2 rounded-xl text-xs font-semibold tracking-wide shadow-lg flex items-center gap-1.5">
-                          {getCategoryIcon(item.category, "w-3.5 h-3.5")}
-                          <span>{item.title}</span>
-                        </span>
-                      </div>
                     </div>
-                  </motion.div>
+
+                    <div className="mt-4 md:mt-5">
+                      <p className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground sm:text-[11px]">
+                        {item.created_at && (
+                          <>
+                            <span>{new Date(item.created_at).getFullYear()}</span>
+                            <span aria-hidden="true">&bull;</span>
+                          </>
+                        )}
+                        <span className="inline-flex items-center gap-1.5">
+                          {getCategoryIcon(item.category, "w-3 h-3")}
+                          {item.category}
+                        </span>
+                      </p>
+
+                      <h3
+                        className="mt-2 text-foreground transition-colors duration-300 group-hover:text-muted-foreground"
+                        style={{
+                          fontSize: "clamp(1.15rem, 1.9vw, 1.75rem)",
+                          lineHeight: 1.15,
+                          letterSpacing: "-0.03em",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {item.title}
+                      </h3>
+
+                      {/* Falls back to the long description so a project with no
+                          short line still reads, just clamped. */}
+                      {(item.short_description || item.description) && (
+                        <p className="mt-2 line-clamp-2 max-w-prose text-sm leading-relaxed text-muted-foreground sm:text-base">
+                          {item.short_description || item.description}
+                        </p>
+                      )}
+                    </div>
+                  </motion.article>
                 ))}
               </AnimatePresence>
             </motion.div>

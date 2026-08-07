@@ -23,12 +23,14 @@ const SERVICES: Service[] = [
   {
     display: "Video",
     title: "Video Editing & Motion Design",
-    tagline: "From concept to final cut, we craft cinematic experiences.",
-    body: "We handle everything from on-location shooting with cinema-grade equipment to high-end post-production.",
+    tagline: "You send the footage. We turn it into the finished cut.",
+    /* Post-production only — we do not shoot. Claiming cinematography and
+       on-location crews sets an expectation the studio does not deliver. */
+    body: "We work from the footage you already have, shaping the edit, pacing, sound, colour and motion into something ready to publish.",
     points: [
-      "Professional cinematography and shooting",
-      "Scriptwriting and storyboarding",
-      "Advanced colour grading and editing",
+      "Editing, pacing and story structure",
+      "Motion graphics, titles and captions",
+      "Colour grading, sound design and final delivery",
     ],
     href: "/services/video-production",
   },
@@ -100,10 +102,10 @@ const faqSchema = {
   mainEntity: [
     {
       "@type": "Question",
-      name: "What video editing services do you offer?",
+      name: "What video services do you offer?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "We offer full-service video editing including professional cinematography, scriptwriting, advanced color grading, sound design, and drone videography.",
+        text: "We are a post-production studio. We work from footage you supply and handle editing, pacing, motion graphics, titles and captions, colour grading, sound design and final delivery for each platform. We do not offer filming or camera crews.",
       },
     },
     {

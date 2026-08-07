@@ -21,11 +21,13 @@ type Service = {
 const SERVICES: Record<string, Service> = {
   "video-production": {
     title: "Video Editing & Motion Design",
-    subtitle: "Story-first video systems for campaigns, launches and everyday content.",
-    description: "We shape raw footage into clear, watchable stories—planning the hook, edit rhythm, sound, colour and motion as one system. The result is content designed for the platform it will live on, not a generic cut resized at the end.",
+    subtitle: "Post-production for campaigns, launches and everyday content — you supply the footage, we deliver the cut.",
+    /* Post-production studio: the footage arrives from the client. Nothing here
+       promises a crew, a camera or a shoot day. */
+    description: "We shape the footage you already have into clear, watchable stories—planning the hook, edit rhythm, sound, colour and motion as one system. The result is content designed for the platform it will live on, not a generic cut resized at the end.",
     outcomes: ["Stronger first-three-second hooks", "A repeatable visual language", "Platform-ready masters and cut-downs"],
-    deliverables: ["Creative direction, scripts and storyboards", "Short-form reels, ads and social edits", "Brand films, explainers and launch videos", "Motion graphics, captions, sound design and colour"],
-    process: ["Align on audience, channel and objective", "Build the narrative and visual treatment", "Edit, review and refine in clear rounds", "Export, quality-check and hand over masters"],
+    deliverables: ["Edit direction, structure and pacing", "Short-form reels, ads and social edits", "Brand films, explainers and launch videos", "Motion graphics, captions, sound design and colour"],
+    process: ["Align on audience, channel and objective", "Review the footage and set the edit direction", "Edit, review and refine in clear rounds", "Export, quality-check and hand over masters"],
     tools: ["Adobe Premiere Pro", "After Effects", "DaVinci Resolve", "Adobe Audition", "Frame.io"],
   },
   "web-development": {

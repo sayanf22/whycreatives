@@ -98,6 +98,8 @@ const isStale = (imageUrl: string | null | undefined) => {
 
 const emptyForm = {
   title: "",
+  /** One-line caption shown under the card in the gallery. */
+  shortDescription: "",
   description: "",
   category: "",
   imageUrl: "",
@@ -145,6 +147,7 @@ const AdminDashboard = () => {
   const [editing, setEditing] = useState<PortfolioWork | null>(null);
   const [editForm, setEditForm] = useState({
     title: "",
+    shortDescription: "",
     description: "",
     category: "",
     websiteUrl: "",
@@ -425,6 +428,7 @@ const AdminDashboard = () => {
     setEditing(item);
     setEditForm({
       title: item.title,
+      shortDescription: item.short_description ?? "",
       description: item.description,
       category: item.category,
       websiteUrl: item.website_url ?? "",
@@ -447,6 +451,7 @@ const AdminDashboard = () => {
         .from("portfolio_works")
         .update({
           title: editForm.title.trim(),
+          short_description: editForm.shortDescription.trim() || null,
           description: editForm.description.trim(),
           category: editForm.category,
           website_url: editForm.websiteUrl.trim() || null,
@@ -576,6 +581,7 @@ const AdminDashboard = () => {
       const { error } = await supabase.from("portfolio_works").insert([
         {
           title: formData.title,
+          short_description: formData.shortDescription.trim() || null,
           description: formData.description,
           category: formData.category,
           image_url: imageUrl,
@@ -966,6 +972,28 @@ const AdminDashboard = () => {
 
                   <div>
                     <label
+                      htmlFor="shortDescription"
+                      className="mb-2 block text-sm font-semibold text-foreground"
+                    >
+                      Short description
+                    </label>
+                    <Input
+                      id="shortDescription"
+                      value={formData.shortDescription}
+                      onChange={(e) =>
+                        setFormData({ ...formData, shortDescription: e.target.value })
+                      }
+                      placeholder="One line shown under the card in the gallery"
+                      maxLength={120}
+                    />
+                    <p className="mt-1.5 text-xs text-muted-foreground">
+                      Keep it to a single sentence. Falls back to the full
+                      description if left empty.
+                    </p>
+                  </div>
+
+                  <div>
+                    <label
                       htmlFor="description"
                       className="mb-2 block text-sm font-semibold text-foreground"
                     >
@@ -977,7 +1005,7 @@ const AdminDashboard = () => {
                       onChange={(e) =>
                         setFormData({ ...formData, description: e.target.value })
                       }
-                      placeholder="Project description"
+                      placeholder="Full description, shown in the preview panel"
                       className="min-h-[96px]"
                       required
                     />
@@ -1228,6 +1256,24 @@ const AdminDashboard = () => {
                 onChange={(e) =>
                   setEditForm({ ...editForm, title: e.target.value })
                 }
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="edit-short-description"
+                className="mb-2 block text-sm font-semibold text-foreground"
+              >
+                Short description
+              </label>
+              <Input
+                id="edit-short-description"
+                value={editForm.shortDescription}
+                onChange={(e) =>
+                  setEditForm({ ...editForm, shortDescription: e.target.value })
+                }
+                placeholder="One line shown under the card in the gallery"
+                maxLength={120}
               />
             </div>
 
