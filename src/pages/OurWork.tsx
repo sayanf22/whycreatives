@@ -7,6 +7,7 @@ import { MediaRenderer } from "@/components/MediaRenderer";
 import { Globe, Palette, Video, LayoutGrid, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { BlurLine, BlurLines } from "@/components/BlurLines";
+import { useSiteContent } from "@/hooks/use-site-content";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -25,6 +26,12 @@ const getCategoryIcon = (category: string, className = "w-4 h-4") => {
 
 const OurWork = () => {
   const { data: portfolioWorks, isLoading } = usePortfolioWorks();
+  const { text } = useSiteContent();
+
+  /* Keyed on its own copy so an edit in the dashboard replays the reveal
+     instead of leaving the previous words frozen. */
+  const headingOne = text("work.heading_line_1", "Take a look at");
+  const headingTwo = text("work.heading_line_2", "our projects");
 
   const workSlides = portfolioWorks?.map((work) => (
     <a
@@ -136,22 +143,23 @@ const OurWork = () => {
               transition={{ duration: 0.55, ease: EASE }}
             >
               <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground" />
-              Our Work
+              {text("work.eyebrow", "Our Work")}
             </motion.div>
 
             <h1>
               <BlurLines
+                key={`${headingOne}|${headingTwo}`}
                 className="block text-foreground"
                 style={{
-                  fontSize: "clamp(2.05rem, 7.2vw, 7.25rem)",
-                  lineHeight: 0.99,
+                  fontSize: "clamp(2.25rem, 8vw, 8.5rem)",
+                  lineHeight: 0.97,
                   letterSpacing: "-0.045em",
                   fontWeight: 500,
                 }}
               >
-                <BlurLine delay={0.05}>Take a look at</BlurLine>
+                <BlurLine delay={0.05}>{headingOne}</BlurLine>
                 <BlurLine delay={0.14} last>
-                  our projects
+                  {headingTwo}
                 </BlurLine>
               </BlurLines>
             </h1>
@@ -164,8 +172,10 @@ const OurWork = () => {
                 viewport={{ once: true, amount: 0.5 }}
                 transition={{ duration: 0.7, ease: EASE, delay: 0.28 }}
               >
-                Brand identities, websites, apps and video — built by one team and
-                shipped for real businesses.
+                {text(
+                  "work.intro",
+                  "Brand identities, websites, apps and video — built by one team and shipped for real businesses.",
+                )}
               </motion.p>
             </div>
           </header>
@@ -190,7 +200,7 @@ const OurWork = () => {
                    mode and relied on its border to be visible at all. */
                 className="group flex h-14 items-center gap-2 rounded-full bg-foreground px-10 font-bold text-background transition-opacity duration-300 hover:opacity-85"
               >
-                <span>See All Works</span>
+                <span>{text("work.cta_label", "See All Works")}</span>
                 <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
               </motion.button>
             </div>

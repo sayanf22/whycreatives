@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ContentEditor } from "@/components/admin/ContentEditor";
 import {
   Dialog,
   DialogContent,
@@ -673,12 +674,13 @@ const AdminDashboard = () => {
         {/* Tabs keep the phone layout short: the library and the upload form are
             no longer stacked into one very long scroll. */}
         <Tabs defaultValue="library" className="w-full">
-          <TabsList className="mb-6 grid w-full grid-cols-2 sm:w-auto sm:inline-flex">
+          <TabsList className="mb-6 grid w-full grid-cols-3 sm:w-auto sm:inline-flex">
             <TabsTrigger value="library">
               Library
               <span className="ml-1.5 text-muted-foreground">{stats.total}</span>
             </TabsTrigger>
             <TabsTrigger value="add">Add new</TabsTrigger>
+            <TabsTrigger value="content">Content</TabsTrigger>
           </TabsList>
 
           {/* ── LIBRARY ─────────────────────────────────────────── */}
@@ -1231,6 +1233,12 @@ const AdminDashboard = () => {
                 </Card>
               </div>
             </div>
+          </TabsContent>
+
+          {/* ── CONTENT ─────────────────────────────────────────── */}
+          {/* Page headings, intros and every project's text on one screen. */}
+          <TabsContent value="content" className="mt-0">
+            <ContentEditor />
           </TabsContent>
         </Tabs>
       </main>

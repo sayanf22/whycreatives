@@ -185,6 +185,33 @@ export type Database = {
         }
         Relationships: []
       }
+      site_content: {
+        Row: {
+          group_name: string
+          key: string
+          label: string
+          sort_order: number
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          group_name?: string
+          key: string
+          label?: string
+          sort_order?: number
+          updated_at?: string
+          value?: string
+        }
+        Update: {
+          group_name?: string
+          key?: string
+          label?: string
+          sort_order?: number
+          updated_at?: string
+          value?: string
+        }
+        Relationships: []
+      }
       team_members: {
         Row: {
           bio: string | null

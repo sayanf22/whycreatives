@@ -7,6 +7,7 @@ import { MediaRenderer } from "@/components/MediaRenderer";
 import { Globe, Palette, Video, LayoutGrid, X, ExternalLink } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BlurLine, BlurLines } from "@/components/BlurLines";
+import { useSiteContent } from "@/hooks/use-site-content";
 
 const getCategoryIcon = (category: string, className = "w-4 h-4") => {
   switch (category) {
@@ -21,10 +22,19 @@ const getCategoryIcon = (category: string, className = "w-4 h-4") => {
   }
 };
 
+const EASE = [0.16, 1, 0.3, 1] as const;
+
 const PortfolioGallery = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [activeLightboxItem, setActiveLightboxItem] = useState<PortfolioWork | null>(null);
   const { data: portfolioItems, isLoading } = usePortfolioWorks();
+  const { text } = useSiteContent();
+
+  /* The masked reveal only plays once per mount, so the heading is keyed on its
+     own copy — otherwise editing it in the dashboard would leave the old words
+     frozen mid-reveal until a hard refresh. */
+  const headingOne = text("gallery.heading_line_1", "Every project,");
+  const headingTwo = text("gallery.heading_line_2", "in one place");
 
   // Get unique categories from the full dataset, ordered with Video before Website
   const categories = useMemo(() => {
@@ -119,50 +129,58 @@ const PortfolioGallery = () => {
   return (
     <div className="min-h-screen overflow-x-hidden bg-background text-foreground font-['Schibsted_Grotesk',sans-serif]">
       <Navigation />
-      <div className="px-4 pb-24 pt-28 sm:pt-32 md:px-[clamp(32px,6vw,120px)]">
-        <div className="max-w-7xl mx-auto">
+      {/* Wider gutters and a wider well: the grid was capped at max-w-7xl
+          inside 120px gutters, which left the cards far narrower than the
+          headline above them. */}
+      <div className="px-4 pb-24 pt-28 sm:pt-32 md:px-[clamp(24px,4vw,72px)]">
+        <div className="mx-auto max-w-[1600px]">
           {/* ── PAGE HEADER ── same typographic system as the services page:
               small eyebrow, oversized medium-weight display lines that wipe up
-              from behind a mask as their blur clears, support copy to the side. */}
-          <header className="mb-10 lg:mb-16">
+              from behind a mask as their blur clears, support copy to the side.
+              Every string here is editable from the admin dashboard, with the
+              original copy kept as the fallback. */}
+          <header className="mb-10 lg:mb-20">
             <motion.div
               className="mb-4 flex items-center gap-2.5 text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground sm:text-xs"
               initial={{ opacity: 0, x: -8 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.6 }}
-              transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.55, ease: EASE }}
             >
               <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground" />
-              Gallery
+              {text("gallery.eyebrow", "Gallery")}
             </motion.div>
 
             <h1>
               <BlurLines
+                key={`${headingOne}|${headingTwo}`}
                 className="block text-foreground"
                 style={{
-                  fontSize: "clamp(2.05rem, 7.2vw, 7.25rem)",
-                  lineHeight: 0.99,
+                  fontSize: "clamp(2.25rem, 8vw, 8.5rem)",
+                  lineHeight: 0.97,
                   letterSpacing: "-0.045em",
                   fontWeight: 500,
                 }}
               >
-                <BlurLine delay={0.05}>Every project,</BlurLine>
+                <BlurLine delay={0.05}>{headingOne}</BlurLine>
                 <BlurLine delay={0.14} last>
-                  in one place
+                  {headingTwo}
                 </BlurLine>
               </BlurLines>
             </h1>
 
             <div className="mt-8 grid grid-cols-1 lg:mt-12 lg:grid-cols-12">
               <motion.p
-                className="max-w-[34ch] text-base leading-[1.4] text-foreground sm:text-lg md:text-xl lg:col-span-5 lg:col-start-7"
+                className="max-w-[36ch] text-base leading-[1.4] text-foreground sm:text-lg md:text-xl lg:col-span-5 lg:col-start-7"
                 initial={{ opacity: 0, y: 18, filter: "blur(8px)" }}
                 whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                 viewport={{ once: true, amount: 0.5 }}
-                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.28 }}
+                transition={{ duration: 0.7, ease: EASE, delay: 0.28 }}
               >
-                The full collection — brand identities, websites, apps and video,
-                filtered however you want to read it.
+                {text(
+                  "gallery.intro",
+                  "The full collection — brand identities, websites, apps and video, filtered however you want to read it.",
+                )}
               </motion.p>
             </div>
           </header>
@@ -212,27 +230,38 @@ const PortfolioGallery = () => {
           <FadeInWhenVisible delay={0.2}>
             <motion.div
               layout
-              className="grid min-h-[400px] grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-2 lg:gap-y-16"
+              className="grid min-h-[400px] grid-cols-1 gap-x-10 gap-y-16 md:grid-cols-2 lg:gap-x-14 lg:gap-y-24"
             >
               <AnimatePresence mode="popLayout">
                 {filteredItems.map((item, i) => (
                   <motion.article
                     layout
-                    initial={{ opacity: 0, y: 24 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    /*
+                      Scroll-triggered, not mount-triggered. These were using
+                      `animate`, so every card in the list played its entrance at
+                      once on load and there was nothing left to see on scroll.
+                      `whileInView` with a small negative margin starts each card
+                      just before it reaches the viewport, and the alternating
+                      x offset makes the two columns slide in from their own
+                      sides.
+                    */
+                    initial={{ opacity: 0, y: 56, x: i % 2 === 1 ? 24 : -24 }}
+                    whileInView={{ opacity: 1, y: 0, x: 0 }}
+                    viewport={{ once: true, margin: "-12% 0px -12% 0px" }}
                     exit={{ opacity: 0, scale: 0.96 }}
                     transition={{
-                      opacity: { duration: 0.25 },
+                      opacity: { duration: 0.5, ease: EASE },
+                      x: { duration: 0.8, ease: EASE },
+                      y: { duration: 0.8, ease: EASE },
                       layout: { type: "spring", stiffness: 450, damping: 38 },
-                      y: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
                     }}
                     key={item.id}
                     onClick={() => setActiveLightboxItem(item)}
                     /* Odd cards drop down a step on desktop, which is what gives
                        the grid its staggered, masonry-like rhythm. */
-                    className={`group cursor-pointer ${i % 2 === 1 ? "md:mt-14" : ""}`}
+                    className={`group cursor-pointer ${i % 2 === 1 ? "md:mt-20" : ""}`}
                   >
-                    <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-black/10 bg-secondary transition-transform duration-500 will-change-transform group-hover:-translate-y-1.5 motion-reduce:transform-none dark:border-white/10 md:rounded-3xl">
+                    <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-black/10 bg-secondary transition-transform duration-500 will-change-transform group-hover:-translate-y-2 motion-reduce:transform-none dark:border-white/10 md:rounded-[28px]">
                       <MediaRenderer
                         url={getStorageUrl(item.image_url)}
                         mediaType={item.media_type}
@@ -241,7 +270,7 @@ const PortfolioGallery = () => {
                       />
                     </div>
 
-                    <div className="mt-4 md:mt-5">
+                    <div className="mt-5 md:mt-6">
                       <p className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground sm:text-[11px]">
                         {item.created_at && (
                           <>
@@ -256,11 +285,11 @@ const PortfolioGallery = () => {
                       </p>
 
                       <h3
-                        className="mt-2 text-foreground transition-colors duration-300 group-hover:text-muted-foreground"
+                        className="mt-2.5 text-foreground transition-colors duration-300 group-hover:text-muted-foreground"
                         style={{
-                          fontSize: "clamp(1.15rem, 1.9vw, 1.75rem)",
-                          lineHeight: 1.15,
-                          letterSpacing: "-0.03em",
+                          fontSize: "clamp(1.4rem, 2.6vw, 2.5rem)",
+                          lineHeight: 1.1,
+                          letterSpacing: "-0.035em",
                           fontWeight: 500,
                         }}
                       >
@@ -270,7 +299,7 @@ const PortfolioGallery = () => {
                       {/* Falls back to the long description so a project with no
                           short line still reads, just clamped. */}
                       {(item.short_description || item.description) && (
-                        <p className="mt-2 line-clamp-2 max-w-prose text-sm leading-relaxed text-muted-foreground sm:text-base">
+                        <p className="mt-3 line-clamp-2 max-w-[52ch] text-sm leading-relaxed text-muted-foreground sm:text-base md:text-lg">
                           {item.short_description || item.description}
                         </p>
                       )}
