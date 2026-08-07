@@ -2,9 +2,32 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
+
+/**
+ * True only for large, fine-pointer devices that haven't asked for reduced
+ * motion. Two instances of FloatingPaths means 36 infinitely animating SVG
+ * paths; that's a constant main-thread and raster cost, and it was a real
+ * source of scroll lag on phones. Below the bar we draw them statically.
+ */
+function useAllowMotion() {
+    const [allow, setAllow] = useState(false);
+
+    useEffect(() => {
+        const mq = window.matchMedia(
+            "(min-width: 1024px) and (pointer: fine) and (prefers-reduced-motion: no-preference)"
+        );
+        const sync = () => setAllow(mq.matches);
+        sync();
+        mq.addEventListener("change", sync);
+        return () => mq.removeEventListener("change", sync);
+    }, []);
+
+    return allow;
+}
 
 function FloatingPaths({ position }: { position: number }) {
+    const animate = useAllowMotion();
     const paths = useMemo(() => {
         return Array.from({ length: 18 }, (_, i) => ({
             id: i,
@@ -26,26 +49,37 @@ function FloatingPaths({ position }: { position: number }) {
                 preserveAspectRatio="xMidYMid slice"
             >
                 <title>Background Paths</title>
-                {paths.map((path) => (
-                    <motion.path
-                        key={path.id}
-                        d={path.d}
-                        stroke="currentColor"
-                        strokeWidth={path.width}
-                        strokeOpacity={0.1 + path.id * 0.05}
-                        initial={{ pathLength: 0.3, opacity: 0.6 }}
-                        animate={{
-                            pathLength: 1,
-                            opacity: [0.3, 0.6, 0.3],
-                            pathOffset: [0, 1, 0],
-                        }}
-                        transition={{
-                            duration: 20 + Math.random() * 10,
-                            repeat: Number.POSITIVE_INFINITY,
-                            ease: "linear",
-                        }}
-                    />
-                ))}
+                {paths.map((path) =>
+                    animate ? (
+                        <motion.path
+                            key={path.id}
+                            d={path.d}
+                            stroke="currentColor"
+                            strokeWidth={path.width}
+                            strokeOpacity={0.1 + path.id * 0.05}
+                            initial={{ pathLength: 0.3, opacity: 0.6 }}
+                            animate={{
+                                pathLength: 1,
+                                opacity: [0.3, 0.6, 0.3],
+                                pathOffset: [0, 1, 0],
+                            }}
+                            transition={{
+                                duration: 20 + Math.random() * 10,
+                                repeat: Number.POSITIVE_INFINITY,
+                                ease: "linear",
+                            }}
+                        />
+                    ) : (
+                        <path
+                            key={path.id}
+                            d={path.d}
+                            stroke="currentColor"
+                            strokeWidth={path.width}
+                            strokeOpacity={0.1 + path.id * 0.05}
+                            fill="none"
+                        />
+                    )
+                )}
             </svg>
         </div>
     );

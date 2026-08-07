@@ -120,25 +120,33 @@ body {
     scroll-behavior: smooth;
   }
 
-  /* Performance Optimizations - GPU Acceleration */
-  [class*="animate-"],
-  [class*="transition-"] {
-    will-change: transform, opacity;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-  }
+  /*
+    Two blanket GPU-promotion rules used to live here and both were hurting
+    mobile badly:
 
-  /* Optimize scrolling for touch devices */
-  * {
-    -webkit-overflow-scrolling: touch;
-  }
+      [class*="animate-"], [class*="transition-"] { will-change: transform,
+        opacity; transform: translateZ(0); backface-visibility: hidden; }
+      img, video, canvas, svg { transform: translateZ(0); }
 
-  /* GPU acceleration for media */
-  img,
-  video,
-  canvas,
-  svg {
-    transform: translateZ(0);
+    The first matched every element carrying any `transition-*` utility —
+    hundreds of nodes — and `will-change` forces the browser to allocate and
+    hold a compositor layer for each one permanently. The second did the same
+    for every image and every inline icon SVG. The result is hundreds of
+    layers competing for limited GPU memory on a phone, which is slower than
+    no promotion at all. Promote deliberately, per element, where a measured
+    problem exists (the hero panel and nav do this via `will-change`).
+  */
+
+  /* Respect users who ask for less motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 

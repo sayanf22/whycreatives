@@ -80,9 +80,12 @@ export const Navigation = () => {
         }}
       >
         <div
+          /* Opaque on small screens: a translucent blurred capsule sitting over
+             body copy read as ghosted, half-visible text on phones. Blur only
+             kicks in from sm up, where there's room for it to look intentional. */
           className={`mx-auto flex items-center justify-between border ${
             scrolled
-              ? "max-w-[1120px] rounded-full border-black/[0.07] bg-[#f2f2ef]/85 shadow-[0_8px_30px_rgba(0,0,0,0.08)] backdrop-blur-md dark:border-white/10 dark:bg-[#1c1d1b]/90 dark:shadow-[0_10px_40px_rgba(0,0,0,0.5)]"
+              ? "max-w-[1120px] rounded-full border-black/[0.07] bg-[#f2f2ef] shadow-[0_8px_30px_rgba(0,0,0,0.08)] dark:border-white/10 dark:bg-[#1c1d1b] dark:shadow-[0_10px_40px_rgba(0,0,0,0.5)] sm:bg-[#f2f2ef]/90 sm:backdrop-blur-md sm:dark:bg-[#1c1d1b]/90"
               : "max-w-full rounded-none border-transparent bg-transparent shadow-none"
           }`}
           style={{

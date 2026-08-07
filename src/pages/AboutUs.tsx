@@ -14,15 +14,15 @@ const AboutUs = () => {
         title="About WhyCreatives"
         description="We are a full-service creative agency based in Guwahati, Assam, dedicated to transforming brands through innovative storytelling, cutting-edge design, and strategic digital solutions. Our mission is to empower businesses with world-class creative services that drive measurable results and lasting impact."
         mainImage={{
-          src: "/creative-office.png",
+          src: "/creative-office.webp",
           alt: "Modern creative office space",
         }}
         secondaryImage={{
-          src: "/team-collab.png",
+          src: "/team-collab.webp",
           alt: "Creative team collaborating",
         }}
         breakout={{
-          src: "/video-gear.png",
+          src: "/video-gear.webp",
           alt: "Professional video editing gear",
           title: "Excellence in Every Project",
           description:

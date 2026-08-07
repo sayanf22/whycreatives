@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
+import { Mail, Phone, MapPin, ArrowUpRight, Star } from "lucide-react";
 import { motion } from "framer-motion";
 import { BlurReveal, BlurRevealItem } from "@/components/BlurReveal";
 
@@ -17,7 +17,9 @@ export const Footer = () => {
            ======================================================== */}
         
         {/* White Social Strip Container (Positioned top-0 left-0) */}
-        <div className="absolute top-0 left-0 w-[56px] h-[280px] bg-white dark:bg-[#121212] rounded-br-[24px] z-20">
+        {/* radius here must match the card's, or this strip's square corner
+            pokes out past the card's rounded top-left */}
+        <div className="absolute top-0 left-0 w-[56px] h-[280px] bg-white dark:bg-[#121212] rounded-br-[24px] rounded-tl-[24px] md:rounded-tl-[32px] z-20">
           {/* Inner Corner Mask (Bottom-Right concave curve) */}
           <div className="absolute top-[256px] left-[32px] w-[24px] h-[24px] bg-[#0d0d0d] z-20">
             <div className="w-full h-full bg-white dark:bg-[#121212] rounded-br-[24px]" />
@@ -99,7 +101,7 @@ export const Footer = () => {
         
         <div 
           onClick={scrollToTop}
-          className="absolute top-0 right-0 h-[44px] px-6 bg-white dark:bg-[#121212] rounded-bl-[24px] z-20 hidden md:flex items-center gap-1.5 cursor-pointer text-xs text-neutral-800 dark:text-neutral-200 font-semibold select-none hover:opacity-90 transition-opacity"
+          className="absolute top-0 right-0 h-[44px] px-6 bg-white dark:bg-[#121212] rounded-bl-[24px] rounded-tr-[24px] md:rounded-tr-[32px] z-20 hidden md:flex items-center gap-1.5 cursor-pointer text-xs text-neutral-800 dark:text-neutral-200 font-semibold select-none hover:opacity-90 transition-opacity"
         >
           {/* 2px White Cover Strip attached to right edge covering 1px card border along y=0..44px */}
           <div className="absolute top-0 -right-1 w-2 h-full bg-white dark:bg-[#121212]" />
@@ -123,7 +125,7 @@ export const Footer = () => {
         
         <div 
           onClick={scrollToTop}
-          className="absolute bottom-0 right-0 h-[44px] px-4 bg-white dark:bg-[#121212] rounded-tl-[24px] z-20 md:hidden flex items-center gap-1.5 cursor-pointer text-[11px] text-neutral-800 dark:text-neutral-200 font-semibold select-none hover:opacity-90 transition-opacity"
+          className="absolute bottom-0 right-0 h-[44px] px-4 bg-white dark:bg-[#121212] rounded-tl-[24px] rounded-br-[24px] z-20 md:hidden flex items-center gap-1.5 cursor-pointer text-[11px] text-neutral-800 dark:text-neutral-200 font-semibold select-none hover:opacity-90 transition-opacity"
         >
           {/* Top Transition Mask (Attached to top edge: -top-[24px]) */}
           <div className="absolute -top-[24px] right-0 w-[24px] h-[24px] bg-white dark:bg-[#121212] z-20">
@@ -141,7 +143,9 @@ export const Footer = () => {
         {/* ========================================================
             MAIN BLACK FOOTER CONTAINER (FLOATING INSET CARD)
            ======================================================== */}
-        <footer className="relative bg-[#0d0d0d] text-white pt-8 md:pt-12 lg:pt-16 pb-16 md:pb-12 px-4 sm:px-8 lg:px-20 overflow-hidden rounded-b-2xl md:rounded-b-3xl rounded-t-none">
+        {/* Fully rounded floating card — the wrapper's padding above provides
+            the light margin that frames it on all four sides. */}
+        <footer className="relative bg-[#0d0d0d] text-white pt-8 md:pt-12 lg:pt-16 pb-16 md:pb-12 px-4 sm:px-8 lg:px-20 overflow-hidden rounded-[24px] md:rounded-[32px]">
           
           <div className="max-w-7xl mx-auto relative">
             
@@ -156,13 +160,34 @@ export const Footer = () => {
                   </h2>
                 </BlurReveal>
                 <BlurReveal delay={0.2}>
-                  <Link 
-                    to="/contact" 
-                    className="inline-flex items-center gap-2 bg-[#b5ff2b] text-black font-bold px-6 py-3 rounded-full hover:bg-[#9ee024] hover:shadow-[0_0_20px_rgba(181,255,43,0.4)] transition-all hover:scale-[1.03] group"
-                  >
-                    <span>Start a project</span>
-                    <ArrowUpRight className="w-4.5 h-4.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                  </Link>
+                  <div className="flex flex-wrap items-center gap-5">
+                    <Link
+                      to="/contact"
+                      className="inline-flex items-center gap-2 bg-[#b5ff2b] text-black font-bold px-6 py-3 rounded-full hover:bg-[#9ee024] hover:shadow-[0_0_20px_rgba(181,255,43,0.4)] transition-all hover:scale-[1.03] group"
+                    >
+                      <span>Start a project</span>
+                      <ArrowUpRight className="w-4.5 h-4.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    </Link>
+
+                    {/* figures match the aggregateRating already published in
+                        the site's structured data (4.9 from 50 reviews) */}
+                    <div className="flex flex-col gap-1 leading-none">
+                      <span className="text-[11px] font-semibold text-white">
+                        4.9 from 50 reviews
+                      </span>
+                      <span className="flex items-center gap-1.5">
+                        <span className="text-[11px] font-bold text-neutral-300">G</span>
+                        <span className="flex gap-0.5" aria-hidden="true">
+                          {[...Array(5)].map((_, i) => (
+                            <Star
+                              key={i}
+                              className="h-3 w-3 fill-[#b5ff2b] text-[#b5ff2b]"
+                            />
+                          ))}
+                        </span>
+                      </span>
+                    </div>
+                  </div>
                 </BlurReveal>
               </div>
 

@@ -9,7 +9,9 @@
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
-    "sitemap": "node generate_blog_sitemap.js"
+    "sitemap": "node generate_blog_sitemap.js",
+    "images": "node scripts/optimize-images.mjs",
+    "images:write": "node scripts/optimize-images.mjs --write"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -40,9 +42,6 @@
     "@radix-ui/react-toggle": "^1.1.9",
     "@radix-ui/react-toggle-group": "^1.1.10",
     "@radix-ui/react-tooltip": "^1.2.7",
-    "@react-three/fiber": "^8.15.0",
-    "@splinetool/react-spline": "^4.1.0",
-    "@splinetool/runtime": "^1.10.99",
     "@supabase/supabase-js": "^2.81.1",
     "@tanstack/react-query": "^5.83.0",
     "class-variance-authority": "^0.7.1",
@@ -69,7 +68,6 @@
     "sonner": "^1.7.4",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
-    "three": "^0.181.1",
     "vaul": "^0.9.9",
     "zod": "^3.25.76"
   },

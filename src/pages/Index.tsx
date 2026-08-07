@@ -7,7 +7,6 @@ import { WhyChooseUs } from "@/components/WhyChooseUs";
 import { HowItWorks } from "@/components/HowItWorks";
 import { Testimonials } from "@/components/Testimonials";
 import { CTA } from "@/components/CTA";
-import { GooeySection } from "@/components/GooeySection";
 import { MarqueeLine } from "@/components/MarqueeLine";
 import { Footer } from "@/components/Footer";
 import { Helmet } from "react-helmet-async";
@@ -68,7 +67,9 @@ const Index = () => {
       <HowItWorks />
       <Testimonials />
       <CTA />
-      <GooeySection />
+      {/* GooeySection removed: it ran an uncapped rAF loop writing a CSS
+          blur() every frame, which was the biggest cause of scroll lag on
+          phones. MarqueeLine covers the same "big type" beat far cheaper. */}
       <MarqueeLine />
       <Footer />
     </div>

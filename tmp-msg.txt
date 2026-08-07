@@ -1,0 +1,49 @@
+Fix mobile performance and ghosting; round footer card; prune images
+
+Mobile performance — the lag had four causes, not one:
+
+1. GooeyText ran an uncapped requestAnimationFrame loop writing a CSS
+   blur() on two spans every frame, forever, with no visibility gating.
+   Animated blur forces a full re-rasterisation each frame and is the most
+   expensive thing on the page. GooeySection is off the homepage;
+   MarqueeLine already covers the same beat for near-zero cost.
+
+2. index.css promoted a compositor layer for every element carrying any
+   `transition-*` or `animate-` class, via a wildcard attribute selector
+   plus will-change. That is hundreds of nodes each holding a permanent
+   layer, which on a phone exhausts GPU memory and ends up slower than no
+   promotion at all. A second rule did the same for every img and every
+   inline icon svg. Both removed; promote per element where measured.
+
+3. BackgroundPaths animated 36 SVG paths infinitely (pathLength and
+   pathOffset). Now animated only on large fine-pointer devices that
+   haven't requested reduced motion; drawn statically everywhere else.
+
+4. Dead 3D dependencies: three, @react-three/fiber, @splinetool/runtime
+   and @splinetool/react-spline were installed but nothing imported them
+   except an unused Spline wrapper. Component and all four deps removed.
+
+Also added a prefers-reduced-motion block, which the site had none of.
+
+Images
+- public/ raster payload down from ~5.3MB to ~620KB. Removed 4.5MB of
+  unreferenced assets (four ~700KB PNGs among them) and re-encoded the
+  rest capped at 1600px wide.
+- AboutUs pointed at creative-office.png, team-collab.png and
+  video-gear.png (~2.2MB) when webp twins already existed; switched.
+- Added scripts/optimize-images.mjs behind `npm run images` /
+  `images:write`. It deliberately refuses to rewrite a .png in place as
+  WebP, since that serves the wrong Content-Type — it flags them instead.
+
+Mobile ghosting
+- The scrolled nav capsule was translucent with a backdrop blur, so body
+  copy behind it read as ghosted half-visible text on phones. Opaque
+  below sm; blur only from sm up.
+
+Footer
+- Card is now rounded on all four sides, framed by the wrapper's light
+  margin. The social rail and both back-to-top notches carry matching
+  corner radii, otherwise their square corners poke past the card's.
+- Added the review badge beside the CTA using 4.9 from 50 reviews, which
+  matches the aggregateRating already published in the site's structured
+  data rather than a new claim.
