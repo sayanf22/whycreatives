@@ -24,7 +24,7 @@ const EASE = [0.16, 1, 0.3, 1] as const;
  */
 const ArrowSwap = () => (
   <span
-    className="relative block h-3.5 w-3.5 overflow-hidden"
+    className="relative block h-[18px] w-[18px] overflow-hidden"
     aria-hidden="true"
   >
     <ArrowUpRight
@@ -38,19 +38,21 @@ const ArrowSwap = () => (
   </span>
 );
 
-/* Four deliberate desktop lines. The first is the shortest on purpose: it
-   carries the indent below, so the block opens with a typographic step instead
-   of a flat left edge.
+/* Four deliberate desktop lines.
+   
+   The second line is the widest on purpose, and the first is clearly shorter:
+   `alignFirstLineRightEdge` measures both and indents line one so it ends
+   exactly where line two ends. The previous break had lines one and two at
+   almost identical widths, so any indent pushed line one past line two and
+   broke the block's right edge.
 
-   Keep every line at roughly 24 characters or fewer. They render with
-   `lg:whitespace-nowrap`, so a longer line cannot reflow and would instead
-   overflow the column at the 1024px breakpoint, where the type is widest
-   relative to its container. Short lines are what buy the large font size. */
+   The closing line is the shortest, which is what makes the paragraph read as
+   finished rather than truncated. */
 const STATEMENT_LINES = [
   "An independent studio",
-  "in India crafting video,",
-  "motion, websites, apps",
-  "and brands that grow.",
+  "in India crafting video, motion",
+  "design, websites, apps and",
+  "brands built to grow.",
 ] as const;
 
 /* Capability strip standing in for a client-logo wall: monochrome lockups,
@@ -78,14 +80,15 @@ export const AgencyIntro = () => {
       }}
     >
       {/* ── WHO ARE WE ─────────────────────────────────────────────── */}
-      {/* lg:gap-6 rather than gap-10, and no right padding on the statement
-          column: the forced single-line rows need every pixel of width they can
-          get at 1024px, which is where the type is closest to overflowing. */}
-      <div className="grid grid-cols-1 items-start gap-7 px-4 md:px-[clamp(32px,6vw,160px)] lg:grid-cols-12 lg:gap-6">
+      {/* The label is lifted out of the flow at lg so it no longer pushes the
+          statement into a right-hand column — that offset is what made the
+          block sit left of centre. It now keeps its far-left position while the
+          statement centres against the full content width. */}
+      <div className="relative px-4 md:px-[clamp(32px,6vw,160px)]">
         {/* The label leads the statement in, so the whole block animates as one
             gesture rather than the heading appearing beside static text. */}
         <motion.div
-          className="flex items-center gap-2.5 pt-2 text-xs text-muted-foreground lg:col-span-2"
+          className="mb-7 flex items-center gap-2.5 text-xs text-muted-foreground lg:absolute lg:left-0 lg:top-2 lg:mb-0"
           initial={{ opacity: 0, x: -8 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.6 }}
@@ -95,7 +98,10 @@ export const AgencyIntro = () => {
           Who are we?
         </motion.div>
 
-        <div className="lg:col-span-10">
+        {/* w-fit shrinks the block to its widest line so mx-auto can centre the
+            type itself rather than a full-width column. max-w-full keeps it
+            inside the gutters if the clamp ever outgrows the viewport. */}
+        <div className="lg:mx-auto lg:w-fit lg:max-w-full">
           <h2
             className="text-left text-foreground"
             style={{
@@ -105,23 +111,22 @@ export const AgencyIntro = () => {
               fontWeight: 500,
             }}
           >
-            {/* The opening line is inset by an em-based amount, so the step
-                scales with the type instead of drifting as the font-size clamp
-                changes. Desktop only: below lg the lines wrap, and indenting a
-                wrapped block shifts all of its rows, which reads as a mistake
-                rather than as intent. */}
             <RevealLines
               lines={STATEMENT_LINES}
               className="block"
-              firstLineClassName="lg:pl-[1.7em]"
               nowrapFromLg
+              alignFirstLineRightEdge
             />
           </h2>
 
-          {/* Both CTAs share one interaction language: a small lift on hover,
-              the arrow swap above, and a settle-back on press. The outline
-              button also inverts to solid so the pair reads as one system.
-              `motion-reduce` drops the movement but keeps the colour feedback. */}
+          {/*
+            Neither CTA moves on hover. A hover lift shifts the button out from
+            under the pointer, so near the edge the hover state toggles on and
+            off and the button visibly shakes. The feedback instead comes from
+            things that leave the hit area untouched: colour, a shadow, and the
+            arrow swap. Scale is kept for `active` only, where the pointer is
+            already held down and cannot oscillate.
+          */}
           <motion.div
             className="mt-10 flex flex-wrap items-center gap-3 lg:mt-12"
             initial={{ opacity: 0, y: 12 }}
@@ -131,16 +136,18 @@ export const AgencyIntro = () => {
           >
             <Link
               to="/about-us"
-              className="group inline-flex items-center gap-2.5 rounded-full bg-[#d4ff33] px-6 py-3 text-sm font-bold text-black transition-[transform,background-color,box-shadow] duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#c4f020] hover:shadow-[0_12px_30px_-12px_rgba(212,255,51,0.95)] active:translate-y-0 active:scale-[0.98] motion-reduce:transform-none"
+              className="group inline-flex items-center gap-2.5 rounded-full bg-[#d4ff33] px-6 py-3 text-sm font-bold text-black transition-[background-color,box-shadow,transform] duration-300 ease-out hover:bg-[#c4f020] hover:shadow-[0_12px_30px_-12px_rgba(212,255,51,0.95)] active:scale-[0.98] motion-reduce:transform-none"
             >
               About WhyCreatives
-              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-black/15 transition-colors duration-300 group-hover:bg-black/25">
+              {/* The badge scales inside the button, so the button's own box
+                  never changes size. */}
+              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-black/15 transition-[background-color,transform] duration-300 ease-out group-hover:scale-110 group-hover:bg-black/25 motion-reduce:transform-none">
                 <ArrowSwap />
               </span>
             </Link>
             <Link
               to="/people"
-              className="group inline-flex items-center gap-2.5 rounded-full border border-foreground/25 px-6 py-3 text-sm font-semibold text-foreground transition-[transform,background-color,border-color,color] duration-300 ease-out hover:-translate-y-0.5 hover:border-foreground hover:bg-foreground hover:text-background active:translate-y-0 active:scale-[0.98] motion-reduce:transform-none"
+              className="group inline-flex items-center gap-2.5 rounded-full border border-foreground/25 px-6 py-3 text-sm font-semibold text-foreground transition-[background-color,border-color,color,transform] duration-300 ease-out hover:border-foreground hover:bg-foreground hover:text-background active:scale-[0.98] motion-reduce:transform-none"
             >
               Meet the team
               <ArrowSwap />
