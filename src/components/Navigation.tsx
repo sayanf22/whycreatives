@@ -4,8 +4,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
-const navLinks = [
-  { label: "Services", href: "/what-we-do", badge: "13" },
+/* `badge` is kept optional so a link can opt into a pill later. The Services
+   link carried a hard-coded "13" that did not correspond to anything. */
+type NavLink = { label: string; href: string; badge?: string };
+
+const navLinks: NavLink[] = [
+  { label: "Services", href: "/what-we-do" },
   { label: "Work", href: "/our-work" },
   { label: "About", href: "/about-us" },
   { label: "Blog", href: "/insights" },

@@ -70,35 +70,44 @@ const n = (v: number) => Math.round(v * 100) / 100;
 const arc = (r: number, sweep: 0 | 1, x: number, y: number) =>
   `A ${n(r)} ${n(r)} 0 0 ${sweep} ${n(x)} ${n(y)}`;
 
+type Notch = { w: number; h: number };
+
 /**
- * Outline of a `W` x `H` image with a notch removed from its top-right corner,
- * sized `w` x `h`, so the page shows through behind the tag strip.
+ * Outline of a `W` x `H` image with a notch removed from the top-right corner
+ * and a matching one from the bottom-left, so the page shows through behind the
+ * tag strip and the caption.
  *
  * Same language as the hero's staircase panel: `R` rounds the card's own
- * corners, `r` fillets the notch. Traversed clockwise with the interior on the
- * right, so the two 90-degree notch corners take sweep 1 and the single reflex
- * corner at the notch's inner elbow takes sweep 0 to curve the other way.
+ * corners, `r` fillets each notch. Traversed clockwise with the interior on the
+ * right, so each notch's two 90-degree corners take sweep 1 while its reflex
+ * inner elbow takes sweep 0 to curve the opposite way.
  */
 function buildNotchedPath(
   W: number,
   H: number,
-  w: number,
-  h: number,
+  top: Notch,
+  bottom: Notch,
   R: number,
   r: number,
 ): string {
   return [
     `M ${n(R)} 0`,
-    `H ${n(W - w - r)}`,
-    arc(r, 1, W - w, r), // top edge turns down into the notch
-    `V ${n(h - r)}`,
-    arc(r, 0, W - w + r, h), // inner elbow, curving into the notch
+    // ── top-right notch ──
+    `H ${n(W - top.w - r)}`,
+    arc(r, 1, W - top.w, r), // top edge turns down into the notch
+    `V ${n(top.h - r)}`,
+    arc(r, 0, W - top.w + r, top.h), // inner elbow
     `H ${n(W - r)}`,
-    arc(r, 1, W, h + r), // notch floor turns down the right edge
+    arc(r, 1, W, top.h + r), // notch floor turns down the right edge
     `V ${n(H - R)}`,
     arc(R, 1, W - R, H),
-    `H ${n(R)}`,
-    arc(R, 1, 0, H - R),
+    // ── bottom-left notch ──
+    `H ${n(bottom.w + r)}`,
+    arc(r, 1, bottom.w, H - r), // bottom edge turns up into the notch
+    `V ${n(H - bottom.h + r)}`,
+    arc(r, 0, bottom.w - r, H - bottom.h), // inner elbow
+    `H ${n(r)}`,
+    arc(r, 1, 0, H - bottom.h - r), // notch ceiling turns up the left edge
     `V ${n(R)}`,
     arc(R, 1, R, 0),
     "Z",
@@ -154,47 +163,63 @@ const ProjectCard = ({
 
   // ── notch geometry ────────────────────────────────────────────────
   const frameRef = useRef<HTMLDivElement>(null);
-  const stripRef = useRef<HTMLDivElement>(null);
+  const tagsRef = useRef<HTMLDivElement>(null);
+  const metaRef = useRef<HTMLDivElement>(null);
   const [clip, setClip] = useState<string | null>(null);
 
   const measure = useCallback(() => {
     const frame = frameRef.current;
-    const strip = stripRef.current;
-    if (!frame || !strip) return;
+    const tags = tagsRef.current;
+    const meta = metaRef.current;
+    if (!frame || !tags || !meta) return;
 
     const W = frame.clientWidth;
     const H = frame.clientHeight;
-    const w = strip.offsetWidth;
-    const h = strip.offsetHeight;
+    const top = { w: tags.offsetWidth, h: tags.offsetHeight };
+    const bottom = { w: meta.offsetWidth, h: meta.offsetHeight };
 
     // Radius is read back from CSS rather than hard-coded, so the clipped shape
     // always agrees with whatever `rounded-*` utility is in play at this
     // breakpoint.
     const R = parseFloat(window.getComputedStyle(frame).borderTopLeftRadius) || 16;
 
-    if (W < 2 || H < 2 || w < 2 || h < 2) return setClip(null);
+    if (W < 2 || H < 2) return setClip(null);
+    if (top.w < 2 || top.h < 2 || bottom.w < 2 || bottom.h < 2)
+      return setClip(null);
 
-    // The fillet cannot exceed half the notch in either direction: past that the
-    // straight run between the two arcs inverts and the path folds back on
+    // The fillet cannot exceed half of either notch in either direction: past
+    // that the straight run between two arcs inverts and the path folds back on
     // itself instead of drawing a corner.
-    const r = Math.max(4, Math.min(R, 18, w / 2, h / 2));
+    const r = Math.max(
+      4,
+      Math.min(R, 24, top.w / 2, top.h / 2, bottom.w / 2, bottom.h / 2),
+    );
 
-    // Fall back to plain rounded corners if the strip ever outgrows the card.
-    if (w + r + R > W || h + r + R > H) return setClip(null);
+    // Fall back to plain rounded corners if a strip outgrows the card, or if the
+    // two notches would meet in the middle.
+    const fits =
+      top.w + r + R <= W &&
+      bottom.w + r + R <= W &&
+      top.h + r + R <= H &&
+      bottom.h + r + R <= H &&
+      top.h + bottom.h + 2 * r < H;
+    if (!fits) return setClip(null);
 
-    setClip(buildNotchedPath(W, H, w, h, R, r));
+    setClip(buildNotchedPath(W, H, top, bottom, R, r));
   }, []);
 
   useLayoutEffect(() => {
     measure();
     const frame = frameRef.current;
-    const strip = stripRef.current;
-    if (!frame || !strip) return;
-    // The strip resizes with its own text metrics, which the card's resize does
-    // not capture, so both are observed.
+    const tags = tagsRef.current;
+    const meta = metaRef.current;
+    if (!frame || !tags || !meta) return;
+    // Each strip resizes with its own text metrics, which the card's resize does
+    // not capture, so all three are observed.
     const ro = new ResizeObserver(() => measure());
     ro.observe(frame);
-    ro.observe(strip);
+    ro.observe(tags);
+    ro.observe(meta);
     return () => ro.disconnect();
   }, [measure]);
 
@@ -243,21 +268,41 @@ const ProjectCard = ({
           className="relative mb-5 aspect-[4/3] w-full rounded-2xl md:rounded-3xl lg:cursor-none"
         >
           {/*
-            The tag strip sits in the notch, on the page background rather than
-            on the photo. It is measured, so the cut always matches the pills.
+            Both strips sit in their notches, on the page background rather than
+            on the photo. They are measured, so each cut matches its content.
+            The padding is what sets the size of the step, so it is generous.
           */}
+          {/* When the notch cannot fit (very narrow screens) the strips end up
+              sitting directly on the photo, so they take a solid backing there
+              to stay legible. Adding padding only ever grows them, so this
+              cannot flip the fit test back and forth. */}
           <div
-            ref={stripRef}
-            className="absolute right-0 top-0 z-20 flex items-center gap-2 pb-3 pl-4"
+            ref={tagsRef}
+            className={`absolute right-0 top-0 z-20 flex items-center gap-2.5 ${
+              clip ? "pb-5 pl-6" : "rounded-bl-2xl bg-background/95 p-3"
+            }`}
           >
             {project.tags.map((tag) => (
               <span
                 key={tag}
-                className="whitespace-nowrap rounded-full border border-foreground/10 bg-secondary px-3 py-1.5 text-[10px] font-semibold text-foreground"
+                className="whitespace-nowrap rounded-full border border-foreground/10 bg-secondary px-4 py-2 text-xs font-bold text-foreground"
               >
                 {tag}
               </span>
             ))}
+          </div>
+
+          {/* Caption lives in the opposite step, which is what gives the card
+              its staircase on both diagonals. */}
+          <div
+            ref={metaRef}
+            className={`absolute bottom-0 left-0 z-20 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-muted-foreground ${
+              clip ? "pr-6 pt-5" : "rounded-tr-2xl bg-background/95 p-3"
+            }`}
+          >
+            <span>{project.year}</span>
+            <span aria-hidden="true">&bull;</span>
+            <span className="whitespace-nowrap">{project.client}</span>
           </div>
 
           {/* Everything visual is clipped to the notched outline. */}
@@ -281,8 +326,10 @@ const ProjectCard = ({
             {/* Hover info: a soft veil lifts the type off the photo, and the
                 label wipes up from behind its own mask. */}
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/75 via-black/25 to-transparent opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100" />
-            <div className="pointer-events-none absolute bottom-5 left-5 right-5 overflow-hidden">
-              <span className="flex translate-y-full items-center gap-2 text-sm font-semibold text-white transition-transform duration-[550ms] ease-out group-hover:translate-y-0 motion-reduce:transform-none">
+            {/* Anchored bottom-right: the bottom-left corner is now cut away by
+                the second notch, so a label there would be clipped off. */}
+            <div className="pointer-events-none absolute bottom-6 right-6 overflow-hidden">
+              <span className="flex translate-y-full items-center gap-2 text-sm font-bold text-white transition-transform duration-[550ms] ease-out group-hover:translate-y-0 motion-reduce:transform-none">
                 View project
                 <ArrowUpRight className="h-4 w-4" strokeWidth={2.5} />
               </span>
@@ -290,19 +337,13 @@ const ProjectCard = ({
           </div>
         </div>
 
-        <div className="mb-2 flex flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-          <span>{project.year}</span>
-          <span aria-hidden="true">&bull;</span>
-          <span>{project.client}</span>
-        </div>
-
         <h3
           className="text-foreground transition-colors duration-300 group-hover:text-muted-foreground"
           style={{
-            fontSize: "clamp(1.15rem, 1.7vw, 1.6rem)",
-            lineHeight: 1.22,
-            letterSpacing: "-0.02em",
-            fontWeight: 600,
+            fontSize: "clamp(1.2rem, 1.8vw, 1.7rem)",
+            lineHeight: 1.2,
+            letterSpacing: "-0.025em",
+            fontWeight: 700,
           }}
         >
           {project.title}

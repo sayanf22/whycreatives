@@ -16,8 +16,10 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import {
+  AlertTriangle,
   ArrowDown,
   ArrowUp,
+  ChevronsUp,
   Copy,
   ExternalLink,
   Film,
@@ -50,14 +52,49 @@ const CATEGORIES = [
   "SEO",
 ] as const;
 
-type FilterKey = "all" | "featured" | "image" | "video";
+type FilterKey = "all" | "featured" | "image" | "video" | "stale";
 
 const FILTERS: { key: FilterKey; label: string }[] = [
   { key: "all", label: "All" },
   { key: "featured", label: "Featured" },
   { key: "image", label: "Images" },
   { key: "video", label: "Videos" },
+  { key: "stale", label: "Broken media" },
 ];
+
+/** Storage host for the project this build actually talks to. */
+const CURRENT_SUPABASE_HOST = (() => {
+  const raw =
+    import.meta.env.VITE_SUPABASE_URL ??
+    "https://arhsjfguddgoqnsxydzc.supabase.co";
+  try {
+    return new URL(raw).host;
+  } catch {
+    return "";
+  }
+})();
+
+/**
+ * Detects rows whose media cannot possibly load.
+ *
+ * A database migration copied these rows across from a previous Supabase
+ * project, but the storage objects stayed behind. The rows therefore still
+ * reference the retired project's host, which no longer serves anything, so they
+ * render as blank cards. Anything hosted on a *different* Supabase project than
+ * this build targets is by definition unreachable. Third-party URLs such as
+ * YouTube are deliberately left alone.
+ */
+const isStale = (imageUrl: string | null | undefined) => {
+  if (!imageUrl || !imageUrl.trim()) return true;
+  if (!/^https?:\/\//i.test(imageUrl)) return false; // local /public asset
+  try {
+    const { host } = new URL(imageUrl);
+    if (!host.endsWith(".supabase.co")) return false;
+    return host !== CURRENT_SUPABASE_HOST;
+  } catch {
+    return true;
+  }
+};
 
 const emptyForm = {
   title: "",
@@ -150,6 +187,7 @@ const AdminDashboard = () => {
       featured: items.filter((i) => i.is_featured).length,
       videos: items.filter((i) => i.media_type === "video").length,
       images: items.filter((i) => i.media_type !== "video").length,
+      stale: items.filter((i) => isStale(i.image_url)).length,
     };
   }, [portfolioItems]);
 
@@ -160,6 +198,7 @@ const AdminDashboard = () => {
       if (filter === "featured" && !item.is_featured) return false;
       if (filter === "video" && item.media_type !== "video") return false;
       if (filter === "image" && item.media_type === "video") return false;
+      if (filter === "stale" && !isStale(item.image_url)) return false;
       if (!q) return true;
       return (
         item.title.toLowerCase().includes(q) ||
@@ -288,6 +327,93 @@ const AdminDashboard = () => {
       toast({
         title: "Error",
         description: errorMessage(error, "Failed to reorder items."),
+        variant: "destructive",
+      });
+    } finally {
+      setReordering(false);
+    }
+  };
+
+  /** Pushes one item to the front of the running order. */
+  const moveToTop = async (id: string) => {
+    if (!portfolioItems) return;
+    const current = portfolioItems.findIndex((p) => p.id === id);
+    if (current <= 0) return;
+
+    const next = [...portfolioItems];
+    const [picked] = next.splice(current, 1);
+    next.unshift(picked);
+
+    const changed = next
+      .map((item, i) => ({ id: item.id, display_order: i }))
+      .filter(({ id: rowId, display_order }) => {
+        const original = portfolioItems.find((p) => p.id === rowId);
+        return original?.display_order !== display_order;
+      });
+
+    setReordering(true);
+    try {
+      const results = await Promise.all(
+        changed.map(({ id: rowId, display_order }) =>
+          supabase
+            .from("portfolio_works")
+            .update({ display_order })
+            .eq("id", rowId),
+        ),
+      );
+      const failed = results.find((r) => r.error);
+      if (failed?.error) throw failed.error;
+      toast({ title: "Moved to top", description: "Running order updated." });
+      await refetch();
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: errorMessage(error, "Failed to reorder items."),
+        variant: "destructive",
+      });
+    } finally {
+      setReordering(false);
+    }
+  };
+
+  /**
+   * Removes every row whose media points at the retired Supabase project.
+   *
+   * Deletes are only permitted for an authenticated session, so this has to run
+   * from here rather than from a script using the public key.
+   */
+  const removeStaleItems = async () => {
+    if (!portfolioItems) return;
+    const doomed = portfolioItems.filter((i) => isStale(i.image_url));
+    if (!doomed.length) return;
+
+    if (
+      !confirm(
+        `Remove ${doomed.length} item(s) whose image or video no longer exists? This cannot be undone.`,
+      )
+    )
+      return;
+
+    setReordering(true);
+    try {
+      const results = await Promise.all(
+        doomed.map((item) =>
+          supabase.from("portfolio_works").delete().eq("id", item.id),
+        ),
+      );
+      const failed = results.find((r) => r.error);
+      if (failed?.error) throw failed.error;
+
+      toast({
+        title: "Cleaned up",
+        description: `Removed ${doomed.length} item(s) with missing media.`,
+      });
+      setFilter("all");
+      await refetch();
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: errorMessage(error, "Failed to remove items."),
         variant: "destructive",
       });
     } finally {
@@ -581,6 +707,36 @@ const AdminDashboard = () => {
                 </div>
               </div>
 
+              {/* Surfaced automatically: these rows arrived with a migration and
+                  can never render, so they are worth clearing in one action. */}
+              {stats.stale > 0 && (
+                <div className="mb-4 flex flex-col gap-3 rounded-xl border border-destructive/40 bg-destructive/5 p-4 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex items-start gap-2.5">
+                    <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">
+                        {stats.stale} item{stats.stale === 1 ? "" : "s"} with
+                        missing media
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        Their files live on a previous Supabase project and no
+                        longer load, so they show as blank cards.
+                      </p>
+                    </div>
+                  </div>
+                  <Button
+                    onClick={removeStaleItems}
+                    disabled={reordering}
+                    variant="destructive"
+                    size="sm"
+                    className="shrink-0"
+                  >
+                    <Trash2 className="mr-2 h-4 w-4" />
+                    Remove all {stats.stale}
+                  </Button>
+                </div>
+              )}
+
               {itemsLoading ? (
                 <div className="space-y-3">
                   {[0, 1, 2].map((i) => (
@@ -647,6 +803,11 @@ const AdminDashboard = () => {
                               <span className="rounded-full bg-foreground/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
                                 {isVideo ? "Video" : "Image"}
                               </span>
+                              {isStale(item.image_url) && (
+                                <span className="rounded-full bg-destructive/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-destructive">
+                                  Missing media
+                                </span>
+                              )}
                             </div>
                           </div>
                         </div>
@@ -707,6 +868,17 @@ const AdminDashboard = () => {
 
                           {canReorder && (
                             <>
+                              <Button
+                                onClick={() => moveToTop(item.id)}
+                                disabled={reordering || orderIndex <= 0}
+                                variant="ghost"
+                                size="icon"
+                                className="h-9 w-9"
+                                title="Move to top"
+                                aria-label="Move to top"
+                              >
+                                <ChevronsUp className="h-4 w-4" />
+                              </Button>
                               <Button
                                 onClick={() => moveItem(orderIndex, -1)}
                                 disabled={reordering || orderIndex <= 0}

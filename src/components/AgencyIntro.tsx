@@ -175,16 +175,19 @@ export const AgencyIntro = () => {
               animate={{ x: ["0%", "-100%"] }}
               transition={{ duration: 48, ease: "linear", repeat: Infinity }}
             >
+              {/* Full-strength foreground rather than /70, heavier weight and a
+                  thicker icon stroke: at 70% opacity on a black background the
+                  strip read as disabled text rather than as a capability list. */}
               {CAPABILITIES.map(({ label, Icon }) => (
                 <span
                   key={label}
-                  className="group flex shrink-0 items-center gap-3 pr-14 text-foreground/70 transition-opacity duration-500 hover:text-foreground sm:gap-4 sm:pr-24 lg:pr-28"
+                  className="flex shrink-0 items-center gap-3 pr-12 text-foreground sm:gap-4 sm:pr-20 lg:pr-24"
                 >
                   <Icon
-                    className="h-5 w-5 shrink-0 sm:h-[22px] sm:w-[22px]"
-                    strokeWidth={1.5}
+                    className="h-5 w-5 shrink-0 sm:h-6 sm:w-6"
+                    strokeWidth={2.25}
                   />
-                  <span className="whitespace-nowrap text-lg font-semibold tracking-[-0.02em] sm:text-xl lg:text-[26px]">
+                  <span className="whitespace-nowrap text-xl font-bold tracking-[-0.03em] sm:text-2xl lg:text-[30px]">
                     {label}
                   </span>
                 </span>

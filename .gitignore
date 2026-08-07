@@ -19,6 +19,9 @@ node_modules/
 
 # Logs
 *.log
+
+# Local database snapshots taken before cleanup work
+portfolio-backup-*.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
