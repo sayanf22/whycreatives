@@ -234,12 +234,12 @@ const ProjectCard = ({
   }, [measure]);
 
   /**
-   * Pointer position relative to the image box.
+   * Pointer position relative to the card's image box.
    *
-   * The cursor is positioned inside the image rather than fixed to the viewport,
-   * which keeps it strictly within the container: the container's own
-   * `overflow-hidden` and clip-path trim it at the edges. It also removes the
-   * need to portal it out to escape the card's scroll transform.
+   * The cursor is absolutely positioned within this box rather than fixed to the
+   * viewport, so it needs local coordinates. Absolute positioning also means the
+   * card's scroll-in transform moves the cursor with it, which is why no portal
+   * is required.
    */
   const localPoint = (e: React.MouseEvent) => {
     const rect = frameRef.current?.getBoundingClientRect();
@@ -357,35 +357,6 @@ const ProjectCard = ({
               className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 motion-reduce:transform-none"
             />
 
-            {/* Tracking cursor lives inside the clipped box, so it is trimmed by
-                the image's own rounded corners and notches. */}
-            <AnimatePresence>
-              {finePointer && hovered && (
-                <motion.div
-                  style={{ x: cursorX, y: cursorY }}
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{
-                    scale: 1,
-                    opacity: 1,
-                    transition: { type: "spring", stiffness: 400, damping: 28 },
-                  }}
-                  /* Eased fade rather than a spring to zero: snapping straight
-                     to scale 0 made the circle vanish the instant the pointer
-                     left the image. */
-                  exit={{
-                    scale: 0,
-                    opacity: 0,
-                    transition: { duration: 0.35, ease: EASE },
-                  }}
-                  /* -ml-8/-mt-8 is half of h-16/w-16, centring the circle on the
-                     pointer without a second transform fighting x/y. */
-                  className="pointer-events-none absolute left-0 top-0 z-30 -ml-8 -mt-8 flex h-16 w-16 items-center justify-center rounded-full bg-[#b5ff2b] text-black"
-                >
-                  <ArrowUpRight className="h-6 w-6" strokeWidth={2.5} />
-                </motion.div>
-              )}
-            </AnimatePresence>
-
             {/* Hover info: a soft veil lifts the type off the photo, and the
                 label wipes up from behind its own mask. */}
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/75 via-black/25 to-transparent opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100" />
@@ -398,6 +369,63 @@ const ProjectCard = ({
               </span>
             </div>
           </div>
+
+          {/*
+            Tracking cursor sits alongside the clipped layer, not inside it.
+            Inside, the image's own clip-path and overflow-hidden trimmed the
+            circle away whenever the pointer neared an edge or a notch, so it
+            appeared to vanish. Out here it stays whole and can overlap the cut
+            corners, which is what the reference does.
+
+            Coordinates are still relative to this box, so no portal is needed
+            and the card's scroll transform cannot drag it out of place.
+          */}
+          <AnimatePresence>
+            {finePointer && hovered && (
+              <motion.div
+                style={{ x: cursorX, y: cursorY }}
+                initial={{ scale: 0.2, opacity: 0 }}
+                animate={{
+                  scale: 1,
+                  opacity: 1,
+                  transition: {
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 24,
+                    mass: 0.6,
+                  },
+                }}
+                exit={{
+                  scale: 0.2,
+                  opacity: 0,
+                  transition: { duration: 0.35, ease: EASE },
+                }}
+                /* -ml-8/-mt-8 is half of h-16/w-16, centring the circle on the
+                   pointer without a second transform fighting x/y. */
+                className="pointer-events-none absolute left-0 top-0 z-30 -ml-8 -mt-8 flex h-16 w-16 items-center justify-center rounded-full bg-[#b5ff2b] text-black shadow-lg"
+              >
+                {/* Arrow trails the puck slightly so the circle reads as growing
+                    into an arrow rather than both snapping in together. */}
+                <motion.span
+                  className="flex items-center justify-center"
+                  initial={{ opacity: 0, scale: 0.4, rotate: -25 }}
+                  animate={{
+                    opacity: 1,
+                    scale: 1,
+                    rotate: 0,
+                    transition: { duration: 0.3, ease: EASE, delay: 0.08 },
+                  }}
+                  exit={{
+                    opacity: 0,
+                    scale: 0.4,
+                    transition: { duration: 0.15, ease: EASE },
+                  }}
+                >
+                  <ArrowUpRight className="h-6 w-6" strokeWidth={2.5} />
+                </motion.span>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         <h3

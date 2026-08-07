@@ -292,7 +292,7 @@ export const Hero = () => {
               >
                 <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-black dark:bg-white" />
                 <span className="whitespace-nowrap text-[13px] font-normal leading-none text-black lg:text-[15px] dark:text-white">
-                  Hiya, we&rsquo;re WhyCreatives &#128075;
+                  Hello, we&rsquo;re WhyCreatives &#128075;
                 </span>
               </motion.span>
             </div>

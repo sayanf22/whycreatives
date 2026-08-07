@@ -146,7 +146,7 @@ export const Expertise = () => {
     /* inset wrapper so the dark card floats with rounded sides */
     <div className="w-full bg-background px-3 sm:px-5 md:px-6">
       <section className="w-full overflow-hidden rounded-[24px] bg-[#0A0A0C] font-['Schibsted_Grotesk',sans-serif] text-white md:rounded-[36px]">
-        {/* ── CUSTOM CURSOR ── idle dot, morphs to a green "VIEW" puck ── */}
+        {/* ── CUSTOM CURSOR ── idle dot, morphs to a green arrow puck ── */}
         {isDesktop && (
           <motion.div
             aria-hidden="true"
@@ -169,13 +169,16 @@ export const Expertise = () => {
             }}
             transition={{ type: "spring", stiffness: 320, damping: 26, mass: 0.6 }}
           >
+            {/* Arrow rather than a "View" label: it reads instantly at any size
+                and matches the arrow used on the project cards. It scales up
+                with the puck so the morph feels like one gesture. */}
             <motion.span
-              className="font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-black"
+              className="flex items-center justify-center text-black"
               initial={false}
-              animate={{ opacity: active ? 1 : 0 }}
-              transition={{ duration: 0.2, ease: EASE }}
+              animate={{ opacity: active ? 1 : 0, scale: active ? 1 : 0.4 }}
+              transition={{ duration: 0.25, ease: EASE }}
             >
-              View
+              <ArrowUpRight className="h-8 w-8" strokeWidth={2.5} />
             </motion.span>
           </motion.div>
         )}

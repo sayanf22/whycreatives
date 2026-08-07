@@ -63,11 +63,13 @@ const Index = () => {
       {/* WhyChooseUs, HowItWorks and Testimonials removed: generic icon-and-
           bullet blocks that repeated what Expertise already says, plus
           placeholder testimonials. Their components were deleted with them. */}
-      <CTA />
       {/* GooeySection removed: it ran an uncapped rAF loop writing a CSS
           blur() every frame, which was the biggest cause of scroll lag on
           phones. MarqueeLine covers the same "big type" beat far cheaper. */}
       <MarqueeLine />
+      {/* CTA sits last so "Ready to elevate your brand?" is the final ask
+          before the footer, rather than being buried above the marquee. */}
+      <CTA />
       <Footer />
     </div>
   );
