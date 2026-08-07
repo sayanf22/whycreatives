@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { RevealLines } from "@/components/RevealLines";
 import {
   ArrowUpRight,
   Clapperboard,
@@ -67,54 +68,6 @@ const CAPABILITIES = [
   { label: "SEO", Icon: Search },
 ];
 
-/**
- * Reveals intentional copy lines through a clipped mask, matching the hero's
- * upward line reveal. The four rows stay fixed on desktop and can wrap
- * naturally on smaller screens without overflowing the viewport.
- */
-const RevealLines = ({ lines, className, style }: {
-  lines: readonly string[];
-  className?: string;
-  style?: React.CSSProperties;
-}) => (
-  <motion.span
-    className={className}
-    style={style}
-    aria-label={lines.join(" ")}
-    initial="hidden"
-    whileInView="show"
-    viewport={{ once: true, amount: 0.25 }}
-  >
-    {lines.map((line, i) => (
-      <span
-        key={line}
-        aria-hidden="true"
-        /* The opening line is inset by an em-based amount, so the step scales
-           with the type instead of drifting as the font-size clamp changes.
-           Desktop only: below lg the lines wrap, and indenting a wrapped block
-           shifts all of its rows, which reads as a mistake rather than intent. */
-        className={
-          "block overflow-hidden lg:whitespace-nowrap" +
-          (i === 0 ? " lg:pl-[1.7em]" : "")
-        }
-        style={{
-          paddingBottom: "0.14em",
-          marginBottom: i === lines.length - 1 ? 0 : "-0.14em",
-        }}
-      >
-        <motion.span
-          className="inline-block max-w-full"
-          variants={{ hidden: { y: "108%" }, show: { y: "0%" } }}
-          transition={{ duration: 0.9, ease: EASE, delay: 0.08 + i * 0.09 }}
-          style={{ willChange: "transform" }}
-        >
-          {line}
-        </motion.span>
-      </span>
-    ))}
-  </motion.span>
-);
-
 export const AgencyIntro = () => {
   return (
     <section
@@ -129,10 +82,18 @@ export const AgencyIntro = () => {
           column: the forced single-line rows need every pixel of width they can
           get at 1024px, which is where the type is closest to overflowing. */}
       <div className="grid grid-cols-1 items-start gap-7 px-4 md:px-[clamp(32px,6vw,160px)] lg:grid-cols-12 lg:gap-6">
-        <div className="flex items-center gap-2.5 pt-2 text-xs text-muted-foreground lg:col-span-2">
+        {/* The label leads the statement in, so the whole block animates as one
+            gesture rather than the heading appearing beside static text. */}
+        <motion.div
+          className="flex items-center gap-2.5 pt-2 text-xs text-muted-foreground lg:col-span-2"
+          initial={{ opacity: 0, x: -8 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.6 }}
+          transition={{ duration: 0.55, ease: EASE }}
+        >
           <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground" />
           Who are we?
-        </div>
+        </motion.div>
 
         <div className="lg:col-span-10">
           <h2
@@ -144,7 +105,17 @@ export const AgencyIntro = () => {
               fontWeight: 500,
             }}
           >
-            <RevealLines lines={STATEMENT_LINES} className="block" />
+            {/* The opening line is inset by an em-based amount, so the step
+                scales with the type instead of drifting as the font-size clamp
+                changes. Desktop only: below lg the lines wrap, and indenting a
+                wrapped block shifts all of its rows, which reads as a mistake
+                rather than as intent. */}
+            <RevealLines
+              lines={STATEMENT_LINES}
+              className="block"
+              firstLineClassName="lg:pl-[1.7em]"
+              nowrapFromLg
+            />
           </h2>
 
           {/* Both CTAs share one interaction language: a small lift on hover,
