@@ -231,7 +231,6 @@ export const Footer = () => {
                     <BlurRevealItem delay={0.31}><Link to="/what-we-do" className="hover:text-[#b5ff2b] transition-colors">Services</Link></BlurRevealItem>
                     <BlurRevealItem delay={0.34}><Link to="/join-us" className="hover:text-[#b5ff2b] transition-colors">Careers</Link></BlurRevealItem>
                     <BlurRevealItem delay={0.37}><Link to="/areas-we-serve" className="hover:text-[#b5ff2b] transition-colors">Sectors</Link></BlurRevealItem>
-                    <BlurRevealItem delay={0.4}><Link to="/pricing-comparison" className="hover:text-[#b5ff2b] transition-colors">Hex Test</Link></BlurRevealItem>
                     <BlurRevealItem delay={0.43}><Link to="/contact" className="hover:text-[#b5ff2b] transition-colors">Contact</Link></BlurRevealItem>
                   </ul>
                 </div>

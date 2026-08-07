@@ -57,13 +57,10 @@ const SERVICES: Service[] = [
     href: "/services/performance-marketing",
     image: "/creative-office.webp",
   },
-  {
-    title: "SEO",
-    blurb: "Technical and content SEO that compounds into organic reach.",
-    href: "/services/brand-presence",
-    image: "/team-collab.webp",
-  },
 ];
+/* SEO was listed here as a seventh discipline, which overstated it: we sell it
+   as part of a website build, not as a standalone engagement. It is covered by
+   the Websites entry's technical SEO work and by the capability strip. */
 
 /** Thumbnail size tracks the viewport so it stays proportional to the type. */
 const thumbFor = (w: number) => Math.round(Math.min(Math.max(w * 0.07, 72), 148));
@@ -250,7 +247,7 @@ export const Expertise = () => {
                   fontWeight: 500,
                 }}
               >
-                Seven disciplines,
+                Six disciplines,
                 <br />
                 one team.
               </h3>
