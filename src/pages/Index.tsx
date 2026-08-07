@@ -3,6 +3,8 @@ import { Hero } from "@/components/Hero";
 import { AgencyIntro } from "@/components/AgencyIntro";
 import { FeaturedProjects } from "@/components/FeaturedProjects";
 import { Expertise } from "@/components/Expertise";
+import { ClientSatisfaction } from "@/components/ClientSatisfaction";
+import { AskAI } from "@/components/AskAI";
 import { CTA } from "@/components/CTA";
 import { MarqueeLine } from "@/components/MarqueeLine";
 import { Footer } from "@/components/Footer";
@@ -60,16 +62,16 @@ const Index = () => {
       <AgencyIntro />
       <FeaturedProjects />
       <Expertise />
-      {/* WhyChooseUs, HowItWorks and Testimonials removed: generic icon-and-
-          bullet blocks that repeated what Expertise already says, plus
-          placeholder testimonials. Their components were deleted with them. */}
+      {/* Light panel directly under the dark Expertise panel, sharing its
+          gutters so the two boxes line up. */}
+      <ClientSatisfaction />
       {/* GooeySection removed: it ran an uncapped rAF loop writing a CSS
           blur() every frame, which was the biggest cause of scroll lag on
           phones. MarqueeLine covers the same "big type" beat far cheaper. */}
       <MarqueeLine />
-      {/* CTA sits last so "Ready to elevate your brand?" is the final ask
-          before the footer, rather than being buried above the marquee. */}
       <CTA />
+      {/* Last block before the footer. */}
+      <AskAI />
       <Footer />
     </div>
   );
