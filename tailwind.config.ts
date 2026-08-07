@@ -17,6 +17,8 @@ export default {
         // Schibsted Grotesk is the closest freely-licensed match to the
         // reference site's grotesque. Keep it first everywhere.
         sans: ['Schibsted Grotesk', 'Plus Jakarta Sans', 'Inter', 'sans-serif'],
+        // technical counterpoint, used for labels and the capability strip
+        mono: ['Space Mono', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
       colors: {
         border: "hsl(var(--border))",
