@@ -14,8 +14,12 @@ import {
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-const STATEMENT =
-  "An independent studio in India covering video editing, motion design, web and app development, and branding, built for founders who want work that looks expensive and still costs less than an in-house hire.";
+const STATEMENT_LINES = [
+  "An independent creative studio in India,",
+  "bringing video, motion, web, apps and",
+  "branding together under one roof for",
+  "ambitious businesses built to grow.",
+] as const;
 
 /* Capability strip standing in for a client-logo wall: monochrome lockups,
    wide even spacing, no separators and no accent colour — the reference strip
@@ -33,39 +37,41 @@ const CAPABILITIES = [
 ];
 
 /**
- * Reveals a block of copy word by word, each word masked so it wipes upward.
- *
- * The viewport is observed on the untransformed wrapper and the movement runs
- * on children via variants. Observing each word directly was unreliable: they
- * start translated 110% out of an overflow-hidden box, so the observed rect can
- * be clipped away and the reveal never fires — leaving the text invisible.
+ * Reveals intentional copy lines through a clipped mask, matching the hero's
+ * upward line reveal. The four rows stay fixed on desktop and can wrap
+ * naturally on smaller screens without overflowing the viewport.
  */
-const RevealText = ({ text, className, style }: {
-  text: string;
+const RevealLines = ({ lines, className, style }: {
+  lines: readonly string[];
   className?: string;
   style?: React.CSSProperties;
 }) => (
   <motion.span
     className={className}
     style={style}
+    aria-label={lines.join(" ")}
     initial="hidden"
     whileInView="show"
-    viewport={{ once: true, amount: 0.2 }}
+    viewport={{ once: true, amount: 0.25 }}
   >
-    {text.split(" ").map((word, i) => (
+    {lines.map((line, i) => (
       <span
-        key={`${word}-${i}`}
-        className="inline-block overflow-hidden align-bottom"
-        style={{ paddingBottom: "0.14em", marginBottom: "-0.14em" }}
+        key={line}
+        aria-hidden="true"
+        className="block overflow-hidden lg:whitespace-nowrap"
+        style={{
+          paddingBottom: "0.14em",
+          marginBottom: i === lines.length - 1 ? 0 : "-0.14em",
+        }}
       >
         <motion.span
-          className="inline-block"
-          variants={{ hidden: { y: "110%" }, show: { y: "0%" } }}
-          transition={{ duration: 0.8, ease: EASE, delay: i * 0.02 }}
+          className="inline-block max-w-full"
+          variants={{ hidden: { y: "108%" }, show: { y: "0%" } }}
+          transition={{ duration: 0.9, ease: EASE, delay: 0.08 + i * 0.09 }}
+          style={{ willChange: "transform" }}
         >
-          {word}
+          {line}
         </motion.span>
-        {"\u00A0"}
       </span>
     ))}
   </motion.span>
@@ -81,23 +87,23 @@ export const AgencyIntro = () => {
       }}
     >
       {/* ── WHO ARE WE ─────────────────────────────────────────────── */}
-      <div className="grid grid-cols-1 items-start gap-6 px-4 md:px-[clamp(32px,6vw,160px)] lg:grid-cols-12 lg:gap-10">
-        <div className="flex items-center gap-2.5 pt-2 text-xs text-muted-foreground lg:col-span-3">
+      <div className="grid grid-cols-1 items-start gap-7 px-4 md:px-[clamp(32px,6vw,160px)] lg:grid-cols-12 lg:gap-10">
+        <div className="flex items-center gap-2.5 pt-2 text-xs text-muted-foreground lg:col-span-2">
           <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground" />
           Who are we?
         </div>
 
-        <div className="lg:col-span-9 lg:pr-[6%]">
+        <div className="lg:col-span-10 lg:pr-[2%]">
           <h2
-            className="text-foreground lg:text-center"
+            className="text-left text-foreground"
             style={{
-              fontSize: "clamp(1.5rem, 2.9vw, 3.15rem)",
-              lineHeight: 1.16,
-              letterSpacing: "-0.03em",
+              fontSize: "clamp(2rem, 3.55vw, 4.6rem)",
+              lineHeight: 1.02,
+              letterSpacing: "-0.042em",
               fontWeight: 500,
             }}
           >
-            <RevealText text={STATEMENT} />
+            <RevealLines lines={STATEMENT_LINES} className="block" />
           </h2>
 
           <motion.div
