@@ -9,7 +9,14 @@ export const Footer = () => {
   };
 
   return (
-    <div className="w-full bg-background p-3 sm:p-5 md:p-6 mt-12 sm:mt-16 font-['Schibsted_Grotesk',sans-serif]">
+    /* Two local tokens drive every surface in here:
+         --footer-frame  the gutter/page colour the notches must blend into.
+                         Bound to the theme background so it can never drift.
+         --footer-card   the floating card surface.
+       Light mode keeps its near-black card on white. Dark mode lifts the card
+       off pure black instead of sitting at #0d0d0d, which had made the card
+       edge, its rounded corners and the notches invisible against the page. */
+    <div className="w-full bg-background p-3 sm:p-5 md:p-6 mt-12 sm:mt-16 font-['Schibsted_Grotesk',sans-serif] [--footer-card:#0d0d0d] [--footer-frame:hsl(var(--background))] dark:[--footer-card:#1c1c1c]">
       <div className="relative w-full overflow-hidden">
         
         {/* ========================================================
@@ -19,20 +26,20 @@ export const Footer = () => {
         {/* White Social Strip Container (Positioned top-0 left-0) */}
         {/* radius here must match the card's, or this strip's square corner
             pokes out past the card's rounded top-left */}
-        <div className="absolute top-0 left-0 w-[56px] h-[280px] bg-white dark:bg-[#121212] rounded-br-[24px] rounded-tl-[24px] md:rounded-tl-[32px] z-20">
+        <div className="absolute top-0 left-0 w-[56px] h-[280px] bg-[var(--footer-frame)] rounded-br-[24px] rounded-tl-[24px] md:rounded-tl-[32px] z-20">
           {/* Inner Corner Mask (Bottom-Right concave curve) */}
-          <div className="absolute top-[256px] left-[32px] w-[24px] h-[24px] bg-[#0d0d0d] z-20">
-            <div className="w-full h-full bg-white dark:bg-[#121212] rounded-br-[24px]" />
+          <div className="absolute top-[256px] left-[32px] w-[24px] h-[24px] bg-[var(--footer-card)] z-20">
+            <div className="w-full h-full bg-[var(--footer-frame)] rounded-br-[24px]" />
           </div>
 
           {/* Top-Right Transition Mask (Curves top edge down alongside social strip) */}
-          <div className="absolute top-0 left-[56px] w-[24px] h-[24px] bg-white dark:bg-[#121212] z-20">
-            <div className="w-full h-full bg-[#0d0d0d] rounded-tl-[24px]" />
+          <div className="absolute top-0 left-[56px] w-[24px] h-[24px] bg-[var(--footer-frame)] z-20">
+            <div className="w-full h-full bg-[var(--footer-card)] rounded-tl-[24px]" />
           </div>
 
           {/* Bottom-Left Transition Mask (Curves black edge under social strip) */}
-          <div className="absolute top-[280px] left-0 w-[24px] h-[24px] bg-white dark:bg-[#121212] z-20">
-            <div className="w-full h-full bg-[#0d0d0d] rounded-tl-[24px]" />
+          <div className="absolute top-[280px] left-0 w-[24px] h-[24px] bg-[var(--footer-frame)] z-20">
+            <div className="w-full h-full bg-[var(--footer-card)] rounded-tl-[24px]" />
           </div>
         </div>
 
@@ -101,18 +108,18 @@ export const Footer = () => {
         
         <div 
           onClick={scrollToTop}
-          className="absolute top-0 right-0 h-[44px] px-6 bg-white dark:bg-[#121212] rounded-bl-[24px] rounded-tr-[24px] md:rounded-tr-[32px] z-20 hidden md:flex items-center gap-1.5 cursor-pointer text-xs text-neutral-800 dark:text-neutral-200 font-semibold select-none hover:opacity-90 transition-opacity"
+          className="absolute top-0 right-0 h-[44px] px-6 bg-[var(--footer-frame)] rounded-bl-[24px] rounded-tr-[24px] md:rounded-tr-[32px] z-20 hidden md:flex items-center gap-1.5 cursor-pointer text-xs text-neutral-800 dark:text-neutral-200 font-semibold select-none hover:opacity-90 transition-opacity"
         >
-          {/* 2px White Cover Strip attached to right edge covering 1px card border along y=0..44px */}
-          <div className="absolute top-0 -right-1 w-2 h-full bg-white dark:bg-[#121212]" />
+          {/* Cover strip on the right edge, hiding the card edge along y=0..44px */}
+          <div className="absolute top-0 -right-1 w-2 h-full bg-[var(--footer-frame)]" />
 
           {/* Left Transition Mask (Attached to left edge: -left-[24px]) */}
-          <div className="absolute top-0 -left-[24px] w-[24px] h-[24px] bg-white dark:bg-[#121212] z-20">
-            <div className="w-full h-full bg-[#0d0d0d] rounded-tr-[24px]" />
+          <div className="absolute top-0 -left-[24px] w-[24px] h-[24px] bg-[var(--footer-frame)] z-20">
+            <div className="w-full h-full bg-[var(--footer-card)] rounded-tr-[24px]" />
           </div>
           {/* Bottom Transition Mask (Positioned flush at right-0 w-[24px] h-[24px]) */}
-          <div className="absolute top-[44px] right-0 w-[24px] h-[24px] bg-white dark:bg-[#121212] z-20">
-            <div className="w-full h-full bg-[#0d0d0d] rounded-tr-[24px]" />
+          <div className="absolute top-[44px] right-0 w-[24px] h-[24px] bg-[var(--footer-frame)] z-20">
+            <div className="w-full h-full bg-[var(--footer-card)] rounded-tr-[24px]" />
           </div>
 
           <span>Sh*t I've gone too far, send me back up</span>
@@ -125,15 +132,15 @@ export const Footer = () => {
         
         <div 
           onClick={scrollToTop}
-          className="absolute bottom-0 right-0 h-[44px] px-4 bg-white dark:bg-[#121212] rounded-tl-[24px] rounded-br-[24px] z-20 md:hidden flex items-center gap-1.5 cursor-pointer text-[11px] text-neutral-800 dark:text-neutral-200 font-semibold select-none hover:opacity-90 transition-opacity"
+          className="absolute bottom-0 right-0 h-[44px] px-4 bg-[var(--footer-frame)] rounded-tl-[24px] rounded-br-[24px] z-20 md:hidden flex items-center gap-1.5 cursor-pointer text-[11px] text-neutral-800 dark:text-neutral-200 font-semibold select-none hover:opacity-90 transition-opacity"
         >
           {/* Top Transition Mask (Attached to top edge: -top-[24px]) */}
-          <div className="absolute -top-[24px] right-0 w-[24px] h-[24px] bg-white dark:bg-[#121212] z-20">
-            <div className="w-full h-full bg-[#0d0d0d] rounded-br-[24px]" />
+          <div className="absolute -top-[24px] right-0 w-[24px] h-[24px] bg-[var(--footer-frame)] z-20">
+            <div className="w-full h-full bg-[var(--footer-card)] rounded-br-[24px]" />
           </div>
           {/* Left Transition Mask (Attached dynamically to left edge: -left-[24px]) */}
-          <div className="absolute bottom-0 -left-[24px] w-[24px] h-[24px] bg-white dark:bg-[#121212] z-20">
-            <div className="w-full h-full bg-[#0d0d0d] rounded-br-[24px]" />
+          <div className="absolute bottom-0 -left-[24px] w-[24px] h-[24px] bg-[var(--footer-frame)] z-20">
+            <div className="w-full h-full bg-[var(--footer-card)] rounded-br-[24px]" />
           </div>
 
           <span>Sh*t I've gone too far, send me back up</span>
@@ -145,7 +152,7 @@ export const Footer = () => {
            ======================================================== */}
         {/* Fully rounded floating card — the wrapper's padding above provides
             the light margin that frames it on all four sides. */}
-        <footer className="relative bg-[#0d0d0d] text-white pt-8 md:pt-12 lg:pt-16 pb-16 md:pb-12 px-4 sm:px-8 lg:px-20 overflow-hidden rounded-[24px] md:rounded-[32px]">
+        <footer className="relative bg-[var(--footer-card)] text-white pt-8 md:pt-12 lg:pt-16 pb-16 md:pb-12 px-4 sm:px-8 lg:px-20 overflow-hidden rounded-[24px] md:rounded-[32px]">
           
           <div className="max-w-7xl mx-auto relative">
             
@@ -262,7 +269,9 @@ export const Footer = () => {
             </div>
 
             {/* Giant Text Section */}
-            <div className="border-t border-neutral-900 pt-8 pb-10 overflow-hidden select-none">
+            {/* dividers are tied to the text colour, not a fixed neutral, so
+                they stay equally faint on both card shades */}
+            <div className="border-t border-white/10 pt-8 pb-10 overflow-hidden select-none">
               <BlurReveal delay={0.3} duration={0.8} className="w-full overflow-hidden">
                 <h1 className="text-[6.5vw] sm:text-[6.5vw] lg:text-[7vw] font-black text-white tracking-tight leading-none text-center lg:text-left opacity-90 uppercase">
                   Crafting since 2020
@@ -271,7 +280,7 @@ export const Footer = () => {
             </div>
 
             {/* Fine Print Bottom Bar */}
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4 border-t border-neutral-900 pt-6 text-[10px] sm:text-xs text-neutral-400">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4 border-t border-white/10 pt-6 text-[10px] sm:text-xs text-neutral-400">
               <BlurReveal delay={0.4}>
                 <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 md:justify-start">
                   <Link
@@ -291,9 +300,9 @@ export const Footer = () => {
                       WhyCreatives.
                     </span>
                   </Link>
-                  <span className="hidden text-neutral-700 md:inline">|</span>
+                  <span className="hidden text-white/25 md:inline">|</span>
                   <span>© WhyCreatives Agency 2026</span>
-                  <span className="text-neutral-700">|</span>
+                  <span className="text-white/25">|</span>
                   <span>Guwahati, Assam, India</span>
                 </div>
               </BlurReveal>
