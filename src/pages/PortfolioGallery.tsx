@@ -6,6 +6,7 @@ import { usePortfolioWorks, getStorageUrl, type PortfolioWork } from "@/hooks/us
 import { MediaRenderer } from "@/components/MediaRenderer";
 import { Globe, Palette, Video, LayoutGrid, X, ExternalLink } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { BlurLine, BlurLines } from "@/components/BlurLines";
 
 const getCategoryIcon = (category: string, className = "w-4 h-4") => {
   switch (category) {
@@ -63,24 +64,35 @@ const PortfolioGallery = () => {
      filter pill row and 3-up grid — so the page doesn't reflow on arrival. */
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background text-foreground">
+      <div className="min-h-screen bg-background text-foreground font-['Schibsted_Grotesk',sans-serif]">
         <Navigation />
-        <div className="pt-32 pb-24 px-4">
+        <div className="px-4 pb-24 pt-28 sm:pt-32 md:px-[clamp(32px,6vw,120px)]">
           <div className="mx-auto max-w-7xl animate-pulse">
-            <div className="mb-12 text-center">
-              <div className="mx-auto mb-6 h-12 w-[300px] rounded-2xl bg-foreground/10 md:h-[72px] md:w-[520px]" />
-              <div className="mx-auto mb-12 h-6 w-full max-w-lg rounded-lg bg-foreground/[0.07]" />
-
-              {/* category filter pills */}
-              <div className="mb-16 flex flex-wrap justify-center gap-3">
-                {[92, 84, 128, 100].map((w, i) => (
-                  <div
-                    key={i}
-                    className="h-[42px] rounded-full border border-black/10 bg-foreground/[0.07] dark:border-white/10"
-                    style={{ width: w }}
-                  />
-                ))}
+            {/* Mirrors the two oversized display lines and the side paragraph, so
+                the header does not jump when the query resolves. */}
+            <div className="mb-10 lg:mb-16">
+              <div className="mb-4 h-3 w-24 rounded bg-foreground/10" />
+              <div className="space-y-2">
+                <div className="h-[clamp(2rem,7vw,7rem)] w-[min(100%,520px)] rounded-2xl bg-foreground/10" />
+                <div className="h-[clamp(2rem,7vw,7rem)] w-[min(100%,420px)] rounded-2xl bg-foreground/[0.08]" />
               </div>
+              <div className="mt-8 grid grid-cols-1 lg:mt-12 lg:grid-cols-12">
+                <div className="space-y-2.5 lg:col-span-5 lg:col-start-7">
+                  <div className="h-5 w-full rounded-lg bg-foreground/[0.07]" />
+                  <div className="h-5 w-[80%] rounded-lg bg-foreground/[0.07]" />
+                </div>
+              </div>
+            </div>
+
+            {/* category filter pills */}
+            <div className="mb-12 flex flex-wrap gap-2.5 sm:gap-3 lg:mb-16">
+              {[92, 84, 128, 100].map((w, i) => (
+                <div
+                  key={i}
+                  className="h-[42px] rounded-full border border-black/10 bg-foreground/[0.07] dark:border-white/10"
+                  style={{ width: w }}
+                />
+              ))}
             </div>
 
             {/* gallery grid */}
@@ -105,19 +117,60 @@ const PortfolioGallery = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+    <div className="min-h-screen overflow-x-hidden bg-background text-foreground font-['Schibsted_Grotesk',sans-serif]">
       <Navigation />
-      <div className="pt-32 pb-24 px-4">
+      <div className="px-4 pb-24 pt-28 sm:pt-32 md:px-[clamp(32px,6vw,120px)]">
         <div className="max-w-7xl mx-auto">
-          <FadeInWhenVisible>
-            <div className="text-center mb-12">
-              <h1 className="text-5xl md:text-7xl font-bold mb-6 text-foreground">Portfolio Gallery</h1>
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-12">
-                Browse through our complete collection of creative work
-              </p>
+          {/* ── PAGE HEADER ── same typographic system as the services page:
+              small eyebrow, oversized medium-weight display lines that wipe up
+              from behind a mask as their blur clears, support copy to the side. */}
+          <header className="mb-10 lg:mb-16">
+            <motion.div
+              className="mb-4 flex items-center gap-2.5 text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground sm:text-xs"
+              initial={{ opacity: 0, x: -8 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.6 }}
+              transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground" />
+              Gallery
+            </motion.div>
 
+            <h1>
+              <BlurLines
+                className="block text-foreground"
+                style={{
+                  fontSize: "clamp(2.05rem, 7.2vw, 7.25rem)",
+                  lineHeight: 0.99,
+                  letterSpacing: "-0.045em",
+                  fontWeight: 500,
+                }}
+              >
+                <BlurLine delay={0.05}>Every project,</BlurLine>
+                <BlurLine delay={0.14} last>
+                  in one place
+                </BlurLine>
+              </BlurLines>
+            </h1>
+
+            <div className="mt-8 grid grid-cols-1 lg:mt-12 lg:grid-cols-12">
+              <motion.p
+                className="max-w-[34ch] text-base leading-[1.4] text-foreground sm:text-lg md:text-xl lg:col-span-5 lg:col-start-7"
+                initial={{ opacity: 0, y: 18, filter: "blur(8px)" }}
+                whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.28 }}
+              >
+                The full collection — brand identities, websites, apps and video,
+                filtered however you want to read it.
+              </motion.p>
+            </div>
+          </header>
+
+          <FadeInWhenVisible>
+            <div className="mb-12">
               {/* Category Filter with Sliding Animation & Depth */}
-              <div className="flex flex-wrap justify-center gap-3 mb-16 relative">
+              <div className="relative mb-12 flex flex-wrap gap-2.5 sm:gap-3 lg:mb-16">
                 {categories.map((category) => {
                   const isActive = selectedCategory === category;
                   return (

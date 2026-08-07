@@ -6,6 +6,9 @@ import { usePortfolioWorks, getStorageUrl } from "@/hooks/use-portfolio-works";
 import { MediaRenderer } from "@/components/MediaRenderer";
 import { Globe, Palette, Video, LayoutGrid, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { BlurLine, BlurLines } from "@/components/BlurLines";
+
+const EASE = [0.16, 1, 0.3, 1] as const;
 
 const getCategoryIcon = (category: string, className = "w-4 h-4") => {
   switch (category) {
@@ -54,16 +57,23 @@ const OurWork = () => {
      Colours are theme tokens, not fixed neutrals, so it reads in both modes. */
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background font-['Schibsted_Grotesk',sans-serif]">
         <Navigation />
-        <div className="pt-32 pb-24 px-4">
+        <div className="px-4 pb-24 pt-28 sm:pt-32 md:px-[clamp(32px,6vw,120px)]">
           <div className="max-w-7xl mx-auto animate-pulse">
-            {/* header — matches h1 (text-5xl md:text-7xl) + lead paragraph */}
-            <div className="text-center mb-16">
-              <div className="mx-auto mb-6 h-12 w-[280px] rounded-2xl bg-foreground/10 md:h-[72px] md:w-[380px]" />
-              <div className="mx-auto max-w-3xl space-y-3">
-                <div className="mx-auto h-5 w-full rounded-lg bg-foreground/[0.07]" />
-                <div className="mx-auto h-5 w-[85%] rounded-lg bg-foreground/[0.07]" />
+            {/* Mirrors the eyebrow, the two oversized display lines and the
+                side paragraph, so the header does not jump when data lands. */}
+            <div className="mb-10 lg:mb-16">
+              <div className="mb-4 h-3 w-24 rounded bg-foreground/10" />
+              <div className="space-y-2">
+                <div className="h-[clamp(2rem,7vw,7rem)] w-[min(100%,480px)] rounded-2xl bg-foreground/10" />
+                <div className="h-[clamp(2rem,7vw,7rem)] w-[min(100%,400px)] rounded-2xl bg-foreground/[0.08]" />
+              </div>
+              <div className="mt-8 grid grid-cols-1 lg:mt-12 lg:grid-cols-12">
+                <div className="space-y-2.5 lg:col-span-5 lg:col-start-7">
+                  <div className="h-5 w-full rounded-lg bg-foreground/[0.07]" />
+                  <div className="h-5 w-[80%] rounded-lg bg-foreground/[0.07]" />
+                </div>
               </div>
             </div>
 
@@ -112,19 +122,53 @@ const OurWork = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background font-['Schibsted_Grotesk',sans-serif]">
       <Navigation />
-      <div className="pt-32 pb-24 px-4">
+      <div className="px-4 pb-24 pt-28 sm:pt-32 md:px-[clamp(32px,6vw,120px)]">
         <div className="max-w-7xl mx-auto">
-          <FadeInWhenVisible>
-            <div className="text-center mb-16">
-              <h1 className="text-5xl md:text-7xl font-bold mb-6">Our Work</h1>
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                Explore our portfolio of creative projects. From motion graphics to branding, 
-                we bring ideas to life with stunning visuals and innovative design.
-              </p>
+          {/* Same header system as the services page and the gallery. */}
+          <header className="mb-10 lg:mb-16">
+            <motion.div
+              className="mb-4 flex items-center gap-2.5 text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground sm:text-xs"
+              initial={{ opacity: 0, x: -8 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.6 }}
+              transition={{ duration: 0.55, ease: EASE }}
+            >
+              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground" />
+              Our Work
+            </motion.div>
+
+            <h1>
+              <BlurLines
+                className="block text-foreground"
+                style={{
+                  fontSize: "clamp(2.05rem, 7.2vw, 7.25rem)",
+                  lineHeight: 0.99,
+                  letterSpacing: "-0.045em",
+                  fontWeight: 500,
+                }}
+              >
+                <BlurLine delay={0.05}>Take a look at</BlurLine>
+                <BlurLine delay={0.14} last>
+                  our projects
+                </BlurLine>
+              </BlurLines>
+            </h1>
+
+            <div className="mt-8 grid grid-cols-1 lg:mt-12 lg:grid-cols-12">
+              <motion.p
+                className="max-w-[34ch] text-base leading-[1.4] text-foreground sm:text-lg md:text-xl lg:col-span-5 lg:col-start-7"
+                initial={{ opacity: 0, y: 18, filter: "blur(8px)" }}
+                whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ duration: 0.7, ease: EASE, delay: 0.28 }}
+              >
+                Brand identities, websites, apps and video — built by one team and
+                shipped for real businesses.
+              </motion.p>
             </div>
-          </FadeInWhenVisible>
+          </header>
           
           <FadeInWhenVisible delay={0.2}>
             {workSlides.length > 0 ? (
@@ -142,7 +186,9 @@ const OurWork = () => {
                 whileHover={{ scale: 1.04, translateY: -2 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => window.location.href = '/portfolio-gallery'}
-                className="group h-14 rounded-full px-10 bg-white text-black hover:bg-neutral-50 font-bold border border-black/10 dark:border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.15)] transition-all duration-300 flex items-center gap-2"
+                /* Was fixed white-on-black, which sat white-on-white in light
+                   mode and relied on its border to be visible at all. */
+                className="group flex h-14 items-center gap-2 rounded-full bg-foreground px-10 font-bold text-background transition-opacity duration-300 hover:opacity-85"
               >
                 <span>See All Works</span>
                 <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
