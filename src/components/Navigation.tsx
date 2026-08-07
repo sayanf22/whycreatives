@@ -15,33 +15,66 @@ const navLinks = [
 export const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const { pathname } = useLocation();
 
+  /**
+   * Directional nav: scrolling down tucks the bar away, any upward scroll
+   * brings it straight back. Reads are batched into a rAF so we don't force
+   * layout on every scroll event, and small deltas are ignored so trackpad
+   * jitter and iOS rubber-banding don't flicker it.
+   */
   useEffect(() => {
-    const handleScroll = () => {
-      // low threshold: at rest the bar is transparent, so convert to the
-      // capsule early rather than letting content slide under it
-      setScrolled(window.scrollY > 12);
+    let lastY = window.scrollY;
+    let frame = 0;
+
+    const update = () => {
+      frame = 0;
+      const y = Math.max(0, window.scrollY);
+      const delta = y - lastY;
+
+      setScrolled(y > 12);
+
+      if (y < 96) {
+        setHidden(false); // never hide near the top
+      } else if (delta > 6) {
+        setHidden(true);
+      } else if (delta < -6) {
+        setHidden(false);
+      }
+
+      lastY = y;
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    const onScroll = () => {
+      if (!frame) frame = window.requestAnimationFrame(update);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
   }, []);
+
+  // keep the bar on screen whenever the mobile menu is open
+  const tucked = hidden && !isOpen;
 
   return (
     <>
       {/* At rest the nav is flush and full-bleed. On scroll it detaches into a
-          floating dark capsule. `group/nav` + the `is-floating` flag let the
-          children invert their colours without duplicating the markup. */}
+          floating capsule — light in light mode, dark in dark mode — and tucks
+          out of view while scrolling down. */}
       <header
         data-floating={scrolled ? "true" : "false"}
-        className={`group/nav fixed left-0 right-0 z-[60] font-['Schibsted_Grotesk',sans-serif] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        className={`group/nav fixed left-0 right-0 z-[60] font-['Schibsted_Grotesk',sans-serif] transition-[transform,top,padding] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform ${
           scrolled ? "top-3 px-3 sm:top-4 sm:px-4" : "top-0 px-0 py-6"
-        }`}
+        } ${tucked ? "-translate-y-[150%]" : "translate-y-0"}`}
       >
         <div
           className={`flex w-full items-center justify-between transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
             scrolled
-              ? "mx-auto max-w-[1400px] rounded-full border border-black/5 bg-[#1a1b19]/95 py-3 pl-6 pr-3 shadow-[0_10px_40px_rgba(0,0,0,0.18)] backdrop-blur-md dark:border-white/10 dark:bg-[#1f201e]/95 sm:pl-8"
+              ? "mx-auto max-w-[1400px] rounded-full border border-black/[0.06] bg-[#f2f2ef]/90 py-3 pl-6 pr-3 shadow-[0_8px_30px_rgba(0,0,0,0.08)] backdrop-blur-xl dark:border-white/10 dark:bg-[#1c1d1b]/95 dark:shadow-[0_10px_40px_rgba(0,0,0,0.5)] sm:pl-8"
               : "bg-transparent"
           }`}
           style={
@@ -58,13 +91,13 @@ export const Navigation = () => {
           
           {/* ── LEFT LOGO ────────────────────────────────────────── */}
           <Link to="/" className="flex items-center gap-2 group shrink-0">
-            <span className="text-2xl md:text-3xl font-black tracking-tighter text-black transition-colors duration-300 group-data-[floating=true]/nav:text-white dark:text-white">
+            <span className="text-2xl md:text-3xl font-black tracking-tighter text-black transition-colors duration-300 dark:text-white">
               WhyCreatives.
             </span>
           </Link>
 
           {/* ── CENTER DESKTOP NAV LINKS ───────────────────────────── */}
-          <nav className="hidden lg:flex items-center gap-10 text-[13px] font-bold text-black/80 transition-colors duration-300 group-data-[floating=true]/nav:text-white/70 dark:text-white/80">
+          <nav className="hidden lg:flex items-center gap-10 text-[13px] font-bold text-black/80 transition-colors duration-300 dark:text-white/80">
             {navLinks.map((link) => {
               const active =
                 pathname === link.href || pathname.startsWith(`${link.href}/`);
@@ -73,7 +106,7 @@ export const Navigation = () => {
                   key={link.label}
                   to={link.href}
                   aria-current={active ? "page" : undefined}
-                  className="relative py-1 group hover:text-black group-data-[floating=true]/nav:hover:text-white dark:hover:text-white transition-colors"
+                  className="relative py-1 group hover:text-black dark:hover:text-white transition-colors"
                 >
                   {link.label}
                   {/* hover / active underline — wipes in from the left */}
@@ -114,7 +147,7 @@ export const Navigation = () => {
               variant="ghost"
               size="icon"
               onClick={() => setIsOpen(!isOpen)}
-              className="lg:hidden text-black group-data-[floating=true]/nav:text-white dark:text-white hover:bg-gray-100 group-data-[floating=true]/nav:hover:bg-white/10 dark:hover:bg-white/10 h-10 w-10 rounded-full flex flex-col items-center justify-center gap-1.5 z-[60] relative"
+              className="lg:hidden text-black dark:text-white hover:bg-black/5 dark:hover:bg-white/10 h-10 w-10 rounded-full flex flex-col items-center justify-center gap-1.5 z-[60] relative"
               aria-label="Toggle menu"
             >
               <span className={`h-[2px] w-5 rounded-full bg-current transition-all duration-300 ${isOpen ? "rotate-45 translate-y-2" : ""}`} />
