@@ -65,28 +65,36 @@ export const Navigation = () => {
       {/* At rest the nav is flush and full-bleed. On scroll it detaches into a
           floating capsule — light in light mode, dark in dark mode — and tucks
           out of view while scrolling down. */}
+      {/* The header itself only ever animates `transform`. Both the settle-down
+          offset and the scroll-away tuck are folded into one translateY, so
+          they can't fight each other — animating `top` alongside a transform
+          was what made this stutter. The capsule look is a separate, purely
+          visual transition on the inner element. */}
       <header
         data-floating={scrolled ? "true" : "false"}
-        className={`group/nav fixed left-0 right-0 z-[60] font-['Schibsted_Grotesk',sans-serif] transition-[transform,top,padding] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform ${
-          scrolled ? "top-3 px-3 sm:top-4 sm:px-4" : "top-0 px-0 py-6"
-        } ${tucked ? "-translate-y-[150%]" : "translate-y-0"}`}
+        className="group/nav fixed left-0 right-0 top-0 z-[60] px-3 font-['Schibsted_Grotesk',sans-serif] sm:px-4"
+        style={{
+          transform: `translate3d(0, ${tucked ? "-135%" : scrolled ? "14px" : "0px"}, 0)`,
+          transition: "transform 520ms cubic-bezier(0.16, 1, 0.3, 1)",
+          willChange: "transform",
+        }}
       >
         <div
-          className={`flex w-full items-center justify-between transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          className={`mx-auto flex items-center justify-between border ${
             scrolled
-              ? "mx-auto max-w-[1400px] rounded-full border border-black/[0.06] bg-[#f2f2ef]/90 py-3 pl-6 pr-3 shadow-[0_8px_30px_rgba(0,0,0,0.08)] backdrop-blur-xl dark:border-white/10 dark:bg-[#1c1d1b]/95 dark:shadow-[0_10px_40px_rgba(0,0,0,0.5)] sm:pl-8"
-              : "bg-transparent"
+              ? "max-w-[1120px] rounded-full border-black/[0.07] bg-[#f2f2ef]/85 shadow-[0_8px_30px_rgba(0,0,0,0.08)] backdrop-blur-md dark:border-white/10 dark:bg-[#1c1d1b]/90 dark:shadow-[0_10px_40px_rgba(0,0,0,0.5)]"
+              : "max-w-full rounded-none border-transparent bg-transparent shadow-none"
           }`}
-          style={
-            scrolled
-              ? undefined
-              : {
-                  // full-bleed at rest: the logo sits outboard of the hero
-                  // panel edge, which is what gives the layout its wide feel
-                  paddingLeft: "clamp(20px, 3.2vw, 84px)",
-                  paddingRight: "clamp(20px, 3.2vw, 84px)",
-                }
-          }
+          style={{
+            // one explicit property list — `transition-all` was also tweening
+            // things that can't animate cleanly
+            transition:
+              "max-width 520ms cubic-bezier(0.16,1,0.3,1), padding 520ms cubic-bezier(0.16,1,0.3,1), border-radius 380ms ease, background-color 380ms ease, border-color 380ms ease, box-shadow 380ms ease",
+            paddingTop: scrolled ? 10 : 24,
+            paddingBottom: scrolled ? 10 : 24,
+            paddingLeft: scrolled ? 26 : "clamp(18px, 3.2vw, 80px)",
+            paddingRight: scrolled ? 10 : "clamp(18px, 3.2vw, 80px)",
+          }}
         >
           
           {/* ── LEFT LOGO ────────────────────────────────────────── */}

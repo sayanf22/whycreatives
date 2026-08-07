@@ -8,13 +8,13 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 const HEADING = ["How we take your", "business to the next level"] as const;
 
 const SERVICES = [
-  { name: "Video Editing", href: "/services/video-production" },
-  { name: "Motion Design", href: "/services/video-production" },
-  { name: "Websites", href: "/services/web-development" },
-  { name: "App Development", href: "/services/web-development" },
-  { name: "Brand Identity", href: "/services/logo-design" },
-  { name: "Performance Ads", href: "/services/performance-marketing" },
-  { name: "SEO", href: "/services/brand-presence" },
+  { name: "Video Editing", href: "/services/video-production", image: "/video-gear.webp" },
+  { name: "Motion Design", href: "/services/video-production", image: "/project-ugc-reel.webp" },
+  { name: "Websites", href: "/services/web-development", image: "/project-nth.webp" },
+  { name: "App Development", href: "/services/web-development", image: "/whycreatives-app.webp" },
+  { name: "Brand Identity", href: "/services/logo-design", image: "/whycreatives-brand.webp" },
+  { name: "Performance Ads", href: "/services/performance-marketing", image: "/creative-office.webp" },
+  { name: "SEO", href: "/services/brand-presence", image: "/team-collab.webp" },
 ];
 
 /**
@@ -76,9 +76,9 @@ export const Expertise = () => {
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0, opacity: 0 }}
                 transition={{ duration: 0.32, ease: EASE }}
-                className="flex h-[72px] w-[72px] items-center justify-center rounded-full bg-[#d4ff33] shadow-[0_10px_30px_rgba(0,0,0,0.35)]"
+                className="flex h-[66px] w-[66px] items-center justify-center rounded-full bg-[#d4ff33] shadow-[0_10px_30px_rgba(0,0,0,0.35)]"
               >
-                <ArrowUpRight className="h-6 w-6 text-black" strokeWidth={2.5} />
+                <ArrowUpRight className="h-[22px] w-[22px] text-black" strokeWidth={2.5} />
               </motion.div>
             )}
           </AnimatePresence>
@@ -147,7 +147,7 @@ export const Expertise = () => {
 
       {/* ── service list, aligned to the heading column ── */}
       <div
-        className="mt-14 px-4 md:px-[clamp(32px,6vw,160px)] lg:mt-24"
+        className="mt-12 px-4 md:px-[clamp(32px,6vw,160px)] lg:mt-20"
         onPointerLeave={() => setHovered(null)}
       >
         <ul className="lg:ml-[25%] lg:w-[75%]">
@@ -158,30 +158,53 @@ export const Expertise = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-6%" }}
               transition={{ duration: 0.6, ease: EASE, delay: i * 0.06 }}
-              className="border-t border-white/15 last:border-b"
+              /* divider sits under each row, none above the first */
+              className="border-b border-white/15"
             >
               <Link
                 to={service.href}
                 onPointerEnter={() => setHovered(service.name)}
                 onFocus={() => setHovered(service.name)}
                 onBlur={() => setHovered(null)}
-                className="group flex items-center justify-between gap-6 py-4 outline-none sm:py-6 lg:cursor-none"
+                className="group flex items-center py-[0.14em] outline-none lg:cursor-none"
+                style={{
+                  // set here so the em-based sizes below track the type
+                  fontSize: "clamp(2rem, 6vw, 5.5rem)",
+                  lineHeight: 1.06,
+                  letterSpacing: "-0.035em",
+                  fontWeight: 500,
+                }}
               >
+                {/* thumbnail wipes open from the left and pushes the label
+                    across. Width/margin are in em so it scales with the type,
+                    and it's pure CSS so there's nothing to measure. */}
                 <span
-                  className="block transition-[transform,color,opacity] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-3 group-focus-visible:translate-x-3"
+                  aria-hidden="true"
+                  className="block h-[0.8em] w-0 shrink-0 overflow-hidden rounded-[0.14em] opacity-0 transition-[width,margin,opacity] duration-[550ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:mr-[0.2em] group-hover:w-[0.8em] group-hover:opacity-100 group-focus-visible:mr-[0.2em] group-focus-visible:w-[0.8em] group-focus-visible:opacity-100"
+                >
+                  <img
+                    src={service.image}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-[0.8em] max-w-none object-cover"
+                  />
+                </span>
+
+                <span
+                  className="block transition-opacity duration-[550ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
                   style={{
-                    fontSize: "clamp(2rem, 6vw, 5.5rem)",
-                    lineHeight: 1.06,
-                    letterSpacing: "-0.035em",
-                    fontWeight: 500,
-                    // everything dims while one row is hovered
-                    opacity: hovered && hovered !== service.name ? 0.35 : 1,
+                    // the rest of the list recedes while one row is active
+                    opacity: hovered && hovered !== service.name ? 0.32 : 1,
                   }}
                 >
                   {service.name}
                 </span>
+
+                {/* touch/coarse-pointer affordance — the cursor replaces this
+                    on fine pointers */}
                 <ArrowUpRight
-                  className="h-6 w-6 shrink-0 -translate-x-2 text-white/40 opacity-0 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-0 group-hover:text-white group-hover:opacity-100 lg:hidden"
+                  className="ml-auto h-6 w-6 shrink-0 text-white/35 transition-colors duration-300 group-hover:text-white lg:hidden"
                   strokeWidth={2}
                 />
               </Link>
