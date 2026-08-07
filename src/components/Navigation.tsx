@@ -132,7 +132,7 @@ export const Navigation = () => {
                     }`}
                   />
                   {link.badge && (
-                    <span className="absolute -top-2 -right-4 bg-[#d4ff33] text-black text-[9px] font-black w-4 h-4 flex items-center justify-center rounded-full leading-none">
+                    <span className="absolute -top-2 -right-4 bg-foreground text-background text-[9px] font-black w-4 h-4 flex items-center justify-center rounded-full leading-none">
                       {link.badge}
                     </span>
                   )}
@@ -149,7 +149,7 @@ export const Navigation = () => {
             {/* Start a project Button */}
             <Link
               to="/contact"
-              className="hidden sm:inline-flex items-center gap-2 bg-[#d4ff33] text-black text-[13px] font-bold px-6 py-2.5 rounded-full hover:bg-[#c4f020] transition-colors group select-none"
+              className="hidden sm:inline-flex items-center gap-2 bg-foreground text-background text-[13px] font-bold px-6 py-2.5 rounded-full hover:opacity-85 transition-opacity group select-none"
             >
               Start a project
               <span className="text-[10px] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
@@ -194,7 +194,7 @@ export const Navigation = () => {
                   <Link
                     to={item.href}
                     onClick={() => setIsOpen(false)}
-                    className="text-2xl sm:text-3xl font-bold text-black dark:text-white hover:text-[#d4ff33] dark:hover:text-[#d4ff33] transition-colors"
+                    className="text-2xl sm:text-3xl font-bold text-black dark:text-white hover:opacity-60 transition-opacity"
                   >
                     {item.label}
                   </Link>
@@ -206,7 +206,7 @@ export const Navigation = () => {
               <Link
                 to="/contact"
                 onClick={() => setIsOpen(false)}
-                className="w-full inline-flex items-center justify-center gap-2 bg-[#d4ff33] text-black text-sm font-bold py-4 rounded-full"
+                className="w-full inline-flex items-center justify-center gap-2 bg-foreground text-background text-sm font-bold py-4 rounded-full"
               >
                 Start a project ↗
               </Link>

@@ -121,7 +121,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
     'Web App',
     'E-Commerce',
     'Brand Identity',
-    '@AreyParo UGC & Collaborations',
+    'UGC Reels & Creator Collaborations',
     'Social Media Marketing',
     'Ad Campaigns',
     'Other'
@@ -323,7 +323,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
 
                 <p className="text-xs text-center text-muted-foreground flex items-center justify-center gap-2 flex-wrap">
                   <span className="flex items-center gap-1">
-                    <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                    <span className="w-2 h-2 bg-foreground rounded-full animate-pulse"></span>
                     24h response
                   </span>
                   <span>•</span>

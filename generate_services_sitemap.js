@@ -2,7 +2,6 @@ const staticPages = [
     "what-we-do",
     "our-work",
     "portfolio-gallery",
-    "pricing-comparison",
     "about-us",
     "people",
     "join-us",

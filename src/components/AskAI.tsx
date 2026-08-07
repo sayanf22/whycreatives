@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowUpRight, Asterisk, Atom, Sparkles, Zap } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { RevealLines } from "@/components/RevealLines";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -24,18 +24,21 @@ const PROMPT =
 
 const encoded = encodeURIComponent(PROMPT);
 
-/* Neutral geometric marks rather than imitation brand logos, which would be
-   inaccurate reproductions of trademarked artwork. */
+/* Actual brand marks, stored locally so this doesn't depend on a third-party
+   CDN staying online. OpenAI/Anthropic/Google are Simple Icons (CC0); the Grok
+   mark is xAI's published glyph via the lobehub/lobe-icons static SVG set. Each
+   is a plain single-colour path; the invert classes below flip it to white on
+   the black-on-light / white-on-dark pill so it always reads correctly. */
 const ASSISTANTS = [
-  { name: "OpenAI", href: `https://chatgpt.com/?q=${encoded}`, Icon: Atom },
-  { name: "Claude", href: `https://claude.ai/new?q=${encoded}`, Icon: Asterisk },
+  { name: "OpenAI", href: `https://chatgpt.com/?q=${encoded}`, logo: "/ai-logos/openai.svg" },
+  { name: "Claude", href: `https://claude.ai/new?q=${encoded}`, logo: "/ai-logos/anthropic.svg" },
   {
     name: "Google",
     // udm=50 opens Google's AI Mode rather than the classic results page.
     href: `https://www.google.com/search?udm=50&q=${encoded}`,
-    Icon: Sparkles,
+    logo: "/ai-logos/google.svg",
   },
-  { name: "Grok", href: `https://grok.com/?q=${encoded}`, Icon: Zap },
+  { name: "Grok", href: `https://grok.com/?q=${encoded}`, logo: "/ai-logos/grok.svg" },
 ];
 
 export const AskAI = () => {
@@ -82,7 +85,7 @@ export const AskAI = () => {
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.6, ease: EASE, delay: 0.2 }}
         >
-          {ASSISTANTS.map(({ name, href, Icon }) => (
+          {ASSISTANTS.map(({ name, href, logo }) => (
             /* Steady hover language used across the site: colour and inner
                motion only, never a lift that could shift the hit area. */
             <a
@@ -90,12 +93,20 @@ export const AskAI = () => {
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-2 rounded-full bg-[#d4ff33] px-5 py-2.5 text-sm font-bold text-black transition-[background-color,box-shadow,transform] duration-300 ease-out hover:bg-[#c4f020] hover:shadow-[0_12px_30px_-12px_rgba(212,255,51,0.95)] active:scale-[0.98] motion-reduce:transform-none"
+              className="group inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-bold text-background transition-[opacity,box-shadow,transform] duration-300 ease-out hover:opacity-85 active:scale-[0.98] motion-reduce:transform-none"
             >
-              <Icon className="h-4 w-4 shrink-0" strokeWidth={2.5} />
+              <img
+                src={logo}
+                alt=""
+                width={16}
+                height={16}
+                loading="lazy"
+                decoding="async"
+                className="h-4 w-4 shrink-0 invert dark:invert-0"
+              />
               {name}
               <ArrowUpRight
-                className="h-3.5 w-3.5 shrink-0 opacity-50 transition-opacity duration-300 group-hover:opacity-100"
+                className="h-3.5 w-3.5 shrink-0 opacity-60 transition-opacity duration-300 group-hover:opacity-100"
                 strokeWidth={2.5}
               />
             </a>

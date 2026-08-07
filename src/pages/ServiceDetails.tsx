@@ -1,287 +1,201 @@
-import { useParams, Link, Navigate } from "react-router-dom";
-import { Navigation } from "@/components/Navigation";
-import { Footer } from "@/components/Footer";
+import { motion } from "framer-motion";
+import { ArrowLeft, ArrowUpRight, Check } from "lucide-react";
 import { Helmet } from "react-helmet-async";
-import { Check, ArrowLeft, ArrowUpRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Link, Navigate, useParams } from "react-router-dom";
+import { Footer } from "@/components/Footer";
+import { Navigation } from "@/components/Navigation";
+import { BlurLine, BlurLines } from "@/components/BlurLines";
+
+const EASE = [0.16, 1, 0.3, 1] as const;
+
+type Service = {
+  title: string;
+  subtitle: string;
+  description: string;
+  outcomes: string[];
+  deliverables: string[];
+  process: string[];
+  tools: string[];
+};
+
+const SERVICES: Record<string, Service> = {
+  "video-production": {
+    title: "Video Editing & Motion Design",
+    subtitle: "Story-first video systems for campaigns, launches and everyday content.",
+    description: "We shape raw footage into clear, watchable stories—planning the hook, edit rhythm, sound, colour and motion as one system. The result is content designed for the platform it will live on, not a generic cut resized at the end.",
+    outcomes: ["Stronger first-three-second hooks", "A repeatable visual language", "Platform-ready masters and cut-downs"],
+    deliverables: ["Creative direction, scripts and storyboards", "Short-form reels, ads and social edits", "Brand films, explainers and launch videos", "Motion graphics, captions, sound design and colour"],
+    process: ["Align on audience, channel and objective", "Build the narrative and visual treatment", "Edit, review and refine in clear rounds", "Export, quality-check and hand over masters"],
+    tools: ["Adobe Premiere Pro", "After Effects", "DaVinci Resolve", "Adobe Audition", "Frame.io"],
+  },
+  "web-development": {
+    title: "Web & App Development",
+    subtitle: "Fast, maintainable digital products designed around real business workflows.",
+    description: "We design and engineer marketing sites, web applications, SaaS products, dashboards, e-commerce experiences and mobile apps. Every build is scoped around users, content, integrations, security and measurable performance—not a pre-selected template.",
+    outcomes: ["A product people can use confidently", "Fast pages and resilient infrastructure", "A codebase your team can extend"],
+    deliverables: ["Product discovery, UX flows and UI systems", "Responsive websites and progressive web apps", "iOS and Android apps with shared or native UI", "APIs, authentication, databases, CMS and payments"],
+    process: ["Map goals, users, data and integrations", "Prototype the critical journeys", "Build in testable milestones", "Launch, monitor and document the handover"],
+    tools: ["Next.js", "React", "TypeScript", "Vite", "React Native", "Flutter", "Node.js", "Supabase", "Cloudflare Workers", "D1 / KV / R2", "PostgreSQL", "REST / GraphQL"],
+  },
+  "brand-presence": {
+    title: "Brand Presence & Social Systems",
+    subtitle: "A recognisable brand voice and content system across every active channel.",
+    description: "We turn positioning into a practical publishing system: clear themes, repeatable formats, consistent art direction and reporting that helps the next month improve on the last.",
+    outcomes: ["A consistent public identity", "Faster, easier content decisions", "Useful audience and content insights"],
+    deliverables: ["Channel and competitor audit", "Content pillars and monthly planning", "Design templates, copy and publishing support", "Community workflows and performance reports"],
+    process: ["Audit the brand and audience", "Define themes, voice and formats", "Produce and approve the content cycle", "Publish, learn and iterate"],
+    tools: ["Figma", "Adobe Illustrator", "Photoshop", "Notion", "Meta Business Suite", "LinkedIn", "YouTube Studio"],
+  },
+  "performance-marketing": {
+    title: "Performance Marketing",
+    subtitle: "Measured acquisition systems built around qualified actions, not vanity metrics.",
+    description: "We connect campaign strategy, creative testing, landing-page experience and measurement. Decisions are documented against the signals that matter to the business: leads, purchases, acquisition cost and conversion quality.",
+    outcomes: ["Reliable campaign measurement", "Clear creative and audience learnings", "A practical path to scale"],
+    deliverables: ["Account, funnel and tracking audit", "Search, social and retargeting campaigns", "Creative testing and landing-page recommendations", "Dashboards, reporting and optimisation notes"],
+    process: ["Agree on the commercial conversion", "Validate tracking and the offer", "Launch controlled tests", "Optimise from evidence and report clearly"],
+    tools: ["Google Ads", "Meta Ads", "LinkedIn Campaign Manager", "GA4", "Google Tag Manager", "Search Console", "Looker Studio"],
+  },
+  "ugc-collaborations": {
+    title: "UGC Reels & Creator Collaborations",
+    subtitle: "Natural, platform-native creative that demonstrates the product without feeling scripted.",
+    description: "We develop the angle, hook, script and shot plan around how real customers discover and evaluate a product. Content can be delivered for the brand's own channels, paid campaigns or an agreed creator collaboration.",
+    outcomes: ["More believable product stories", "Multiple hooks for creative testing", "Ready-to-publish vertical assets"],
+    deliverables: ["Concepts, hooks and conversational scripts", "Shot lists and product demonstration plans", "UGC reels, cut-downs and caption options", "Usage-rights and collaboration scope documented per brief"],
+    process: ["Understand the product and audience objection", "Approve concepts and usage channels", "Produce and edit the selected directions", "Review, deliver and archive approved masters"],
+    tools: ["Instagram Reels", "YouTube Shorts", "Premiere Pro", "CapCut", "After Effects", "Frame.io"],
+  },
+  "logo-design": {
+    title: "Logo & Brand Identity",
+    subtitle: "Distinct visual identities designed to work from an app icon to a storefront.",
+    description: "We begin with context—category, audience, competition and ambition—then build a coherent identity rather than an isolated logo. Every decision is tested for legibility, flexibility and real-world use.",
+    outcomes: ["A distinctive, ownable identity", "Consistent application across channels", "Practical files your team can use"],
+    deliverables: ["Research and visual direction", "Logo system and responsive variations", "Colour, typography and supporting graphic language", "Usage guidelines and production-ready assets"],
+    process: ["Discover the brand and market", "Agree on creative territories", "Develop and test the identity system", "Refine, document and hand over"],
+    tools: ["Figma", "Adobe Illustrator", "Photoshop", "After Effects", "Google Fonts"],
+  },
+};
 
 const ServiceDetails = () => {
   const { slug } = useParams<{ slug: string }>();
+  const service = slug ? SERVICES[slug] : undefined;
 
-  // Complete detailed descriptions, packages, and inclusions for all services
-  const servicesData: Record<string, {
-    title: string;
-    subtitle: string;
-    description: string;
-    inclusions: string[];
-    packages?: { name: string; price: string; desc: string }[];
-    extraInfo?: string;
-    additionalDetails?: { title: string; items: { name: string; desc?: string; price?: string }[] }[];
-  }> = {
-    "video-production": {
-      title: "Video Editing & Motion Design",
-      subtitle: "Cinematic, fast-paced commercial and short-form video editing.",
-      description: "We handle everything from initial script ideation to filming and post-production editing. We edit with high pacing, sound design, hooks, and advanced color grading to ensure maximum engagement for your brand's videos.",
-      inclusions: [
-        "Professional Cinematography & Camera Shooting",
-        "Scriptwriting, Hooks & Storyboard Planning",
-        "Advanced Color Grading & Color Correction",
-        "Sound Design & Custom Audio Mixing",
-        "Drone & Aerial Cinematic Videography"
-      ],
-      packages: [
-        { name: "Short-Form Video (Reels/Shorts)", price: "Starting from ₹3,000 / video", desc: "For IG Reels, TikTok, YouTube Shorts. Includes custom hooks, transitions, captions." },
-        { name: "Promotional Brand Video", price: "Starting from ₹6,999 / video", desc: "Corporate promos, brand storytelling, cinematic commercials." },
-        { name: "Event Videography", price: "Custom Quote", desc: "On-site multi-camera shoot, aerial drone coverage, high-pacing event highlight reels." }
-      ],
-      extraInfo: "Standard Turnaround: 3-5 days for Reels/Shorts; 7-10 days for complex commercial/brand videos."
-    },
-    "web-development": {
-      title: "Web Design & Custom Development",
-      subtitle: "Digital experiences engineered for performance, speed, and growth.",
-      description: "We build custom, full-stack websites utilizing high-performance tech like Next.js, Vite, and Supabase. No templates - just custom-coded responsive design systems designed to capture leads and drive results.",
-      inclusions: [
-        "Custom Full-Stack Web Development (React / Next.js / Vite / Node.js)",
-        "High-Conversion UI/UX Responsive Design Systems",
-        "Secure Custom Databases & Backend API Integration (Supabase / Node)",
-        "Technical Search Engine Optimization (SEO) & Performance Tuning",
-        "Progressive Web Apps (PWA) & Custom CMS Implementations"
-      ],
-      packages: [
-        { name: "Premium Landing Page", price: "Starting from ₹4,999", desc: "High-conversion single-page website, contact form, optimized for mobile." },
-        { name: "Business Multi-Page Suite", price: "Starting from ₹9,999", desc: "Fully custom multi-page website with blog sitemaps, team bios, SEO setup." },
-        { name: "E-Commerce Suite", price: "Starting from ₹19,999", desc: "Store setup, custom payment gateway integration, product admin panel." }
-      ],
-      extraInfo: "All projects include 30 days of complimentary support, analytics dashboard, and hosting setup."
-    },
-    "brand-presence": {
-      title: "Brand Presence & Social Media Management",
-      subtitle: "Cultivating active communities and driving organic brand awareness.",
-      description: "We don't just post. We curate cohesive visual grids, plan weekly calendars, audit analytics, and run active moderation campaigns to turn your social media accounts into growth engines.",
-      inclusions: [
-        "Cross-Platform Social Media Strategy (Instagram, LinkedIn, X, YouTube)",
-        "Monthly Content Calendar Production & Scheduled Posting",
-        "Audience Analytics, Engagement Auditing & Competitive Insights",
-        "Interactive Community Engagement & Moderation",
-        "Strategic Influencer Partnerships & Outreach Campaigns"
-      ],
-      packages: [
-        { name: "Starter Management", price: "₹15,000 / month", desc: "12 custom grid posts, 6 stories, monthly analytics report." },
-        { name: "Growth Management", price: "₹25,000 / month", desc: "20 posts, 12 stories, custom graphic layouts, bio optimization, basic community moderation." },
-        { name: "Premium Engagement", price: "₹45,000 / month", desc: "Unlimited posts/stories, professional short-form video content creation, complete community management." }
-      ]
-    },
-    "performance-marketing": {
-      title: "Performance Marketing & Paid Campaigns",
-      subtitle: "Turning ad spend into measurable business revenue.",
-      description: "Data-driven campaign setup and optimizations on Meta (Facebook/Instagram), Google Search, and LinkedIn. We run extensive audience A/B tests to maximize ROI and conversions.",
-      inclusions: [
-        "Multi-Channel Ad Campaigns (Meta Ads, Google Search, LinkedIn Ads)",
-        "Conversion Rate Optimization (CRO) & Funnel Auditing",
-        "Rigorous A/B Testing & Audience Variant Analysis",
-        "Detailed ROI & Spend Allocation Dashboard Reporting",
-        "Advanced Dynamic Retargeting & Custom Audiences"
-      ],
-      packages: [
-        { name: "Ad Setup & Audit", price: "₹8,000 / flat fee", desc: "Ad account creation, pixel tracking configuration, campaign strategy setup." },
-        { name: "Monthly Campaign Management", price: "₹15,000 / month", desc: "Ongoing campaign optimization, weekly reports, dynamic scaling. (Excludes ad budget)" }
-      ],
-      extraInfo: "We recommend a minimum daily ad spend of ₹1,000 to gather optimal conversion data."
-    },
-    "ugc-collaborations": {
-      title: "@AreyParo UGC & Brand Collaborations",
-      subtitle: "End-to-end creative management and collaborations by creator @AreyParo.",
-      description: "Get high-engagement joint collaborations and UGC content created directly by creator @AreyParo. We manage everything from strategy, scripting, trends research to post-production delivery.",
-      inclusions: [
-        "Tailored Content Strategy & Ideation",
-        "Shot Planning & Execution Guidance",
-        "Creative Content Planning",
-        "Trend Research & Ideation",
-        "Scriptwriting & Hook Creation",
-        "Professional Post-Production & Editing",
-        "Optimized Caption Suggestions",
-        "End-to-End Creative Management"
-      ],
-      extraInfo: "* Client Scope: You only need to provide your product/service—our team handles the entire creative & execution process end-to-end.",
-      additionalDetails: [
-        {
-          title: "Individual Deliverables",
-          items: [
-            { name: "UGC Reel (User Generated Content)", desc: "Uploaded exclusively on the client's Instagram page. Includes 1 complimentary Instagram story posted on @AreyParo's account.", price: "₹3,000 / video" },
-            { name: "Collaboration Reel", desc: "Uploaded as a Joint Collaboration Post directly from @AreyParo's main Instagram account. Includes 1 complimentary Instagram story.", price: "₹5,000 / reel" }
-          ]
-        },
-        {
-          title: "Advertisement Usage Rights (Per Video)",
-          items: [
-            { name: "1 Month Digital Ad Rights", desc: "Permission to run paid ad campaigns using the produced video for 30 days.", price: "₹2,000 / video" },
-            { name: "3 Months Digital Ad Rights", desc: "Permission to run paid ad campaigns using the produced video for 90 days.", price: "₹5,000 / video" }
-          ]
-        },
-        {
-          title: "Booking & Payment Terms",
-          items: [
-            { name: "50% Advance Payment", desc: "Required upfront to confirm the booking slot and initiate content strategy." },
-            { name: "50% Final Payment", desc: "Payable prior to final content delivery and handover." },
-            { name: "Fixed Pricing", desc: "All rates listed in this quotation are strictly non-negotiable." }
-          ]
-        }
-      ]
-    },
-    "logo-design": {
-      title: "Logo & Brand Identity Design",
-      subtitle: "Memorable visual identities that leave lasting impressions.",
-      description: "Your logo is the face of your brand. We design unique, versatile vector logos that capture your business essence and stand out in the market.",
-      inclusions: [
-        "Multiple Custom Logo Design Concepts & Formats",
-        "Unlimited Revisions until you are 100% satisfied",
-        "Vector & High-Resolution Print-Ready Files (.SVG, .PDF, .PNG)",
-        "Custom Brand Color Palette & Typography Guidelines",
-        "Social Media Identity Kit (Avatars, Covers, and Banner Layouts)"
-      ],
-      packages: [
-        { name: "Starter Identity", price: "₹3,500 / single logo", desc: "2 logo concepts, high-res files, 3 revisions." },
-        { name: "Premium Identity Suite", price: "₹7,500 / full suite", desc: "5 concepts, custom typography, full brand style-guide, unlimited revisions, social media assets." }
-      ]
-    }
-  };
-
-  const service = slug ? servicesData[slug] : null;
-
-  // Redirect if service slug is invalid
-  if (!service) {
-    return <Navigate to="/what-we-do" replace />;
-  }
+  if (!service) return <Navigate to="/what-we-do" replace />;
 
   return (
-    <div className="min-h-screen bg-[#070707] text-white">
+    /*
+      Theme-aware, not hard-coded dark. The page previously forced `bg-[#050505]`
+      while <Navigation /> renders from theme tokens, so in light mode the nav
+      drew black type onto a black page and looked like it had disappeared.
+    */
+    <div className="min-h-screen bg-background text-foreground font-['Schibsted_Grotesk',sans-serif]">
       <Helmet>
-        <title>{`${service.title} | WhyCreatives Services`}</title>
+        <title>{`${service.title} | WhyCreatives`}</title>
         <meta name="description" content={service.subtitle} />
       </Helmet>
-
       <Navigation />
 
-      <main className="pt-32 pb-24 px-4 sm:px-6 md:px-8">
-        <div className="max-w-4xl mx-auto">
-          {/* Back button */}
-          <Link
-            to="/what-we-do"
-            className="inline-flex items-center gap-2 text-neutral-400 hover:text-white mb-10 transition-colors text-sm font-medium font-sans"
-          >
-            <ArrowLeft className="w-4.5 h-4.5" />
-            <span>Back to Services</span>
+      <main className="px-4 pb-20 pt-28 sm:px-6 sm:pt-36 md:px-8">
+        <div className="mx-auto max-w-6xl">
+          <Link to="/what-we-do" className="group mb-8 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground lg:mb-12">
+            <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" /> Back to services
           </Link>
 
-          {/* Hero Header */}
-          <div className="space-y-4 mb-12 relative">
-            <div className="absolute -top-12 -left-12 w-64 h-64 bg-[#b5ff2b]/5 rounded-full blur-[100px] pointer-events-none" />
-            <span className="text-[#b5ff2b] text-xs font-bold tracking-widest uppercase font-sans">Services</span>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-white leading-none font-sans">
-              {service.title}
-            </h1>
-            <p className="text-neutral-400 text-lg sm:text-xl font-sans max-w-2xl leading-relaxed">
+          <header className="grid gap-6 border-b border-border pb-10 lg:grid-cols-12 lg:items-end lg:gap-10 lg:pb-20">
+            <div className="lg:col-span-8">
+              <motion.p initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, ease: EASE }} className="mb-4 text-xs font-bold uppercase tracking-[0.22em] text-muted-foreground lg:mb-5">
+                Service / {String(Object.keys(SERVICES).indexOf(slug ?? "") + 1).padStart(2, "0")}
+              </motion.p>
+              {/* Same masked line reveal as the hero, with the blur folded in. */}
+              <h1>
+                <BlurLines
+                  className="block max-w-5xl text-foreground"
+                  style={{
+                    fontSize: "clamp(2.15rem, 7vw, 7.5rem)",
+                    lineHeight: 0.94,
+                    letterSpacing: "-0.05em",
+                    fontWeight: 500,
+                  }}
+                  amount={0.3}
+                >
+                  <BlurLine last>{service.title}</BlurLine>
+                </BlurLines>
+              </h1>
+            </div>
+            <motion.p initial={{ opacity: 0, y: 18, filter: "blur(8px)" }} animate={{ opacity: 1, y: 0, filter: "blur(0px)" }} transition={{ duration: 0.7, delay: 0.2, ease: EASE }} className="max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg lg:col-span-4 lg:text-xl">
               {service.subtitle}
-            </p>
-          </div>
-
-          {/* Overview Section */}
-          <section className="bg-[#0f0f0f] border border-neutral-900 rounded-2xl p-6 sm:p-8 mb-8">
-            <h2 className="text-xl sm:text-2xl font-bold mb-4 font-sans text-white animate-pulse">Overview</h2>
-            <p className="text-neutral-400 text-sm sm:text-base leading-relaxed font-sans">
-              {service.description}
-            </p>
+            </motion.p>
+          </header>
+          <section className="grid gap-5 border-b border-border py-10 lg:grid-cols-12 lg:gap-8 lg:py-20">
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-muted-foreground lg:col-span-3">Overview</p>
+            <div className="lg:col-span-9">
+              <p className="max-w-4xl text-xl font-semibold leading-snug tracking-[-0.025em] text-foreground sm:text-2xl md:text-3xl">{service.description}</p>
+              {/* 1px gaps come from the parent's background showing through, so
+                  the divider colour has to be a border token rather than a
+                  fixed white/15 that vanishes in light mode. */}
+              <div className="mt-8 grid gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-3 lg:mt-10">
+                {service.outcomes.map((outcome, index) => (
+                  <motion.div key={outcome} initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.55, delay: index * 0.07, ease: EASE }} className="bg-background p-5 sm:p-6">
+                    <span className="mb-6 block font-mono text-xs text-muted-foreground sm:mb-8">0{index + 1}</span>
+                    <p className="font-bold leading-snug">{outcome}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
           </section>
 
-          {/* Inclusions checklist */}
-          <section className="bg-[#0f0f0f] border border-neutral-900 rounded-2xl p-6 sm:p-8 mb-8">
-            <h2 className="text-xl sm:text-2xl font-bold mb-6 font-sans text-white border-b border-neutral-900 pb-2">
-              What's Included
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {service.inclusions.map((item, idx) => (
-                <div key={idx} className="flex gap-3 items-start text-neutral-300 text-sm sm:text-base font-sans">
-                  <div className="w-5 h-5 rounded-full bg-[#b5ff2b]/10 border border-[#b5ff2b]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <Check className="w-3 h-3 text-[#b5ff2b]" />
-                  </div>
-                  <span>{item}</span>
-                </div>
+          <section className="grid gap-6 border-b border-border py-10 lg:grid-cols-12 lg:gap-8 lg:py-20">
+            <div className="lg:col-span-4">
+              <p className="text-xs font-bold uppercase tracking-[0.22em] text-muted-foreground">What we build</p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.04em] sm:text-4xl lg:mt-4 lg:text-5xl">A clear, useful scope.</h2>
+            </div>
+            <ul className="grid gap-3 sm:grid-cols-2 lg:col-span-8">
+              {service.deliverables.map((item, index) => (
+                <motion.li key={item} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.4 }} transition={{ duration: 0.55, delay: index * 0.06, ease: EASE }} className="flex items-start gap-4 rounded-2xl border border-border bg-secondary/40 p-5 text-base font-semibold leading-snug text-foreground/90 transition-colors hover:bg-secondary sm:min-h-28">
+                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-foreground text-background"><Check className="h-3.5 w-3.5" /></span>
+                  {item}
+                </motion.li>
+              ))}
+            </ul>
+          </section>
+
+          <section className="border-b border-border py-10 lg:py-20">
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-muted-foreground">How we work</p>
+            <div className="mt-6 grid gap-3 sm:grid-cols-2 sm:gap-4 lg:mt-8 lg:grid-cols-4">
+              {service.process.map((step, index) => (
+                <motion.article key={step} initial={{ opacity: 0, y: 22 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.35 }} transition={{ duration: 0.6, delay: index * 0.08, ease: EASE }} className="group flex min-h-40 flex-col justify-between gap-8 rounded-3xl bg-foreground p-5 text-background transition-transform duration-500 hover:-translate-y-1 motion-reduce:transform-none sm:min-h-56 sm:p-6">
+                  <span className="font-mono text-sm">0{index + 1}</span>
+                  <p className="text-lg font-bold leading-tight tracking-[-0.025em] sm:text-xl">{step}</p>
+                </motion.article>
+              ))}
+            </div>
+          </section>
+          <section className="grid gap-6 py-10 lg:grid-cols-12 lg:gap-8 lg:py-20">
+            <div className="lg:col-span-4">
+              <p className="text-xs font-bold uppercase tracking-[0.22em] text-muted-foreground">Technology &amp; products</p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.04em] sm:text-4xl lg:mt-4 lg:text-5xl">Tools chosen for the work.</h2>
+              <p className="mt-4 max-w-sm leading-relaxed text-muted-foreground lg:mt-5">We select the stack after discovery. These are products we regularly use—not a requirement forced onto every project.</p>
+            </div>
+            <div className="flex content-start flex-wrap gap-2 lg:col-span-8">
+              {service.tools.map((tool, index) => (
+                <motion.span key={tool} initial={{ opacity: 0, scale: 0.92 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: index * 0.035 }} className="rounded-full border border-border px-3.5 py-2 text-[13px] font-bold text-foreground/80 transition-colors hover:border-foreground hover:bg-foreground hover:text-background sm:px-4 sm:py-2.5 sm:text-sm">
+                  {tool}
+                </motion.span>
               ))}
             </div>
           </section>
 
-          {/* Packages */}
-          {service.packages && service.packages.length > 0 && (
-            <section className="bg-[#0f0f0f] border border-neutral-900 rounded-2xl p-6 sm:p-8 mb-8">
-              <h2 className="text-xl sm:text-2xl font-bold mb-6 font-sans text-white border-b border-neutral-900 pb-2">
-                Packages & Delivery Pricing
-              </h2>
-              <div className="space-y-4">
-                {service.packages.map((pkg, idx) => (
-                  <div key={idx} className="p-5 bg-[#0a0a0a] border border-neutral-900 rounded-xl space-y-2 hover:border-[#b5ff2b]/20 transition-colors">
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5">
-                      <span className="font-bold text-white text-base sm:text-lg font-sans">{pkg.name}</span>
-                      <span className="font-extrabold text-[#b5ff2b] text-base sm:text-lg font-sans">{pkg.price}</span>
-                    </div>
-                    <p className="text-neutral-400 text-xs sm:text-sm leading-relaxed font-sans">{pkg.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* Additional details */}
-          {service.additionalDetails && service.additionalDetails.map((sec, idx) => (
-            <section key={idx} className="bg-[#0f0f0f] border border-neutral-900 rounded-2xl p-6 sm:p-8 mb-8">
-              <h2 className="text-xl sm:text-2xl font-bold mb-6 font-sans text-white border-b border-neutral-900 pb-2">
-                {sec.title}
-              </h2>
-              <div className="space-y-4">
-                {sec.items.map((item, itemIdx) => (
-                  <div key={itemIdx} className="p-5 bg-[#0a0a0a] border border-neutral-900 rounded-xl space-y-2">
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5">
-                      <span className="font-bold text-white text-base sm:text-lg font-sans">{item.name}</span>
-                      {item.price && (
-                        <span className="font-extrabold text-[#b5ff2b] text-base sm:text-lg font-sans">{item.price}</span>
-                      )}
-                    </div>
-                    {item.desc && (
-                      <p className="text-neutral-400 text-xs sm:text-sm leading-relaxed font-sans">{item.desc}</p>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </section>
-          ))}
-
-          {/* Extra notes */}
-          {service.extraInfo && (
-            <div className="p-5 rounded-2xl bg-[#b5ff2b]/5 border border-[#b5ff2b]/15 text-[#b5ff2b] text-sm font-semibold leading-relaxed mb-12 font-sans">
-              {service.extraInfo}
+          <motion.section initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.35 }} transition={{ duration: 0.7, ease: EASE }} className="overflow-hidden rounded-[1.75rem] bg-foreground p-6 text-background sm:rounded-[2rem] sm:p-12 lg:flex lg:items-end lg:justify-between">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.22em] text-background/50">Next step</p>
+              <h2 className="mt-3 max-w-3xl text-[clamp(1.9rem,6vw,3.75rem)] font-semibold leading-[0.98] tracking-[-0.045em] lg:mt-4">Tell us what needs to change.</h2>
+              <p className="mt-4 max-w-xl text-base leading-relaxed text-background/70 lg:mt-5">We will review the goal, recommend the right scope and send a tailored proposal after discovery. No generic rate card or unnecessary deliverables.</p>
             </div>
-          )}
-
-          {/* Call to action panel */}
-          <div className="bg-gradient-to-r from-[#b5ff2b] to-emerald-400 rounded-3xl p-8 sm:p-12 text-black text-center relative overflow-hidden shadow-2xl">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.15),transparent)]" />
-            <h2 className="text-3xl sm:text-4xl font-black mb-4 font-sans tracking-tight">
-              Ready to elevate your project?
-            </h2>
-            <p className="text-black/80 text-sm sm:text-base max-w-lg mx-auto mb-8 font-sans">
-              Connect with our creative team. Let's outline the scope, confirm timelines, and start building high-impact visuals.
-            </p>
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-2 bg-black text-white hover:bg-neutral-900 font-bold px-8 py-4 rounded-full shadow-lg transition-transform hover:scale-[1.03]"
-            >
-              <span>Start a project</span>
-              <ArrowUpRight className="w-5 h-5" />
+            <Link to="/contact" className="group mt-7 inline-flex shrink-0 items-center gap-3 rounded-full bg-background px-6 py-3.5 text-sm font-bold text-foreground transition-transform duration-300 hover:scale-[1.02] motion-reduce:transform-none lg:mt-0">
+              Start a conversation <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transform-none" />
             </Link>
-          </div>
-
+          </motion.section>
         </div>
       </main>
-
       <Footer />
     </div>
   );

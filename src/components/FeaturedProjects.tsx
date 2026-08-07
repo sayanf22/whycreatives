@@ -354,7 +354,7 @@ const ProjectCard = ({
               height={900}
               loading={index === 0 ? "eager" : "lazy"}
               decoding="async"
-              className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 motion-reduce:transform-none"
+              className="h-full w-full grayscale contrast-110 object-cover transition-[filter,transform] duration-500 ease-out group-hover:scale-105 group-hover:contrast-125 motion-reduce:transform-none"
             />
 
             {/* Hover info: a soft veil lifts the type off the photo, and the
@@ -402,7 +402,7 @@ const ProjectCard = ({
                 }}
                 /* -ml-8/-mt-8 is half of h-16/w-16, centring the circle on the
                    pointer without a second transform fighting x/y. */
-                className="pointer-events-none absolute left-0 top-0 z-30 -ml-8 -mt-8 flex h-16 w-16 items-center justify-center rounded-full bg-[#b5ff2b] text-black shadow-lg"
+                className="pointer-events-none absolute left-0 top-0 z-30 -ml-8 -mt-8 flex h-16 w-16 items-center justify-center rounded-full bg-foreground text-background shadow-[0_12px_35px_rgba(0,0,0,0.28)]"
               >
                 {/* Arrow trails the puck slightly so the circle reads as growing
                     into an arrow rather than both snapping in together. */}
@@ -448,10 +448,11 @@ const ProjectCard = ({
 export const FeaturedProjects = () => {
   return (
     <section
-      className="w-full bg-background px-4 font-['Schibsted_Grotesk',sans-serif] md:px-[clamp(32px,6vw,160px)]"
+      aria-labelledby="featured-projects-heading"
+      className="w-full bg-background px-4 font-['Schibsted_Grotesk',sans-serif] text-foreground md:px-[clamp(32px,6vw,160px)]"
       style={{
-        paddingTop: "clamp(56px, 7vw, 120px)",
-        paddingBottom: "clamp(56px, 7vw, 120px)",
+        paddingTop: "clamp(64px, 8vw, 132px)",
+        paddingBottom: "clamp(64px, 8vw, 132px)",
       }}
     >
       {/*
@@ -463,18 +464,19 @@ export const FeaturedProjects = () => {
       <div className="grid grid-cols-1 items-start gap-y-14 lg:grid-cols-2 lg:gap-x-14 lg:gap-y-24">
         <div className="lg:col-start-2 lg:row-start-1">
           <motion.div
-            className="mb-4 flex items-center gap-2.5 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground"
+            className="mb-4 flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground"
             initial={{ opacity: 0, x: -8 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.6 }}
             transition={{ duration: 0.55, ease: EASE }}
           >
             <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground" />
-            Our Work
+            Selected work
           </motion.div>
 
           <Link to="/our-work" className="group inline-block">
             <h2
+              id="featured-projects-heading"
               className="text-foreground transition-colors duration-300 group-hover:text-muted-foreground"
               style={{
                 fontSize: "clamp(2.1rem, 4vw, 4.5rem)",
@@ -484,7 +486,7 @@ export const FeaturedProjects = () => {
               }}
             >
               <RevealLines
-                lines={["Take a look at", "our projects \u2197"]}
+                lines={["Design in the", "real world \u2197"]}
                 className="block"
                 nowrapFromLg
               />

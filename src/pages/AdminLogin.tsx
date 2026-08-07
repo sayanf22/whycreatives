@@ -57,11 +57,11 @@ const AdminLogin = () => {
   return (
     <div className="min-h-screen bg-[#070707] flex items-center justify-center px-6">
       <Card className="w-full max-w-md p-8 border border-neutral-800 bg-[#0f0f0f] shadow-2xl rounded-2xl relative">
-        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#a8ff35]/20 to-transparent" />
+        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
         
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-[#1a1a1a] rounded-full mb-4 border border-neutral-800">
-            <Lock className="w-8 h-8 text-[#b5ff2b]" />
+            <Lock className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-3xl font-extrabold text-white mb-2 tracking-tight">Admin Login</h1>
           <p className="text-neutral-400 text-sm">Enter credentials to access the console</p>
@@ -77,7 +77,7 @@ const AdminLogin = () => {
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="bg-[#151515] border-neutral-800 text-white placeholder:text-neutral-500 h-12 focus:ring-1 focus:ring-[#b5ff2b] focus:border-[#b5ff2b] rounded-lg"
+              className="bg-[#151515] border-neutral-800 text-white placeholder:text-neutral-500 h-12 focus:ring-1 focus:ring-white focus:border-white rounded-lg"
               required
             />
           </div>
@@ -91,7 +91,7 @@ const AdminLogin = () => {
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="bg-[#151515] border-neutral-800 text-white placeholder:text-neutral-500 h-12 focus:ring-1 focus:ring-[#b5ff2b] focus:border-[#b5ff2b] rounded-lg"
+              className="bg-[#151515] border-neutral-800 text-white placeholder:text-neutral-500 h-12 focus:ring-1 focus:ring-white focus:border-white rounded-lg"
               required
             />
           </div>
@@ -99,7 +99,7 @@ const AdminLogin = () => {
           <Button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#b5ff2b] text-black hover:bg-[#9ee024] hover:shadow-[0_0_15px_rgba(181,255,43,0.25)] font-bold h-12 rounded-lg transition-all"
+            className="w-full bg-white text-black hover:bg-white/85 font-bold h-12 rounded-lg transition-all"
           >
             {loading ? "Logging in..." : "Login"}
           </Button>

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Mail, Phone, MapPin, ArrowUpRight, Star } from "lucide-react";
+import { Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { BlurReveal, BlurRevealItem } from "@/components/BlurReveal";
 
@@ -43,7 +43,7 @@ export const Footer = () => {
           </div>
         </div>
 
-        {/* Vertical Stack of 5 Lime-Green Circle Social Buttons */}
+        {/* Vertical Stack of 5 White Circle Social Buttons */}
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -55,7 +55,7 @@ export const Footer = () => {
             href="https://www.linkedin.com/company/whycreatives/" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="w-9 h-9 rounded-full bg-[#b5ff2b] text-black flex items-center justify-center font-bold text-xs hover:scale-110 active:scale-95 transition-all select-none"
+            className="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center font-bold text-xs hover:scale-110 active:scale-95 transition-all select-none"
             aria-label="LinkedIn"
           >
             in
@@ -64,7 +64,7 @@ export const Footer = () => {
             href="https://twitter.com/why_creatives" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="w-9 h-9 rounded-full bg-[#b5ff2b] text-black flex items-center justify-center font-bold text-xs hover:scale-110 active:scale-95 transition-all select-none"
+            className="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center font-bold text-xs hover:scale-110 active:scale-95 transition-all select-none"
             aria-label="Twitter/X"
           >
             X
@@ -73,7 +73,7 @@ export const Footer = () => {
             href="https://github.com" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="w-9 h-9 rounded-full bg-[#b5ff2b] text-black flex items-center justify-center hover:scale-110 active:scale-95 transition-all select-none"
+            className="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 active:scale-95 transition-all select-none"
             aria-label="GitHub"
           >
             <svg className="w-4 h-4 fill-black" viewBox="0 0 24 24">
@@ -84,7 +84,7 @@ export const Footer = () => {
             href="https://www.instagram.com/why_creatives/" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="w-9 h-9 rounded-full bg-[#b5ff2b] text-black flex items-center justify-center hover:scale-110 active:scale-95 transition-all select-none"
+            className="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 active:scale-95 transition-all select-none"
             aria-label="Instagram"
           >
             <svg className="w-4 h-4 fill-black" viewBox="0 0 24 24">
@@ -95,7 +95,7 @@ export const Footer = () => {
             href="https://behance.net" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="w-9 h-9 rounded-full bg-[#b5ff2b] text-black flex items-center justify-center font-bold text-[11px] hover:scale-110 active:scale-95 transition-all select-none"
+            className="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center font-bold text-[11px] hover:scale-110 active:scale-95 transition-all select-none"
             aria-label="Behance"
           >
             Bē
@@ -170,28 +170,18 @@ export const Footer = () => {
                   <div className="flex flex-wrap items-center gap-5">
                     <Link
                       to="/contact"
-                      className="inline-flex items-center gap-2 bg-[#b5ff2b] text-black font-bold px-6 py-3 rounded-full hover:bg-[#9ee024] hover:shadow-[0_0_20px_rgba(181,255,43,0.4)] transition-all hover:scale-[1.03] group"
+                      className="inline-flex items-center gap-2 bg-white text-black font-bold px-6 py-3 rounded-full hover:bg-white/85 transition-all hover:scale-[1.03] group"
                     >
                       <span>Start a project</span>
                       <ArrowUpRight className="w-4.5 h-4.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                     </Link>
 
-                    {/* figures match the aggregateRating already published in
-                        the site's structured data (4.9 from 50 reviews) */}
                     <div className="flex flex-col gap-1 leading-none">
                       <span className="text-[11px] font-semibold text-white">
-                        4.9 from 50 reviews
+                        Scope-led proposals
                       </span>
-                      <span className="flex items-center gap-1.5">
-                        <span className="text-[11px] font-bold text-neutral-300">G</span>
-                        <span className="flex gap-0.5" aria-hidden="true">
-                          {[...Array(5)].map((_, i) => (
-                            <Star
-                              key={i}
-                              className="h-3 w-3 fill-[#b5ff2b] text-[#b5ff2b]"
-                            />
-                          ))}
-                        </span>
+                      <span className="text-[10px] text-neutral-400">
+                        Built around your brief
                       </span>
                     </div>
                   </div>
@@ -207,13 +197,13 @@ export const Footer = () => {
                     <h3 className="text-white font-extrabold tracking-widest text-[11px] uppercase opacity-95">Learn</h3>
                   </BlurReveal>
                   <ul className="flex flex-col gap-2.5 text-neutral-300 text-xs sm:text-sm">
-                    <BlurRevealItem delay={0.2}><Link to="/about-us" className="hover:text-[#b5ff2b] transition-colors">About</Link></BlurRevealItem>
-                    <BlurRevealItem delay={0.23}><Link to="/about-us" className="hover:text-[#b5ff2b] transition-colors">Culture</Link></BlurRevealItem>
-                    <BlurRevealItem delay={0.26}><Link to="/what-we-do" className="hover:text-[#b5ff2b] transition-colors">Testimonials</Link></BlurRevealItem>
-                    <BlurRevealItem delay={0.29}><Link to="/what-we-do" className="hover:text-[#b5ff2b] transition-colors">Processes</Link></BlurRevealItem>
-                    <BlurRevealItem delay={0.32}><Link to="/contact" className="hover:text-[#b5ff2b] transition-colors">FAQs</Link></BlurRevealItem>
-                    <BlurRevealItem delay={0.35}><Link to="/contact" className="hover:text-[#b5ff2b] transition-colors">Branding FAQs</Link></BlurRevealItem>
-                    <BlurRevealItem delay={0.38}><Link to="/insights" className="hover:text-[#b5ff2b] transition-colors">Blog</Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.2}><Link to="/about-us" className="hover:text-white transition-colors">About</Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.23}><Link to="/about-us" className="hover:text-white transition-colors">Culture</Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.26}><Link to="/our-work" className="hover:text-white transition-colors">Client work</Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.29}><Link to="/what-we-do" className="hover:text-white transition-colors">Processes</Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.32}><Link to="/contact" className="hover:text-white transition-colors">FAQs</Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.35}><Link to="/contact" className="hover:text-white transition-colors">Branding FAQs</Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.38}><Link to="/insights" className="hover:text-white transition-colors">Blog</Link></BlurRevealItem>
                   </ul>
                 </div>
 
@@ -223,15 +213,15 @@ export const Footer = () => {
                     <h3 className="text-white font-extrabold tracking-widest text-[11px] uppercase opacity-95">Explore</h3>
                   </BlurReveal>
                   <ul className="flex flex-col gap-2.5 text-neutral-300 text-xs sm:text-sm">
-                    <BlurRevealItem delay={0.25}><Link to="/" className="hover:text-[#b5ff2b] transition-colors">Home</Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.25}><Link to="/" className="hover:text-white transition-colors">Home</Link></BlurRevealItem>
                     <BlurRevealItem delay={0.28} className="flex items-center gap-2">
-                      <Link to="/our-work" className="hover:text-[#b5ff2b] transition-colors">Work</Link>
-                      <span className="bg-[#b5ff2b] text-black font-extrabold text-[8px] px-1.5 py-0.5 rounded uppercase tracking-wider scale-90">New</span>
+                      <Link to="/our-work" className="hover:text-white transition-colors">Work</Link>
+                      <span className="bg-white text-black font-extrabold text-[8px] px-1.5 py-0.5 rounded uppercase tracking-wider scale-90">New</span>
                     </BlurRevealItem>
-                    <BlurRevealItem delay={0.31}><Link to="/what-we-do" className="hover:text-[#b5ff2b] transition-colors">Services</Link></BlurRevealItem>
-                    <BlurRevealItem delay={0.34}><Link to="/join-us" className="hover:text-[#b5ff2b] transition-colors">Careers</Link></BlurRevealItem>
-                    <BlurRevealItem delay={0.37}><Link to="/areas-we-serve" className="hover:text-[#b5ff2b] transition-colors">Sectors</Link></BlurRevealItem>
-                    <BlurRevealItem delay={0.43}><Link to="/contact" className="hover:text-[#b5ff2b] transition-colors">Contact</Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.31}><Link to="/what-we-do" className="hover:text-white transition-colors">Services</Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.34}><Link to="/join-us" className="hover:text-white transition-colors">Careers</Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.37}><Link to="/areas-we-serve" className="hover:text-white transition-colors">Sectors</Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.43}><Link to="/contact" className="hover:text-white transition-colors">Contact</Link></BlurRevealItem>
                   </ul>
                 </div>
 
@@ -242,22 +232,22 @@ export const Footer = () => {
                   </BlurReveal>
                   <ul className="flex flex-col gap-3 text-neutral-300 text-xs sm:text-sm">
                     <BlurRevealItem delay={0.3} className="flex items-center gap-2.5">
-                      <Phone className="w-3.5 h-3.5 text-[#b5ff2b] flex-shrink-0" />
+                      <Phone className="w-3.5 h-3.5 text-white flex-shrink-0" />
                       <a href="tel:+918210198880" className="hover:text-white transition-colors">+91 82101 98880</a>
                     </BlurRevealItem>
                     <BlurRevealItem delay={0.35} className="flex items-center gap-2.5">
-                      <Mail className="w-3.5 h-3.5 text-[#b5ff2b] flex-shrink-0" />
+                      <Mail className="w-3.5 h-3.5 text-white flex-shrink-0" />
                       <a href="mailto:hello@whycreatives.in" className="hover:text-white transition-colors break-all">hello@whycreatives.in</a>
                     </BlurRevealItem>
                     <BlurRevealItem delay={0.4} className="flex items-start gap-2.5">
-                      <MapPin className="w-3.5 h-3.5 text-[#b5ff2b] mt-1 flex-shrink-0" />
+                      <MapPin className="w-3.5 h-3.5 text-white mt-1 flex-shrink-0" />
                       <div>
                         <p className="font-semibold text-white">WhyCreatives</p>
                         <p className="text-neutral-300 text-xs">Guwahati, Assam, India</p>
                       </div>
                     </BlurRevealItem>
                     <BlurRevealItem delay={0.45} className="flex items-center gap-2.5">
-                      <span className="text-[#b5ff2b] text-sm font-bold flex-shrink-0">///</span>
+                      <span className="text-white text-sm font-bold flex-shrink-0">///</span>
                       <span className="hover:text-white transition-colors text-neutral-300 text-xs">why.creatives.in</span>
                     </BlurRevealItem>
                   </ul>

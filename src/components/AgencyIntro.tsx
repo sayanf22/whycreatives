@@ -136,12 +136,12 @@ export const AgencyIntro = () => {
           >
             <Link
               to="/about-us"
-              className="group inline-flex items-center gap-2.5 rounded-full bg-[#d4ff33] px-6 py-3 text-sm font-bold text-black transition-[background-color,box-shadow,transform] duration-300 ease-out hover:bg-[#c4f020] hover:shadow-[0_12px_30px_-12px_rgba(212,255,51,0.95)] active:scale-[0.98] motion-reduce:transform-none"
+              className="group inline-flex items-center gap-2.5 rounded-full bg-foreground px-6 py-3 text-sm font-bold text-background transition-[opacity,transform] duration-300 ease-out hover:opacity-85 active:scale-[0.98] motion-reduce:transform-none"
             >
               About WhyCreatives
               {/* The badge scales inside the button, so the button's own box
                   never changes size. */}
-              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-black/15 transition-[background-color,transform] duration-300 ease-out group-hover:scale-110 group-hover:bg-black/25 motion-reduce:transform-none">
+              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-background/15 transition-[background-color,transform] duration-300 ease-out group-hover:scale-110 group-hover:bg-background/25 motion-reduce:transform-none">
                 <ArrowSwap />
               </span>
             </Link>

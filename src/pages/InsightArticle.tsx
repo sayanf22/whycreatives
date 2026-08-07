@@ -354,7 +354,7 @@ const InsightArticle = () => {
                 Ready to Grow Your Business?
               </h3>
               <p className="text-muted-foreground mb-8 max-w-md mx-auto text-lg">
-                Get expert creative services at India's most affordable prices. Video, web, marketing & more.
+                Bring us the goal. We will recommend the right mix of video, product, brand and growth work.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link

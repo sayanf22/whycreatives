@@ -63,7 +63,7 @@ const AboutUs = () => {
                   <div className="flex flex-wrap gap-4 items-center justify-center md:justify-start">
                     <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/80 text-foreground font-semibold text-sm border border-border/50">
                       <Instagram className="w-4 h-4 text-pink-500" />
-                      @areyparo
+                      UGC & Creator Strategy
                     </span>
                   </div>
                 </div>

@@ -8,50 +8,14 @@ import { Spotlight } from "@/components/ui/spotlight-aceternity";
 import { ArrowRight, Video, Globe, Share2, Megaphone, Instagram, Palette, Phone, Mail, MapPin, Star, Users, Clock, Shield, CheckCircle2, TrendingUp } from "lucide-react";
 import { getLocationData, getMisspellingRedirect, isValidLocationSlug } from "@/data/seoLocations";
 
-// Services with pricing
+// Service summaries; scope and commercial details are shared after discovery.
 const services = [
-  {
-    icon: Video,
-    name: "Video Editing & Motion Design",
-    desc: "Professional editing, color grading, motion graphics & post-production",
-    price: "₹6,999",
-    duration: "3-5 Days"
-  },
-  {
-    icon: Globe,
-    name: "Web & App Development",
-    desc: "Modern, responsive, conversion-focused custom websites",
-    price: "₹4,999",
-    duration: "1 Week"
-  },
-  {
-    icon: Palette,
-    name: "Brand Presence",
-    desc: "Complete brand identity, visual guidelines & strategic positioning",
-    price: "₹5,999/mo",
-    duration: "Monthly"
-  },
-  {
-    icon: Megaphone,
-    name: "Performance Marketing",
-    desc: "High ROI ad campaigns, SEO & targeted advertising",
-    price: "₹4,999/mo",
-    duration: "Ongoing"
-  },
-  {
-    icon: Instagram,
-    name: "@AreyParo UGC & Collaborations",
-    desc: "UGC Reels & Joint Collaboration posts by @AreyParo",
-    price: "₹3,000",
-    duration: "Flexible"
-  },
-  {
-    icon: Share2,
-    name: "Logo Design",
-    desc: "Unique, memorable logos with multiple concepts & revisions",
-    price: "₹2,999",
-    duration: "2-3 Days"
-  },
+  { icon: Video, name: "Video Editing & Motion Design", desc: "Story-first editing, colour, sound and motion for campaigns and social content", detail: "Film · Reels · Motion" },
+  { icon: Globe, name: "Web & App Development", desc: "Custom websites, SaaS products and mobile apps from interface to infrastructure", detail: "Web · iOS · Android" },
+  { icon: Palette, name: "Brand Presence", desc: "Positioning, identity systems and repeatable content operations", detail: "Strategy · Identity · Social" },
+  { icon: Megaphone, name: "Performance Marketing", desc: "Measured acquisition campaigns, tracking and conversion improvement", detail: "Search · Social · Analytics" },
+  { icon: Instagram, name: "UGC Reels & Collaborations", desc: "Natural product stories, creator concepts and platform-native vertical content", detail: "UGC · Reels · Creative" },
+  { icon: Share2, name: "Logo & Brand Identity", desc: "Distinctive visual systems built to work across digital and physical touchpoints", detail: "Logo · Type · Guidelines" },
 ];
 
 // Timeline data for orbital animation (same as homepage)
@@ -138,7 +102,7 @@ const LocationPage = () => {
   }
 
   const pageTitle = `Best Creative Agency in ${data.name} | Video Editing, Motion Design, Web & App Development - WhyCreatives`;
-  const pageDescription = `WhyCreatives is the #1 creative agency in ${data.name}, ${data.state}. Professional video editing from ₹6,999, web development from ₹4,999, digital marketing & branding. Affordable pricing with exceptional quality. ${data.description}`;
+  const pageDescription = `WhyCreatives is a multidisciplinary creative agency serving ${data.name}, ${data.state}. We design video, brands, websites, applications, campaigns and content through a modern remote workflow with clear milestones and documented handover.`;
   const pageKeywords = data.keywords.join(", ");
 
   return (
@@ -178,14 +142,6 @@ const LocationPage = () => {
               "@type": "City",
               "name": data.name
             },
-            "priceRange": "₹₹",
-            "aggregateRating": {
-              "@type": "AggregateRating",
-              "ratingValue": "4.9",
-              "reviewCount": "50",
-              "bestRating": "5",
-              "worstRating": "1"
-            },
             "hasOfferCatalog": {
               "@type": "OfferCatalog",
               "name": `Creative Services in ${data.name}`,
@@ -195,7 +151,7 @@ const LocationPage = () => {
                   "itemOffered": {
                     "@type": "Service",
                     "name": "Video Editing & Motion Design",
-                    "description": `Professional video editing & production in ${data.name} starting from ₹6,999`
+                    "description": `Professional video editing, motion design and production for businesses in ${data.name}`
                   }
                 },
                 {
@@ -203,7 +159,7 @@ const LocationPage = () => {
                   "itemOffered": {
                     "@type": "Service",
                     "name": "Web Development",
-                    "description": `Custom website design and development in ${data.name} starting from ₹4,999`
+                    "description": `Custom websites, applications and digital products for businesses in ${data.name}`
                   }
                 },
                 {
@@ -211,7 +167,7 @@ const LocationPage = () => {
                   "itemOffered": {
                     "@type": "Service",
                     "name": "Digital Marketing",
-                    "description": `Performance marketing and SEO services in ${data.name} from ₹4,999/month`
+                    "description": `Performance marketing, measurement and SEO services for businesses in ${data.name}`
                   }
                 }
               ]
@@ -246,7 +202,7 @@ const LocationPage = () => {
                   <span className="text-muted-foreground">{data.name}</span>
                 </h1>
                 <p className="text-sm sm:text-xl md:text-2xl text-muted-foreground mb-5 sm:mb-8 leading-relaxed">
-                  {data.tagline}. {data.description.slice(0, 150)}...
+                  Creative direction, digital products and growth systems for {data.name} businesses—delivered through one connected remote team.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                   <Button
@@ -274,30 +230,24 @@ const LocationPage = () => {
 
             </div>
 
-            {/* Trust Indicators */}
+            {/* Delivery principles */}
             <FadeInWhenVisible delay={0.2}>
-              <div className="flex flex-wrap justify-center gap-4 sm:gap-8 mt-8 text-sm text-muted-foreground">
-                <span className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full"><Star className="w-4 h-4 text-yellow-500 fill-yellow-500" /> 4.9/5 Rating</span>
-                <span className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full"><Users className="w-4 h-4" /> 500+ Projects</span>
-                <span className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full"><Clock className="w-4 h-4" /> 24-48hr Delivery</span>
-                <span className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full"><Shield className="w-4 h-4" /> 100% Satisfaction</span>
+              <div className="mt-8 flex flex-wrap justify-center gap-4 text-sm text-muted-foreground">
+                <span className="rounded-full bg-white/5 px-4 py-2">Scope shaped around your goal</span>
+                <span className="rounded-full bg-white/5 px-4 py-2">One accountable project lead</span>
+                <span className="rounded-full bg-white/5 px-4 py-2">Modern production stack</span>
+                <span className="rounded-full bg-white/5 px-4 py-2">Documented handover</span>
               </div>
             </FadeInWhenVisible>
 
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-3 sm:gap-8 mt-10 sm:mt-16 pt-10 sm:pt-16 border-t border-border animate-fade-in" style={{ animationDelay: "0.6s" }}>
-              <div className="text-center">
-                <div className="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mb-1 sm:mb-2">Big</div>
-                <div className="text-[11px] sm:text-sm text-muted-foreground uppercase tracking-wide font-medium">SAVINGS</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mb-1 sm:mb-2">500+</div>
-                <div className="text-[11px] sm:text-sm text-muted-foreground uppercase tracking-wide font-medium">PROJECTS</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl sm:text-4xl md:text-5xl font-black text-foreground mb-1 sm:mb-2">100%</div>
-                <div className="text-[11px] sm:text-sm text-muted-foreground uppercase tracking-wide font-medium">TRANSPARENCY</div>
-              </div>
+            {/* Process snapshot */}
+            <div className="mt-10 grid grid-cols-3 gap-3 border-t border-border pt-10 sm:mt-16 sm:gap-8 sm:pt-16" style={{ animationDelay: "0.6s" }}>
+              {["Discover", "Build", "Launch"].map((step, index) => (
+                <div key={step} className="text-center">
+                  <div className="mb-1 font-mono text-xs text-muted-foreground">0{index + 1}</div>
+                  <div className="text-lg font-black text-foreground sm:text-3xl">{step}</div>
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -307,9 +257,9 @@ const LocationPage = () => {
           <div className="container mx-auto max-w-6xl">
             <FadeInWhenVisible>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {data.highlights.map((highlight, index) => (
+                {["Remote collaboration", "Clear milestones", "Modern production stack", "Documented handover"].map((highlight, index) => (
                   <div key={index} className="flex items-center gap-3 p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-white/20 transition-all">
-                    <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0" />
+                    <CheckCircle2 className="w-5 h-5 text-foreground flex-shrink-0" />
                     <span className="text-sm font-medium">{highlight}</span>
                   </div>
                 ))}
@@ -318,7 +268,7 @@ const LocationPage = () => {
           </div>
         </section>
 
-        {/* Services Section with CORRECT Pricing */}
+        {/* Services Section */}
         <section className="px-4 sm:px-6 py-16 sm:py-24 bg-white/[0.02]">
           <div className="container mx-auto max-w-6xl">
             <FadeInWhenVisible>
@@ -327,7 +277,7 @@ const LocationPage = () => {
                   Our Services in {data.name}
                 </h2>
                 <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-                  Premium quality at affordable prices. Same professional results, exceptional value.
+                  Built around your objective, users and delivery constraints—not a public package or one-size-fits-all rate card.
                 </p>
               </div>
             </FadeInWhenVisible>
@@ -336,21 +286,18 @@ const LocationPage = () => {
               {services.map((service, index) => (
                 <FadeInWhenVisible key={index} delay={index * 0.1}>
                   <div className="group p-6 rounded-3xl bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/[0.08] transition-all duration-300">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="p-3 rounded-2xl bg-white/10 group-hover:bg-white/20 transition-colors">
-                        <service.icon className="w-6 h-6" />
+                    <div className="mb-4 flex items-start justify-between">
+                      <div className="rounded-2xl bg-white/10 p-3 transition-colors group-hover:bg-white/20">
+                        <service.icon className="h-6 w-6" />
                       </div>
-                      <span className="px-3 py-1 rounded-full bg-green-500/20 text-green-400 text-xs font-bold">
-                        Savings
+                      <span className="rounded-full border border-white/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-muted-foreground">
+                        {String(index + 1).padStart(2, "0")}
                       </span>
                     </div>
-                    <h3 className="text-xl font-bold mb-2">{service.name}</h3>
-                    <p className="text-muted-foreground text-sm mb-4">{service.desc}</p>
-                    <div className="flex items-end justify-between pt-4 border-t border-white/10">
-                      <div>
-                        <div className="text-2xl font-black text-white">{service.price}</div>
-                      </div>
-                      <span className="text-xs text-muted-foreground bg-white/5 px-3 py-1 rounded-full">{service.duration}</span>
+                    <h3 className="mb-2 text-xl font-bold">{service.name}</h3>
+                    <p className="mb-5 text-sm leading-relaxed text-muted-foreground">{service.desc}</p>
+                    <div className="border-t border-white/10 pt-4 text-xs font-semibold uppercase tracking-[0.12em] text-foreground/70">
+                      {service.detail}
                     </div>
                   </div>
                 </FadeInWhenVisible>
@@ -360,8 +307,8 @@ const LocationPage = () => {
             <FadeInWhenVisible delay={0.4}>
               <div className="text-center mt-10">
                 <Button size="lg" asChild className="bg-foreground text-background hover:bg-muted-foreground font-bold px-8 py-6 rounded-full">
-                  <Link to="/pricing-comparison" className="flex items-center gap-2">
-                    View Full Pricing <ArrowRight className="h-5 w-5" />
+                  <Link to="/what-we-do" className="flex items-center gap-2">
+                    Explore All Services <ArrowRight className="h-5 w-5" />
                   </Link>
                 </Button>
               </div>
@@ -386,26 +333,26 @@ const LocationPage = () => {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
               <FadeInWhenVisible delay={0.1}>
                 <div className="p-6 rounded-3xl bg-white/5 border border-white/10">
-                  <div className="text-4xl sm:text-5xl font-black mb-2 bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">Big</div>
-                  <div className="text-sm text-muted-foreground">Savings vs Local Agencies</div>
+                  <div className="text-3xl sm:text-4xl font-black mb-2 bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">Focused</div>
+                  <div className="text-sm text-muted-foreground">Scope tied to the business goal</div>
                 </div>
               </FadeInWhenVisible>
               <FadeInWhenVisible delay={0.2}>
                 <div className="p-6 rounded-3xl bg-white/5 border border-white/10">
-                  <div className="text-4xl sm:text-5xl font-black mb-2 bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">500+</div>
-                  <div className="text-sm text-muted-foreground">Projects Delivered</div>
+                  <div className="text-3xl sm:text-4xl font-black mb-2 bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">Connected</div>
+                  <div className="text-sm text-muted-foreground">Strategy, design and build in one team</div>
                 </div>
               </FadeInWhenVisible>
               <FadeInWhenVisible delay={0.3}>
                 <div className="p-6 rounded-3xl bg-white/5 border border-white/10">
-                  <div className="text-4xl sm:text-5xl font-black mb-2 bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">48hr</div>
-                  <div className="text-sm text-muted-foreground">Average Turnaround</div>
+                  <div className="text-3xl sm:text-4xl font-black mb-2 bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">Visible</div>
+                  <div className="text-sm text-muted-foreground">Milestones, reviews and decisions</div>
                 </div>
               </FadeInWhenVisible>
               <FadeInWhenVisible delay={0.4}>
                 <div className="p-6 rounded-3xl bg-white/5 border border-white/10">
-                  <div className="text-4xl sm:text-5xl font-black mb-2 bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">4.9★</div>
-                  <div className="text-sm text-muted-foreground">Client Rating</div>
+                  <div className="text-3xl sm:text-4xl font-black mb-2 bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">Owned</div>
+                  <div className="text-sm text-muted-foreground">Files, documentation and clean handover</div>
                 </div>
               </FadeInWhenVisible>
             </div>
@@ -421,7 +368,7 @@ const LocationPage = () => {
                   Ready to Start Your Project?
                 </h2>
                 <p className="text-muted-foreground mb-8 max-w-2xl mx-auto text-lg">
-                  Get a free consultation and quote within 2 hours. No commitment, 100% transparent. Just honest pricing that helps your business grow.
+                  Share the goal, context and constraints. We will respond with the right questions, a recommended scope and a tailored proposal—without pushing a generic package.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                   <Button size="lg" asChild className="bg-foreground text-background hover:bg-muted-foreground font-bold text-lg px-10 py-7 rounded-full">
@@ -458,10 +405,10 @@ const LocationPage = () => {
                 </h2>
                 <div className="text-muted-foreground space-y-4 text-center">
                   <p>
-                    WhyCreatives is {data.name}'s premier creative agency, offering world-class video editing, web development, digital marketing, and branding services at affordable prices. Based in Guwahati, Assam, we serve businesses across {data.state} and all of India with the same commitment to quality and excellence.
+                    WhyCreatives is a multidisciplinary creative agency serving {data.name} with video editing, web and app development, performance marketing, UGC, and brand identity services. Based in Guwahati, Assam, we work with businesses across {data.state} and India through a clear remote collaboration process.
                   </p>
                   <p>
-                    Whether you're a startup looking for your first website, an established business needing video content, or an enterprise requiring comprehensive digital marketing - WhyCreatives delivers premium results without the premium price tag. Our team of experienced professionals understands the unique needs of {data.name} businesses and delivers solutions that drive real results.
+                    Whether you are launching a first website, improving a digital product, building a content system or preparing a growth campaign, we shape the team, technology and deliverables around the outcome. Every engagement has clear milestones, review points and a documented handover.
                   </p>
                   <p>
                     Contact us today for a free consultation and discover why hundreds of businesses across India trust WhyCreatives for their creative needs.

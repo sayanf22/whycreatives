@@ -3,9 +3,8 @@ import { Hero } from "@/components/Hero";
 import { AgencyIntro } from "@/components/AgencyIntro";
 import { FeaturedProjects } from "@/components/FeaturedProjects";
 import { Expertise } from "@/components/Expertise";
-import { ClientSatisfaction } from "@/components/ClientSatisfaction";
+import { ClientStory } from "@/components/ClientStory";
 import { AskAI } from "@/components/AskAI";
-import { CTA } from "@/components/CTA";
 import { MarqueeLine } from "@/components/MarqueeLine";
 import { Footer } from "@/components/Footer";
 import { Helmet } from "react-helmet-async";
@@ -47,7 +46,7 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Helmet>
         <title>WhyCreatives | Premium Video Editing, Web Design & Creative Agency</title>
-        <meta name="description" content="Award-winning video editing, web design, and digital marketing agency in India. Premium quality starting at ₹4,999. Get your free consultation today!" />
+        <meta name="description" content="WhyCreatives is a multidisciplinary creative agency in India for video, web and app development, brand systems, UGC and performance marketing." />
         <link rel="canonical" href="https://whycreatives.in" />
         <script type="application/ld+json">
           {JSON.stringify(organizationSchema)}
@@ -62,14 +61,13 @@ const Index = () => {
       <AgencyIntro />
       <FeaturedProjects />
       <Expertise />
-      {/* Light panel directly under the dark Expertise panel, sharing its
-          gutters so the two boxes line up. */}
-      <ClientSatisfaction />
+      {/* Story card straddles the panel above: its top half sits on the black
+          Expertise panel, its bottom half on the page background. */}
+      <ClientStory />
       {/* GooeySection removed: it ran an uncapped rAF loop writing a CSS
           blur() every frame, which was the biggest cause of scroll lag on
           phones. MarqueeLine covers the same "big type" beat far cheaper. */}
       <MarqueeLine />
-      <CTA />
       {/* Last block before the footer. */}
       <AskAI />
       <Footer />

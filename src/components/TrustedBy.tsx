@@ -33,9 +33,9 @@ export const TrustedBy = () => {
       number: "24/7", 
       label: "Support Available", 
       icon: Headphones,
-      glowClass: "group-hover:bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.12),transparent_70%)]",
-      gradient: "from-emerald-400 via-teal-400 to-teal-500",
-      iconColor: "text-emerald-400 dark:text-emerald-400 light:text-emerald-600"
+      glowClass: "group-hover:bg-[radial-gradient(circle_at_top_right,rgba(120,120,120,0.12),transparent_70%)]",
+      gradient: "from-foreground via-foreground to-foreground",
+      iconColor: "text-foreground"
     },
   ];
 

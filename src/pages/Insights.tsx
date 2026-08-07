@@ -80,7 +80,7 @@ const Insights = () => {
             className="text-center max-w-3xl mx-auto"
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-muted/50 rounded-full mb-6 border border-border">
-              <Sparkles className="w-4 h-4 text-emerald-500" />
+              <Sparkles className="w-4 h-4 text-foreground" />
               <span className="text-sm text-muted-foreground">Fresh insights every week</span>
             </div>
 
@@ -144,7 +144,7 @@ const Insights = () => {
                       className="group block h-full bg-card hover:bg-muted/50 rounded-3xl p-8 shadow-sm hover:shadow-md border border-border/50 hover:border-border transition-all duration-300"
                     >
                       <div className="flex items-center gap-3 mb-6">
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-full text-xs font-semibold">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-foreground/10 text-foreground rounded-full text-xs font-semibold">
                           <TrendingUp className="w-3 h-3" />
                           Featured
                         </span>

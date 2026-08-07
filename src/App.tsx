@@ -15,7 +15,6 @@ import InsightArticle from "./pages/InsightArticle";
 const WhatWeDo = lazy(() => import("./pages/WhatWeDo"));
 const OurWork = lazy(() => import("./pages/OurWork"));
 const PortfolioGallery = lazy(() => import("./pages/PortfolioGallery"));
-const Comparison = lazy(() => import("./pages/Comparison"));
 const ContactPage = lazy(() => import("./pages/ContactPage"));
 const AboutUs = lazy(() => import("./pages/AboutUs"));
 const People = lazy(() => import("./pages/People"));
@@ -117,15 +116,15 @@ const App = () => (
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/people" element={<People />} />
             <Route path="/join-us" element={<JoinUs />} />
-            <Route path="/pricing-comparison" element={<Comparison />} />
             <Route path="/contact" element={<ContactPage />} />
 
             {/* Admin Routes */}
             <Route path="/admin-login" element={<AdminLogin />} />
             <Route path="/admindashboard" element={<AdminDashboard />} />
 
-            {/* Redirects */}
-            <Route path="/comparison" element={<Navigate to="/pricing-comparison" replace />} />
+            {/* Retired public rate-card URLs now lead to a scope conversation. */}
+            <Route path="/pricing-comparison" element={<Navigate to="/contact" replace />} />
+            <Route path="/comparison" element={<Navigate to="/contact" replace />} />
 
             {/* SEO Location Pages - Professional Landing Pages */}
             <Route path="/areas-we-serve" element={<AllLocations />} />

@@ -118,7 +118,6 @@ export const generateBreadcrumbSchema = (items: { name: string; url: string }[])
 export const generateServiceSchema = (
   name: string,
   description: string,
-  price: string,
   url: string
 ) => ({
   '@context': 'https://schema.org',
@@ -133,13 +132,6 @@ export const generateServiceSchema = (
     '@type': 'Country',
     name: 'India',
   },
-  offers: {
-    '@type': 'Offer',
-    price,
-    priceCurrency: 'INR',
-    priceValidUntil: '2026-12-31',
-    availability: 'https://schema.org/InStock',
-  },
 });
 
 export const generateLocalBusinessSchema = (city: string, coords?: { lat: number; lng: number }) => ({
@@ -151,7 +143,6 @@ export const generateLocalBusinessSchema = (city: string, coords?: { lat: number
   url: `https://whycreatives.in/${city.toLowerCase()}`,
   telephone: '+918210198880',
   email: 'hello@whycreatives.in',
-  priceRange: '₹₹',
   address: {
     '@type': 'PostalAddress',
     addressLocality: city,

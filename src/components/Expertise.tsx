@@ -146,7 +146,7 @@ export const Expertise = () => {
     /* inset wrapper so the dark card floats with rounded sides */
     <div className="w-full bg-background px-3 sm:px-5 md:px-6">
       <section className="w-full overflow-hidden rounded-[24px] bg-[#0A0A0C] font-['Schibsted_Grotesk',sans-serif] text-white md:rounded-[36px]">
-        {/* ── CUSTOM CURSOR ── idle dot, morphs to a green arrow puck ── */}
+        {/* ── CUSTOM CURSOR ── idle dot, morphs to a white arrow puck ── */}
         {isDesktop && (
           <motion.div
             aria-hidden="true"
@@ -156,15 +156,15 @@ export const Expertise = () => {
               y: cursorY,
               translateX: "-50%",
               translateY: "-50%",
-              // blend keeps the idle dot readable over dark and light alike,
-              // but it muddies the accent green, so drop it while expanded
+              // blend keeps the idle dot readable over dark and light alike;
+              // dropped once expanded so the solid white puck stays crisp.
               mixBlendMode: active ? "normal" : "difference",
             }}
             initial={false}
             animate={{
               width: active ? 80 : 16,
               height: active ? 80 : 16,
-              backgroundColor: active ? "#d4ff33" : "#ffffff",
+              backgroundColor: "#ffffff",
               opacity: cursorInside ? 1 : 0,
             }}
             transition={{ type: "spring", stiffness: 320, damping: 26, mass: 0.6 }}
@@ -185,14 +185,21 @@ export const Expertise = () => {
 
         <div
           style={{
-            paddingTop: "clamp(64px, 7vw, 132px)",
-            paddingBottom: "clamp(64px, 7vw, 132px)",
+            paddingTop: "clamp(84px, 9vw, 176px)",
+            /*
+              Base breathing room plus the exact amount the story card overlaps
+              this panel (half its height — see ClientStory). Without the second
+              term the card would sit on top of the last service row instead of
+              on empty black.
+            */
+            paddingBottom:
+              "calc(clamp(84px, 9vw, 176px) + clamp(160px, 24vw, 320px))",
           }}
         >
           {/* ── HEADER ── */}
           <div className="grid grid-cols-1 gap-y-8 px-5 md:px-[clamp(28px,5vw,120px)] lg:grid-cols-12 lg:gap-x-10">
             <div className="flex items-start gap-2.5 font-mono text-[10px] uppercase tracking-[0.22em] text-white/45 lg:col-span-3 lg:pt-3">
-              <span className="mt-[6px] h-1 w-1 shrink-0 rounded-full bg-[#d4ff33]" />
+              <span className="mt-[6px] h-1 w-1 shrink-0 rounded-full bg-white/60" />
               Our Expertise
             </div>
 
@@ -200,9 +207,9 @@ export const Expertise = () => {
               lines={HEADING}
               className="block lg:col-span-6 lg:text-center"
               style={{
-                fontSize: "clamp(1.8rem, 3vw, 5rem)",
-                lineHeight: 1.08,
-                letterSpacing: "-0.035em",
+                fontSize: "clamp(2.15rem, 3.9vw, 6.25rem)",
+                lineHeight: 1.05,
+                letterSpacing: "-0.04em",
                 fontWeight: 500,
               }}
             />
@@ -220,7 +227,7 @@ export const Expertise = () => {
               </p>
               <Link
                 to="/what-we-do"
-                className="group mt-5 inline-flex items-center gap-2 rounded-full bg-[#d4ff33] py-2 pl-4 pr-2 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-black transition-colors hover:bg-[#c4f020]"
+                className="group mt-5 inline-flex items-center gap-2 rounded-full bg-white py-2 pl-4 pr-2 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-black transition-colors hover:bg-white/85"
               >
                 See all services
                 <span className="flex h-5 w-5 items-center justify-center rounded-full bg-black/15 transition-transform duration-300 group-hover:translate-x-0.5">
@@ -357,7 +364,7 @@ export const Expertise = () => {
                                 {service.blurb}
                               </span>
                             </span>
-                            <span className="ml-auto flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#d4ff33]">
+                            <span className="ml-auto flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white">
                               <ArrowUpRight
                                 className="h-4 w-4 text-black"
                                 strokeWidth={2.5}
