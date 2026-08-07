@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import {
@@ -43,7 +43,7 @@ const PROJECTS: Project[] = [
     client: "Web & Mobile Apps",
     title: "Custom web & mobile apps built on Next.js, Node.js and Supabase",
     image: "/whycreatives-app.webp",
-    tags: ["Next.js", "iOS & Android"],
+    tags: ["Next.js", "Apps"],
     href: "/our-work",
   },
   {
@@ -52,7 +52,7 @@ const PROJECTS: Project[] = [
     client: "WhyCreatives UGC",
     title: "@AreyParo UGC reels, viral scriptwriting & creator marketing",
     image: "/whycreatives-ugc.webp",
-    tags: ["UGC Reels", "Social Growth"],
+    tags: ["UGC Reels", "Social"],
     href: "/our-work",
   },
   {
@@ -61,10 +61,49 @@ const PROJECTS: Project[] = [
     client: "NTH Studio",
     title: "Conversion-focused website design and front-end build",
     image: "/project-nth.webp",
-    tags: ["Website", "Web Design"],
+    tags: ["Website", "SEO"],
     href: "/our-work",
   },
 ];
+
+const n = (v: number) => Math.round(v * 100) / 100;
+const arc = (r: number, sweep: 0 | 1, x: number, y: number) =>
+  `A ${n(r)} ${n(r)} 0 0 ${sweep} ${n(x)} ${n(y)}`;
+
+/**
+ * Outline of a `W` x `H` image with a notch removed from its top-right corner,
+ * sized `w` x `h`, so the page shows through behind the tag strip.
+ *
+ * Same language as the hero's staircase panel: `R` rounds the card's own
+ * corners, `r` fillets the notch. Traversed clockwise with the interior on the
+ * right, so the two 90-degree notch corners take sweep 1 and the single reflex
+ * corner at the notch's inner elbow takes sweep 0 to curve the other way.
+ */
+function buildNotchedPath(
+  W: number,
+  H: number,
+  w: number,
+  h: number,
+  R: number,
+  r: number,
+): string {
+  return [
+    `M ${n(R)} 0`,
+    `H ${n(W - w - r)}`,
+    arc(r, 1, W - w, r), // top edge turns down into the notch
+    `V ${n(h - r)}`,
+    arc(r, 0, W - w + r, h), // inner elbow, curving into the notch
+    `H ${n(W - r)}`,
+    arc(r, 1, W, h + r), // notch floor turns down the right edge
+    `V ${n(H - R)}`,
+    arc(R, 1, W - R, H),
+    `H ${n(R)}`,
+    arc(R, 1, 0, H - R),
+    `V ${n(R)}`,
+    arc(R, 1, R, 0),
+    "Z",
+  ].join(" ");
+}
 
 /**
  * True only for real mouse pointers on desktop widths.
@@ -113,6 +152,63 @@ const ProjectCard = ({
   const cursorX = useSpring(targetX, CURSOR_SPRING);
   const cursorY = useSpring(targetY, CURSOR_SPRING);
 
+  // ── notch geometry ────────────────────────────────────────────────
+  const frameRef = useRef<HTMLDivElement>(null);
+  const stripRef = useRef<HTMLDivElement>(null);
+  const [clip, setClip] = useState<string | null>(null);
+
+  const measure = useCallback(() => {
+    const frame = frameRef.current;
+    const strip = stripRef.current;
+    if (!frame || !strip) return;
+
+    const W = frame.clientWidth;
+    const H = frame.clientHeight;
+    const w = strip.offsetWidth;
+    const h = strip.offsetHeight;
+
+    // Radius is read back from CSS rather than hard-coded, so the clipped shape
+    // always agrees with whatever `rounded-*` utility is in play at this
+    // breakpoint.
+    const R = parseFloat(window.getComputedStyle(frame).borderTopLeftRadius) || 16;
+
+    if (W < 2 || H < 2 || w < 2 || h < 2) return setClip(null);
+
+    // The fillet cannot exceed half the notch in either direction: past that the
+    // straight run between the two arcs inverts and the path folds back on
+    // itself instead of drawing a corner.
+    const r = Math.max(4, Math.min(R, 18, w / 2, h / 2));
+
+    // Fall back to plain rounded corners if the strip ever outgrows the card.
+    if (w + r + R > W || h + r + R > H) return setClip(null);
+
+    setClip(buildNotchedPath(W, H, w, h, R, r));
+  }, []);
+
+  useLayoutEffect(() => {
+    measure();
+    const frame = frameRef.current;
+    const strip = stripRef.current;
+    if (!frame || !strip) return;
+    // The strip resizes with its own text metrics, which the card's resize does
+    // not capture, so both are observed.
+    const ro = new ResizeObserver(() => measure());
+    ro.observe(frame);
+    ro.observe(strip);
+    return () => ro.disconnect();
+  }, [measure]);
+
+  useEffect(() => {
+    if (typeof document === "undefined" || !("fonts" in document)) return;
+    let alive = true;
+    document.fonts.ready.then(() => {
+      if (alive) measure();
+    });
+    return () => {
+      alive = false;
+    };
+  }, [measure]);
+
   const track = (e: React.MouseEvent) => {
     targetX.set(e.clientX);
     targetY.set(e.clientY);
@@ -140,31 +236,58 @@ const ProjectCard = ({
         {/* cursor-none is scoped to the image only, so the caption below stays
             selectable with a normal pointer. */}
         <div
+          ref={frameRef}
           onMouseEnter={handleEnter}
           onMouseMove={finePointer ? track : undefined}
           onMouseLeave={() => setHovered(false)}
-          className="relative mb-5 aspect-[4/3] w-full overflow-hidden rounded-2xl bg-secondary md:rounded-3xl lg:cursor-none"
+          className="relative mb-5 aspect-[4/3] w-full rounded-2xl md:rounded-3xl lg:cursor-none"
         >
-          <div className="pointer-events-none absolute right-4 top-4 z-10 flex flex-wrap justify-end gap-2">
+          {/*
+            The tag strip sits in the notch, on the page background rather than
+            on the photo. It is measured, so the cut always matches the pills.
+          */}
+          <div
+            ref={stripRef}
+            className="absolute right-0 top-0 z-20 flex items-center gap-2 pb-3 pl-4"
+          >
             {project.tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-full bg-background/80 px-3 py-1.5 text-[10px] font-bold text-foreground backdrop-blur-md"
+                className="whitespace-nowrap rounded-full border border-foreground/10 bg-secondary px-3 py-1.5 text-[10px] font-semibold text-foreground"
               >
                 {tag}
               </span>
             ))}
           </div>
 
-          <img
-            src={project.image}
-            alt={project.title}
-            width={1200}
-            height={900}
-            loading={index === 0 ? "eager" : "lazy"}
-            decoding="async"
-            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 motion-reduce:transform-none"
-          />
+          {/* Everything visual is clipped to the notched outline. */}
+          <div
+            className="absolute inset-0 overflow-hidden rounded-2xl bg-secondary md:rounded-3xl"
+            style={{
+              clipPath: clip ? `path("${clip}")` : undefined,
+              WebkitClipPath: clip ? `path("${clip}")` : undefined,
+            }}
+          >
+            <img
+              src={project.image}
+              alt={project.title}
+              width={1200}
+              height={900}
+              loading={index === 0 ? "eager" : "lazy"}
+              decoding="async"
+              className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 motion-reduce:transform-none"
+            />
+
+            {/* Hover info: a soft veil lifts the type off the photo, and the
+                label wipes up from behind its own mask. */}
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/75 via-black/25 to-transparent opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100" />
+            <div className="pointer-events-none absolute bottom-5 left-5 right-5 overflow-hidden">
+              <span className="flex translate-y-full items-center gap-2 text-sm font-semibold text-white transition-transform duration-[550ms] ease-out group-hover:translate-y-0 motion-reduce:transform-none">
+                View project
+                <ArrowUpRight className="h-4 w-4" strokeWidth={2.5} />
+              </span>
+            </div>
+          </div>
         </div>
 
         <div className="mb-2 flex flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
@@ -199,10 +322,20 @@ const ProjectCard = ({
             {hovered && (
               <motion.div
                 style={{ x: cursorX, y: cursorY }}
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0, opacity: 0 }}
-                transition={{ type: "spring", stiffness: 400, damping: 28 }}
+                initial={{ scale: 0.3, opacity: 0 }}
+                animate={{
+                  scale: 1,
+                  opacity: 1,
+                  transition: { type: "spring", stiffness: 400, damping: 28 },
+                }}
+                /* Eased fade rather than a spring to zero. Snapping straight to
+                   scale 0 made the circle vanish the instant the pointer left
+                   the image; this lets it ease away instead. */
+                exit={{
+                  scale: 0.4,
+                  opacity: 0,
+                  transition: { duration: 0.4, ease: EASE },
+                }}
                 /* -ml-10/-mt-10 is half of h-20/w-20, which centres the circle
                    on the pointer tip without a second transform fighting x/y. */
                 className="pointer-events-none fixed left-0 top-0 z-[100] -ml-10 -mt-10 flex h-20 w-20 items-center justify-center rounded-full bg-[#b5ff2b] text-black shadow-xl"
