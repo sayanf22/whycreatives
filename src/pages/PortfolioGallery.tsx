@@ -8,6 +8,7 @@ import { Globe, Palette, Video, LayoutGrid, X, ExternalLink } from "lucide-react
 import { motion, AnimatePresence } from "framer-motion";
 import { BlurLine, BlurLines } from "@/components/BlurLines";
 import { useSiteContent } from "@/hooks/use-site-content";
+import { NotchedFrame } from "@/components/NotchedFrame";
 
 const getCategoryIcon = (category: string, className = "w-4 h-4") => {
   switch (category) {
@@ -132,8 +133,10 @@ const PortfolioGallery = () => {
       {/* Wider gutters and a wider well: the grid was capped at max-w-7xl
           inside 120px gutters, which left the cards far narrower than the
           headline above them. */}
-      <div className="px-4 pb-24 pt-28 sm:pt-32 md:px-[clamp(24px,4vw,72px)]">
-        <div className="mx-auto max-w-[1600px]">
+      {/* Near full-bleed: the reference layout runs its work grid right out to
+          the page gutters rather than sitting in a narrow centred column. */}
+      <div className="px-4 pb-24 pt-28 sm:pt-32 md:px-[clamp(20px,2.6vw,52px)]">
+        <div className="mx-auto max-w-[1920px]">
           {/* ── PAGE HEADER ── same typographic system as the services page:
               small eyebrow, oversized medium-weight display lines that wipe up
               from behind a mask as their blur clears, support copy to the side.
@@ -156,10 +159,10 @@ const PortfolioGallery = () => {
                 key={`${headingOne}|${headingTwo}`}
                 className="block text-foreground"
                 style={{
-                  fontSize: "clamp(2.25rem, 8vw, 8.5rem)",
-                  lineHeight: 0.97,
-                  letterSpacing: "-0.045em",
-                  fontWeight: 500,
+                  fontSize: "clamp(2.4rem, 8.6vw, 9.5rem)",
+                  lineHeight: 0.94,
+                  letterSpacing: "-0.05em",
+                  fontWeight: 700,
                 }}
               >
                 <BlurLine delay={0.05}>{headingOne}</BlurLine>
@@ -171,7 +174,7 @@ const PortfolioGallery = () => {
 
             <div className="mt-8 grid grid-cols-1 lg:mt-12 lg:grid-cols-12">
               <motion.p
-                className="max-w-[36ch] text-base leading-[1.4] text-foreground sm:text-lg md:text-xl lg:col-span-5 lg:col-start-7"
+                className="max-w-[36ch] text-lg font-medium leading-[1.35] text-foreground sm:text-xl md:text-2xl lg:col-span-5 lg:col-start-7"
                 initial={{ opacity: 0, y: 18, filter: "blur(8px)" }}
                 whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                 viewport={{ once: true, amount: 0.5 }}
@@ -259,38 +262,47 @@ const PortfolioGallery = () => {
                     onClick={() => setActiveLightboxItem(item)}
                     /* Odd cards drop down a step on desktop, which is what gives
                        the grid its staggered, masonry-like rhythm. */
-                    className={`group cursor-pointer ${i % 2 === 1 ? "md:mt-20" : ""}`}
+                    className={`group cursor-pointer ${i % 2 === 1 ? "md:mt-24" : ""}`}
                   >
-                    <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-black/10 bg-secondary transition-transform duration-500 will-change-transform group-hover:-translate-y-2 motion-reduce:transform-none dark:border-white/10 md:rounded-[28px]">
+                    {/* Same notched frame the homepage grid uses: rounded on
+                        every corner, with the category stepped into the top
+                        right and the year stepped into the bottom left. */}
+                    <NotchedFrame
+                      className="aspect-[16/10] transition-transform duration-500 will-change-transform group-hover:-translate-y-2 motion-reduce:transform-none"
+                      radiusClassName="rounded-[20px] md:rounded-[34px]"
+                      tags={[
+                        <span
+                          key="category"
+                          className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-foreground px-4 py-2 text-xs font-bold text-background"
+                        >
+                          {getCategoryIcon(item.category, "w-3.5 h-3.5")}
+                          {item.category}
+                        </span>,
+                      ]}
+                      meta={
+                        <span className="whitespace-nowrap text-[11px] font-bold uppercase tracking-[0.16em] text-muted-foreground">
+                          {item.created_at
+                            ? new Date(item.created_at).getFullYear()
+                            : "Project"}
+                        </span>
+                      }
+                    >
                       <MediaRenderer
                         url={getStorageUrl(item.image_url)}
                         mediaType={item.media_type}
                         alt={item.title}
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                       />
-                    </div>
+                    </NotchedFrame>
 
-                    <div className="mt-5 md:mt-6">
-                      <p className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground sm:text-[11px]">
-                        {item.created_at && (
-                          <>
-                            <span>{new Date(item.created_at).getFullYear()}</span>
-                            <span aria-hidden="true">&bull;</span>
-                          </>
-                        )}
-                        <span className="inline-flex items-center gap-1.5">
-                          {getCategoryIcon(item.category, "w-3 h-3")}
-                          {item.category}
-                        </span>
-                      </p>
-
+                    <div className="mt-5 md:mt-7">
                       <h3
-                        className="mt-2.5 text-foreground transition-colors duration-300 group-hover:text-muted-foreground"
+                        className="text-foreground transition-colors duration-300 group-hover:text-muted-foreground"
                         style={{
-                          fontSize: "clamp(1.4rem, 2.6vw, 2.5rem)",
-                          lineHeight: 1.1,
-                          letterSpacing: "-0.035em",
-                          fontWeight: 500,
+                          fontSize: "clamp(1.6rem, 3vw, 3rem)",
+                          lineHeight: 1.05,
+                          letterSpacing: "-0.04em",
+                          fontWeight: 700,
                         }}
                       >
                         {item.title}
@@ -299,7 +311,7 @@ const PortfolioGallery = () => {
                       {/* Falls back to the long description so a project with no
                           short line still reads, just clamped. */}
                       {(item.short_description || item.description) && (
-                        <p className="mt-3 line-clamp-2 max-w-[52ch] text-sm leading-relaxed text-muted-foreground sm:text-base md:text-lg">
+                        <p className="mt-3 line-clamp-2 max-w-[52ch] text-base font-medium leading-relaxed text-muted-foreground sm:text-lg md:text-xl">
                           {item.short_description || item.description}
                         </p>
                       )}

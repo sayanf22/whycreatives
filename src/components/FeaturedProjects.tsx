@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   AnimatePresence,
@@ -9,6 +9,7 @@ import {
 import { ArrowUpRight } from "lucide-react";
 import { RevealLines } from "@/components/RevealLines";
 import { ProjectTextStage, type Phrase } from "@/components/ProjectTextStage";
+import { NotchedFrame } from "@/components/NotchedFrame";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -118,54 +119,6 @@ const PROJECTS: Project[] = [
   },
 ];
 
-const n = (v: number) => Math.round(v * 100) / 100;
-const arc = (r: number, sweep: 0 | 1, x: number, y: number) =>
-  `A ${n(r)} ${n(r)} 0 0 ${sweep} ${n(x)} ${n(y)}`;
-
-type Notch = { w: number; h: number };
-
-/**
- * Outline of a `W` x `H` image with a notch removed from the top-right corner
- * and a matching one from the bottom-left, so the page shows through behind the
- * tag strip and the caption.
- *
- * Same language as the hero's staircase panel: `R` rounds the card's own
- * corners, `r` fillets each notch. Traversed clockwise with the interior on the
- * right, so each notch's two 90-degree corners take sweep 1 while its reflex
- * inner elbow takes sweep 0 to curve the opposite way.
- */
-function buildNotchedPath(
-  W: number,
-  H: number,
-  top: Notch,
-  bottom: Notch,
-  R: number,
-  r: number,
-): string {
-  return [
-    `M ${n(R)} 0`,
-    // ── top-right notch ──
-    `H ${n(W - top.w - r)}`,
-    arc(r, 1, W - top.w, r), // top edge turns down into the notch
-    `V ${n(top.h - r)}`,
-    arc(r, 0, W - top.w + r, top.h), // inner elbow
-    `H ${n(W - r)}`,
-    arc(r, 1, W, top.h + r), // notch floor turns down the right edge
-    `V ${n(H - R)}`,
-    arc(R, 1, W - R, H),
-    // ── bottom-left notch ──
-    `H ${n(bottom.w + r)}`,
-    arc(r, 1, bottom.w, H - r), // bottom edge turns up into the notch
-    `V ${n(H - bottom.h + r)}`,
-    arc(r, 0, bottom.w - r, H - bottom.h), // inner elbow
-    `H ${n(r)}`,
-    arc(r, 1, 0, H - bottom.h - r), // notch ceiling turns up the left edge
-    `V ${n(R)}`,
-    arc(R, 1, R, 0),
-    "Z",
-  ].join(" ");
-}
-
 /**
  * True only for real mouse pointers on desktop widths.
  *
@@ -213,78 +166,9 @@ const ProjectCard = ({
   const cursorX = useSpring(targetX, CURSOR_SPRING);
   const cursorY = useSpring(targetY, CURSOR_SPRING);
 
-  // ── notch geometry ────────────────────────────────────────────────
+  /* Held here rather than inside NotchedFrame because the cursor maths needs
+     the same box the notch is measured from. */
   const frameRef = useRef<HTMLDivElement>(null);
-  const tagsRef = useRef<HTMLDivElement>(null);
-  const metaRef = useRef<HTMLDivElement>(null);
-  const [clip, setClip] = useState<string | null>(null);
-
-  const measure = useCallback(() => {
-    const frame = frameRef.current;
-    const tags = tagsRef.current;
-    const meta = metaRef.current;
-    if (!frame || !tags || !meta) return;
-
-    const W = frame.clientWidth;
-    const H = frame.clientHeight;
-    const top = { w: tags.offsetWidth, h: tags.offsetHeight };
-    const bottom = { w: meta.offsetWidth, h: meta.offsetHeight };
-
-    // Radius is read back from CSS rather than hard-coded, so the clipped shape
-    // always agrees with whatever `rounded-*` utility is in play at this
-    // breakpoint.
-    const R = parseFloat(window.getComputedStyle(frame).borderTopLeftRadius) || 16;
-
-    if (W < 2 || H < 2) return setClip(null);
-    if (top.w < 2 || top.h < 2 || bottom.w < 2 || bottom.h < 2)
-      return setClip(null);
-
-    // The fillet cannot exceed half of either notch in either direction: past
-    // that the straight run between two arcs inverts and the path folds back on
-    // itself instead of drawing a corner.
-    const r = Math.max(
-      4,
-      Math.min(R, 24, top.w / 2, top.h / 2, bottom.w / 2, bottom.h / 2),
-    );
-
-    // Fall back to plain rounded corners if a strip outgrows the card, or if the
-    // two notches would meet in the middle.
-    const fits =
-      top.w + r + R <= W &&
-      bottom.w + r + R <= W &&
-      top.h + r + R <= H &&
-      bottom.h + r + R <= H &&
-      top.h + bottom.h + 2 * r < H;
-    if (!fits) return setClip(null);
-
-    setClip(buildNotchedPath(W, H, top, bottom, R, r));
-  }, []);
-
-  useLayoutEffect(() => {
-    measure();
-    const frame = frameRef.current;
-    const tags = tagsRef.current;
-    const meta = metaRef.current;
-    if (!frame || !tags || !meta) return;
-    // Each strip resizes with its own text metrics, which the card's resize does
-    // not capture, so all three are observed.
-    const ro = new ResizeObserver(() => measure());
-    ro.observe(frame);
-    ro.observe(tags);
-    ro.observe(meta);
-    return () => ro.disconnect();
-  }, [measure]);
-
-  useEffect(() => {
-    if (typeof document === "undefined" || !("fonts" in document)) return;
-    let alive = true;
-    document.fonts.ready.then(() => {
-      if (alive) measure();
-    });
-    return () => {
-      alive = false;
-    };
-  }, [measure]);
 
   /**
    * Pointer position relative to the card's image box.
@@ -332,74 +216,105 @@ const ProjectCard = ({
       transition={{ duration: 0.7, ease: EASE }}
     >
       <Link to={project.href} className="group block">
-        {/* cursor-none is scoped to the image only, so the caption below stays
-            selectable with a normal pointer. */}
-        <div
-          ref={frameRef}
+        {/* cursor-none is scoped to the media only, so the caption below stays
+            selectable with a normal pointer. The notch geometry itself lives in
+            NotchedFrame, shared with the portfolio gallery. */}
+        <NotchedFrame
+          frameRef={frameRef}
           onMouseEnter={handleEnter}
           onMouseMove={finePointer ? track : undefined}
           onMouseLeave={() => setHovered(false)}
-          className="relative mb-5 aspect-[4/3] w-full rounded-2xl md:rounded-3xl lg:cursor-none"
+          className="mb-5 aspect-[4/3] lg:cursor-none"
+          radiusClassName="rounded-2xl md:rounded-3xl"
+          tagsClassName="gap-2.5"
+          tagsPaddedClassName="pb-5 pl-6"
+          metaClassName="gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-muted-foreground"
+          metaPaddedClassName="pr-6 pt-5"
+          tags={project.tags.map((tag, i) => (
+            /* Pills settle downward and reach full strength on hover. Both are
+               transforms/opacity only, so the measured notch never shifts. */
+            <motion.span
+              key={tag}
+              animate={
+                hovered
+                  ? { y: 5, opacity: 1, scale: 1.04 }
+                  : { y: 0, opacity: 0.82, scale: 1 }
+              }
+              transition={{
+                type: "spring",
+                stiffness: 420,
+                damping: 26,
+                delay: hovered ? i * 0.05 : 0,
+              }}
+              className="whitespace-nowrap rounded-full bg-foreground px-4 py-2 text-xs font-bold text-background"
+            >
+              {tag}
+            </motion.span>
+          ))}
+          meta={
+            <>
+              <span>{project.year}</span>
+              <span aria-hidden="true">&bull;</span>
+              <span className="whitespace-nowrap">{project.client}</span>
+            </>
+          }
+          overlay={
+            /*
+              Tracking cursor sits alongside the clipped layer, not inside it.
+              Inside, the media's own clip-path and overflow-hidden trimmed the
+              circle away whenever the pointer neared an edge or a notch, so it
+              appeared to vanish. Out here it stays whole and can overlap the cut
+              corners.
+            */
+            <AnimatePresence>
+              {finePointer && hovered && (
+                <motion.div
+                  style={{ x: cursorX, y: cursorY }}
+                  initial={{ scale: 0.2, opacity: 0 }}
+                  animate={{
+                    scale: 1,
+                    opacity: 1,
+                    transition: {
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 24,
+                      mass: 0.6,
+                    },
+                  }}
+                  exit={{
+                    scale: 0.2,
+                    opacity: 0,
+                    transition: { duration: 0.35, ease: EASE },
+                  }}
+                  /* -ml-8/-mt-8 is half of h-16/w-16, centring the circle on the
+                     pointer without a second transform fighting x/y. */
+                  className="pointer-events-none absolute left-0 top-0 z-30 -ml-8 -mt-8 flex h-16 w-16 items-center justify-center rounded-full bg-foreground text-background shadow-[0_12px_35px_rgba(0,0,0,0.28)]"
+                >
+                  {/* Arrow trails the puck slightly so the circle reads as
+                      growing into an arrow rather than both snapping in. */}
+                  <motion.span
+                    className="flex items-center justify-center"
+                    initial={{ opacity: 0, scale: 0.4, rotate: -25 }}
+                    animate={{
+                      opacity: 1,
+                      scale: 1,
+                      rotate: 0,
+                      transition: { duration: 0.3, ease: EASE, delay: 0.08 },
+                    }}
+                    exit={{
+                      opacity: 0,
+                      scale: 0.4,
+                      transition: { duration: 0.15, ease: EASE },
+                    }}
+                  >
+                    <ArrowUpRight className="h-6 w-6" strokeWidth={2.5} />
+                  </motion.span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          }
         >
-          {/*
-            Both strips sit in their notches, on the page background rather than
-            on the photo. They are measured, so each cut matches its content.
-            The padding is what sets the size of the step, so it is generous.
-          */}
-          {/* When the notch cannot fit (very narrow screens) the strips end up
-              sitting directly on the photo, so they take a solid backing there
-              to stay legible. Adding padding only ever grows them, so this
-              cannot flip the fit test back and forth. */}
-          <div
-            ref={tagsRef}
-            className={`absolute right-0 top-0 z-20 flex items-center gap-2.5 ${
-              clip ? "pb-5 pl-6" : "rounded-bl-2xl bg-background/95 p-3"
-            }`}
-          >
-            {/* Pills settle downward and reach full strength on hover. Both are
-                transforms/opacity only, so the measured notch never shifts. */}
-            {project.tags.map((tag, i) => (
-              <motion.span
-                key={tag}
-                animate={
-                  hovered
-                    ? { y: 5, opacity: 1, scale: 1.04 }
-                    : { y: 0, opacity: 0.82, scale: 1 }
-                }
-                transition={{
-                  type: "spring",
-                  stiffness: 420,
-                  damping: 26,
-                  delay: hovered ? i * 0.05 : 0,
-                }}
-                className="whitespace-nowrap rounded-full bg-foreground px-4 py-2 text-xs font-bold text-background"
-              >
-                {tag}
-              </motion.span>
-            ))}
-          </div>
-
-          {/* Caption lives in the opposite step, which is what gives the card
-              its staircase on both diagonals. */}
-          <div
-            ref={metaRef}
-            className={`absolute bottom-0 left-0 z-20 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-muted-foreground ${
-              clip ? "pr-6 pt-5" : "rounded-tr-2xl bg-background/95 p-3"
-            }`}
-          >
-            <span>{project.year}</span>
-            <span aria-hidden="true">&bull;</span>
-            <span className="whitespace-nowrap">{project.client}</span>
-          </div>
-
-          {/* Everything visual is clipped to the notched outline. */}
-          <div
-            className="absolute inset-0 overflow-hidden rounded-2xl bg-secondary md:rounded-3xl"
-            style={{
-              clipPath: clip ? `path("${clip}")` : undefined,
-              WebkitClipPath: clip ? `path("${clip}")` : undefined,
-            }}
-          >
+          <>
             {project.stage ? (
               /* The zoom stays on a wrapper so the panel scales like the photo
                  it replaces, while the type inside is never transformed —
@@ -434,65 +349,8 @@ const ProjectCard = ({
                 <ArrowUpRight className="h-4 w-4" strokeWidth={2.5} />
               </span>
             </div>
-          </div>
-
-          {/*
-            Tracking cursor sits alongside the clipped layer, not inside it.
-            Inside, the image's own clip-path and overflow-hidden trimmed the
-            circle away whenever the pointer neared an edge or a notch, so it
-            appeared to vanish. Out here it stays whole and can overlap the cut
-            corners, which is what the reference does.
-
-            Coordinates are still relative to this box, so no portal is needed
-            and the card's scroll transform cannot drag it out of place.
-          */}
-          <AnimatePresence>
-            {finePointer && hovered && (
-              <motion.div
-                style={{ x: cursorX, y: cursorY }}
-                initial={{ scale: 0.2, opacity: 0 }}
-                animate={{
-                  scale: 1,
-                  opacity: 1,
-                  transition: {
-                    type: "spring",
-                    stiffness: 300,
-                    damping: 24,
-                    mass: 0.6,
-                  },
-                }}
-                exit={{
-                  scale: 0.2,
-                  opacity: 0,
-                  transition: { duration: 0.35, ease: EASE },
-                }}
-                /* -ml-8/-mt-8 is half of h-16/w-16, centring the circle on the
-                   pointer without a second transform fighting x/y. */
-                className="pointer-events-none absolute left-0 top-0 z-30 -ml-8 -mt-8 flex h-16 w-16 items-center justify-center rounded-full bg-foreground text-background shadow-[0_12px_35px_rgba(0,0,0,0.28)]"
-              >
-                {/* Arrow trails the puck slightly so the circle reads as growing
-                    into an arrow rather than both snapping in together. */}
-                <motion.span
-                  className="flex items-center justify-center"
-                  initial={{ opacity: 0, scale: 0.4, rotate: -25 }}
-                  animate={{
-                    opacity: 1,
-                    scale: 1,
-                    rotate: 0,
-                    transition: { duration: 0.3, ease: EASE, delay: 0.08 },
-                  }}
-                  exit={{
-                    opacity: 0,
-                    scale: 0.4,
-                    transition: { duration: 0.15, ease: EASE },
-                  }}
-                >
-                  <ArrowUpRight className="h-6 w-6" strokeWidth={2.5} />
-                </motion.span>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+          </>
+        </NotchedFrame>
 
         <h3
           className="text-foreground transition-colors duration-300 group-hover:text-muted-foreground"
