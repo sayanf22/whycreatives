@@ -78,6 +78,7 @@ export const NotchedFrame = ({
   tagsPaddedClassName = "pb-4 pl-5",
   metaClassName = "gap-2",
   metaPaddedClassName = "pr-5 pt-4",
+  shadowClassName = "",
   onMouseEnter,
   onMouseMove,
   onMouseLeave,
@@ -101,6 +102,9 @@ export const NotchedFrame = ({
   tagsPaddedClassName?: string;
   metaClassName?: string;
   metaPaddedClassName?: string;
+  /** `drop-shadow(...)` utilities. Must be a filter, not a box-shadow — see the
+   *  note on the wrapper below. */
+  shadowClassName?: string;
   onMouseEnter?: (e: React.MouseEvent) => void;
   onMouseMove?: (e: React.MouseEvent) => void;
   onMouseLeave?: (e: React.MouseEvent) => void;
@@ -210,14 +214,27 @@ export const NotchedFrame = ({
         {meta}
       </div>
 
+      {/*
+        The shadow lives on this wrapper, not on the clipped element itself.
+        Per CSS Masking, `clip-path` is applied *after* `filter`, so a
+        `drop-shadow` set on the same element as the clip gets clipped away with
+        it and never renders. On a parent, the child is clipped first and the
+        filter then works from that finished silhouette — which is also why this
+        is a `drop-shadow` filter rather than `box-shadow`: box-shadow would draw
+        the shadow of the element's rectangle, ignoring the notches.
+      */}
       <div
-        className={`absolute inset-0 overflow-hidden ${radiusClassName} ${surfaceClassName}`}
-        style={{
-          clipPath: clip ? `path("${clip}")` : undefined,
-          WebkitClipPath: clip ? `path("${clip}")` : undefined,
-        }}
+        className={`absolute inset-0 transition-[filter] duration-500 ease-out ${shadowClassName}`}
       >
-        {children}
+        <div
+          className={`h-full w-full overflow-hidden ${radiusClassName} ${surfaceClassName}`}
+          style={{
+            clipPath: clip ? `path("${clip}")` : undefined,
+            WebkitClipPath: clip ? `path("${clip}")` : undefined,
+          }}
+        >
+          {children}
+        </div>
       </div>
 
       {overlay}

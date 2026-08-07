@@ -4,7 +4,7 @@ import { FadeInWhenVisible } from "@/components/FadeInWhenVisible";
 import { useState, useMemo } from "react";
 import { usePortfolioWorks, getStorageUrl, type PortfolioWork } from "@/hooks/use-portfolio-works";
 import { MediaRenderer } from "@/components/MediaRenderer";
-import { Globe, Palette, Video, LayoutGrid, X, ExternalLink } from "lucide-react";
+import { Globe, Palette, Video, LayoutGrid, X, ExternalLink, Quote } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BlurLine, BlurLines } from "@/components/BlurLines";
 import { useSiteContent } from "@/hooks/use-site-content";
@@ -172,19 +172,28 @@ const PortfolioGallery = () => {
               </BlurLines>
             </h1>
 
-            <div className="mt-8 grid grid-cols-1 lg:mt-12 lg:grid-cols-12">
-              <motion.p
-                className="max-w-[36ch] text-lg font-medium leading-[1.35] text-foreground sm:text-xl md:text-2xl lg:col-span-5 lg:col-start-7"
+            <div className="mt-8 grid grid-cols-1 lg:mt-14 lg:grid-cols-12">
+              {/* Set as a pull-quote: the mark sits in its own column so the
+                  text block stays flush left under itself rather than the
+                  second line hanging under the glyph. */}
+              <motion.blockquote
+                className="flex gap-3 sm:gap-4 lg:col-span-6 lg:col-start-7"
                 initial={{ opacity: 0, y: 18, filter: "blur(8px)" }}
                 whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                 viewport={{ once: true, amount: 0.5 }}
                 transition={{ duration: 0.7, ease: EASE, delay: 0.28 }}
               >
-                {text(
-                  "gallery.intro",
-                  "The full collection — brand identities, websites, apps and video, filtered however you want to read it.",
-                )}
-              </motion.p>
+                <Quote
+                  className="mt-1.5 h-5 w-5 shrink-0 fill-foreground text-foreground sm:mt-2 sm:h-6 sm:w-6"
+                  aria-hidden="true"
+                />
+                <p className="max-w-[30ch] text-xl font-bold leading-[1.25] tracking-[-0.02em] text-foreground sm:text-2xl md:text-3xl">
+                  {text(
+                    "gallery.intro",
+                    "Every project here is work we shipped — brand identities, websites, apps and video, built by one team.",
+                  )}
+                </p>
+              </motion.blockquote>
             </div>
           </header>
 
@@ -233,7 +242,7 @@ const PortfolioGallery = () => {
           <FadeInWhenVisible delay={0.2}>
             <motion.div
               layout
-              className="grid min-h-[400px] grid-cols-1 gap-x-10 gap-y-16 md:grid-cols-2 lg:gap-x-14 lg:gap-y-24"
+              className="grid min-h-[400px] grid-cols-1 gap-x-12 gap-y-20 md:grid-cols-2 lg:gap-x-20 lg:gap-y-32"
             >
               <AnimatePresence mode="popLayout">
                 {filteredItems.map((item, i) => (
@@ -260,9 +269,16 @@ const PortfolioGallery = () => {
                     }}
                     key={item.id}
                     onClick={() => setActiveLightboxItem(item)}
-                    /* Odd cards drop down a step on desktop, which is what gives
-                       the grid its staggered, masonry-like rhythm. */
-                    className={`group cursor-pointer ${i % 2 === 1 ? "md:mt-24" : ""}`}
+                    /*
+                      Odd cards drop by roughly half a card so the right column
+                      begins level with the middle of the left one, which is the
+                      offset in the reference. A card spans about 46vw at this
+                      breakpoint and is 16:10, so half its height is ~14vw; the
+                      clamp keeps that sane on very small and very wide screens.
+                    */
+                    className={`group cursor-pointer ${
+                      i % 2 === 1 ? "md:mt-[clamp(90px,14vw,260px)]" : ""
+                    }`}
                   >
                     {/* Same notched frame the homepage grid uses: rounded on
                         every corner, with the category stepped into the top
@@ -270,6 +286,10 @@ const PortfolioGallery = () => {
                     <NotchedFrame
                       className="aspect-[16/10] transition-transform duration-500 will-change-transform group-hover:-translate-y-2 motion-reduce:transform-none"
                       radiusClassName="rounded-[20px] md:rounded-[34px]"
+                      /* Two stacked drop-shadows: a tight one for the edge and a
+                         wide soft one for depth. Both follow the notched
+                         silhouette rather than a rectangle. */
+                      shadowClassName="[filter:drop-shadow(0_2px_4px_rgba(0,0,0,0.06))_drop-shadow(0_18px_36px_rgba(0,0,0,0.13))] group-hover:[filter:drop-shadow(0_3px_6px_rgba(0,0,0,0.08))_drop-shadow(0_30px_56px_rgba(0,0,0,0.2))] dark:[filter:drop-shadow(0_2px_5px_rgba(0,0,0,0.5))_drop-shadow(0_22px_44px_rgba(0,0,0,0.65))] dark:group-hover:[filter:drop-shadow(0_3px_8px_rgba(0,0,0,0.6))_drop-shadow(0_34px_64px_rgba(0,0,0,0.8))]"
                       tags={[
                         <span
                           key="category"
