@@ -31,13 +31,26 @@ const CAPABILITIES = [
   { label: "SEO", Icon: Search },
 ];
 
-/** Reveals a block of copy word by word, each word masked so it wipes upward. */
+/**
+ * Reveals a block of copy word by word, each word masked so it wipes upward.
+ *
+ * The viewport is observed on the untransformed wrapper and the movement runs
+ * on children via variants. Observing each word directly was unreliable: they
+ * start translated 110% out of an overflow-hidden box, so the observed rect can
+ * be clipped away and the reveal never fires — leaving the text invisible.
+ */
 const RevealText = ({ text, className, style }: {
   text: string;
   className?: string;
   style?: React.CSSProperties;
 }) => (
-  <span className={className} style={style}>
+  <motion.span
+    className={className}
+    style={style}
+    initial="hidden"
+    whileInView="show"
+    viewport={{ once: true, amount: 0.2 }}
+  >
     {text.split(" ").map((word, i) => (
       <span
         key={`${word}-${i}`}
@@ -46,9 +59,7 @@ const RevealText = ({ text, className, style }: {
       >
         <motion.span
           className="inline-block"
-          initial={{ y: "110%" }}
-          whileInView={{ y: "0%" }}
-          viewport={{ once: true, margin: "-12%" }}
+          variants={{ hidden: { y: "110%" }, show: { y: "0%" } }}
           transition={{ duration: 0.8, ease: EASE, delay: i * 0.02 }}
         >
           {word}
@@ -56,7 +67,7 @@ const RevealText = ({ text, className, style }: {
         {"\u00A0"}
       </span>
     ))}
-  </span>
+  </motion.span>
 );
 
 export const AgencyIntro = () => {
