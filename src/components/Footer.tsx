@@ -248,7 +248,29 @@ export const Footer = () => {
             {/* Fine Print Bottom Bar */}
             <div className="flex flex-col md:flex-row items-center justify-between gap-4 border-t border-neutral-900 pt-6 text-[10px] sm:text-xs text-neutral-400">
               <BlurReveal delay={0.4}>
-                <span>WhyCreatives. © WhyCreatives Agency 2026 | Company Reg Number 10529055</span>
+                <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 md:justify-start">
+                  <Link
+                    to="/"
+                    className="flex shrink-0 items-center gap-2 transition-opacity hover:opacity-80"
+                  >
+                    <img
+                      src="/logo.png"
+                      alt="WhyCreatives logo"
+                      width={24}
+                      height={24}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-6 w-6 rounded-[6px] object-contain"
+                    />
+                    <span className="text-sm font-black tracking-tighter text-white">
+                      WhyCreatives.
+                    </span>
+                  </Link>
+                  <span className="hidden text-neutral-700 md:inline">|</span>
+                  <span>© WhyCreatives Agency 2026</span>
+                  <span className="text-neutral-700">|</span>
+                  <span>Guwahati, Assam, India</span>
+                </div>
               </BlurReveal>
               <BlurReveal delay={0.45}>
                 <div className="flex flex-wrap gap-2 sm:gap-4 justify-center">

@@ -8,6 +8,7 @@ import { HowItWorks } from "@/components/HowItWorks";
 import { Testimonials } from "@/components/Testimonials";
 import { CTA } from "@/components/CTA";
 import { GooeySection } from "@/components/GooeySection";
+import { MarqueeLine } from "@/components/MarqueeLine";
 import { Footer } from "@/components/Footer";
 import { Helmet } from "react-helmet-async";
 
@@ -68,6 +69,7 @@ const Index = () => {
       <Testimonials />
       <CTA />
       <GooeySection />
+      <MarqueeLine />
       <Footer />
     </div>
   );
