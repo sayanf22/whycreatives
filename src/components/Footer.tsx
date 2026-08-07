@@ -161,6 +161,25 @@ export const Footer = () => {
               
               {/* Left CTA Column */}
               <div className="flex flex-col gap-6 items-start max-w-sm">
+                {/* Brand lockup. The card is dark in both themes, so the black
+                    mark is inverted to white unconditionally here. */}
+                <BlurReveal delay={0.05}>
+                  <Link to="/" className="group inline-flex items-center gap-3" aria-label="WhyCreatives home">
+                    <img
+                      src="/logo.png"
+                      alt=""
+                      width={48}
+                      height={48}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-10 w-10 shrink-0 object-contain invert transition-transform duration-300 group-hover:scale-105 motion-reduce:transform-none sm:h-11 sm:w-11"
+                    />
+                    <span className="text-xl font-black tracking-tighter text-white sm:text-2xl">
+                      WhyCreatives.
+                    </span>
+                  </Link>
+                </BlurReveal>
+
                 <BlurReveal delay={0.1}>
                   <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-tight text-white">
                     Do you like<br />what you see?
@@ -276,14 +295,16 @@ export const Footer = () => {
                     to="/"
                     className="flex shrink-0 items-center gap-2 transition-opacity hover:opacity-80"
                   >
+                    {/* Was rendering black-on-black here and reading as a blank
+                        gap; inverted so it actually shows on the dark card. */}
                     <img
                       src="/logo.png"
-                      alt="WhyCreatives logo"
+                      alt=""
                       width={24}
                       height={24}
                       loading="lazy"
                       decoding="async"
-                      className="h-6 w-6 rounded-[6px] object-contain"
+                      className="h-6 w-6 shrink-0 object-contain invert"
                     />
                     <span className="text-sm font-black tracking-tighter text-white">
                       WhyCreatives.

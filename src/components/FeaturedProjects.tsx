@@ -8,6 +8,7 @@ import {
 } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { RevealLines } from "@/components/RevealLines";
+import { ProjectTextStage, type Phrase } from "@/components/ProjectTextStage";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -19,9 +20,15 @@ type Project = {
   year: string;
   client: string;
   title: string;
+  /** Fallback photograph, used when the card has no `stage`. */
   image: string;
   tags: string[];
   href: string;
+  /**
+   * When present the card shows an animated text panel instead of a
+   * photograph. Panels alternate tone so the grid reads black / white / black.
+   */
+  stage?: { tone: "light" | "dark"; phrases: Phrase[] };
 };
 
 /* Images are the already-optimised WebP assets in /public — no new raster
@@ -35,15 +42,40 @@ const PROJECTS: Project[] = [
     image: "/whycreatives-brand.webp",
     tags: ["Branding", "Strategy"],
     href: "/our-work",
+    /* Tones alternate down the grid — light, dark, light, dark — so the four
+       panels read as a set rather than four identical screens. Colours are
+       picked per tone: saturated on the light panels, brightened on the dark
+       ones, so contrast holds either way. */
+    stage: {
+      tone: "light",
+      phrases: [
+        { words: ["Brand", "identity"], color: "#4F46E5" },
+        { words: ["Clear", "positioning"], color: "#DB2777" },
+        { words: ["Creative", "direction"], color: "#EA580C" },
+        { words: ["One", "clear", "voice"], color: "#111111" },
+      ],
+    },
   },
   {
     id: 2,
     year: "2024",
     client: "Web & Mobile Apps",
-    title: "Custom web & mobile apps built on Next.js, Node.js and Supabase",
+    title: "Custom web & mobile apps on production-ready architecture",
     image: "/whycreatives-app.webp",
-    tags: ["Next.js", "Apps"],
+    tags: ["Web", "Apps"],
     href: "/our-work",
+    /* No vendor names on this section. Naming the stack here dates the work and
+       says nothing to a buyer — the specific tools belong on the service pages,
+       where the choice can be explained. */
+    stage: {
+      tone: "dark",
+      phrases: [
+        { words: ["Web", "and", "apps"], color: "#67E8F9" },
+        { words: ["Production", "ready"], color: "#A5B4FC" },
+        { words: ["Grows", "with", "you"], color: "#F9A8D4" },
+        { words: ["Secure", "by", "design"], color: "#FFFFFF" },
+      ],
+    },
   },
   {
     id: 3,
@@ -53,6 +85,18 @@ const PROJECTS: Project[] = [
     image: "/whycreatives-ugc.webp",
     tags: ["UGC Reels", "Social"],
     href: "/our-work",
+    /* Dark here, light on card 04 — that flips the grid from two parallel
+       columns (left always light, right always dark) into a checkerboard, so
+       the tones also cross on the diagonal. */
+    stage: {
+      tone: "dark",
+      phrases: [
+        { words: ["UGC", "reels"], color: "#F9A8D4" },
+        { words: ["Hooks", "that", "hold"], color: "#FDE047" },
+        { words: ["Real", "product", "stories"], color: "#5EEAD4" },
+        { words: ["Made", "to", "convert"], color: "#FFFFFF" },
+      ],
+    },
   },
   {
     id: 4,
@@ -62,6 +106,15 @@ const PROJECTS: Project[] = [
     image: "/project-nth.webp",
     tags: ["Website", "SEO"],
     href: "/our-work",
+    stage: {
+      tone: "light",
+      phrases: [
+        { words: ["Website", "design"], color: "#7C3AED" },
+        { words: ["Front-end", "build"], color: "#0891B2" },
+        { words: ["Fast", "by", "default"], color: "#DB2777" },
+        { words: ["Search", "ready"], color: "#111111" },
+      ],
+    },
   },
 ];
 
@@ -347,15 +400,28 @@ const ProjectCard = ({
               WebkitClipPath: clip ? `path("${clip}")` : undefined,
             }}
           >
-            <img
-              src={project.image}
-              alt={project.title}
-              width={1200}
-              height={900}
-              loading={index === 0 ? "eager" : "lazy"}
-              decoding="async"
-              className="h-full w-full grayscale contrast-110 object-cover transition-[filter,transform] duration-500 ease-out group-hover:scale-105 group-hover:contrast-125 motion-reduce:transform-none"
-            />
+            {project.stage ? (
+              /* The zoom stays on a wrapper so the panel scales like the photo
+                 it replaces, while the type inside is never transformed —
+                 scaling text mid-blur reads as a rendering glitch. */
+              <div className="h-full w-full transition-transform duration-500 ease-out group-hover:scale-[1.03] motion-reduce:transform-none">
+                <ProjectTextStage
+                  tone={project.stage.tone}
+                  phrases={project.stage.phrases}
+                  seed={index}
+                />
+              </div>
+            ) : (
+              <img
+                src={project.image}
+                alt={project.title}
+                width={1200}
+                height={900}
+                loading={index === 0 ? "eager" : "lazy"}
+                decoding="async"
+                className="h-full w-full grayscale contrast-110 object-cover transition-[filter,transform] duration-500 ease-out group-hover:scale-105 group-hover:contrast-125 motion-reduce:transform-none"
+              />
+            )}
 
             {/* Hover info: a soft veil lifts the type off the photo, and the
                 label wipes up from behind its own mask. */}
@@ -492,6 +558,19 @@ export const FeaturedProjects = () => {
               />
             </h2>
           </Link>
+
+          {/* One team across every discipline, and work that keeps up as the
+              business gets bigger. */}
+          <motion.p
+            className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground sm:text-lg"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.65, ease: EASE, delay: 0.2 }}
+          >
+            Brand, video, web and apps handled by one team &mdash; built so the
+            work scales up as your business does, instead of being rebuilt.
+          </motion.p>
         </div>
 
         {/* The opening card spans both header rows, which is what creates the

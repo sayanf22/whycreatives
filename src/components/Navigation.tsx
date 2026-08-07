@@ -105,7 +105,20 @@ export const Navigation = () => {
         >
           
           {/* ── LEFT LOGO ────────────────────────────────────────── */}
-          <Link to="/" className="flex items-center gap-2 group shrink-0">
+          <Link to="/" className="flex items-center gap-2.5 group shrink-0" aria-label="WhyCreatives home">
+            {/*
+              The mark is solid black artwork on transparency, so it would
+              disappear against the dark navbar. `dark:invert` flips it to white
+              there and leaves it untouched in light mode — no second asset.
+              alt="" because the wordmark beside it already names the brand.
+            */}
+            <img
+              src="/logo.png"
+              alt=""
+              width={36}
+              height={36}
+              className="h-7 w-7 shrink-0 object-contain transition-transform duration-300 group-hover:scale-105 motion-reduce:transform-none dark:invert md:h-8 md:w-8"
+            />
             <span className="text-2xl md:text-3xl font-black tracking-tighter text-black transition-colors duration-300 dark:text-white">
               WhyCreatives.
             </span>
