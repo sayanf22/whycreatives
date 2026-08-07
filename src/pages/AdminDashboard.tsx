@@ -1112,8 +1112,12 @@ const AdminDashboard = () => {
                     />
                     <span className="text-sm font-semibold text-foreground">
                       Mark as featured
+                      {/* Deliberately honest: no page filters on this flag yet.
+                          Our Work and the gallery both list every item, and the
+                          homepage grid is still hand-picked in code. */}
                       <span className="block text-xs font-normal text-muted-foreground">
-                        Featured items appear on the homepage.
+                        Flags the item as a highlight. Not yet used to filter any
+                        public page.
                       </span>
                     </span>
                   </label>
