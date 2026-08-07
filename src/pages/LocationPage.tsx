@@ -12,14 +12,14 @@ import { getLocationData, getMisspellingRedirect, isValidLocationSlug } from "@/
 const services = [
   {
     icon: Video,
-    name: "Video Production",
+    name: "Video Editing & Motion Design",
     desc: "Professional editing, color grading, motion graphics & post-production",
     price: "₹6,999",
     duration: "3-5 Days"
   },
   {
     icon: Globe,
-    name: "Web Development",
+    name: "Web & App Development",
     desc: "Modern, responsive, conversion-focused custom websites",
     price: "₹4,999",
     duration: "1 Week"
@@ -137,8 +137,8 @@ const LocationPage = () => {
     return <Navigate to="/404" replace />;
   }
 
-  const pageTitle = `Best Creative Agency in ${data.name} | Video Production, Web Design, Digital Marketing - WhyCreatives`;
-  const pageDescription = `WhyCreatives is the #1 creative agency in ${data.name}, ${data.state}. Professional video production from ₹6,999, web development from ₹4,999, digital marketing & branding. Affordable pricing with exceptional quality. ${data.description}`;
+  const pageTitle = `Best Creative Agency in ${data.name} | Video Editing, Motion Design, Web & App Development - WhyCreatives`;
+  const pageDescription = `WhyCreatives is the #1 creative agency in ${data.name}, ${data.state}. Professional video editing from ₹6,999, web development from ₹4,999, digital marketing & branding. Affordable pricing with exceptional quality. ${data.description}`;
   const pageKeywords = data.keywords.join(", ");
 
   return (
@@ -194,7 +194,7 @@ const LocationPage = () => {
                   "@type": "Offer",
                   "itemOffered": {
                     "@type": "Service",
-                    "name": "Video Production",
+                    "name": "Video Editing & Motion Design",
                     "description": `Professional video editing & production in ${data.name} starting from ₹6,999`
                   }
                 },
@@ -458,7 +458,7 @@ const LocationPage = () => {
                 </h2>
                 <div className="text-muted-foreground space-y-4 text-center">
                   <p>
-                    WhyCreatives is {data.name}'s premier creative agency, offering world-class video production, web development, digital marketing, and branding services at affordable prices. Based in Guwahati, Assam, we serve businesses across {data.state} and all of India with the same commitment to quality and excellence.
+                    WhyCreatives is {data.name}'s premier creative agency, offering world-class video editing, web development, digital marketing, and branding services at affordable prices. Based in Guwahati, Assam, we serve businesses across {data.state} and all of India with the same commitment to quality and excellence.
                   </p>
                   <p>
                     Whether you're a startup looking for your first website, an established business needing video content, or an enterprise requiring comprehensive digital marketing - WhyCreatives delivers premium results without the premium price tag. Our team of experienced professionals understands the unique needs of {data.name} businesses and delivers solutions that drive real results.

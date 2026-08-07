@@ -3,13 +3,11 @@ import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 import { safeStorage } from '@/lib/safeStorage';
 
-// Hardcoded as public anon keys - safe to include in client bundle
-// These are equivalent to what would be in VITE_ env vars
+// VITE_SUPABASE_* are injected at build time from wrangler.toml [vars]
+// The publishable key is safe to be in frontend code — it's designed to be public.
+// Security is enforced by Supabase Row Level Security (RLS) policies, not by hiding this key.
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL ?? 'https://arhsjfguddgoqnsxydzc.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ?? 'sb_publishable_y5FG3pMb3Eg5EiDpq8SVfQ_q6US8yvE';
-
-// Import the supabase client like this:
-// import { supabase } from "@/integrations/supabase/client";
 
 export const supabase = createClient<Database>(
   SUPABASE_URL,

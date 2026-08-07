@@ -9,4 +9,4 @@ Canonical: https://whycreatives.in/.well-known/security.txt
 
 # WhyCreatives - India's Most Affordable Creative Agency
 # Guwahati, Assam, India
-# Services: Video Production, Web Development, Digital Marketing, Branding
+# Services: Video Editing and Motion Design, Web Development, Digital Marketing, Branding

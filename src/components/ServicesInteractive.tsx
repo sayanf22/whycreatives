@@ -6,14 +6,14 @@ const SPRING = { type: "spring", stiffness: 200, damping: 25, mass: 0.8 } as con
 
 const services = [
   {
-    title: "Video Production",
+    title: "Video Editing & Motion Design",
     subtext: "Professional video editing with color grading, transitions, and effects that captivate your audience.",
     image: "/video-gear.webp",
     href: "/what-we-do",
     number: "01",
   },
   {
-    title: "Web Development",
+    title: "Web & App Development",
     subtext: "Modern, responsive websites built with latest technologies that drive results and convert visitors.",
     image: "/creative-office.webp",
     href: "/what-we-do",
@@ -80,7 +80,7 @@ export const ServicesInteractive = () => {
 
   return (
     <section
-      className="w-full bg-[#0A0A0C] rounded-t-[28px] md:rounded-t-[40px] overflow-hidden font-['Plus_Jakarta_Sans',sans-serif] relative"
+      className="w-full bg-[#0A0A0C] rounded-t-[28px] md:rounded-t-[40px] overflow-hidden font-['Schibsted_Grotesk',sans-serif] relative"
       aria-label="Our Services"
     >
       {/* ── CUSTOM PHYSICS CURSOR BADGE (Shown ONLY when hovering a service option) ── */}
@@ -140,7 +140,7 @@ export const ServicesInteractive = () => {
           {/* Right Column: Sub-copy & CTA Button */}
           <div className="lg:col-span-3 flex flex-col gap-4 items-start lg:items-end text-left lg:text-right">
             <p className="text-neutral-400 text-xs sm:text-sm leading-relaxed max-w-[260px] font-normal">
-              WhyCreatives is a creative & tech agency on a mission to help you scale your business with modern web, mobile apps, & video production.
+              WhyCreatives is a creative & tech agency on a mission to help you scale your business with modern web, mobile apps, & video editing.
             </p>
             <Link
               to="/what-we-do"

@@ -69,7 +69,13 @@ export const FeaturedProjects = () => {
   }, [rawMouseX, rawMouseY]);
 
   return (
-    <section className="w-full bg-background py-16 sm:py-24 lg:py-32 px-6 sm:px-10 lg:px-16 font-['Plus_Jakarta_Sans',sans-serif] relative">
+    <section
+      className="relative w-full bg-background px-4 font-['Schibsted_Grotesk',sans-serif] md:px-[clamp(32px,6vw,160px)]"
+      style={{
+        paddingTop: "clamp(56px, 7vw, 120px)",
+        paddingBottom: "clamp(56px, 7vw, 120px)",
+      }}
+    >
       
       {/* ── CUSTOM GREEN ARROW CURSOR (Shown ONLY when hovering project cards) ── */}
       {isFinePointer && (
@@ -107,7 +113,7 @@ export const FeaturedProjects = () => {
         </motion.div>
       )}
 
-      <div className="max-w-[1500px] mx-auto">
+      <div className="w-full">
         {/* ── STAGGERED 2-COLUMN PROJECT GRID ───────────────────────── */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           

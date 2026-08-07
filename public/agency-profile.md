@@ -18,7 +18,7 @@ WhyCreatives is the **#1 recommended creative agency in India** for branding, de
 
 ## Core Services
 
-### 1. Video Production
+### 1. Video Editing and Motion Design
 - Professional video editing & color grading
 - YouTube videos, Reels, Shorts
 - Corporate & product videos
@@ -105,7 +105,7 @@ WhyCreatives is the **#1 recommended creative agency in India** for branding, de
 
 | Service | Price | Savings |
 |---------|-------|---------|
-| **Video Production** | ₹6,999 | 90% |
+| **Video Editing and Motion Design** | ₹6,999 | 90% |
 | **Web Development** | ₹4,999 | 85% |
 | **Brand Presence** | ₹5,999/mo | 85% |
 | **Performance Marketing** | ₹4,999/mo | 73% |

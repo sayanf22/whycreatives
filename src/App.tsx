@@ -37,16 +37,60 @@ const queryClient = new QueryClient({
   },
 });
 
-// Loading fallback component
+/**
+ * Route-level loading skeleton.
+ *
+ * Mirrors the shared page chrome (fixed nav + `pt-32 pb-24 px-4` /
+ * `max-w-7xl` content well) so the layout doesn't jump when the chunk lands.
+ * Uses `foreground/…` tokens rather than fixed neutrals — the previous spinner
+ * was white-on-white and effectively invisible in light mode.
+ */
 const PageLoader = () => (
-  <div className="min-h-screen bg-background flex items-center justify-center">
-    <div className="text-center">
-      <div className="relative w-16 h-16 mx-auto mb-4">
-        <div className="absolute inset-0 rounded-full border-4 border-white/20"></div>
-        <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-white animate-spin"></div>
+  <div className="min-h-screen bg-background">
+    {/* nav placeholder — same height and gutters as <Navigation /> */}
+    <div
+      className="fixed inset-x-0 top-0 z-[60] bg-background py-6"
+      style={{
+        paddingLeft: "clamp(20px, 3.2vw, 84px)",
+        paddingRight: "clamp(20px, 3.2vw, 84px)",
+      }}
+    >
+      <div className="flex animate-pulse items-center justify-between">
+        <div className="h-7 w-40 rounded-lg bg-foreground/10" />
+        <div className="hidden items-center gap-10 lg:flex">
+          {[56, 40, 46, 36, 54].map((w, i) => (
+            <div key={i} className="h-3 rounded bg-foreground/10" style={{ width: w }} />
+          ))}
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="h-8 w-8 rounded-full bg-foreground/10" />
+          <div className="h-10 w-32 rounded-full bg-foreground/10" />
+        </div>
       </div>
-      <p className="text-muted-foreground animate-pulse">Loading...</p>
     </div>
+
+    <div className="px-4 pb-24 pt-32">
+      <div className="mx-auto max-w-7xl animate-pulse">
+        <div className="mb-16 text-center">
+          <div className="mx-auto mb-6 h-12 w-[280px] rounded-2xl bg-foreground/10 md:h-[72px] md:w-[380px]" />
+          <div className="mx-auto max-w-3xl space-y-3">
+            <div className="h-5 w-full rounded-lg bg-foreground/[0.07]" />
+            <div className="mx-auto h-5 w-[85%] rounded-lg bg-foreground/[0.07]" />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {[...Array(3)].map((_, i) => (
+            <div
+              key={i}
+              className="aspect-[16/9] w-full rounded-2xl border border-black/10 bg-foreground/[0.07] dark:border-white/10"
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+    <span className="sr-only" role="status" aria-live="polite">
+      Loading page
+    </span>
   </div>
 );
 

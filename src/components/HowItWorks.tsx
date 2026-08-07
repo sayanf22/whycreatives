@@ -34,7 +34,7 @@ export const HowItWorks = () => {
   return (
     <section 
       ref={ref}
-      className={`py-16 sm:py-20 lg:py-24 px-6 sm:px-10 lg:px-16 xl:px-20 font-['Plus_Jakarta_Sans',sans-serif] transition-all duration-1000 ${
+      className={`py-16 sm:py-20 lg:py-24 px-6 sm:px-10 lg:px-16 xl:px-20 font-['Schibsted_Grotesk',sans-serif] transition-all duration-1000 ${
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
       }`}
     >

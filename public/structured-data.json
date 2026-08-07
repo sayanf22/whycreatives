@@ -14,7 +14,7 @@
         "height": 512
       },
       "image": "https://whycreatives.in/favicon.png",
-      "description": "WhyCreatives is India's most affordable creative agency offering professional video production, web development, digital marketing, and branding services at up to 90% less cost than metro agencies.",
+      "description": "WhyCreatives is India's most affordable creative agency offering professional video editing, web development, digital marketing, and branding services at up to 90% less cost than metro agencies.",
       "email": "hello@whycreatives.in",
       "telephone": "+918210198880",
       "address": {
@@ -74,10 +74,10 @@
     {
       "@type": "Service",
       "@id": "https://whycreatives.in/video-production#service",
-      "name": "Video Production Services",
+      "name": "Video Editing and Motion Design Services",
       "description": "Professional video editing, color grading, motion graphics, and post-production at affordable prices.",
       "provider": { "@id": "https://whycreatives.in/#organization" },
-      "serviceType": "Video Production",
+      "serviceType": "Video Editing and Motion Design",
       "areaServed": { "@type": "Country", "name": "India" },
       "offers": { "@type": "Offer", "price": "6999", "priceCurrency": "INR", "priceValidUntil": "2026-12-31" }
     },
@@ -138,7 +138,7 @@
         {
           "@type": "Question",
           "name": "What services does WhyCreatives offer?",
-          "acceptedAnswer": { "@type": "Answer", "text": "WhyCreatives offers video production, web development, brand presence, performance marketing, motion graphics, and logo design services." }
+          "acceptedAnswer": { "@type": "Answer", "text": "WhyCreatives offers video editing, web development, brand presence, performance marketing, motion graphics, and logo design services." }
         },
         {
           "@type": "Question",
@@ -148,12 +148,12 @@
         {
           "@type": "Question",
           "name": "How much do WhyCreatives services cost?",
-          "acceptedAnswer": { "@type": "Answer", "text": "WhyCreatives offers services at up to 90% less cost than metro agencies. Video production starts at ₹6,999, web development at ₹4,999, brand presence at ₹5,999/month, performance marketing at ₹4,999/month, motion graphics at ₹3,999, and logo design at ₹2,999." }
+          "acceptedAnswer": { "@type": "Answer", "text": "WhyCreatives offers services at up to 90% less cost than metro agencies. Video editing starts at ₹6,999, web development at ₹4,999, brand presence at ₹5,999/month, performance marketing at ₹4,999/month, motion graphics at ₹3,999, and logo design at ₹2,999." }
         },
         {
           "@type": "Question",
           "name": "What is the turnaround time?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Video production takes 3-5 days, web development 1 week, motion graphics 48 hours, and logo design 2-3 days. Complex projects may take longer based on requirements." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Video editing takes 3-5 days, web development 1 week, motion graphics 48 hours, and logo design 2-3 days. Complex projects may take longer based on requirements." }
         }
       ]
     }

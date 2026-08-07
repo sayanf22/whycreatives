@@ -23,10 +23,10 @@ const AboutUs = () => {
         }}
         breakout={{
           src: "/video-gear.png",
-          alt: "Professional video production gear",
+          alt: "Professional video editing gear",
           title: "Excellence in Every Project",
           description:
-            "We combine creative excellence with strategic thinking to deliver solutions that not only look exceptional but also drive business growth. Our team of experienced professionals brings together diverse expertise in video production, web development, branding, and digital marketing to create comprehensive solutions tailored to your unique needs.",
+            "We combine creative excellence with strategic thinking to deliver solutions that not only look exceptional but also drive business growth. Our team of experienced professionals brings together diverse expertise in video editing, web development, branding, and digital marketing to create comprehensive solutions tailored to your unique needs.",
           buttonText: "Explore Our Services",
           buttonUrl: "/what-we-do",
         }}

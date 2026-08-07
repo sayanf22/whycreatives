@@ -20,7 +20,7 @@ export function ThemeToggle() {
             variant="ghost"
             size="icon"
             onClick={toggleTheme}
-            className="text-foreground hover:bg-secondary/80 h-10 w-10 md:h-11 md:w-11 rounded-full flex-shrink-0 relative overflow-hidden transition-colors"
+            className="text-foreground group-data-[floating=true]/nav:text-white hover:bg-secondary/80 group-data-[floating=true]/nav:hover:bg-white/10 h-10 w-10 md:h-11 md:w-11 rounded-full flex-shrink-0 relative overflow-hidden transition-colors"
             aria-label="Toggle theme"
         >
             <Sun className="h-5 w-5 md:h-[1.35rem] md:w-[1.35rem] transition-all duration-500 rotate-0 scale-100 dark:-rotate-90 dark:scale-0" />

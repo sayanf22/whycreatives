@@ -1,424 +1,384 @@
-import { motion, useMotionValue, useSpring, useTransform, animate } from "framer-motion";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { useRef, useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
 
-const EASE_OUT: [number, number, number, number] = [0.16, 1, 0.3, 1];
+/*
+  HERO — dark media panel with a white "staircase" notch cut out of its top-left.
 
-const services = [
-  "Video Production",
-  "Web Development",
-  "Brand Identity",
-  "Performance Marketing",
-  "UGC & Collabs",
-  "Logo Design",
-];
+  How it works:
+  - One dark rounded panel fills the hero. It is the media slot (drop an <img>/<video>
+    inside `panelRef`'s child and it fills the whole shape).
+  - The white text card is NOT a stack of white boxes. Instead the panel is clipped with
+    a `clip-path: path()` that removes a staircase-shaped notch, so the page background
+    shows through behind the type. That means no seams, no colour matching, and the
+    inverted (concave) corners are geometrically exact.
+  - The notch is generated from the real measured boxes of the eyebrow, each headline
+    line and the button row, so it always hugs the text at any viewport / font size.
+*/
 
-// Animated counter using framer-motion's animate utility
-function useAnimatedCounter(target: number, duration = 2) {
-  const [value, setValue] = useState(0);
-  const [triggered, setTriggered] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+const HEADLINE = ["A one stop solution", "for video, web, apps", "and branding"] as const;
+const EASE = [0.16, 1, 0.3, 1] as const;
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !triggered) {
-          setTriggered(true);
-          const controls = animate(0, target, {
-            duration,
-            onUpdate: (v) => setValue(Math.floor(v)),
-          });
-          return () => controls.stop();
-        }
-      },
-      { threshold: 0.5 }
+type Row = { right: number; bottom: number };
+
+const n = (v: number) => Math.round(v * 100) / 100;
+const arc = (r: number, sweep: 0 | 1, x: number, y: number) =>
+  `A ${n(r)} ${n(r)} 0 0 ${sweep} ${n(x)} ${n(y)}`;
+
+/**
+ * Builds the dark panel outline (clockwise) for a `W` x `H` box with a staircase
+ * notch removed from the top-left corner.
+ *
+ * `rows` are ordered top to bottom; each row's `right`/`bottom` are panel-local px.
+ * `leftInset` is how far the notch sits in from the panel's left edge, and `stripTop`
+ * is where the panel's left edge re-appears above that inset (the thin dark strip
+ * running down the left of the text card).
+ */
+function buildPanelPath(
+  W: number,
+  H: number,
+  rows: Row[],
+  leftInset: number,
+  stripTop: number,
+  R: number,
+  r: number
+): string {
+  const bottomY = rows[rows.length - 1].bottom;
+  const hasStrip =
+    leftInset >= R + r &&
+    stripTop >= R + r &&
+    stripTop <= bottomY - (R + r);
+
+  const d: string[] = [];
+
+  // ── outer rectangle: start on the top edge at the notch, run clockwise ──
+  d.push(`M ${n(rows[0].right)} 0`);
+  d.push(`H ${n(W - R)}`);
+  d.push(arc(R, 1, W, R));
+  d.push(`V ${n(H - R)}`);
+  d.push(arc(R, 1, W - R, H));
+  d.push(`H ${n(R)}`);
+  d.push(arc(R, 1, 0, H - R));
+
+  if (hasStrip) {
+    // left edge stops at `stripTop`, then a thin dark strip runs down beside the card
+    d.push(`V ${n(stripTop + R)}`);
+    d.push(arc(R, 1, R, stripTop));
+    d.push(`H ${n(leftInset - r)}`);
+    d.push(arc(r, 1, leftInset, stripTop + r));
+    d.push(`V ${n(bottomY - r)}`);
+    d.push(arc(r, 0, leftInset + r, bottomY));
+  } else {
+    // no strip: the panel's top-left corner sits directly under the card
+    d.push(`V ${n(bottomY + R)}`);
+    d.push(arc(R, 1, R, bottomY));
+  }
+
+  // ── staircase: walk the notch's right edge from the bottom row up to the top ──
+  for (let i = rows.length - 1; i >= 0; i--) {
+    const cur = rows[i].right;
+    const yTop = i === 0 ? 0 : rows[i - 1].bottom;
+
+    if (i === rows.length - 1) {
+      // along the bottom of the card, then turn up (concave corner)
+      const br = Math.min(r, (rows[i].bottom - yTop) / 2);
+      d.push(`H ${n(cur - br)}`);
+      d.push(arc(br, 0, cur, rows[i].bottom - br));
+    }
+
+    if (i === 0) {
+      d.push("V 0");
+      break;
+    }
+
+    const next = rows[i - 1].right;
+    const above = yTop - (i - 2 >= 0 ? rows[i - 2].bottom : 0);
+    const below = rows[i].bottom - yTop;
+    const sr = Math.max(
+      3,
+      Math.min(r, Math.abs(next - cur) / 2, above / 2, below / 2)
     );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [target, duration, triggered]);
 
-  return { value, ref };
+    if (next > cur) {
+      // the row above is wider: step out (convex, then concave)
+      d.push(`V ${n(yTop + sr)}`);
+      d.push(arc(sr, 1, cur + sr, yTop));
+      d.push(`H ${n(next - sr)}`);
+      d.push(arc(sr, 0, next, yTop - sr));
+    } else {
+      // the row above is narrower: step in (concave, then convex)
+      d.push(`V ${n(yTop + sr)}`);
+      d.push(arc(sr, 0, cur - sr, yTop));
+      d.push(`H ${n(next + sr)}`);
+      d.push(arc(sr, 1, next, yTop - sr));
+    }
+  }
+
+  d.push("Z");
+  return d.join(" ");
 }
 
 export const Hero = () => {
-  const [serviceIndex, setServiceIndex] = useState(0);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const eyebrowRef = useRef<HTMLDivElement>(null);
+  const lineRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const actionsRef = useRef<HTMLDivElement>(null);
 
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const springX = useSpring(mouseX, { stiffness: 60, damping: 20 });
-  const springY = useSpring(mouseY, { stiffness: 60, damping: 20 });
-  const gridX = useTransform(springX, [-1, 1], [-6, 6]);
-  const gridY = useTransform(springY, [-1, 1], [-4, 4]);
+  const [clipPath, setClipPath] = useState<string | null>(null);
 
-  const { value: projectsCount, ref: projectsRef } = useAnimatedCounter(500);
-  const { value: clientsCount, ref: clientsRef } = useAnimatedCounter(120);
-  const { value: satisfactionCount, ref: satisfactionRef } = useAnimatedCounter(100, 1.5);
+  const measure = useCallback(() => {
+    const panel = panelRef.current;
+    const card = cardRef.current;
+    const eyebrow = eyebrowRef.current;
+    const actions = actionsRef.current;
+    const lines = lineRefs.current.filter(Boolean) as HTMLSpanElement[];
+    if (!panel || !card || !eyebrow || !actions || lines.length !== HEADLINE.length)
+      return;
 
-  useEffect(() => {
-    const id = setInterval(() => {
-      setServiceIndex((i) => (i + 1) % services.length);
-    }, 2400);
-    return () => clearInterval(id);
+    const box = panel.getBoundingClientRect();
+    const W = box.width;
+    const H = box.height;
+    if (W < 2 || H < 2) return;
+
+    const R = Math.max(14, Math.min(34, W * 0.026));
+    // Read the card's real offset rather than computing it. Deriving it here and
+    // then writing it to state would measure the text at the *old* offset, which
+    // left the notch behind whenever the breakpoint changed (mobile -> desktop).
+    const leftInset = Math.max(0, card.getBoundingClientRect().left - box.left);
+    const rel = (el: Element): Row => {
+      const b = el.getBoundingClientRect();
+      return { right: b.right - box.left, bottom: b.bottom - box.top };
+    };
+
+    const eb = rel(eyebrow);
+    const measured = lines.map(rel);
+    const ab = rel(actions);
+
+    // the eyebrow shares the first headline line's edge (matches the reference:
+    // the white card is full width from the very top, no step at the eyebrow)
+    const raw: Row[] = [
+      { right: Math.max(eb.right, measured[0].right), bottom: measured[0].bottom },
+      ...measured.slice(1),
+      ab,
+    ];
+
+    // keep every row inside the panel, and keep bottoms strictly increasing
+    const maxRight = W - R - 4;
+    const rows: Row[] = [];
+    for (const row of raw) {
+      const right = Math.min(row.right, maxRight);
+      const bottom = Math.min(row.bottom, H - R - 4);
+      const prev = rows[rows.length - 1];
+      // collapse rows whose right edges are too close to round cleanly
+      if (prev && Math.abs(right - prev.right) < R * 1.4) {
+        prev.right = Math.max(prev.right, right);
+        prev.bottom = Math.max(prev.bottom, bottom);
+        continue;
+      }
+      if (prev && bottom <= prev.bottom + 8) {
+        prev.right = Math.max(prev.right, right);
+        prev.bottom = Math.max(prev.bottom, bottom);
+        continue;
+      }
+      rows.push({ right, bottom });
+    }
+    if (!rows.length) return;
+
+    // the dark strip beside the card starts level with the first headline line
+    const stripTop = measured[0].bottom;
+
+    setClipPath(buildPanelPath(W, H, rows, leftInset, stripTop, R, R));
   }, []);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    mouseX.set(((e.clientX - rect.left) / rect.width - 0.5) * 2);
-    mouseY.set(((e.clientY - rect.top) / rect.height - 0.5) * 2);
-  };
-  const handleMouseLeave = () => {
-    mouseX.set(0);
-    mouseY.set(0);
-  };
+  useLayoutEffect(() => {
+    measure();
+    const panel = panelRef.current;
+    const card = cardRef.current;
+    if (!panel || !card) return;
+    // watch the card too: its width changes with the font-size clamp, and its
+    // offset changes at the breakpoint, neither of which resizes the panel
+    const ro = new ResizeObserver(() => measure());
+    ro.observe(panel);
+    ro.observe(card);
+    const onResize = () => measure();
+    window.addEventListener("resize", onResize);
+    window.addEventListener("orientationchange", onResize);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("orientationchange", onResize);
+    };
+  }, [measure]);
+
+  // webfonts change the text metrics, so re-measure once they land
+  useEffect(() => {
+    if (typeof document === "undefined" || !("fonts" in document)) return;
+    let alive = true;
+    document.fonts.ready.then(() => {
+      if (alive) measure();
+    });
+    return () => {
+      alive = false;
+    };
+  }, [measure]);
+
+  // driven by CSS vars on the card so the values differ per breakpoint without
+  // JS: on phones the type sits flush to the panel edge, matching the reference
+  const padL = "var(--pad-l)";
+  const padR = "var(--pad-r)";
 
   return (
-    <section
-      className="relative w-full min-h-screen bg-[#f8f8f5] dark:bg-[#0a0a0c] overflow-hidden pt-24 sm:pt-28 pb-12 px-4 sm:px-8 lg:px-12 font-['Plus_Jakarta_Sans',sans-serif]"
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-    >
-      {/* Ambient glows */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-[5%] left-[15%] w-[700px] h-[700px] rounded-full bg-[#b5ff2b]/[0.07] dark:bg-[#b5ff2b]/[0.04] blur-[160px]" />
-        <div className="absolute bottom-[-5%] right-[5%] w-[500px] h-[500px] rounded-full bg-purple-500/[0.05] dark:bg-purple-500/[0.03] blur-[140px]" />
-      </div>
+    <section className="relative w-full bg-white dark:bg-[#111] transition-colors duration-300">
+      {/* No max-width: the panel stays ~88% of the viewport on desktop.
+          On phones the gutter drops to 8px so the panel is near full-bleed,
+          like the reference — a 6vw gutter left far too much dead margin. */}
+      <div
+        className="w-full px-2 md:px-[clamp(32px,6vw,160px)]"
+        style={{
+          // must clear the mobile nav, which is 88px tall (py-6 + a 40px row)
+          paddingTop: "clamp(100px, 11vw, 112px)",
+          paddingBottom: "clamp(10px, 2.4vw, 34px)",
+        }}
+      >
+        {/* Phones get a full-height portrait panel (like the reference); the
+            52vw cap only kicks in from md up, where it stops very wide screens
+            from producing an over-tall panel. */}
+        <div
+          ref={panelRef}
+          className="relative w-full h-[min(calc(100svh_-_128px),1080px)] min-h-[420px] md:h-[min(calc(100svh_-_132px),52vw,1080px)]"
+        >
+          {/* ── DARK PANEL / MEDIA SLOT ──
+              Everything inside is clipped to the notched shape. Drop an <img>,
+              <video> or <iframe> with `absolute inset-0 h-full w-full object-cover`
+              here and it will fill the panel exactly. Left empty on purpose. */}
+          <div
+            className="absolute inset-0 overflow-hidden bg-[#161616] dark:bg-[#202020]"
+            style={{
+              clipPath: clipPath ? `path("${clipPath}")` : undefined,
+              WebkitClipPath: clipPath ? `path("${clipPath}")` : undefined,
+              borderRadius: clipPath ? undefined : "clamp(14px, 2.6vw, 34px)",
+            }}
+          >
+            {/* media goes here */}
+          </div>
 
-      <div className="relative max-w-[1600px] mx-auto">
-        <div className="grid lg:grid-cols-[1fr_1fr] gap-10 xl:gap-16 items-center min-h-[calc(100vh-7rem)]">
-
-          {/* ─── LEFT COLUMN ─────────────────────────────────── */}
-          <div className="flex flex-col justify-center gap-7 py-8 lg:py-0">
-
-            {/* Live badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: EASE_OUT }}
-              className="flex items-center gap-2.5"
+          {/* ── TEXT CARD ── sits over the notch, on the page background.
+              The offset is pure CSS so measurement always reads the final
+              position; on small screens it goes flush left and the notch
+              degrades to a plain top-left cutout. ── */}
+          <div
+            ref={cardRef}
+            className="absolute top-0 left-0 z-10 flex flex-col items-start [--pad-l:12px] [--pad-r:16px] md:left-[min(7vw,112px)] md:[--pad-l:clamp(14px,1.6vw,24px)] md:[--pad-r:clamp(20px,2vw,30px)]"
+          >
+            <div
+              ref={eyebrowRef}
+              className="w-fit"
+              style={{
+                paddingLeft: padL,
+                paddingRight: padR,
+                paddingTop: "clamp(12px, 1.4vw, 20px)",
+                paddingBottom: "clamp(10px, 1.2vw, 18px)",
+              }}
             >
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#b5ff2b] opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#b5ff2b]" />
-              </span>
-              <span className="text-[11px] sm:text-xs font-semibold text-muted-foreground tracking-widest uppercase">
-                Hiya, we're WhyCreatives 👋
-              </span>
-            </motion.div>
+              {/* animations live on children only — the measured boxes never move,
+                  so the clip-path stays locked to the type */}
+              <motion.span
+                className="flex items-center gap-2"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease: EASE }}
+              >
+                <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-black dark:bg-white" />
+                <span className="whitespace-nowrap text-[13px] font-normal leading-none text-black lg:text-[15px] dark:text-white">
+                  Hiya, we&rsquo;re WhyCreatives &#128075;
+                </span>
+              </motion.span>
+            </div>
 
-            {/* Headline */}
-            <motion.h1
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1, ease: EASE_OUT }}
-              className="text-[2.6rem] sm:text-[3.4rem] lg:text-[4rem] xl:text-[4.8rem] font-bold text-foreground leading-[1.06] tracking-[-0.04em]"
+            <h1
+              className="font-['Schibsted_Grotesk','Plus_Jakarta_Sans',sans-serif] text-black dark:text-white"
+              style={{
+                fontSize: "clamp(1.35rem, 4.4vw, 104px)",
+                fontWeight: 500,
+                letterSpacing: "-0.022em",
+                margin: 0,
+              }}
             >
-              A video editing,{" "}
-              <span className="relative inline-block">
-                <span className="relative z-10">web design</span>
-                <motion.span
-                  className="absolute bottom-1 left-0 h-[6px] w-full rounded-full bg-[#b5ff2b] z-0"
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ duration: 0.75, delay: 0.95, ease: EASE_OUT }}
-                  style={{ originX: 0 }}
-                />
-              </span>{" "}
-              and branding agency in India
-            </motion.h1>
-
-            {/* Cycling service pill */}
-            <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.25, ease: EASE_OUT }}
-              className="flex items-center gap-3 flex-wrap"
-            >
-              <span className="text-sm text-muted-foreground font-medium">We do →</span>
-              <div className="relative h-8 overflow-hidden min-w-[160px]">
-                <motion.span
-                  key={serviceIndex}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.4, ease: EASE_OUT }}
-                  className="absolute inset-0 inline-flex items-center gap-1.5 bg-foreground text-background text-xs font-bold px-3.5 py-1.5 rounded-full whitespace-nowrap w-fit"
+              {HEADLINE.map((line, i) => (
+                <span
+                  key={line}
+                  ref={(el) => {
+                    lineRefs.current[i] = el;
+                  }}
+                  className="block w-fit overflow-hidden whitespace-nowrap"
+                  style={{
+                    lineHeight: 1,
+                    paddingLeft: padL,
+                    paddingRight: padR,
+                    // the padding/negative-margin pair keeps the visual line
+                    // spacing tight (0.89em) while leaving the measured box
+                    // below the descenders, so the notch never clips a "g" or "y"
+                    paddingBottom: "0.14em",
+                    marginBottom: i === HEADLINE.length - 1 ? 0 : "-0.25em",
+                  }}
                 >
-                  {services[serviceIndex]}
-                </motion.span>
-              </div>
-            </motion.div>
+                  <motion.span
+                    className="inline-block"
+                    initial={{ y: "108%" }}
+                    animate={{ y: "0%" }}
+                    transition={{ duration: 0.9, ease: EASE, delay: 0.08 + i * 0.09 }}
+                    style={{ willChange: "transform" }}
+                  >
+                    {line}
+                  </motion.span>
+                </span>
+              ))}
+            </h1>
 
-            {/* Sub-copy */}
-            <motion.p
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.35, ease: EASE_OUT }}
-              className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-[480px]"
+            <div
+              ref={actionsRef}
+              className="w-fit"
+              style={{
+                paddingLeft: padL,
+                paddingRight: padR,
+                paddingTop: "clamp(14px, 1.6vw, 24px)",
+                paddingBottom: "clamp(14px, 1.6vw, 24px)",
+              }}
             >
-              WhyCreatives is an independent creative & digital agency building
-              high-impact brand identities, web experiences, and video production
-              — based in Guwahati, India.
-            </motion.p>
-
-            {/* CTAs */}
-            <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.45, ease: EASE_OUT }}
-              className="flex flex-col sm:flex-row gap-3"
-            >
+              <motion.div
+                className="flex items-center gap-5"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: EASE, delay: 0.45 }}
+              >
               <Link
                 to="/our-work"
-                className="group inline-flex items-center justify-center gap-2 bg-black dark:bg-white text-white dark:text-black text-sm font-bold px-7 py-3.5 rounded-full hover:bg-neutral-800 dark:hover:bg-neutral-200 active:scale-95 transition-all shadow-lg shadow-black/10"
+                className="group flex items-center gap-2.5 rounded-full bg-[#161616] py-2 pl-5 pr-2 text-[14px] font-semibold text-white transition-colors hover:bg-black lg:text-[15px] dark:bg-white dark:text-black dark:hover:bg-white/85"
               >
                 View our work
-                <span className="w-5 h-5 rounded-full bg-white/15 dark:bg-black/15 flex items-center justify-center text-[11px] group-hover:translate-x-0.5 transition-transform">
-                  ↗
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20 transition-transform group-hover:translate-x-0.5 dark:bg-black/15">
+                  <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.5} />
                 </span>
               </Link>
+              {/* hidden below md so the button row stays narrower than the
+                  headline, which is what keeps the notch stepping inward */}
               <Link
                 to="/people"
-                className="inline-flex items-center justify-center gap-1.5 border border-foreground/20 text-foreground text-sm font-semibold px-7 py-3.5 rounded-full hover:bg-foreground/5 active:scale-95 transition-all"
+                className="group hidden items-center gap-1.5 text-[14px] font-semibold text-black transition-opacity hover:opacity-60 md:flex lg:text-[15px] dark:text-white"
               >
-                Meet the team →
+                Meet the team
+                <ArrowUpRight
+                  className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  strokeWidth={2.5}
+                />
               </Link>
-            </motion.div>
-
-            {/* Stats */}
-            <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.55, ease: EASE_OUT }}
-              className="flex items-center gap-8 pt-2 border-t border-border/40"
-            >
-              <div className="flex flex-col" ref={projectsRef}>
-                <span className="text-xl sm:text-2xl font-black text-foreground tracking-tight">{projectsCount}+</span>
-                <span className="text-[11px] text-muted-foreground font-medium">Projects</span>
-              </div>
-              <div className="w-px h-8 bg-border/60" />
-              <div className="flex flex-col" ref={clientsRef}>
-                <span className="text-xl sm:text-2xl font-black text-foreground tracking-tight">{clientsCount}+</span>
-                <span className="text-[11px] text-muted-foreground font-medium">Clients</span>
-              </div>
-              <div className="w-px h-8 bg-border/60" />
-              <div className="flex flex-col" ref={satisfactionRef}>
-                <span className="text-xl sm:text-2xl font-black text-foreground tracking-tight">{satisfactionCount}%</span>
-                <span className="text-[11px] text-muted-foreground font-medium">Satisfaction</span>
-              </div>
-            </motion.div>
+              </motion.div>
+            </div>
           </div>
-
-          {/* ─── RIGHT COLUMN: BENTO GRID ─────────────────────── */}
-          <motion.div
-            style={{ x: gridX, y: gridY }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="relative hidden lg:grid grid-cols-6 grid-rows-12 gap-3 h-[680px] xl:h-[740px]"
-          >
-
-            {/* Cell 1: Brand card – dark */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3, ease: EASE_OUT }}
-              className="col-span-2 row-span-4 bg-[#0d0d0d] dark:bg-[#161616] rounded-2xl p-5 flex flex-col justify-between overflow-hidden"
-            >
-              <FloatWrap delay={0}>
-                <div className="w-8 h-8 rounded-full bg-[#b5ff2b] flex items-center justify-center">
-                  <img src="/logo.png" alt="WhyCreatives" className="w-4 h-4 dark:invert" style={{ filter: "invert(1)" }} />
-                </div>
-                <div className="mt-auto">
-                  <p className="text-[#b5ff2b] text-[10px] font-bold tracking-widest uppercase mb-1">Since 2020</p>
-                  <h3 className="text-white text-xl font-black leading-tight">Why<br />Creatives<span className="text-[#b5ff2b]">.</span></h3>
-                </div>
-                <p className="text-white/35 text-[10px] mt-2">Guwahati, Assam 🇮🇳</p>
-              </FloatWrap>
-            </motion.div>
-
-            {/* Cell 2: Hero image – creative office */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.65, delay: 0.35, ease: EASE_OUT }}
-              className="col-span-4 row-span-5 rounded-2xl overflow-hidden relative group"
-            >
-              <img
-                src="/creative-office.webp"
-                alt="WhyCreatives office"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
-              <div className="absolute bottom-4 left-4">
-                <span className="bg-[#b5ff2b] text-black text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-wide">
-                  Creative Agency
-                </span>
-              </div>
-              {/* Floating stat card */}
-              <FloatWrap delay={1} className="absolute top-4 right-4">
-                <div className="bg-white/90 dark:bg-black/80 backdrop-blur-md rounded-xl px-3 py-2 shadow-xl">
-                  <p className="text-[9px] text-muted-foreground font-medium">Client satisfaction</p>
-                  <p className="text-xl font-black text-foreground leading-none mt-0.5">100%</p>
-                </div>
-              </FloatWrap>
-            </motion.div>
-
-            {/* Cell 3: Team collab */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.65, delay: 0.4, ease: EASE_OUT }}
-              className="col-span-3 row-span-4 rounded-2xl overflow-hidden relative group"
-            >
-              <img
-                src="/team-collab.webp"
-                alt="Team collaboration"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/45 to-transparent" />
-              <span className="absolute bottom-3 left-3 text-white/90 text-xs font-semibold">Team Collaboration</span>
-            </motion.div>
-
-            {/* Cell 4: Video gear */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.65, delay: 0.45, ease: EASE_OUT }}
-              className="col-span-3 row-span-4 rounded-2xl overflow-hidden relative group"
-            >
-              <img
-                src="/video-gear.webp"
-                alt="Video production gear"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/45 to-transparent" />
-              <FloatWrap delay={1.5} className="absolute top-3 left-3">
-                <div className="bg-white/90 dark:bg-black/80 backdrop-blur-md rounded-xl px-3 py-2 shadow-lg">
-                  <p className="text-[9px] text-muted-foreground font-medium">Video Production</p>
-                  <p className="text-sm font-black text-foreground">Cinema Grade</p>
-                </div>
-              </FloatWrap>
-            </motion.div>
-
-            {/* Cell 5: Services list */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5, ease: EASE_OUT }}
-              className="col-span-2 row-span-3 bg-white dark:bg-[#111] rounded-2xl p-4 flex flex-col justify-between border border-border/30 shadow-sm"
-            >
-              <FloatWrap delay={0.4}>
-                <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest mb-2">Our Services</p>
-                <div className="flex flex-col gap-1.5">
-                  {["Video", "Web", "Branding", "Marketing"].map((s) => (
-                    <span key={s} className="text-[11px] font-semibold bg-foreground/5 rounded-lg px-2.5 py-1.5 text-foreground">
-                      {s}
-                    </span>
-                  ))}
-                </div>
-              </FloatWrap>
-            </motion.div>
-
-            {/* Cell 6: UGC project */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.65, delay: 0.55, ease: EASE_OUT }}
-              className="col-span-2 row-span-3 rounded-2xl overflow-hidden relative group"
-            >
-              <img
-                src="/project-ugc.webp"
-                alt="UGC project"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent" />
-              <span className="absolute bottom-3 left-3 text-white text-[10px] font-bold">UGC & Collabs</span>
-            </motion.div>
-
-            {/* Cell 7: CTA card */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6, ease: EASE_OUT }}
-              className="col-span-2 row-span-3 bg-[#b5ff2b] rounded-2xl p-4 flex flex-col justify-between cursor-pointer hover:bg-[#a8f020] active:scale-95 transition-all"
-              onClick={() => (window.location.href = "/contact")}
-            >
-              <FloatWrap delay={0.6}>
-                <div className="w-7 h-7 rounded-full bg-black/10 flex items-center justify-center text-sm font-bold">↗</div>
-                <div className="mt-auto">
-                  <p className="text-black text-sm font-black leading-tight">Start a<br />project</p>
-                  <p className="text-black/45 text-[10px] mt-1">hello@whycreatives.in</p>
-                </div>
-              </FloatWrap>
-            </motion.div>
-
-          </motion.div>
-
-          {/* ─── MOBILE GRID (small screens) ─────────────── */}
-          <div className="grid grid-cols-2 gap-3 lg:hidden">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.5, ease: EASE_OUT }}
-              className="col-span-2 rounded-2xl overflow-hidden h-48 relative"
-            >
-              <img src="/creative-office.webp" alt="Creative work" className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-              <span className="absolute bottom-3 left-3 bg-[#b5ff2b] text-black text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wide">
-                WhyCreatives
-              </span>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.55, ease: EASE_OUT }}
-              className="rounded-2xl overflow-hidden h-32 relative"
-            >
-              <img src="/team-collab.webp" alt="Team" className="w-full h-full object-cover" />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.6, ease: EASE_OUT }}
-              className="bg-[#b5ff2b] rounded-2xl p-4 flex flex-col justify-between h-32 cursor-pointer active:scale-95 transition-transform"
-              onClick={() => (window.location.href = "/contact")}
-            >
-              <span className="text-base">↗</span>
-              <p className="text-black text-sm font-black">Start a project</p>
-            </motion.div>
-          </div>
-
         </div>
       </div>
     </section>
   );
 };
-
-// ─── Floating wrapper (gentle infinite bob) ───────────────
-function FloatWrap({
-  children,
-  delay = 0,
-  className = "",
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  className?: string;
-}) {
-  return (
-    <motion.div
-      animate={{ y: [0, -7, 0] }}
-      transition={{
-        duration: 4,
-        delay,
-        repeat: Infinity,
-        repeatType: "loop",
-        ease: "easeInOut",
-      }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-}

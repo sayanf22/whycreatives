@@ -65,7 +65,7 @@ const Insights = () => {
     <div className="min-h-screen bg-background text-foreground">
       <Helmet>
         <title>Insights & Resources | WhyCreatives - Marketing Tips & Strategies</title>
-        <meta name="description" content="Expert insights on digital marketing, SEO, video production, and creative strategies for Indian businesses." />
+        <meta name="description" content="Expert insights on digital marketing, SEO, video editing, and creative strategies for Indian businesses." />
         <link rel="canonical" href="https://whycreatives.in/insights" />
       </Helmet>
 
@@ -286,7 +286,7 @@ const Insights = () => {
                     Need Expert Creative Services?
                   </h2>
                   <p className="text-muted-foreground mb-8 max-w-xl mx-auto text-lg">
-                    From video production to web design, we help Indian businesses grow with affordable, high-quality creative solutions.
+                    From video editing to web design, we help Indian businesses grow with affordable, high-quality creative solutions.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <Link

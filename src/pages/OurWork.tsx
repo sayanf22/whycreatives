@@ -49,35 +49,60 @@ const OurWork = () => {
     </a>
   )) || [];
 
+  /* Skeleton mirrors the real layout below 1:1 — same wrapper padding, same
+     max-widths, same carousel geometry — so nothing shifts when data lands.
+     Colours are theme tokens, not fixed neutrals, so it reads in both modes. */
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
         <div className="pt-32 pb-24 px-4">
           <div className="max-w-7xl mx-auto animate-pulse">
-            {/* Header Skeleton */}
-            <div className="text-center mb-16 space-y-4">
-              <div className="h-16 w-64 bg-neutral-900 dark:bg-neutral-800 rounded-2xl mx-auto" />
-              <div className="h-6 w-full max-w-xl bg-neutral-900/60 dark:bg-neutral-800/60 rounded-xl mx-auto" />
-              <div className="h-6 w-full max-w-md bg-neutral-900/40 dark:bg-neutral-800/40 rounded-xl mx-auto" />
+            {/* header — matches h1 (text-5xl md:text-7xl) + lead paragraph */}
+            <div className="text-center mb-16">
+              <div className="mx-auto mb-6 h-12 w-[280px] rounded-2xl bg-foreground/10 md:h-[72px] md:w-[380px]" />
+              <div className="mx-auto max-w-3xl space-y-3">
+                <div className="mx-auto h-5 w-full rounded-lg bg-foreground/[0.07]" />
+                <div className="mx-auto h-5 w-[85%] rounded-lg bg-foreground/[0.07]" />
+              </div>
             </div>
 
-            {/* Cards Grid Skeleton */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
-              {[...Array(3)].map((_, i) => (
-                <div 
-                  key={i} 
-                  className="w-full aspect-[16/9] bg-neutral-900/40 dark:bg-neutral-800/40 rounded-2xl border border-neutral-900 relative overflow-hidden"
-                >
-                  {/* Bottom Tag Skeleton */}
-                  <div className="absolute bottom-4 left-4 w-44 h-10 bg-neutral-900/60 dark:bg-neutral-800/60 rounded-xl" />
+            {/* carousel — same max-w-5xl track and 100%/85% slide width */}
+            <div className="mx-auto max-w-5xl">
+              <div className="overflow-hidden">
+                <div className="flex">
+                  <div className="flex-[0_0_100%] px-3 md:flex-[0_0_85%]">
+                    <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl border border-black/10 bg-foreground/[0.07] dark:border-white/10">
+                      {/* the always-visible category tag on each slide */}
+                      <div className="absolute bottom-4 left-4 h-10 w-44 rounded-xl bg-foreground/10" />
+                    </div>
+                  </div>
+                  <div className="hidden flex-[0_0_85%] px-3 md:block">
+                    <div className="aspect-[16/9] w-full rounded-2xl border border-black/10 bg-foreground/[0.04] dark:border-white/10" />
+                  </div>
                 </div>
-              ))}
+              </div>
+
+              {/* dots + autoplay progress + play button */}
+              <div className="mx-auto mt-7 flex w-full max-w-sm items-center justify-center gap-4 px-4 sm:justify-between">
+                <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+                  {[...Array(3)].map((_, i) => (
+                    <div
+                      key={i}
+                      className={`h-2.5 w-2.5 rounded-full sm:h-3 sm:w-3 ${
+                        i === 0 ? "bg-foreground/30" : "bg-foreground/10"
+                      }`}
+                    />
+                  ))}
+                </div>
+                <div className="hidden h-1.5 w-24 shrink-0 rounded-full bg-foreground/10 sm:block" />
+                <div className="hidden h-10 w-10 shrink-0 rounded-full bg-foreground/10 sm:block" />
+              </div>
             </div>
 
-            {/* Button Skeleton */}
-            <div className="flex justify-center mt-12">
-              <div className="w-44 h-14 bg-neutral-900/40 dark:bg-neutral-800/40 rounded-full" />
+            {/* "See All Works" button */}
+            <div className="mt-10 flex justify-center">
+              <div className="h-14 w-44 rounded-full bg-foreground/10" />
             </div>
           </div>
         </div>

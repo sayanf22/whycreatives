@@ -14,7 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+        // Schibsted Grotesk is the closest freely-licensed match to the
+        // reference site's grotesque. Keep it first everywhere.
+        sans: ['Schibsted Grotesk', 'Plus Jakarta Sans', 'Inter', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",

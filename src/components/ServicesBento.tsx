@@ -5,7 +5,7 @@ import { FadeInWhenVisible } from "@/components/FadeInWhenVisible";
 const features = [
   {
     Icon: Video,
-    name: "Video Production",
+    name: "Video Editing & Motion Design",
     description: "Professional video editing with color grading, transitions, and effects that captivate your audience.",
     href: "/our-work",
     cta: "Learn more",
@@ -16,7 +16,7 @@ const features = [
   },
   {
     Icon: Globe,
-    name: "Web Development",
+    name: "Web & App Development",
     description: "Modern, responsive websites built with latest technologies that drive results.",
     href: "/our-work",
     cta: "Learn more",

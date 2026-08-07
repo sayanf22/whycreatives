@@ -19,7 +19,7 @@ const ServiceDetails = () => {
     additionalDetails?: { title: string; items: { name: string; desc?: string; price?: string }[] }[];
   }> = {
     "video-production": {
-      title: "Video Production & Cinematic Editing",
+      title: "Video Editing & Motion Design",
       subtitle: "Cinematic, fast-paced commercial and short-form video editing.",
       description: "We handle everything from initial script ideation to filming and post-production editing. We edit with high pacing, sound design, hooks, and advanced color grading to ensure maximum engagement for your brand's videos.",
       inclusions: [

@@ -59,25 +59,47 @@ const PortfolioGallery = () => {
     return portfolioItems.filter((item) => item.category === selectedCategory);
   }, [portfolioItems, selectedCategory]);
 
+  /* Skeleton mirrors the loaded gallery exactly — same wrapper, heading scale,
+     filter pill row and 3-up grid — so the page doesn't reflow on arrival. */
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background text-foreground">
         <Navigation />
-        <div className="pt-32 pb-24 px-4 flex items-center justify-center min-h-[60vh]">
-          <div className="text-center">
-            <div className="relative w-24 h-24 mx-auto mb-6">
-              <div className="absolute inset-0 rounded-full border-4 border-foreground/20"></div>
-              <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-foreground border-r-foreground animate-spin"></div>
-              <div 
-                className="absolute inset-2 rounded-full border-4 border-transparent border-b-foreground/60 border-l-foreground/60"
-                style={{ animation: 'spin 1.5s linear infinite reverse' }}
-              ></div>
+        <div className="pt-32 pb-24 px-4">
+          <div className="mx-auto max-w-7xl animate-pulse">
+            <div className="mb-12 text-center">
+              <div className="mx-auto mb-6 h-12 w-[300px] rounded-2xl bg-foreground/10 md:h-[72px] md:w-[520px]" />
+              <div className="mx-auto mb-12 h-6 w-full max-w-lg rounded-lg bg-foreground/[0.07]" />
+
+              {/* category filter pills */}
+              <div className="mb-16 flex flex-wrap justify-center gap-3">
+                {[92, 84, 128, 100].map((w, i) => (
+                  <div
+                    key={i}
+                    className="h-[42px] rounded-full border border-black/10 bg-foreground/[0.07] dark:border-white/10"
+                    style={{ width: w }}
+                  />
+                ))}
+              </div>
             </div>
-            <h2 className="text-2xl font-bold mb-2 animate-pulse">Loading Gallery</h2>
-            <p className="text-muted-foreground animate-pulse">Fetching portfolio items...</p>
+
+            {/* gallery grid */}
+            <div className="grid min-h-[400px] grid-cols-1 gap-8 p-4 md:grid-cols-2 lg:grid-cols-3">
+              {[...Array(6)].map((_, i) => (
+                <div
+                  key={i}
+                  className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl border border-black/10 bg-foreground/[0.07] dark:border-white/10"
+                >
+                  <div className="absolute bottom-4 left-4 h-10 w-40 rounded-xl bg-foreground/10" />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
         <Footer />
+        <span className="sr-only" role="status" aria-live="polite">
+          Loading gallery
+        </span>
       </div>
     );
   }

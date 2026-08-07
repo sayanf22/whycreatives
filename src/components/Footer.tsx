@@ -9,7 +9,7 @@ export const Footer = () => {
   };
 
   return (
-    <div className="w-full bg-background p-3 sm:p-5 md:p-6 mt-12 sm:mt-16 font-['Plus_Jakarta_Sans',sans-serif]">
+    <div className="w-full bg-background p-3 sm:p-5 md:p-6 mt-12 sm:mt-16 font-['Schibsted_Grotesk',sans-serif]">
       <div className="relative w-full overflow-hidden">
         
         {/* ========================================================

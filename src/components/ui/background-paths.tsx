@@ -65,7 +65,7 @@ export function BackgroundPaths({
     const words = title.split(" ");
 
     return (
-        <div className="relative py-20 sm:py-28 lg:py-32 w-full flex items-center justify-center overflow-hidden bg-background font-['Plus_Jakarta_Sans',sans-serif]">
+        <div className="relative py-20 sm:py-28 lg:py-32 w-full flex items-center justify-center overflow-hidden bg-background font-['Schibsted_Grotesk',sans-serif]">
             <div className="absolute inset-0">
                 <FloatingPaths position={1} />
                 <FloatingPaths position={-1} />

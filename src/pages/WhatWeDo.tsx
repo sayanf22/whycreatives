@@ -12,7 +12,7 @@ const WhatWeDo = () => {
 
   const timelineData = [
     {
-      title: "Video Production",
+      title: "Video Editing & Motion Design",
       content: (
         <div>
           <div className="flex items-center gap-4 mb-8">
@@ -20,7 +20,7 @@ const WhatWeDo = () => {
               <Video className="w-10 h-10 text-black dark:text-white" />
             </div>
             <div>
-              <h4 className="text-foreground dark:text-white text-xl md:text-2xl font-bold mb-2">Full-Service Video Production</h4>
+              <h4 className="text-foreground dark:text-white text-xl md:text-2xl font-bold mb-2">Full-Service Video Editing & Motion Design</h4>
               <p className="text-muted-foreground dark:text-neutral-400 text-base md:text-lg">From concept to final cut, we craft cinematic experiences.</p>
             </div>
           </div>
@@ -52,7 +52,7 @@ const WhatWeDo = () => {
       ),
     },
     {
-      title: "Web Development",
+      title: "Web & App Development",
       content: (
         <div>
           <div className="flex items-center gap-4 mb-8">
@@ -259,10 +259,10 @@ const WhatWeDo = () => {
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "What video production services do you offer?",
+        "name": "What video editing services do you offer?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "We offer full-service video production including professional cinematography, scriptwriting, advanced color grading, sound design, and drone videography."
+          "text": "We offer full-service video editing including professional cinematography, scriptwriting, advanced color grading, sound design, and drone videography."
         }
       },
       {
@@ -287,11 +287,11 @@ const WhatWeDo = () => {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>Creative Services | Web Design, Video Production & Marketing</title>
-        <meta name="description" content="Discover WhyCreatives' premium services: High-end video production, custom web development, performance marketing, and branding. Award-winning agency quality at affordable prices." />
-        <meta name="keywords" content="creative services, video production agency, web development company, digital marketing services, branding agency, logo design, performance marketing" />
+        <title>Creative Services | Video Editing, Motion Design & Web Development</title>
+        <meta name="description" content="Discover WhyCreatives' premium services: High-end video editing, custom web development, performance marketing, and branding. Award-winning agency quality at affordable prices." />
+        <meta name="keywords" content="creative services, video editing agency, web development company, digital marketing services, branding agency, logo design, performance marketing" />
         <link rel="canonical" href="https://whycreatives.in/what-we-do" />
-        <meta property="og:title" content="Creative Services | Web Design, Video Production & Marketing" />
+        <meta property="og:title" content="Creative Services | Video Editing, Motion Design & Web Development" />
         <meta property="og:description" content="Discover WhyCreatives' premium services. Award-winning agency quality at affordable prices." />
         <meta property="og:url" content="https://whycreatives.in/what-we-do" />
         <meta property="og:type" content="website" />
