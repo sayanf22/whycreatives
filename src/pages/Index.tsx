@@ -3,9 +3,6 @@ import { Hero } from "@/components/Hero";
 import { AgencyIntro } from "@/components/AgencyIntro";
 import { FeaturedProjects } from "@/components/FeaturedProjects";
 import { Expertise } from "@/components/Expertise";
-import { WhyChooseUs } from "@/components/WhyChooseUs";
-import { HowItWorks } from "@/components/HowItWorks";
-import { Testimonials } from "@/components/Testimonials";
 import { CTA } from "@/components/CTA";
 import { MarqueeLine } from "@/components/MarqueeLine";
 import { Footer } from "@/components/Footer";
@@ -63,9 +60,9 @@ const Index = () => {
       <AgencyIntro />
       <FeaturedProjects />
       <Expertise />
-      <WhyChooseUs />
-      <HowItWorks />
-      <Testimonials />
+      {/* WhyChooseUs, HowItWorks and Testimonials removed: generic icon-and-
+          bullet blocks that repeated what Expertise already says, plus
+          placeholder testimonials. Their components were deleted with them. */}
       <CTA />
       {/* GooeySection removed: it ran an uncapped rAF loop writing a CSS
           blur() every frame, which was the biggest cause of scroll lag on

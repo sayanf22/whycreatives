@@ -86,7 +86,7 @@ const SERVICES: Service[] = [
   {
     title: "UGC & Collabs",
     heading: "Content creation and collaborations",
-    tagline: "UGC reels and joint collaborations by creator @AreyParo.",
+    tagline: "UGC reels and joint collaborations.",
     body: "Tailored content strategy, scriptwriting and high-impact reels to lift your brand presence.",
     points: [
       "Tailored content strategy and ideation",

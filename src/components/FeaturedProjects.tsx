@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import {
   AnimatePresence,
@@ -50,7 +49,7 @@ const PROJECTS: Project[] = [
     id: 3,
     year: "2024",
     client: "WhyCreatives UGC",
-    title: "@AreyParo UGC reels, viral scriptwriting & creator marketing",
+    title: "UGC reels, viral scriptwriting & creator marketing",
     image: "/whycreatives-ugc.webp",
     tags: ["UGC Reels", "Social"],
     href: "/our-work",
@@ -234,19 +233,41 @@ const ProjectCard = ({
     };
   }, [measure]);
 
+  /**
+   * Pointer position relative to the image box.
+   *
+   * The cursor is positioned inside the image rather than fixed to the viewport,
+   * which keeps it strictly within the container: the container's own
+   * `overflow-hidden` and clip-path trim it at the edges. It also removes the
+   * need to portal it out to escape the card's scroll transform.
+   */
+  const localPoint = (e: React.MouseEvent) => {
+    const rect = frameRef.current?.getBoundingClientRect();
+    if (!rect) return null;
+    return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+  };
+
   const track = (e: React.MouseEvent) => {
-    targetX.set(e.clientX);
-    targetY.set(e.clientY);
+    const point = localPoint(e);
+    if (!point) return;
+    targetX.set(point.x);
+    targetY.set(point.y);
   };
 
   const handleEnter = (e: React.MouseEvent) => {
-    if (!finePointer) return;
-    track(e);
-    // Snap the spring to the entry point. Without this the circle visibly flies
-    // across the screen from wherever the pointer last left this card.
-    cursorX.jump(e.clientX);
-    cursorY.jump(e.clientY);
+    // Set regardless of pointer type: this also drives the tag motion, which is
+    // not restricted to devices that get the custom cursor.
     setHovered(true);
+    if (!finePointer) return;
+
+    const point = localPoint(e);
+    if (!point) return;
+    targetX.set(point.x);
+    targetY.set(point.y);
+    // Snap the spring to the entry point, otherwise the circle visibly flies in
+    // from wherever the pointer last left this card.
+    cursorX.jump(point.x);
+    cursorY.jump(point.y);
   };
 
   return (
@@ -282,13 +303,26 @@ const ProjectCard = ({
               clip ? "pb-5 pl-6" : "rounded-bl-2xl bg-background/95 p-3"
             }`}
           >
-            {project.tags.map((tag) => (
-              <span
+            {/* Pills settle downward and reach full strength on hover. Both are
+                transforms/opacity only, so the measured notch never shifts. */}
+            {project.tags.map((tag, i) => (
+              <motion.span
                 key={tag}
-                className="whitespace-nowrap rounded-full border border-foreground/10 bg-secondary px-4 py-2 text-xs font-bold text-foreground"
+                animate={
+                  hovered
+                    ? { y: 5, opacity: 1, scale: 1.04 }
+                    : { y: 0, opacity: 0.82, scale: 1 }
+                }
+                transition={{
+                  type: "spring",
+                  stiffness: 420,
+                  damping: 26,
+                  delay: hovered ? i * 0.05 : 0,
+                }}
+                className="whitespace-nowrap rounded-full bg-foreground px-4 py-2 text-xs font-bold text-background"
               >
                 {tag}
-              </span>
+              </motion.span>
             ))}
           </div>
 
@@ -320,8 +354,37 @@ const ProjectCard = ({
               height={900}
               loading={index === 0 ? "eager" : "lazy"}
               decoding="async"
-              className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 motion-reduce:transform-none"
+              className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 motion-reduce:transform-none"
             />
+
+            {/* Tracking cursor lives inside the clipped box, so it is trimmed by
+                the image's own rounded corners and notches. */}
+            <AnimatePresence>
+              {finePointer && hovered && (
+                <motion.div
+                  style={{ x: cursorX, y: cursorY }}
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{
+                    scale: 1,
+                    opacity: 1,
+                    transition: { type: "spring", stiffness: 400, damping: 28 },
+                  }}
+                  /* Eased fade rather than a spring to zero: snapping straight
+                     to scale 0 made the circle vanish the instant the pointer
+                     left the image. */
+                  exit={{
+                    scale: 0,
+                    opacity: 0,
+                    transition: { duration: 0.35, ease: EASE },
+                  }}
+                  /* -ml-8/-mt-8 is half of h-16/w-16, centring the circle on the
+                     pointer without a second transform fighting x/y. */
+                  className="pointer-events-none absolute left-0 top-0 z-30 -ml-8 -mt-8 flex h-16 w-16 items-center justify-center rounded-full bg-[#b5ff2b] text-black"
+                >
+                  <ArrowUpRight className="h-6 w-6" strokeWidth={2.5} />
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             {/* Hover info: a soft veil lifts the type off the photo, and the
                 label wipes up from behind its own mask. */}
@@ -350,43 +413,6 @@ const ProjectCard = ({
         </h3>
       </Link>
 
-      {/*
-        Portalled to <body> on purpose. A `fixed` element is positioned against
-        the nearest transformed ancestor, and this card animates on a transform
-        as it scrolls in — leaving the cursor inside would tie it to the card
-        instead of the viewport. `finePointer` is false until the client effect
-        runs, so this never touches `document` during a prerender.
-      */}
-      {finePointer &&
-        createPortal(
-          <AnimatePresence>
-            {hovered && (
-              <motion.div
-                style={{ x: cursorX, y: cursorY }}
-                initial={{ scale: 0.3, opacity: 0 }}
-                animate={{
-                  scale: 1,
-                  opacity: 1,
-                  transition: { type: "spring", stiffness: 400, damping: 28 },
-                }}
-                /* Eased fade rather than a spring to zero. Snapping straight to
-                   scale 0 made the circle vanish the instant the pointer left
-                   the image; this lets it ease away instead. */
-                exit={{
-                  scale: 0.4,
-                  opacity: 0,
-                  transition: { duration: 0.4, ease: EASE },
-                }}
-                /* -ml-10/-mt-10 is half of h-20/w-20, which centres the circle
-                   on the pointer tip without a second transform fighting x/y. */
-                className="pointer-events-none fixed left-0 top-0 z-[100] -ml-10 -mt-10 flex h-20 w-20 items-center justify-center rounded-full bg-[#b5ff2b] text-black shadow-xl"
-              >
-                <ArrowUpRight className="h-7 w-7" strokeWidth={2.5} />
-              </motion.div>
-            )}
-          </AnimatePresence>,
-          document.body,
-        )}
     </motion.article>
   );
 };
