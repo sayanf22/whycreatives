@@ -160,8 +160,9 @@ export const ContentEditor = () => {
           <div>
             <h2 className="text-lg font-bold text-foreground">Page copy</h2>
             <p className="mt-1 text-sm text-muted-foreground">
-              Headings and intros on the Work and Gallery pages. Leave a field
-              empty to fall back to the built-in wording.
+              Headings and intros on the Work, Gallery, About, Insights and
+              Contact pages. Leave a field empty to fall back to the built-in
+              wording.
             </p>
           </div>
           <Button onClick={saveCopy} disabled={savingCopy} className="font-bold">

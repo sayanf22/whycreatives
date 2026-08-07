@@ -95,12 +95,12 @@ const PortfolioGallery = () => {
               </div>
             </div>
 
-            {/* category filter pills */}
-            <div className="mb-12 flex flex-wrap gap-2.5 sm:gap-3 lg:mb-16">
-              {[92, 84, 128, 100].map((w, i) => (
+            {/* category filter pills — same 44/48px height as the real strip */}
+            <div className="mb-12 flex flex-wrap gap-2 lg:mb-20 lg:gap-2.5">
+              {[104, 96, 140, 112].map((w, i) => (
                 <div
                   key={i}
-                  className="h-[42px] rounded-full border border-black/10 bg-foreground/[0.07] dark:border-white/10"
+                  className="h-11 rounded-full border border-border bg-foreground/[0.06] sm:h-12"
                   style={{ width: w }}
                 />
               ))}
@@ -197,44 +197,74 @@ const PortfolioGallery = () => {
             </div>
           </header>
 
-          <FadeInWhenVisible>
-            <div className="mb-12">
-              {/* Category Filter with Sliding Animation & Depth */}
-              <div className="relative mb-12 flex flex-wrap gap-2.5 sm:gap-3 lg:mb-16">
-                {categories.map((category) => {
-                  const isActive = selectedCategory === category;
-                  return (
-                    <button
-                      key={category}
-                      onClick={() => setSelectedCategory(category)}
-                      className="relative px-6 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 overflow-hidden border border-black/10 dark:border-white/10 bg-white/90 dark:bg-neutral-900/40 backdrop-blur-sm shadow-[0_4px_12px_rgba(0,0,0,0.05)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.3)] hover:shadow-[0_10px_20px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_10px_20px_rgba(0,0,0,0.5)] hover:-translate-y-1 active:translate-y-0 transition-all duration-300"
+          {/* ── CATEGORY FILTER ──────────────────────────────────────────
+              One monochrome control strip. The active fill is a *single* shared
+              element carried between buttons by `layoutId`, so choosing a filter
+              slides the fill across instead of cross-fading two backgrounds.
+
+              The old pills leaned on effects rather than type: a lift on hover,
+              two layered box-shadows per state, a backdrop blur, and hard-coded
+              `bg-white / dark:bg-neutral-900`. All of it is gone — inactive
+              pills are just an outline, and the icons inherit `currentColor`
+              from the label so there is one place that decides the colour. */}
+          <motion.div
+            role="group"
+            aria-label="Filter projects by category"
+            className="mb-12 flex flex-wrap items-center gap-2 lg:mb-20 lg:gap-2.5"
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 0.6, ease: EASE }}
+          >
+            {categories.map((category) => {
+              const isActive = selectedCategory === category;
+              const count =
+                category === "All"
+                  ? portfolioItems?.length ?? 0
+                  : portfolioItems?.filter((item) => item.category === category)
+                      .length ?? 0;
+
+              return (
+                <button
+                  key={category}
+                  type="button"
+                  onClick={() => setSelectedCategory(category)}
+                  aria-pressed={isActive}
+                  /* Fixed height rather than vertical padding: the pills then
+                     line up regardless of whether a label has a descender, and
+                     44px clears the minimum touch target. */
+                  className={`relative flex h-11 items-center overflow-hidden rounded-full border px-5 transition-colors duration-300 sm:h-12 sm:px-6 ${
+                    isActive
+                      ? "border-foreground"
+                      : "border-border hover:border-foreground/40"
+                  }`}
+                >
+                  {isActive && (
+                    <motion.span
+                      layoutId="activeCategoryBg"
+                      className="absolute inset-0 rounded-full bg-foreground"
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                  <span
+                    className={`relative z-10 flex items-center gap-2 text-sm font-bold tracking-[-0.01em] transition-colors duration-300 ${
+                      isActive ? "text-background" : "text-muted-foreground"
+                    }`}
+                  >
+                    {getCategoryIcon(category, "h-4 w-4 shrink-0")}
+                    <span>{category}</span>
+                    <span
+                      className={`text-[11px] font-semibold tabular-nums ${
+                        isActive ? "text-background/55" : "text-muted-foreground/55"
+                      }`}
                     >
-                      {isActive && (
-                        <motion.div
-                          layoutId="activeCategoryBg"
-                          className="absolute inset-0 bg-black dark:bg-white z-0 shadow-[0_4px_12px_rgba(0,0,0,0.15)] dark:shadow-[0_4px_12px_rgba(255,255,255,0.08)]"
-                          transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                        />
-                      )}
-                      <span className={`relative z-10 flex items-center gap-2 transition-colors duration-300 ${
-                        isActive 
-                          ? "text-white dark:text-black" 
-                          : "text-black/70 dark:text-white/70"
-                      }`}>
-                        {getCategoryIcon(
-                          category, 
-                          isActive 
-                            ? "text-white dark:text-black w-4 h-4 transition-colors duration-300" 
-                            : "text-black/70 dark:text-white/70 w-4 h-4 transition-colors duration-300"
-                        )}
-                        <span>{category}</span>
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          </FadeInWhenVisible>
+                      {count}
+                    </span>
+                  </span>
+                </button>
+              );
+            })}
+          </motion.div>
 
           {/* Gallery Grid — caption sits *below* the image now rather than as a
               pill floating over it: year and category on a meta line, then the
