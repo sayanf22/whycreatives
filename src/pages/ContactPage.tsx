@@ -21,6 +21,23 @@ import { supabase } from "@/integrations/supabase/client";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
+/**
+ * One row of the form cascade.
+ *
+ * No `transition.delay` here on purpose — the timing belongs to the parent's
+ * `staggerChildren`, so the order is a property of the form rather than a delay
+ * hand-copied onto each of eight children and re-numbered whenever a field
+ * moves. Travel is small: a form should assemble, not swoop.
+ */
+const FIELD = {
+  hidden: { opacity: 0, y: 18 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: EASE },
+  },
+} as const;
+
 const EMAIL = "hello@whycreatives.in";
 const PHONE_DISPLAY = "+91 82101 98880";
 const PHONE_E164 = "918210198880";
@@ -180,23 +197,33 @@ const ContactPage = () => {
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
             {/* ── CHANNELS ── plain rows on rules, matching the rest of the
                 site. Previously each was a tinted card with a gradient circle
-                behind a `text-primary` glyph. */}
-            <motion.aside
-              className="lg:col-span-5"
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.7, ease: EASE }}
-            >
+                behind a `text-primary` glyph.
+
+                Rows now reveal one at a time as they scroll in. The whole aside
+                used to be a single `motion.aside` that faded in as one lump, so
+                on a phone — where this column is three tall rows plus socials
+                and a note — everything below the fold was already finished by
+                the time you reached it. */}
+            <aside className="lg:col-span-5">
               <ul>
                 {CHANNELS.map(({ label, value, href, icon: Icon }) => {
                   const inner = (
                     <>
-                      <span className="flex items-center gap-2.5 text-[11px] font-bold uppercase tracking-[0.16em] text-muted-foreground">
+                      <motion.span
+                        className="flex items-center gap-2.5 text-[11px] font-bold uppercase tracking-[0.16em] text-muted-foreground"
+                        variants={{
+                          hidden: { opacity: 0, x: -10 },
+                          show: {
+                            opacity: 1,
+                            x: 0,
+                            transition: { duration: 0.5, ease: EASE, delay: 0.08 },
+                          },
+                        }}
+                      >
                         <Icon className="h-3.5 w-3.5" aria-hidden="true" />
                         {label}
-                      </span>
-                      <span
+                      </motion.span>
+                      <motion.span
                         className="mt-2 block text-foreground"
                         style={{
                           fontSize: "clamp(1.25rem, 2.1vw, 2rem)",
@@ -204,30 +231,64 @@ const ContactPage = () => {
                           letterSpacing: "-0.035em",
                           fontWeight: 700,
                         }}
+                        variants={{
+                          hidden: { opacity: 0, y: 18, filter: "blur(9px)" },
+                          show: {
+                            opacity: 1,
+                            y: 0,
+                            filter: "blur(0px)",
+                            transition: { duration: 0.6, ease: EASE, delay: 0.16 },
+                          },
+                        }}
                       >
                         {value}
-                      </span>
+                      </motion.span>
                     </>
                   );
 
                   return (
-                    <li key={label} className="border-t border-border last:border-b">
-                      {href ? (
-                        <a
-                          href={href}
-                          className="block py-6 transition-opacity duration-300 hover:opacity-55 lg:py-8"
-                        >
-                          {inner}
-                        </a>
-                      ) : (
-                        <div className="py-6 lg:py-8">{inner}</div>
-                      )}
+                    <li key={label} className="last:border-b last:border-border">
+                      <motion.div
+                        initial="hidden"
+                        whileInView="show"
+                        viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
+                      >
+                        {/* Same drawn rule as the About list, so the two pages
+                            share one reveal language. */}
+                        <motion.span
+                          aria-hidden="true"
+                          className="block h-px w-full origin-left bg-border"
+                          variants={{
+                            hidden: { scaleX: 0 },
+                            show: {
+                              scaleX: 1,
+                              transition: { duration: 0.65, ease: EASE },
+                            },
+                          }}
+                        />
+                        {href ? (
+                          <a
+                            href={href}
+                            className="block py-6 transition-opacity duration-300 hover:opacity-55 lg:py-8"
+                          >
+                            {inner}
+                          </a>
+                        ) : (
+                          <div className="py-6 lg:py-8">{inner}</div>
+                        )}
+                      </motion.div>
                     </li>
                   );
                 })}
               </ul>
 
-              <div className="mt-10">
+              <motion.div
+                className="mt-10"
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ duration: 0.6, ease: EASE }}
+              >
                 <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-muted-foreground">
                   Elsewhere
                 </p>
@@ -254,27 +315,56 @@ const ContactPage = () => {
                     <MessageCircle className="h-5 w-5" />
                   </a>
                 </div>
-              </div>
+              </motion.div>
 
-              <p className="mt-10 max-w-[38ch] text-base leading-relaxed text-muted-foreground">
+              <motion.p
+                className="mt-10 max-w-[38ch] text-base leading-relaxed text-muted-foreground"
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.6 }}
+                transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
+              >
                 Replies land within one working day. If it is urgent, WhatsApp is
                 the fastest route.
-              </p>
-            </motion.aside>
+              </motion.p>
+            </aside>
 
-            {/* ── FORM ── */}
+            {/* ── FORM ──
+                The panel arrives first, then its contents cascade inside it. It
+                was one `motion.div` fading the whole thing in at once, which on
+                a form this tall meant a single 32px nudge and nothing else — the
+                fields, the service pills and the button had no reveal at all.
+
+                `staggerChildren` is driven from the panel so the order is set in
+                one place; every child below just declares `variants={FIELD}` and
+                inherits its turn. */}
             <motion.div
               className="lg:col-span-7"
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.7, ease: EASE, delay: 0.1 }}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-8% 0px" }}
+              variants={{
+                hidden: { opacity: 0, y: 32 },
+                show: {
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    duration: 0.7,
+                    ease: EASE,
+                    /* Hold before the cascade starts, so the panel has settled
+                       rather than the fields sliding while it is still moving. */
+                    delayChildren: 0.18,
+                    staggerChildren: 0.075,
+                  },
+                },
+              }}
             >
               <form
                 onSubmit={handleSubmit}
                 className="rounded-[20px] border border-border p-6 sm:p-8 lg:rounded-[34px] lg:p-12"
               >
-                <h2
+                <motion.h2
+                  variants={FIELD}
                   className="text-foreground"
                   style={{
                     fontSize: "clamp(1.6rem, 3vw, 2.75rem)",
@@ -284,12 +374,18 @@ const ContactPage = () => {
                   }}
                 >
                   Start a project
-                </h2>
-                <p className="mt-3 text-base text-muted-foreground">
+                </motion.h2>
+                <motion.p
+                  variants={FIELD}
+                  className="mt-3 text-base text-muted-foreground"
+                >
                   Four fields, then pick what you need. Nothing else required.
-                </p>
+                </motion.p>
 
-                <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2">
+                <motion.div
+                  variants={FIELD}
+                  className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2"
+                >
                   <div>
                     <label
                       htmlFor="contact-name"
@@ -332,9 +428,9 @@ const ContactPage = () => {
                       className={fieldClass}
                     />
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="mt-5">
+                <motion.div variants={FIELD} className="mt-5">
                   <label
                     htmlFor="contact-phone"
                     className="mb-2 block text-sm font-bold text-foreground"
@@ -354,9 +450,9 @@ const ContactPage = () => {
                     placeholder="+91"
                     className={fieldClass}
                   />
-                </div>
+                </motion.div>
 
-                <div className="mt-5">
+                <motion.div variants={FIELD} className="mt-5">
                   <label
                     htmlFor="contact-message"
                     className="mb-2 block text-sm font-bold text-foreground"
@@ -374,13 +470,13 @@ const ContactPage = () => {
                     placeholder="The goal, the deadline, and anything that already exists."
                     className={`${fieldClass} min-h-[140px] resize-y`}
                   />
-                </div>
+                </motion.div>
 
                 {/* Nine stacked checkbox rows made the form look twice as long
                     as it is. Same real checkboxes, rendered as toggle pills:
                     the input stays in the tab order and drives the pill styling
                     through `peer`. */}
-                <fieldset className="mt-8">
+                <motion.fieldset variants={FIELD} className="mt-8">
                   <legend className="mb-3 text-sm font-bold text-foreground">
                     What do you need?{" "}
                     <span className="font-medium text-muted-foreground">
@@ -402,9 +498,10 @@ const ContactPage = () => {
                       </label>
                     ))}
                   </div>
-                </fieldset>
+                </motion.fieldset>
 
-                <button
+                <motion.button
+                  variants={FIELD}
                   type="submit"
                   disabled={sending}
                   className="group mt-9 inline-flex h-14 w-full items-center justify-center gap-2 rounded-full bg-foreground px-8 text-base font-bold text-background transition-opacity duration-300 hover:opacity-85 disabled:cursor-not-allowed disabled:opacity-55 sm:h-16"
@@ -423,11 +520,14 @@ const ContactPage = () => {
                       />
                     </>
                   )}
-                </button>
+                </motion.button>
 
-                <p className="mt-4 text-center text-xs text-muted-foreground">
+                <motion.p
+                  variants={FIELD}
+                  className="mt-4 text-center text-xs text-muted-foreground"
+                >
                   Sent straight to the studio. We never pass your details on.
-                </p>
+                </motion.p>
               </form>
             </motion.div>
           </div>

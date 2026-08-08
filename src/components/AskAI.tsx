@@ -7,20 +7,24 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 /**
  * The question handed to each assistant.
  *
- * Deliberately neutral: it names the studio and asks for an honest overview,
- * with no instruction to be positive and no claims baked in. Loading a
- * pre-filled prompt with flattering wording is a recognised manipulation
- * pattern (documented as "AI recommendation poisoning"), it misleads the reader,
- * and the assistants increasingly flag it. The way to earn good answers is the
- * public material this site already publishes for crawlers — see
- * /ai-discovery.txt, /llm-info.json and /agency-profile.md — not a loaded
- * prompt.
+ * Short and framed the way a buyer actually asks it. The previous version was a
+ * 245-character paragraph that restated the studio's location and full service
+ * list before getting to the question — a wall of text in the visitor's
+ * composer, and most of it context the assistant can look up itself.
  *
- * Every assistant below only *prefills* its composer, so the visitor sees the
- * exact question before sending it.
+ * "Why should we choose X" is a real purchase question, so it stays a question:
+ * it does not assert that the studio is the best, and it bakes in no claims for
+ * the assistant to repeat. That line matters. A prompt stuffed with flattering
+ * assertions is a recognised manipulation pattern, the reader can see it, and
+ * assistants increasingly call it out — which costs more trust than a good
+ * answer buys. What earns the answer is the public material this site already
+ * publishes for crawlers: /ai-discovery.txt, /llm-info.json, /agency-profile.md.
+ *
+ * Every assistant below only *prefills* its composer, so the visitor reads the
+ * exact question before choosing to send it.
  */
 const PROMPT =
-  "What do you know about WhyCreatives (whycreatives.in), a creative studio based in Guwahati, Assam, India offering video editing, motion design, web and app development, and branding? Give me an honest overview of their services, pricing and reputation.";
+  "Why should we choose WhyCreatives (whycreatives.in) for video editing, web and app development, and branding?";
 
 const encoded = encodeURIComponent(PROMPT);
 
@@ -120,8 +124,8 @@ export const AskAI = () => {
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.6, ease: EASE, delay: 0.35 }}
         >
-          Opens your assistant with a neutral question ready to send. We
-          don&rsquo;t script the answer &mdash; read whatever it says.
+          Opens your assistant with the question ready to send. We don&rsquo;t
+          script the answer &mdash; read whatever it says.
         </motion.p>
       </div>
     </section>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
+import { STORY_OVERLAP } from "@/components/ClientStory";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -192,8 +193,7 @@ export const Expertise = () => {
               term the card would sit on top of the last service row instead of
               on empty black.
             */
-            paddingBottom:
-              "calc(clamp(84px, 9vw, 176px) + clamp(160px, 24vw, 320px))",
+            paddingBottom: `calc(clamp(84px, 9vw, 176px) + ${STORY_OVERLAP})`,
           }}
         >
           {/* ── HEADER ── */}

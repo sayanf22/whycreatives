@@ -16,6 +16,23 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 /** Buttery trailing follow, so the cursor lags the pointer just slightly. */
 const CURSOR_SPRING = { stiffness: 400, damping: 28, mass: 0.5 } as const;
 
+/** Horizontal gutter on the section, and the gap between the two columns. */
+const GUTTER = "clamp(32px, 6vw, 160px)";
+const COLUMN_GAP = "56px"; /* lg:gap-x-14 */
+
+/**
+ * Exactly half a card's height, so a staggered card starts level with the
+ * vertical centre of the one beside it.
+ *
+ * This was a flat `mt-24` — 96px, which is nowhere near half a card and left the
+ * right column looking almost aligned with the left rather than deliberately
+ * offset. It has to be derived, because the card height is a function of the
+ * viewport: each column is `(100vw - 2 gutters - gap) / 2` wide and the media is
+ * 4:3, so the height is 0.75 of that and half the height is 0.375 of it —
+ * 0.1875 once the /2 for the column is folded in.
+ */
+const HALF_CARD = `calc(0.1875 * (100vw - 2 * ${GUTTER} - ${COLUMN_GAP}))`;
+
 type Project = {
   id: number;
   year: string;
@@ -153,10 +170,13 @@ const ProjectCard = ({
   project,
   index,
   className = "",
+  style,
 }: {
   project: Project;
   index: number;
   className?: string;
+  /** Used for the derived half-card offset, which cannot be a Tailwind class. */
+  style?: React.CSSProperties;
 }) => {
   const finePointer = useFinePointer();
   const [hovered, setHovered] = useState(false);
@@ -210,6 +230,7 @@ const ProjectCard = ({
   return (
     <motion.article
       className={className}
+      style={style}
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
@@ -385,7 +406,7 @@ export const FeaturedProjects = () => {
         in order; previously it sat inside the right-hand column and surfaced
         halfway down the phone layout, after the first two projects.
       */}
-      <div className="grid grid-cols-1 items-start gap-y-14 lg:grid-cols-2 lg:gap-x-14 lg:gap-y-24">
+      <div className="grid grid-cols-1 items-start gap-y-16 lg:grid-cols-2 lg:gap-x-14 lg:gap-y-32">
         <div className="lg:col-start-2 lg:row-start-1">
           <motion.div
             className="mb-4 flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground"
@@ -448,10 +469,17 @@ export const FeaturedProjects = () => {
           index={2}
           className="lg:col-start-1 lg:row-start-3"
         />
+        {/*
+          The offset is delivered as a CSS variable and consumed by a `lg:` class,
+          not applied as a plain inline `marginTop`. An inline style has no
+          breakpoint, so it would also push this card down on a phone, where the
+          grid is a single column and there is nothing to sit beside.
+        */}
         <ProjectCard
           project={PROJECTS[3]}
           index={3}
-          className="lg:col-start-2 lg:row-start-3 lg:mt-24"
+          className="lg:col-start-2 lg:row-start-3 lg:mt-[var(--half-card)]"
+          style={{ "--half-card": HALF_CARD } as React.CSSProperties}
         />
       </div>
     </section>

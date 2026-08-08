@@ -277,40 +277,83 @@ const AboutUs = () => {
               </BlurLines>
             </h2>
 
+            {/*
+              Each row animates on its own trigger, with no index delay.
+
+              The rows are spread down a tall list, so a shared stagger is the
+              wrong tool: it fires everything the moment the list edge appears,
+              and anyone who lands mid-page sees rows that already animated. Row
+              on its own trigger means the reveal follows the scroll all the way
+              down. The previous version also used `amount: 0.6`, which on a row
+              taller than 60% of a short viewport can never be satisfied.
+            */}
             <ul>
-              {DISCIPLINES.map((item, i) => (
-                <motion.li
-                  key={item.href}
-                  className="border-t border-border last:border-b"
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.6 }}
-                  transition={{ duration: 0.5, ease: EASE, delay: i * 0.04 }}
-                >
-                  <Link
-                    to={item.href}
-                    className="group flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2 py-6 transition-opacity duration-300 hover:opacity-55 lg:py-9"
+              {DISCIPLINES.map((item) => (
+                <li key={item.href} className="last:border-b last:border-border">
+                  <motion.div
+                    initial="hidden"
+                    whileInView="show"
+                    viewport={{ once: true, margin: "-12% 0px -12% 0px" }}
                   >
-                    <span
-                      className="flex items-center gap-3 text-foreground"
-                      style={{
-                        fontSize: "clamp(1.4rem, 3.4vw, 3.25rem)",
-                        lineHeight: 1.02,
-                        letterSpacing: "-0.04em",
-                        fontWeight: 700,
+                    {/* The rule draws itself in from the left rather than the
+                        border just being there. `scaleX` on its own layer, so it
+                        costs nothing. */}
+                    <motion.span
+                      aria-hidden="true"
+                      className="block h-px w-full origin-left bg-border"
+                      variants={{
+                        hidden: { scaleX: 0 },
+                        show: {
+                          scaleX: 1,
+                          transition: { duration: 0.7, ease: EASE },
+                        },
                       }}
+                    />
+                    <Link
+                      to={item.href}
+                      className="group flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2 py-6 transition-opacity duration-300 hover:opacity-55 lg:py-9"
                     >
-                      {item.label}
-                      <ArrowUpRight
-                        className="h-[0.5em] w-[0.5em] shrink-0 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 motion-reduce:transform-none"
-                        aria-hidden="true"
-                      />
-                    </span>
-                    <span className="text-sm font-medium text-muted-foreground sm:text-base">
-                      {item.note}
-                    </span>
-                  </Link>
-                </motion.li>
+                      <motion.span
+                        className="flex items-center gap-3 text-foreground"
+                        style={{
+                          fontSize: "clamp(1.4rem, 3.4vw, 3.25rem)",
+                          lineHeight: 1.02,
+                          letterSpacing: "-0.04em",
+                          fontWeight: 700,
+                        }}
+                        variants={{
+                          hidden: { opacity: 0, y: 22, filter: "blur(10px)" },
+                          show: {
+                            opacity: 1,
+                            y: 0,
+                            filter: "blur(0px)",
+                            transition: { duration: 0.65, ease: EASE, delay: 0.1 },
+                          },
+                        }}
+                      >
+                        {item.label}
+                        <ArrowUpRight
+                          className="h-[0.5em] w-[0.5em] shrink-0 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 motion-reduce:transform-none"
+                          aria-hidden="true"
+                        />
+                      </motion.span>
+                      {/* Trails the label so the row assembles left to right. */}
+                      <motion.span
+                        className="text-sm font-medium text-muted-foreground sm:text-base"
+                        variants={{
+                          hidden: { opacity: 0, x: 18 },
+                          show: {
+                            opacity: 1,
+                            x: 0,
+                            transition: { duration: 0.6, ease: EASE, delay: 0.24 },
+                          },
+                        }}
+                      >
+                        {item.note}
+                      </motion.span>
+                    </Link>
+                  </motion.div>
+                </li>
               ))}
             </ul>
           </section>
