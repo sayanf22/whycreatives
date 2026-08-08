@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "sitemap": "node generate_blog_sitemap.js",
     "images": "node scripts/optimize-images.mjs",
-    "images:write": "node scripts/optimize-images.mjs --write"
+    "images:write": "node scripts/optimize-images.mjs --write",
+    "hero": "node scripts/build-hero-image.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

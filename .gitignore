@@ -70,3 +70,8 @@ Thumbs.db
 *.tsbuildinfo
 .vite-ssg-temp/
 .wrangler/
+
+# Full-resolution image masters. Kept out of the repo and out of public/ so they
+# are never served: scripts/build-hero-image.mjs reads from here and writes the
+# optimised, responsive WebP set into public/.
+design-source/

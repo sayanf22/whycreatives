@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 
 /*
@@ -127,6 +127,35 @@ export const Hero = () => {
   const actionsRef = useRef<HTMLDivElement>(null);
 
   const [clipPath, setClipPath] = useState<string | null>(null);
+  const reduced = useReducedMotion();
+
+  /*
+    Scroll-linked parallax on the media only.
+
+    `useScroll` reads the panel's progress through the viewport and drives a
+    transform, so the image drifts and settles as the page moves instead of
+    being pinned to the panel. It is transform-only — no layout, no filter — so
+    it stays on the compositor.
+
+    Deliberately *not* gated off on phones: a transform driven by scroll offset
+    is the one kind of scroll animation touch devices handle well, and it is
+    what makes the hero feel attached to the scroll rather than static. It is
+    gated on `prefers-reduced-motion`.
+  */
+  const { scrollYProgress } = useScroll({
+    target: panelRef,
+    offset: ["start start", "end start"],
+  });
+  /*
+    The travel is budgeted against the image's bleed, not picked by eye. The
+    media is 118% tall at a -9% offset, so there is 0.09H of headroom at each
+    edge. A percentage translate resolves against the element's own height and
+    is then multiplied by the scale that follows it in the transform list, so
+    the worst case here is 0.07 x 1.18 x 1.08 = 0.089H — just inside the budget.
+    Push either number higher and a hard edge slides into the panel.
+  */
+  const mediaY = useTransform(scrollYProgress, [0, 1], ["0%", "7%"]);
+  const mediaScale = useTransform(scrollYProgress, [0, 1], [1.02, 1.08]);
 
   const measure = useCallback(() => {
     const panel = panelRef.current;
@@ -242,17 +271,27 @@ export const Hero = () => {
           paddingBottom: "clamp(10px, 2.4vw, 34px)",
         }}
       >
-        {/* Phones get a full-height portrait panel (like the reference); the
-            52vw cap only kicks in from md up, where it stops very wide screens
-            from producing an over-tall panel. */}
+        {/*
+          Phones get a tall portrait panel, now capped at 680px.
+
+          Uncapped it was `100svh - 128px`, which on a 390x844 phone is a 374x716
+          box — an aspect of about 1:1.9. Nothing photographic survives that
+          without being cropped to a sliver, and it also meant the entire first
+          screen was one panel with no hint that the page continued. The cap
+          leaves the notch, the text card and the layout untouched; it only stops
+          the panel growing past the point where the media stops reading.
+
+          The 52vw cap from md up is unchanged — that is the desktop behaviour
+          that already works.
+        */}
         <div
           ref={panelRef}
-          className="relative w-full h-[min(calc(100svh_-_128px),1080px)] min-h-[420px] md:h-[min(calc(100svh_-_132px),52vw,1080px)]"
+          className="relative w-full h-[min(calc(100svh_-_128px),680px)] min-h-[420px] md:h-[min(calc(100svh_-_132px),52vw,1080px)]"
         >
-          {/* ── DARK PANEL / MEDIA SLOT ──
-              Everything inside is clipped to the notched shape. Drop an <img>,
-              <video> or <iframe> with `absolute inset-0 h-full w-full object-cover`
-              here and it will fill the panel exactly. Left empty on purpose. */}
+          {/* ── DARK PANEL / MEDIA ──
+              Everything inside is clipped to the notched shape. The panel keeps
+              its dark fill underneath so the shape is correct on the very first
+              frame, before the image decodes. */}
           <div
             className="absolute inset-0 overflow-hidden bg-[#161616] dark:bg-[#202020]"
             style={{
@@ -261,7 +300,55 @@ export const Hero = () => {
               borderRadius: clipPath ? undefined : "clamp(14px, 2.6vw, 34px)",
             }}
           >
-            {/* media goes here */}
+            {/*
+              Art-directed, not just resized. The panel is a wide landscape box
+              from `md` up and a tall portrait box on phones, so one landscape
+              file would have most of its composition cropped away on a phone.
+              The first <source> serves the native-aspect crop to tablets and
+              desktops; the second serves a 2:3 crop framed by sharp's attention
+              strategy to everything narrower. See scripts/build-hero-image.mjs.
+
+              `sizes` matches the real layout: the panel is the viewport minus a
+              16px gutter on phones, and ~88vw once the md gutters kick in.
+            */}
+            <picture>
+              <source
+                media="(min-width: 768px)"
+                type="image/webp"
+                srcSet="/hero-panel-768.webp 768w, /hero-panel-1152.webp 1152w, /hero-panel-1693.webp 1693w"
+                sizes="88vw"
+              />
+              <source
+                type="image/webp"
+                srcSet="/hero-panel-portrait-420.webp 420w, /hero-panel-portrait-619.webp 619w"
+                sizes="100vw"
+              />
+              <motion.img
+                src="/hero-panel-1152.webp"
+                alt=""
+                aria-hidden="true"
+                width={1693}
+                height={929}
+                /* LCP element: never lazy, and hinted so the browser starts it
+                   before the JS bundle. */
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+                /*
+                  118% tall with a -9% offset gives the parallax 9% of headroom
+                  at each edge. Without that bleed, translating the image would
+                  drag a hard edge into the panel.
+                */
+                className="absolute left-0 w-full object-cover"
+                style={{
+                  top: "-9%",
+                  height: "118%",
+                  y: reduced ? 0 : mediaY,
+                  scale: reduced ? 1 : mediaScale,
+                  willChange: "transform",
+                }}
+              />
+            </picture>
           </div>
 
           {/* ── TEXT CARD ── sits over the notch, on the page background.

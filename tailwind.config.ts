@@ -100,6 +100,20 @@ export default {
           from: { transform: "translateX(0%)" },
           to: { transform: "translateX(100%)" },
         },
+        /*
+          The footer marquee. Exactly -50% because the track holds two identical
+          copies side by side: at -50% copy 2 sits precisely where copy 1 began,
+          so the loop restarts with nothing to see. `translate3d` keeps it on the
+          compositor, which is the whole point of moving this off Framer Motion.
+        */
+        "marquee-left": {
+          from: { transform: "translate3d(0, 0, 0)" },
+          to: { transform: "translate3d(-50%, 0, 0)" },
+        },
+        "marquee-right": {
+          from: { transform: "translate3d(-50%, 0, 0)" },
+          to: { transform: "translate3d(0, 0, 0)" },
+        },
       },
       animation: {
         "fade-in": "fade-in 0.6s ease-out",

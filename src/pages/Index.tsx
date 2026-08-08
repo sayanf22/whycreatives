@@ -43,9 +43,30 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    /* `overflow-x-hidden` is a guard, not a fix for a known overflow: several
+       sections here run oversized display type and a marquee wider than the
+       viewport, and on a phone a few stray pixels of horizontal scroll makes the
+       whole page feel loose under the thumb. */
+    <div className="min-h-screen overflow-x-hidden bg-background">
       <Helmet>
         <title>WhyCreatives | Premium Video Editing, Web Design & Creative Agency</title>
+        {/* The hero image is the LCP element on this page. Preloading the two
+            art-directed variants lets the browser start the correct one during
+            HTML parse instead of waiting for React to mount the <picture>. */}
+        <link
+          rel="preload"
+          as="image"
+          href="/hero-panel-1152.webp"
+          type="image/webp"
+          media="(min-width: 768px)"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href="/hero-panel-portrait-619.webp"
+          type="image/webp"
+          media="(max-width: 767px)"
+        />
         <meta name="description" content="WhyCreatives is a multidisciplinary creative agency in India for video, web and app development, brand systems, UGC and performance marketing." />
         <link rel="canonical" href="https://whycreatives.in" />
         <script type="application/ld+json">

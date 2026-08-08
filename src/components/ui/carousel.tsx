@@ -9,10 +9,20 @@ import { Pause, Play } from "lucide-react";
 type PropType = {
   slides: React.ReactNode[];
   options?: EmblaOptionsType;
+  /** Width of the whole carousel. The old hard-coded `max-w-5xl` capped the
+   *  preview at 1024px no matter how wide its page was. */
+  className?: string;
+  /** Per-slide flex basis. Controls how much of the next slide peeks in. */
+  slideClassName?: string;
 };
 
 const Carousel: React.FC<PropType> = (props) => {
-  const { slides, options } = props;
+  const {
+    slides,
+    options,
+    className = "max-w-5xl mx-auto",
+    slideClassName = "flex-[0_0_100%] md:flex-[0_0_85%]",
+  } = props;
   const progressNode = useRef<HTMLDivElement>(null);
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, ...options }, [
     Autoplay({ playOnInit: true, delay: 3000, stopOnInteraction: false, stopOnMouseEnter: false }),
@@ -30,41 +40,52 @@ const Carousel: React.FC<PropType> = (props) => {
     useDotButton(emblaApi);
 
   return (
-    <div className="max-w-5xl mx-auto">
+    <div className={className}>
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex touch-pan-y touch-pinch-zoom">
           {slides.map((slideContent, index) => (
-            <div className="flex-[0_0_100%] md:flex-[0_0_85%] px-3 transform-gpu" key={index}>
+            <div
+              className={`${slideClassName} px-2 transform-gpu sm:px-3 lg:px-4`}
+              key={index}
+            >
               {slideContent}
             </div>
           ))}
         </div>
       </div>
 
-      <div className="flex mx-auto w-full max-w-sm justify-center sm:justify-between items-center gap-4 mt-7 px-4">
-        <div className="flex justify-center items-center gap-1.5 sm:gap-2 shrink-0 flex-wrap max-w-full">
+      {/* Controls: theme tokens throughout. They were pinned to
+          `neutral-900 / neutral-100` and a `neutral-200/50` border, which is the
+          same greyscale by accident rather than by the palette, and drifts the
+          moment the tokens change. */}
+      <div className="mx-auto mt-8 flex w-full max-w-md items-center justify-center gap-5 px-4 sm:justify-between lg:mt-10">
+        <div className="flex max-w-full shrink-0 flex-wrap items-center justify-center gap-2">
           {scrollSnaps.map((_, index) => (
             <DotButton
               key={index}
+              aria-label={`Go to slide ${index + 1}`}
               onClick={() =>
                 onAutoplayButtonClick(() => onDotButtonClick(index))
               }
-              className={`w-2.5 h-2.5 sm:w-3 sm:h-3 p-0 rounded-full border border-neutral-300 dark:border-neutral-700 transition-all duration-200 shrink-0 aspect-square block outline-none ${
+              /* The active dot stretches into a bar instead of just darkening —
+                 readable at a glance on a phone, where 3px of colour change on a
+                 10px circle is not. */
+              className={`h-2.5 shrink-0 rounded-full outline-none transition-all duration-300 ${
                 index === selectedIndex
-                  ? "bg-neutral-900 dark:bg-neutral-100 scale-110"
-                  : "bg-transparent hover:bg-neutral-200 dark:hover:bg-neutral-800"
+                  ? "w-7 bg-foreground"
+                  : "w-2.5 bg-foreground/20 hover:bg-foreground/40"
               }`}
             />
           ))}
         </div>
 
         <div
-          className={`hidden sm:block rounded-full bg-neutral-200/60 dark:bg-neutral-800 relative h-1.5 w-24 overflow-hidden transition-opacity duration-300 ease-in-out shrink-0 ${
+          className={`relative hidden h-1.5 w-28 shrink-0 overflow-hidden rounded-full bg-foreground/15 transition-opacity duration-300 ease-in-out sm:block ${
             showAutoplayProgress ? "opacity-100" : "opacity-0"
           }`}
         >
           <div
-            className="bg-neutral-800 dark:bg-neutral-100 absolute w-full top-0 bottom-0 -left-full animate-[autoplay-progress_linear_1] [animation-play-state:running]"
+            className="absolute -left-full bottom-0 top-0 w-full animate-[autoplay-progress_linear_1] bg-foreground [animation-play-state:running]"
             ref={progressNode}
             style={{
               animationPlayState: showAutoplayProgress ? "running" : "paused",
@@ -75,12 +96,13 @@ const Carousel: React.FC<PropType> = (props) => {
         <button
           onClick={toggleAutoplay}
           type="button"
-          className="hidden sm:flex w-10 h-10 rounded-full items-center justify-center bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-neutral-900 dark:text-neutral-50 transition-all shadow-sm hover:shadow active:scale-95 shrink-0 border border-neutral-200/50 dark:border-neutral-700/50"
+          aria-label={autoplayIsPlaying ? "Pause autoplay" : "Play autoplay"}
+          className="hidden h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border text-foreground transition-colors duration-300 hover:border-foreground hover:bg-foreground hover:text-background active:scale-95 sm:flex"
         >
           {autoplayIsPlaying ? (
-            <Pause className="w-4 h-4 fill-current text-current" />
+            <Pause className="h-4 w-4 fill-current" />
           ) : (
-            <Play className="w-4 h-4 fill-current text-current ml-0.5" />
+            <Play className="ml-0.5 h-4 w-4 fill-current" />
           )}
         </button>
       </div>

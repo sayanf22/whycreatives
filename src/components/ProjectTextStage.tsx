@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -39,6 +40,19 @@ export const ProjectTextStage = ({
   const rootRef = useRef<HTMLDivElement>(null);
   const [index, setIndex] = useState(seed % phrases.length);
   const [onScreen, setOnScreen] = useState(false);
+
+  /*
+    Blur radius is the expensive part of this effect, and its cost scales with
+    the radius — every frame of an animated blur is a full repaint plus a GPU
+    blur pass over the text. Four of these panels cycling on a phone was the
+    heaviest thing on the home page and it showed in the scroll.
+
+    Phones get a much smaller radius instead of losing the effect: at 6px the
+    words still resolve into focus, but the pass is a fraction of the work.
+  */
+  const roomy = useMediaQuery("(min-width: 768px)");
+  const blurIn = roomy ? 18 : 6;
+  const blurOut = roomy ? 16 : 5;
 
   /* Only animate while the card is actually on screen. Four of these looping
      behind the fold would burn frames for nothing. */
@@ -116,7 +130,7 @@ export const ProjectTextStage = ({
               key={word}
               className="mr-[0.28em] inline-block last:mr-0"
               variants={{
-                hidden: { opacity: 0, y: "0.32em", filter: "blur(18px)" },
+                hidden: { opacity: 0, y: "0.32em", filter: `blur(${blurIn}px)` },
                 show: {
                   opacity: 1,
                   y: "0em",
@@ -126,11 +140,15 @@ export const ProjectTextStage = ({
                 out: {
                   opacity: 0,
                   y: "-0.24em",
-                  filter: "blur(16px)",
+                  filter: `blur(${blurOut}px)`,
                   transition: { duration: 0.2, ease: EASE },
                 },
               }}
-              style={{ willChange: "opacity, transform, filter" }}
+              /* No `will-change` here on purpose. It was pinned on permanently,
+                 which holds a compositor layer per word for the life of the page
+                 — twelve of them across the four cards. Framer Motion sets
+                 will-change itself for the duration of each animation, which is
+                 what the property is actually for. */
             >
               {word}
             </motion.span>
