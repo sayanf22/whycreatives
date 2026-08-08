@@ -215,17 +215,41 @@ export const NotchedFrame = ({
       </div>
 
       {/*
-        The shadow lives on this wrapper, not on the clipped element itself.
-        Per CSS Masking, `clip-path` is applied *after* `filter`, so a
-        `drop-shadow` set on the same element as the clip gets clipped away with
-        it and never renders. On a parent, the child is clipped first and the
-        filter then works from that finished silhouette — which is also why this
-        is a `drop-shadow` filter rather than `box-shadow`: box-shadow would draw
-        the shadow of the element's rectangle, ignoring the notches.
+        ── SHADOW CASTER ──
+        An empty layer clipped to the same outline and filled with the surface
+        colour, whose only job is to cast the shadow.
+
+        Two constraints produce this arrangement:
+
+        1. The shadow cannot sit on the clipped element. Per CSS Masking,
+           `clip-path` is applied *after* `filter`, so a `drop-shadow` declared
+           beside the clip is clipped away with it and never renders. It also
+           cannot be a `box-shadow`, which would trace the element's rectangle
+           and ignore the notches entirely.
+        2. It cannot wrap the media either, which is what this used to do. Some
+           of these cards hold continuously animating content — the homepage
+           text panels cycle a blur every frame — and a filter on an ancestor of
+           moving content is re-run on every one of those frames. The silhouette
+           never changes, but the browser cannot know that.
+
+        So the filter goes on a layer with nothing moving inside it: computed
+        once, cached, and still transitionable for the hover state.
       */}
       <div
+        aria-hidden="true"
         className={`absolute inset-0 transition-[filter] duration-500 ease-out ${shadowClassName}`}
       >
+        <div
+          className={`h-full w-full ${radiusClassName} ${surfaceClassName}`}
+          style={{
+            clipPath: clip ? `path("${clip}")` : undefined,
+            WebkitClipPath: clip ? `path("${clip}")` : undefined,
+          }}
+        />
+      </div>
+
+      {/* The media itself, on the same outline but with no filter above it. */}
+      <div className="absolute inset-0">
         <div
           className={`h-full w-full overflow-hidden ${radiusClassName} ${surfaceClassName}`}
           style={{

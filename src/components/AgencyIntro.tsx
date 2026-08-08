@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { RevealLines } from "@/components/RevealLines";
@@ -71,6 +72,22 @@ const CAPABILITIES = [
 ];
 
 export const AgencyIntro = () => {
+  const stripRef = useRef<HTMLDivElement>(null);
+  const [stripRunning, setStripRunning] = useState(false);
+
+  /* Only run the strip while it is near the viewport. The margin gets it up to
+     speed before it arrives, so it never appears to lurch into motion. */
+  useEffect(() => {
+    const el = stripRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setStripRunning(entry.isIntersecting),
+      { rootMargin: "200px 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
     <section
       className="w-full overflow-hidden bg-background font-['Schibsted_Grotesk',sans-serif]"
@@ -156,8 +173,13 @@ export const AgencyIntro = () => {
         </div>
       </div>
 
-      {/* ── CAPABILITY STRIP ── monochrome, logo-wall spacing ── */}
-      <div className="mt-20 py-4 lg:mt-28 lg:py-8">
+      {/* ── CAPABILITY STRIP ── monochrome, logo-wall spacing ──
+          Moved off Framer Motion onto a CSS keyframe, for the same two reasons
+          as the footer marquee: a CSS transform animation runs on the compositor
+          and survives a busy main thread, and `animation-play-state` gives a
+          real pause. This was a second infinite JS loop ticking for the entire
+          visit, including the whole time the strip was off screen. */}
+      <div ref={stripRef} className="mt-20 py-4 lg:mt-28 lg:py-8">
         <div
           className="relative flex select-none overflow-hidden"
           style={{
@@ -169,11 +191,10 @@ export const AgencyIntro = () => {
           aria-hidden="true"
         >
           {[0, 1].map((copy) => (
-            <motion.div
+            <div
               key={copy}
-              className="flex shrink-0 items-center"
-              animate={{ x: ["0%", "-100%"] }}
-              transition={{ duration: 48, ease: "linear", repeat: Infinity }}
+              className="flex shrink-0 items-center animate-[marquee-strip_48s_linear_infinite]"
+              style={{ animationPlayState: stripRunning ? "running" : "paused" }}
             >
               {/* Full-strength foreground rather than /70, heavier weight and a
                   thicker icon stroke: at 70% opacity on a black background the
@@ -192,7 +213,7 @@ export const AgencyIntro = () => {
                   </span>
                 </span>
               ))}
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

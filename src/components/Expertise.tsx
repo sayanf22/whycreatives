@@ -127,18 +127,28 @@ export const Expertise = () => {
     mq.addEventListener("change", sync);
     window.addEventListener("resize", sync);
 
+    return () => {
+      mq.removeEventListener("change", sync);
+      window.removeEventListener("resize", sync);
+    };
+  }, []);
+
+  /*
+    Pointer tracking is attached only once we know this is a fine-pointer
+    desktop. It used to be unconditional, so on a phone every `pointermove` of
+    every touch-scroll wrote two motion values — driving a custom cursor that is
+    never rendered there. Splitting it out of the effect above also means the
+    listener is torn down if the window is resized down past the breakpoint.
+  */
+  useEffect(() => {
+    if (!isDesktop) return;
     const onMove = (e: PointerEvent) => {
       rawX.set(e.clientX);
       rawY.set(e.clientY);
     };
     window.addEventListener("pointermove", onMove, { passive: true });
-
-    return () => {
-      mq.removeEventListener("change", sync);
-      window.removeEventListener("resize", sync);
-      window.removeEventListener("pointermove", onMove);
-    };
-  }, [rawX, rawY]);
+    return () => window.removeEventListener("pointermove", onMove);
+  }, [isDesktop, rawX, rawY]);
 
   const active = hoveredIndex !== null;
   const shift = thumb + GAP;

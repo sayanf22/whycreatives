@@ -10,6 +10,7 @@ import { ArrowUpRight } from "lucide-react";
 import { RevealLines } from "@/components/RevealLines";
 import { ProjectTextStage, type Phrase } from "@/components/ProjectTextStage";
 import { NotchedFrame } from "@/components/NotchedFrame";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -171,13 +172,24 @@ const ProjectCard = ({
   index,
   className = "",
   style,
+  column,
 }: {
   project: Project;
   index: number;
   className?: string;
   /** Used for the derived half-card offset, which cannot be a Tailwind class. */
   style?: React.CSSProperties;
+  /** Which grid column the card lands in at `lg`, so it can enter from its own
+   *  side. Ignored below `lg`, where the grid is a single stack. */
+  column?: "left" | "right";
 }) => {
+  /* Two columns arriving from a shared direction reads as one block sliding in.
+     Each entering from its own edge makes the grid assemble, and matches the
+     portfolio gallery. Below `lg` there are no columns, so the card just rises —
+     a horizontal entrance in a single-column stack looks like a mistake. */
+  const wide = useMediaQuery("(min-width: 1024px)");
+  const enterX = wide && column ? (column === "right" ? 40 : -40) : 0;
+
   const finePointer = useFinePointer();
   const [hovered, setHovered] = useState(false);
 
@@ -231,10 +243,16 @@ const ProjectCard = ({
     <motion.article
       className={className}
       style={style}
-      initial={{ opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.7, ease: EASE }}
+      initial={{ opacity: 0, y: 36, x: enterX }}
+      whileInView={{ opacity: 1, y: 0, x: 0 }}
+      viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
+      transition={{
+        opacity: { duration: 0.5, ease: EASE },
+        /* Slower than the fade so the card is fully visible while it is still
+           settling, rather than appearing already in place. */
+        x: { duration: 0.85, ease: EASE },
+        y: { duration: 0.85, ease: EASE },
+      }}
     >
       <Link to={project.href} className="group block">
         {/* cursor-none is scoped to the media only, so the caption below stays
@@ -247,6 +265,13 @@ const ProjectCard = ({
           onMouseLeave={() => setHovered(false)}
           className="mb-5 aspect-[4/3] lg:cursor-none"
           radiusClassName="rounded-2xl md:rounded-3xl"
+          /* Stacked drop-shadows that follow the notched silhouette rather than
+             a rectangle — see the note in NotchedFrame for why this has to be a
+             filter on the wrapper and not a box-shadow. Same values as the
+             portfolio gallery, so a card sits at the same height on both pages.
+             These cards had no shadow at all, which is why the light panels read
+             as holes cut in the page instead of as surfaces on top of it. */
+          shadowClassName="[filter:drop-shadow(0_2px_4px_rgba(0,0,0,0.06))_drop-shadow(0_18px_36px_rgba(0,0,0,0.13))] group-hover:[filter:drop-shadow(0_3px_6px_rgba(0,0,0,0.08))_drop-shadow(0_30px_56px_rgba(0,0,0,0.2))] dark:[filter:drop-shadow(0_2px_5px_rgba(0,0,0,0.5))_drop-shadow(0_22px_44px_rgba(0,0,0,0.65))] dark:group-hover:[filter:drop-shadow(0_3px_8px_rgba(0,0,0,0.6))_drop-shadow(0_34px_64px_rgba(0,0,0,0.8))]"
           tagsClassName="gap-2.5"
           tagsPaddedClassName="pb-5 pl-6"
           metaClassName="gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-muted-foreground"
@@ -457,16 +482,19 @@ export const FeaturedProjects = () => {
         <ProjectCard
           project={PROJECTS[0]}
           index={0}
+          column="left"
           className="lg:col-start-1 lg:row-start-1 lg:row-span-2"
         />
         <ProjectCard
           project={PROJECTS[1]}
           index={1}
+          column="right"
           className="lg:col-start-2 lg:row-start-2"
         />
         <ProjectCard
           project={PROJECTS[2]}
           index={2}
+          column="left"
           className="lg:col-start-1 lg:row-start-3"
         />
         {/*
@@ -478,6 +506,7 @@ export const FeaturedProjects = () => {
         <ProjectCard
           project={PROJECTS[3]}
           index={3}
+          column="right"
           className="lg:col-start-2 lg:row-start-3 lg:mt-[var(--half-card)]"
           style={{ "--half-card": HALF_CARD } as React.CSSProperties}
         />

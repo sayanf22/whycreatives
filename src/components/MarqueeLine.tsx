@@ -90,7 +90,14 @@ export const MarqueeLine = () => {
         <div className="overflow-hidden" aria-hidden="true">
           <Row duration={26} running={running} />
         </div>
-        <div className="mt-1 overflow-hidden lg:mt-2" aria-hidden="true">
+        {/*
+          Second row is desktop only. Two rows of 44px type sliding past each
+          other in opposite directions fills most of a phone screen with
+          competing motion, and it is the one place on the home page where the
+          counter-scroll reads as noise rather than as a detail. One row still
+          carries the gesture; the pair is a wide-screen flourish.
+        */}
+        <div className="mt-1 hidden overflow-hidden sm:block lg:mt-2" aria-hidden="true">
           <Row reverse duration={32} running={running} />
         </div>
       </Link>

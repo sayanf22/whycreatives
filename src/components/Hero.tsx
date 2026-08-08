@@ -288,6 +288,42 @@ export const Hero = () => {
           ref={panelRef}
           className="relative w-full h-[min(calc(100svh_-_128px),680px)] min-h-[420px] md:h-[min(calc(100svh_-_132px),52vw,1080px)]"
         >
+          {/*
+            ── SHADOW CASTER ──
+            A separate, empty layer whose only job is to be the panel's
+            silhouette and cast a shadow from it.
+
+            Two constraints force this shape of solution:
+
+            1. The shadow cannot sit on the clipped element itself. Per CSS
+               Masking, `clip-path` is applied *after* `filter`, so a drop-shadow
+               declared alongside the clip is clipped away with it and never
+               paints. It also cannot be a `box-shadow`, which would trace the
+               element's rectangle and draw a hard edge straight across the notch.
+            2. It cannot go on a *parent* of the media either — the obvious fix.
+               The hero image parallaxes on scroll, and a transforming child
+               inside a filtered ancestor forces the browser to re-run the filter
+               on every frame. The silhouette never changes, but the browser has
+               no way to know that.
+
+            So the filter goes on a layer with no moving contents. It is computed
+            once and cached, and the media layer below sits on the same clip path
+            with no filter at all, leaving the parallax on the compositor.
+          */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 [filter:drop-shadow(0_2px_6px_rgba(0,0,0,0.07))_drop-shadow(0_26px_50px_rgba(0,0,0,0.16))] dark:[filter:drop-shadow(0_2px_8px_rgba(0,0,0,0.5))_drop-shadow(0_30px_60px_rgba(0,0,0,0.65))]"
+          >
+            <div
+              className="h-full w-full bg-[#161616] dark:bg-[#202020]"
+              style={{
+                clipPath: clipPath ? `path("${clipPath}")` : undefined,
+                WebkitClipPath: clipPath ? `path("${clipPath}")` : undefined,
+                borderRadius: clipPath ? undefined : "clamp(14px, 2.6vw, 34px)",
+              }}
+            />
+          </div>
+
           {/* ── DARK PANEL / MEDIA ──
               Everything inside is clipped to the notched shape. The panel keeps
               its dark fill underneath so the shape is correct on the very first
@@ -387,7 +423,24 @@ export const Hero = () => {
             <h1
               className="font-['Schibsted_Grotesk','Plus_Jakarta_Sans',sans-serif] text-black dark:text-white"
               style={{
-                fontSize: "clamp(1.35rem, 4.4vw, 104px)",
+                /*
+                  The slope was 4.4vw, which on a 390px phone renders the
+                  headline at 21.6px — a 680px panel wrapped around three lines
+                  of body-sized type, which is what made the whole hero read as
+                  cluttered rather than composed. 8.4vw gives ~33px there and
+                  still lands where 4.4vw did once the cap takes over.
+
+                  8.4 is the ceiling, not a preference. Each line is
+                  `whitespace-nowrap` inside an `overflow-hidden` box, so an
+                  overlong line is silently cut rather than wrapped. The widest
+                  line is 20 characters and this face sets at roughly 0.42em per
+                  character, so a line needs about 8.3x the font size. On a 320px
+                  screen the card has ~276px of usable width, capping the size at
+                  about 33px — and 8.4vw of 320px is 26.9px, comfortably inside
+                  it. Raising the slope much further starts clipping on the
+                  narrowest phones.
+                */
+                fontSize: "clamp(1.6rem, 8.4vw, 104px)",
                 fontWeight: 500,
                 letterSpacing: "-0.022em",
                 margin: 0,

@@ -114,6 +114,17 @@ export default {
           from: { transform: "translate3d(-50%, 0, 0)" },
           to: { transform: "translate3d(0, 0, 0)" },
         },
+        /*
+          The capability strip. -100% here, not -50%: this track holds two
+          sibling copies that each animate independently, so each one travels its
+          own full width and the copy behind it takes its place. The footer
+          marquee instead animates a single element containing both copies, which
+          is why that one stops at -50%.
+        */
+        "marquee-strip": {
+          from: { transform: "translate3d(0, 0, 0)" },
+          to: { transform: "translate3d(-100%, 0, 0)" },
+        },
       },
       animation: {
         "fade-in": "fade-in 0.6s ease-out",
