@@ -263,12 +263,18 @@ export const Hero = () => {
       {/* No max-width: the panel stays ~88% of the viewport on desktop.
           On phones the gutter drops to 8px so the panel is near full-bleed,
           like the reference — a 6vw gutter left far too much dead margin. */}
+      {/* `px-3` rather than `px-2` on phones: a soft shadow needs somewhere to
+          land, and 8px was not enough for any of it to be visible. 12px still
+          reads as near full-bleed. */}
       <div
-        className="w-full px-2 md:px-[clamp(32px,6vw,160px)]"
+        className="w-full px-3 md:px-[clamp(32px,6vw,160px)]"
         style={{
           // must clear the mobile nav, which is 88px tall (py-6 + a 40px row)
           paddingTop: "clamp(100px, 11vw, 112px)",
-          paddingBottom: "clamp(10px, 2.4vw, 34px)",
+          /* Was `clamp(10px, 2.4vw, 34px)`. The shadow is offset 26px down and
+             spreads up to 90px, so at 34px nearly all of it was crushed against
+             the section below and there was nothing left to see. */
+          paddingBottom: "clamp(30px, 4vw, 76px)",
         }}
       >
         {/*
@@ -284,9 +290,16 @@ export const Hero = () => {
           The 52vw cap from md up is unchanged — that is the desktop behaviour
           that already works.
         */}
+        {/*
+          The subtracted values are the wrapper's own vertical padding, so the
+          panel plus its padding still fits one screen. They were 128/132px back
+          when the bottom padding topped out at 34px; with the extra room the
+          shadow needs, the real totals are ~130px on phones and ~188px from md
+          up. Leaving the old numbers here would push the hero past the fold.
+        */}
         <div
           ref={panelRef}
-          className="relative w-full h-[min(calc(100svh_-_128px),680px)] min-h-[420px] md:h-[min(calc(100svh_-_132px),52vw,1080px)]"
+          className="relative w-full h-[min(calc(100svh_-_134px),680px)] min-h-[420px] md:h-[min(calc(100svh_-_190px),52vw,1080px)]"
         >
           {/*
             ── SHADOW CASTER ──
@@ -310,9 +323,20 @@ export const Hero = () => {
             once and cached, and the media layer below sits on the same clip path
             with no filter at all, leaving the parallax on the compositor.
           */}
+          {/*
+            Three stops, not two, and much stronger than the card recipe.
+
+            Shadow values do not transfer between surfaces of different sizes.
+            The portfolio cards are around 800px wide and read well at 36px of
+            blur; this panel is over 1700px, and the first pass at those same
+            values was invisible — the spread was a fraction of the object
+            casting it. A surface this large needs the full three-part stack: a
+            tight contact edge, a mid shadow that does the lifting, and a wide
+            ambient pass that grounds it.
+          */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 [filter:drop-shadow(0_2px_6px_rgba(0,0,0,0.07))_drop-shadow(0_26px_50px_rgba(0,0,0,0.16))] dark:[filter:drop-shadow(0_2px_8px_rgba(0,0,0,0.5))_drop-shadow(0_30px_60px_rgba(0,0,0,0.65))]"
+            className="absolute inset-0 [filter:drop-shadow(0_3px_8px_rgba(0,0,0,0.10))_drop-shadow(0_26px_44px_rgba(0,0,0,0.20))_drop-shadow(0_56px_90px_rgba(0,0,0,0.16))] dark:[filter:drop-shadow(0_3px_10px_rgba(0,0,0,0.55))_drop-shadow(0_28px_50px_rgba(0,0,0,0.6))_drop-shadow(0_60px_100px_rgba(0,0,0,0.5))]"
           >
             <div
               className="h-full w-full bg-[#161616] dark:bg-[#202020]"
