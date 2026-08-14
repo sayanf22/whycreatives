@@ -50,23 +50,6 @@ const Index = () => {
     <div className="min-h-screen overflow-x-hidden bg-background">
       <Helmet>
         <title>WhyCreatives | Premium Video Editing, Web Design & Creative Agency</title>
-        {/* The hero image is the LCP element on this page. Preloading the two
-            art-directed variants lets the browser start the correct one during
-            HTML parse instead of waiting for React to mount the <picture>. */}
-        <link
-          rel="preload"
-          as="image"
-          href="/hero-panel-1152.webp"
-          type="image/webp"
-          media="(min-width: 768px)"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="/hero-panel-portrait-619.webp"
-          type="image/webp"
-          media="(max-width: 767px)"
-        />
         <meta name="description" content="WhyCreatives is a multidisciplinary creative agency in India for video, web and app development, brand systems, UGC and performance marketing." />
         <link rel="canonical" href="https://whycreatives.in" />
         <script type="application/ld+json">
