@@ -262,27 +262,21 @@ export const Hero = () => {
           that already works.
         */}
         {/*
-          The panel aspect must match the video's 16:9 — otherwise the iframe
-          crops the top and bottom. Desktop: the panel's width is `100vw − 2·gutters`,
-          so `56.25%` of that width (i.e. 9/16) gives a perfect 16:9 height.
-          The `52vw` cap that was here was always wider than 16:9 at every
-          reasonable viewport, so the video was being cropped into a cinema-scope
-          strip. The new height rule is simply "panel width × 9/16", floored at
-          420px and capped at 1080px.
+          Width is already correct — keep it. Height needs to be "whatever makes
+          this box the same 16:9 as the video at the current width". On desktop
+          the panel's width is `100vw − 2 × clamp(32px,6vw,160px)` — roughly
+          88vw. Its 16:9 height is that × 9/16 = ~49.5vw. We use 49.5vw capped
+          so very wide screens don't produce an absurdly tall panel.
 
-          On phones the panel goes near full-bleed (100vw − 24px), so 56.25% of
-          that is also the correct 16:9 height. No separate phone rule needed.
+          On phones the gutter is only 12px (px-3), so the width is ~100vw and
+          the correct height is ~56.25vw. A single rule of 49.5vw undershoots on
+          phones (where there is less gutter subtracted), so phones use their own
+          value. The result: the panel is always exactly 16:9 at its own width,
+          the iframe fills it at 100%×100%, and there are no black borders.
         */}
         <div
           ref={panelRef}
-          className="relative w-full min-h-[420px] max-h-[1080px]"
-          style={{
-            /* Padding-top trick gives us 16:9 but as an intrinsic height on the
-               element itself rather than as an aspect-ratio (which the clip-path
-               measurement reads as 0). We compute it against the panel's own
-               width via aspect-ratio, which all target browsers support. */
-            aspectRatio: "16 / 9",
-          }}
+          className="relative w-full h-[56vw] md:h-[49.5vw] min-h-[240px] max-h-[820px]"
         >
           {/*
             ── SHADOW CASTER ──
@@ -344,28 +338,21 @@ export const Hero = () => {
             }}
           >
             {/*
-              Cloudflare Stream embed. Muted + autoplay + loop, no controls.
+              The panel is the same 16:9 as the video, so the iframe just fills
+              it at 100% × 100%. No oversizing, no centering hacks — both boxes
+              are the same ratio.
 
-              The iframe fills the panel entirely — `object-fit` does not work on
-              iframes, so the trick is to give it a fixed 16:9 aspect ratio via
-              `min-width` / `min-height` and let `overflow: hidden` on the parent
-              crop it, the same way a `cover` image is framed. On desktop the
-              panel is wider than 16:9, so the height governs and the sides crop;
-              on phones the panel is taller, so the width governs and the top/
-              bottom crop. Either way the video centres and fills.
-
-              The `poster` thumbnail loads immediately and holds the frame while
-              Cloudflare negotiates the stream, so you never see a blank black
-              flash. `preload=true` tells Cloudflare to begin buffering right
-              away rather than waiting for a play event, which combined with their
-              edge cache means the video should stream within a frame or two on
-              any connection with a nearby PoP.
+              `letterboxColor=transparent` removes Cloudflare Stream's default
+              black fill on the sides (which is what you were seeing as borders).
+              On phones `defaultTextTrackLanguage` is not set so no captions
+              render by default, keeping the phone layout clean.
             */}
             <iframe
-              src="https://customer-8l64zx8lmsynng2s.cloudflarestream.com/a2f314ee5d2cfcc77f3c3b61fddf5c75/iframe?muted=true&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-8l64zx8lmsynng2s.cloudflarestream.com%2Fa2f314ee5d2cfcc77f3c3b61fddf5c75%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
+              src="https://customer-8l64zx8lmsynng2s.cloudflarestream.com/a2f314ee5d2cfcc77f3c3b61fddf5c75/iframe?muted=true&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-8l64zx8lmsynng2s.cloudflarestream.com%2Fa2f314ee5d2cfcc77f3c3b61fddf5c75%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false&letterboxColor=transparent"
               title="WhyCreatives showreel"
               allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
               allowFullScreen
+              loading="eager"
               className="pointer-events-none absolute inset-0 h-full w-full border-none"
             />
           </div>
