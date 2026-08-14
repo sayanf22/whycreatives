@@ -262,15 +262,27 @@ export const Hero = () => {
           that already works.
         */}
         {/*
-          The subtracted values are the wrapper's own vertical padding, so the
-          panel plus its padding still fits one screen. They were 128/132px back
-          when the bottom padding topped out at 34px; with the extra room the
-          shadow needs, the real totals are ~130px on phones and ~188px from md
-          up. Leaving the old numbers here would push the hero past the fold.
+          The panel aspect must match the video's 16:9 — otherwise the iframe
+          crops the top and bottom. Desktop: the panel's width is `100vw − 2·gutters`,
+          so `56.25%` of that width (i.e. 9/16) gives a perfect 16:9 height.
+          The `52vw` cap that was here was always wider than 16:9 at every
+          reasonable viewport, so the video was being cropped into a cinema-scope
+          strip. The new height rule is simply "panel width × 9/16", floored at
+          420px and capped at 1080px.
+
+          On phones the panel goes near full-bleed (100vw − 24px), so 56.25% of
+          that is also the correct 16:9 height. No separate phone rule needed.
         */}
         <div
           ref={panelRef}
-          className="relative w-full h-[min(calc(100svh_-_134px),680px)] min-h-[420px] md:h-[min(calc(100svh_-_190px),52vw,1080px)]"
+          className="relative w-full min-h-[420px] max-h-[1080px]"
+          style={{
+            /* Padding-top trick gives us 16:9 but as an intrinsic height on the
+               element itself rather than as an aspect-ratio (which the clip-path
+               measurement reads as 0). We compute it against the panel's own
+               width via aspect-ratio, which all target browsers support. */
+            aspectRatio: "16 / 9",
+          }}
         >
           {/*
             ── SHADOW CASTER ──
@@ -354,17 +366,7 @@ export const Hero = () => {
               title="WhyCreatives showreel"
               allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
               allowFullScreen
-              className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border-none"
-              style={{
-                /* Oversized so the video always covers the panel regardless
-                   of orientation. Whichever axis is constraining gets cropped by
-                   the parent's overflow-hidden. 180% is generous enough to fill
-                   panels from 16:9 (desktop) to nearly 1:2 (phone portrait). */
-                minWidth: "180%",
-                minHeight: "180%",
-                width: "180%",
-                height: "180%",
-              }}
+              className="pointer-events-none absolute inset-0 h-full w-full border-none"
             />
           </div>
 
