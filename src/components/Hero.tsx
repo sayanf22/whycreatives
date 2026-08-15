@@ -127,18 +127,6 @@ export const Hero = () => {
   const actionsRef = useRef<HTMLDivElement>(null);
 
   const [clipPath, setClipPath] = useState<string | null>(null);
-  /**
-   * Phone-only panel height, in px, or `null` on desktop where CSS owns it.
-   *
-   * This has to be measured rather than written as a CSS expression. The panel
-   * needs to be exactly "text card + 16:9 video band" so the video sits directly
-   * under the button with no dead space, and the text card's height is not
-   * something CSS can report — it depends on the headline's clamped font size,
-   * its line count and the button row. A hand-derived `calc()` can approximate
-   * it, but it goes silently wrong the moment any of those change, and the
-   * failure mode is the type overlapping the video.
-   */
-  const [phonePanelH, setPhonePanelH] = useState<number | null>(null);
 
   const measure = useCallback(() => {
     const panel = panelRef.current;
@@ -177,41 +165,6 @@ export const Hero = () => {
     const eb = rel(eyebrow);
     const measured = lines.map(rel);
     const ab = rel(actions);
-
-    /*
-      ── PHONE PANEL HEIGHT ──
-
-      A portrait panel that the video covers, which is what the reference does.
-      The previous version sized the panel to "text card + a 16:9 band", so the
-      video was a strip across the bottom with dark above it. Covering instead
-      means the video is the panel's whole surface and the type sits on top of it
-      in the notch.
-
-      Two terms:
-        - `ab.bottom + 24` is the floor: the panel must always clear the button
-          row, whatever the clamped headline does to the card's height. Measured
-          rather than approximated with a `calc()`, because the card's height
-          depends on the font clamp, the line count and the button row, and a
-          hand-derived guess fails silently — the failure mode is type overlapping
-          the video.
-        - `62vh` is the target, so it reads as a tall portrait surface.
-
-      Capped at 600px, and deliberately not taller: on a portrait panel every
-      extra pixel of height is more horizontal crop out of a 16:9 source. Taller
-      panel, narrower slice of video.
-
-      This converges rather than looping. Changing the height re-runs the
-      ResizeObserver, but `ab.bottom` is measured from the panel's top and the
-      card is pinned there, so it does not move when the height changes — the
-      second pass computes the same number and React bails out.
-    */
-    if (!window.matchMedia("(min-width: 768px)").matches) {
-      const floor = ab.bottom + 24;
-      const target = window.innerHeight * 0.62;
-      setPhonePanelH(Math.round(Math.min(Math.max(floor, target), 600)));
-    } else {
-      setPhonePanelH(null);
-    }
 
     // the eyebrow shares the first headline line's edge (matches the reference:
     // the white card is full width from the very top, no step at the eyebrow)
@@ -287,25 +240,27 @@ export const Hero = () => {
   const padR = "var(--pad-r)";
 
   return (
-    <section className="relative w-full bg-white dark:bg-[#111] transition-colors duration-300">
-      {/* No max-width: the panel stays ~88% of the viewport on desktop.
-          On phones the gutter drops to 8px so the panel is near full-bleed,
-          like the reference — a 6vw gutter left far too much dead margin. */}
-      {/* `px-3` rather than `px-2` on phones: a soft shadow needs somewhere to
-          land, and 8px was not enough for any of it to be visible. 12px still
-          reads as near full-bleed. */}
-      {/* Gutter caps at 120px rather than 160px. In the reference the panel is
-          about 88% of the viewport at every size; at 160px a side it was dropping
-          below that on wide monitors, which reads as the panel getting smaller as
-          the screen gets bigger — the opposite of what you want. */}
+    /*
+      `min-h-svh` on phones so the hero always occupies a full screen. The 9:16
+      panel plus padding already comes to ~92% of a typical phone viewport, so this
+      only tops up the remainder — and `svh` rather than `vh` because `vh` on
+      mobile Safari measures the viewport *without* the browser chrome, which would
+      push the bottom of the panel under the address bar. Released at `md`, where
+      the 16:9 panel is taller than a screen already.
+    */
+    <section className="relative min-h-svh w-full bg-white transition-colors duration-300 md:min-h-0 dark:bg-[#111]">
+      {/* No max-width — the gutter is the only thing that limits the panel, so it
+          stays ~91% of the viewport at every size. Capping the width is what made
+          the panel shrink on wide monitors.
+
+          The gutter clamps at 120px rather than 160px for the same reason: at 160px
+          a side the panel dropped below the reference's ~88% on a wide screen,
+          which reads as the panel getting smaller as the screen gets bigger. */}
       <div
         className="w-full px-3 md:px-[clamp(28px,4.5vw,120px)]"
         style={{
           // must clear the mobile nav, which is 88px tall (py-6 + a 40px row)
           paddingTop: "clamp(100px, 11vw, 112px)",
-          /* Was `clamp(10px, 2.4vw, 34px)`. The shadow is offset 26px down and
-             spreads up to 90px, so at 34px nearly all of it was crushed against
-             the section below and there was nothing left to see. */
           paddingBottom: "clamp(30px, 4vw, 76px)",
         }}
       >
@@ -343,81 +298,38 @@ export const Hero = () => {
           1.7778), which is why `aspect-video` here makes the iframe fit with no
           bars on any axis.
 
-          Phone: no aspect ratio — a tall portrait panel with its height measured
-          in JS, and the video covering the whole surface with the type sitting on
-          top of it in the notch. That is the shape the reference uses.
+          Phone: `aspect-[9/16]` — a true portrait panel, which is what makes it
+          fill the screen. At 390px wide the panel is 366x651, and with the
+          wrapper's padding the hero comes to ~781px of an 844px viewport. The
+          full-screen feel is a consequence of the ratio, not a separate height
+          rule fighting it.
+
+          Both ratios are pure CSS now. The JS-measured phone height this replaced
+          existed only to reserve room for a video band; with the video covering
+          the whole panel there is nothing to budget, so the measurement, its state
+          and its convergence caveat are all gone.
         */}
         <div
           ref={panelRef}
-          className="relative w-full md:h-auto md:aspect-video"
+          className="relative w-full aspect-[9/16] md:aspect-video"
           style={
             {
-              /* Phone: measured from the content (see `phonePanelH`). Desktop: left
-                 undefined so the `md:aspect-video` class governs. The fallback only
-                 applies for the single frame before the first measurement lands. */
-              height: phonePanelH ? `${phonePanelH}px` : undefined,
-              minHeight: phonePanelH ? undefined : "62vh",
               /*
-                Republished as a custom property so the iframe's cover width can be
-                derived from it in a class — `height x 16/9`. An inline style on the
-                iframe could carry the number too, but not the `md:` override that
-                switches back to `w-full`, so the value has to reach CSS.
+                The panel's own width, in the same terms CSS lays it out with: the
+                viewport less the wrapper's `px-3` gutters. Published so the iframe
+                can derive its cover width from it in a *class*, which an inline
+                style could not do — the value has to reach CSS for the `md:`
+                override to be able to switch it back to `w-full`.
               */
-              "--panel-h": phonePanelH ? `${phonePanelH}px` : "0px",
+              "--panel-w": "calc(100vw - 24px)",
             } as React.CSSProperties
           }
         >
-          {/*
-            ── SHADOW CASTER ──
-            A separate, empty layer whose only job is to be the panel's
-            silhouette and cast a shadow from it.
-
-            Two constraints force this shape of solution:
-
-            1. The shadow cannot sit on the clipped element itself. Per CSS
-               Masking, `clip-path` is applied *after* `filter`, so a drop-shadow
-               declared alongside the clip is clipped away with it and never
-               paints. It also cannot be a `box-shadow`, which would trace the
-               element's rectangle and draw a hard edge straight across the notch.
-            2. It cannot go on a *parent* of the media either — the obvious fix.
-               The hero image parallaxes on scroll, and a transforming child
-               inside a filtered ancestor forces the browser to re-run the filter
-               on every frame. The silhouette never changes, but the browser has
-               no way to know that.
-
-            So the filter goes on a layer with no moving contents. It is computed
-            once and cached, and the media layer below sits on the same clip path
-            with no filter at all, leaving the parallax on the compositor.
-          */}
-          {/*
-            Three stops, not two, and much stronger than the card recipe.
-
-            Shadow values do not transfer between surfaces of different sizes.
-            The portfolio cards are around 800px wide and read well at 36px of
-            blur; this panel is over 1700px, and the first pass at those same
-            values was invisible — the spread was a fraction of the object
-            casting it. A surface this large needs the full three-part stack: a
-            tight contact edge, a mid shadow that does the lifting, and a wide
-            ambient pass that grounds it.
-          */}
-          {/* Active at every width again. It was `hidden md:block` while phones
-              used a stacked layout with no clip-path; now the notch is back on
-              phones, so the shadow has to follow the notched silhouette there
-              too — a plain box-shadow would cut straight across the cutout. The
-              spread is smaller below `md` because the panel is much smaller. */}
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 [filter:drop-shadow(0_2px_6px_rgba(0,0,0,0.10))_drop-shadow(0_14px_28px_rgba(0,0,0,0.16))] dark:[filter:drop-shadow(0_2px_8px_rgba(0,0,0,0.5))_drop-shadow(0_16px_34px_rgba(0,0,0,0.6))] md:[filter:drop-shadow(0_3px_8px_rgba(0,0,0,0.10))_drop-shadow(0_26px_44px_rgba(0,0,0,0.20))_drop-shadow(0_56px_90px_rgba(0,0,0,0.16))] md:dark:[filter:drop-shadow(0_3px_10px_rgba(0,0,0,0.55))_drop-shadow(0_28px_50px_rgba(0,0,0,0.6))_drop-shadow(0_60px_100px_rgba(0,0,0,0.5))]"
-          >
-            <div
-              className="h-full w-full bg-[#161616] dark:bg-[#202020]"
-              style={{
-                clipPath: clipPath ? `path("${clipPath}")` : undefined,
-                WebkitClipPath: clipPath ? `path("${clipPath}")` : undefined,
-                borderRadius: clipPath ? undefined : "clamp(14px, 2.6vw, 34px)",
-              }}
-            />
-          </div>
+          {/* The shadow caster that used to sit here is gone. It was an empty
+              layer clipped to the same outline whose only job was to cast a
+              drop-shadow the notch could follow; with the shadow dropped there is
+              nothing left for it to do, and keeping it would mean a second
+              clip-path recomputed on every resize for no visual result. */}
 
           {/* ── MEDIA ──
               Fills the panel at every width and is clipped to the notched
@@ -447,26 +359,29 @@ export const Hero = () => {
               `object-fit: cover` would do this in one line but does not apply to
               iframes, so the maths is done by hand.
 
-              Phone — the panel is portrait, so height is the constraining axis:
-              set the iframe to the panel's full height and give it the width that
-              height implies at 16:9 (`height x 16/9`). That is always wider than a
-              portrait panel, so it overflows horizontally and the parent's
-              `overflow-hidden` plus the clip path crop the sides. Centred on both
-              axes with a 50%/-50% pair, so the middle of the frame is what shows.
+              Phone — the panel is 9:16, so height is the constraining axis. The
+              iframe takes the panel's full height and the width that height
+              implies at 16:9, which resolves entirely in CSS now that the panel's
+              ratio is known:
 
-              Desktop — the panel is already exactly 16:9, so `w-full h-full` is
-              the same result for less work, and the transforms are switched off.
+                  panelH = panelW x 16/9
+                  coverW = panelH x 16/9 = panelW x (16/9)^2 = panelW x 256/81
 
-              This is why the panel height is a custom property: the width here is
-              derived from it, so the two can never drift apart.
+              That is always wider than the panel, so it overflows horizontally and
+              the parent's `overflow-hidden` plus the clip path crop the sides.
+              Centred on both axes with a 50%/-50% pair, so the middle of the frame
+              is what shows.
 
-              Note the trade-off this makes, because it is real: covering a 366x520
-              phone panel with a 16:9 frame shows roughly its middle 40%. That is
-              inherent to cover — a landscape video cannot fill a portrait box
-              without losing the sides. It suits the reference because its footage
-              is a person; for a graphics-and-text animation the proper fix is a
-              second portrait export of the video, swapped in here with a
-              `matchMedia` check.
+              Desktop — the panel is already exactly 16:9, so `w-full` is the same
+              result for less work and the transforms are switched off.
+
+              The trade-off is real and worth stating plainly: covering a 9:16 panel
+              with a 16:9 source shows about its middle 32%. That is arithmetic, not
+              a setting — a landscape frame cannot fill a portrait box without
+              losing the sides, and a taller panel means a narrower slice. It works
+              for the reference because their phone asset is itself portrait. The
+              only actual fix is a portrait export of this video as a second Stream
+              upload, switched in here on a `matchMedia` check.
             */}
             <iframe
               src="https://customer-8l64zx8lmsynng2s.cloudflarestream.com/a2f314ee5d2cfcc77f3c3b61fddf5c75/iframe?muted=true&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-8l64zx8lmsynng2s.cloudflarestream.com%2Fa2f314ee5d2cfcc77f3c3b61fddf5c75%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
@@ -474,7 +389,7 @@ export const Hero = () => {
               allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
               allowFullScreen
               loading="eager"
-              className="pointer-events-none absolute left-1/2 top-1/2 h-[var(--panel-h)] w-[calc(var(--panel-h)*16/9)] -translate-x-1/2 -translate-y-1/2 border-none md:left-0 md:top-0 md:h-full md:w-full md:translate-x-0 md:translate-y-0"
+              className="pointer-events-none absolute left-1/2 top-1/2 h-full w-[calc(var(--panel-w)*256/81)] -translate-x-1/2 -translate-y-1/2 border-none md:left-0 md:top-0 md:w-full md:translate-x-0 md:translate-y-0"
             />
           </div>
 
