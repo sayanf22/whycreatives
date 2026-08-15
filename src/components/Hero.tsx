@@ -421,8 +421,24 @@ export const Hero = () => {
                 transition={{ duration: 0.5, ease: EASE }}
               >
                 <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-black dark:bg-white" />
-                <span className="whitespace-nowrap text-[13px] font-normal leading-none text-black lg:text-[15px] dark:text-white">
-                  Hello, we&rsquo;re WhyCreatives &#128075;
+                {/*
+                  Says something the headline does not. The old line — "Hello,
+                  we're WhyCreatives 👋" — spent the slot introducing a name the
+                  logo an inch above already gives, so it carried no information.
+                  This adds the two facts a first-time visitor wants and the
+                  headline has no room for: that the studio is independent, and
+                  where it is.
+
+                  Length is a constraint here, not a preference. This line is
+                  `whitespace-nowrap` and it feeds the notch measurement — the
+                  first staircase row takes `max(eyebrow, headline line 1)`. Too
+                  long and it both overflows the panel and drags the top step wider
+                  than the headline. At 12px this is ~244px against a 278px limit on
+                  a 320px screen, which is why it steps down below `sm`; the fuller
+                  "Independent creative studio" wording measured 298px and clipped.
+                */}
+                <span className="whitespace-nowrap text-[12px] font-normal leading-none text-black sm:text-[13px] lg:text-[15px] dark:text-white">
+                  Independent studio &middot; Guwahati, India
                 </span>
               </motion.span>
             </div>

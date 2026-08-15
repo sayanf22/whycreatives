@@ -132,11 +132,26 @@ const faqSchema = {
  * then the supporting detail in a two-column read.
  */
 const ServiceRow = ({ service, index }: { service: Service; index: number }) => (
-  <article className="border-t border-border pt-5 pb-12 lg:pt-7 lg:pb-20">
+  /* Row padding opened up on phones (pt-5/pb-12 to pt-7/pb-16). With the display
+     word now 70px instead of 51px the rows were running into each other, and the
+     rule between them needs air on both sides to read as a divider rather than as
+     an underline on the paragraph above it. */
+  <article className="border-t border-border pt-7 pb-16 lg:pt-7 lg:pb-20">
     {/* Caption strip. The giant word alone would lose the actual service name,
         so the full title rides here for clarity, SEO and screen readers. */}
+    {/*
+      Stacked on a phone, opposed from `sm` up.
+
+      `justify-between` on a 358px column pushed the number hard left and a
+      29-character tracked-out title hard right, with a void between them — the two
+      halves read as unrelated, and the title sat tight against the edge. Below
+      `sm` they stack flush left instead, so the number labels the row and the
+      title sits directly above the word it names. `flex-wrap` is gone with it:
+      wrapping a right-aligned tracked title mid-phrase was the other half of the
+      mess.
+    */}
     <motion.div
-      className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1"
+      className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-x-6"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true, amount: 0.6 }}
@@ -145,22 +160,33 @@ const ServiceRow = ({ service, index }: { service: Service; index: number }) => 
       <span className="font-mono text-xs tracking-[0.2em] text-muted-foreground">
         {String(index + 1).padStart(2, "0")}
       </span>
-      <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground sm:text-xs">
+      <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-foreground/70 sm:text-xs sm:tracking-[0.18em]">
         {service.title}
       </span>
     </motion.div>
 
-    {/* The row's single visual anchor: one word, as large as the column allows.
-        `13vw` rather than `15vw` so the longest word ("Content") still clears
-        the gutters on a narrow phone instead of running off the edge. */}
-    <h2 className="mt-2 lg:mt-3">
+    {/*
+      The row's single visual anchor: one word, as large as the column allows.
+
+      `13vw` was far too cautious — on a 390px phone it resolved to 51px, so the
+      "anchor" was barely larger than the paragraph beneath it and the row lost its
+      whole point. The real limit is the longest word, "Content": at roughly 0.42em
+      per character it needs about 2.94x the font size, so a 358px column allows
+      ~120px. 18vw gives 70px there with room to spare, and still clears the
+      gutters at 320px.
+
+      Weight 500 to 700. This page was the last thing on the site still at 500 —
+      the gallery, work, about, insights and contact headings are all 700 — so a
+      service word sat visibly lighter than the project titles underneath it.
+    */}
+    <h2 className="mt-3 lg:mt-3">
       <BlurLines
         className="block text-foreground"
         style={{
-          fontSize: "clamp(3rem, 13vw, 15rem)",
+          fontSize: "clamp(3.5rem, 18vw, 15rem)",
           lineHeight: 0.86,
           letterSpacing: "-0.055em",
-          fontWeight: 500,
+          fontWeight: 700,
         }}
       >
         <BlurLine last>
@@ -186,7 +212,11 @@ const ServiceRow = ({ service, index }: { service: Service; index: number }) => 
         <p className="text-lg font-semibold text-foreground sm:text-xl">
           {service.tagline}
         </p>
-        <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
+        {/* `text-foreground/70` rather than `text-muted-foreground`. On the dark
+            theme the muted token sat low enough against near-black that the body
+            copy read as disabled text on a phone. A percentage of the foreground
+            is predictable in both themes and clears contrast either way. */}
+        <p className="mt-4 text-base leading-relaxed text-foreground/70 sm:text-lg">
           {service.body}
         </p>
       </motion.div>
@@ -286,10 +316,13 @@ const WhatWeDo = () => {
           <BlurLines
             className="block text-foreground"
             style={{
+              /* 700 to match the h1 on every other page — this was the last 500
+                 left on the site, which made the services heading read lighter
+                 than the gallery and about headings it sits beside in the nav. */
               fontSize: "clamp(2.05rem, 7.2vw, 7.25rem)",
               lineHeight: 0.99,
               letterSpacing: "-0.045em",
-              fontWeight: 500,
+              fontWeight: 700,
             }}
           >
             {/* The label rides *inside* the first line rather than sitting in
@@ -359,12 +392,12 @@ const WhatWeDo = () => {
               fontSize: "clamp(1.6rem, 3vw, 3rem)",
               lineHeight: 1.05,
               letterSpacing: "-0.04em",
-              fontWeight: 500,
+              fontWeight: 700,
             }}
           >
             Not sure where to start?
           </h2>
-          <p className="mt-3 max-w-lg text-base text-muted-foreground sm:text-lg">
+          <p className="mt-3 max-w-lg text-base text-foreground/70 sm:text-lg">
             Tell us what you are trying to achieve and we will tell you honestly
             what it needs.
           </p>
