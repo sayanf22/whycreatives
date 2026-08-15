@@ -17,7 +17,7 @@ const Index = () => {
     "url": "https://whycreatives.in",
     "logo": "https://whycreatives.in/logo.png",
     "sameAs": [
-      "https://www.instagram.com/whycreatives.in",
+      "https://www.instagram.com/why.creatives/",
       "https://www.linkedin.com/company/whycreatives",
       "https://twitter.com/whycreatives"
     ],
