@@ -162,11 +162,20 @@ export const AgencyIntro = () => {
                 <ArrowSwap />
               </span>
             </Link>
+            {/*
+              Contact, replacing the previous "Meet the team" link to /people.
+
+              The label is "Start a project" rather than "Contact" or "Get in
+              touch" on purpose — the nav's primary button already says exactly
+              that, and the phrasing tells a visitor what happens next instead of
+              naming a page. Reusing the same words means the two buttons read as
+              one action rather than two.
+            */}
             <Link
-              to="/people"
+              to="/contact"
               className="group inline-flex items-center gap-2.5 rounded-full border border-foreground/25 px-6 py-3 text-sm font-semibold text-foreground transition-[background-color,border-color,color,transform] duration-300 ease-out hover:border-foreground hover:bg-foreground hover:text-background active:scale-[0.98] motion-reduce:transform-none"
             >
-              Meet the team
+              Start a project
               <ArrowSwap />
             </Link>
           </motion.div>
