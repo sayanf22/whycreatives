@@ -71,7 +71,7 @@ const CHANNELS = [
 const SOCIALS = [
   {
     name: "Instagram",
-    href: "https://www.instagram.com/why.creatives/",
+    href: "https://www.instagram.com/areyparo",
     icon: Instagram,
   },
 ];
