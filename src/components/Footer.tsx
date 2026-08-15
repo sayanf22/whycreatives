@@ -207,13 +207,13 @@ export const Footer = () => {
                     <h3 className="text-white font-extrabold tracking-widest text-[11px] uppercase opacity-95">Learn</h3>
                   </BlurReveal>
                   <ul className="flex flex-col gap-2.5 text-neutral-300 text-xs sm:text-sm">
-                    <BlurRevealItem delay={0.2}><Link to="/about-us" className="hover:text-white transition-colors">About</Link></BlurRevealItem>
-                    <BlurRevealItem delay={0.23}><Link to="/about-us" className="hover:text-white transition-colors">Culture</Link></BlurRevealItem>
-                    <BlurRevealItem delay={0.26}><Link to="/our-work" className="hover:text-white transition-colors">Client work</Link></BlurRevealItem>
-                    <BlurRevealItem delay={0.29}><Link to="/what-we-do" className="hover:text-white transition-colors">Processes</Link></BlurRevealItem>
-                    <BlurRevealItem delay={0.32}><Link to="/contact" className="hover:text-white transition-colors">FAQs</Link></BlurRevealItem>
-                    <BlurRevealItem delay={0.35}><Link to="/contact" className="hover:text-white transition-colors">Branding FAQs</Link></BlurRevealItem>
-                    <BlurRevealItem delay={0.38}><Link to="/insights" className="hover:text-white transition-colors">Blog</Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.2}><Link to="/about-us" className="group relative inline-block hover:text-white transition-colors"><span>About</span><span className="absolute left-0 -bottom-0.5 h-px w-0 bg-white transition-all duration-300 group-hover:w-full" /></Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.23}><Link to="/about-us" className="group relative inline-block hover:text-white transition-colors"><span>Culture</span><span className="absolute left-0 -bottom-0.5 h-px w-0 bg-white transition-all duration-300 group-hover:w-full" /></Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.26}><Link to="/our-work" className="group relative inline-block hover:text-white transition-colors"><span>Client work</span><span className="absolute left-0 -bottom-0.5 h-px w-0 bg-white transition-all duration-300 group-hover:w-full" /></Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.29}><Link to="/what-we-do" className="group relative inline-block hover:text-white transition-colors"><span>Processes</span><span className="absolute left-0 -bottom-0.5 h-px w-0 bg-white transition-all duration-300 group-hover:w-full" /></Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.32}><Link to="/contact" className="group relative inline-block hover:text-white transition-colors"><span>FAQs</span><span className="absolute left-0 -bottom-0.5 h-px w-0 bg-white transition-all duration-300 group-hover:w-full" /></Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.35}><Link to="/contact" className="group relative inline-block hover:text-white transition-colors"><span>Branding FAQs</span><span className="absolute left-0 -bottom-0.5 h-px w-0 bg-white transition-all duration-300 group-hover:w-full" /></Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.38}><Link to="/insights" className="group relative inline-block hover:text-white transition-colors"><span>Blog</span><span className="absolute left-0 -bottom-0.5 h-px w-0 bg-white transition-all duration-300 group-hover:w-full" /></Link></BlurRevealItem>
                   </ul>
                 </div>
 
@@ -223,15 +223,15 @@ export const Footer = () => {
                     <h3 className="text-white font-extrabold tracking-widest text-[11px] uppercase opacity-95">Explore</h3>
                   </BlurReveal>
                   <ul className="flex flex-col gap-2.5 text-neutral-300 text-xs sm:text-sm">
-                    <BlurRevealItem delay={0.25}><Link to="/" className="hover:text-white transition-colors">Home</Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.25}><Link to="/" className="group relative inline-block hover:text-white transition-colors"><span>Home</span><span className="absolute left-0 -bottom-0.5 h-px w-0 bg-white transition-all duration-300 group-hover:w-full" /></Link></BlurRevealItem>
                     <BlurRevealItem delay={0.28} className="flex items-center gap-2">
-                      <Link to="/our-work" className="hover:text-white transition-colors">Work</Link>
+                      <Link to="/our-work" className="group relative inline-block hover:text-white transition-colors"><span>Work</span><span className="absolute left-0 -bottom-0.5 h-px w-0 bg-white transition-all duration-300 group-hover:w-full" /></Link>
                       <span className="bg-white text-black font-extrabold text-[8px] px-1.5 py-0.5 rounded uppercase tracking-wider scale-90">New</span>
                     </BlurRevealItem>
-                    <BlurRevealItem delay={0.31}><Link to="/what-we-do" className="hover:text-white transition-colors">Services</Link></BlurRevealItem>
-                    <BlurRevealItem delay={0.34}><Link to="/join-us" className="hover:text-white transition-colors">Careers</Link></BlurRevealItem>
-                    <BlurRevealItem delay={0.37}><Link to="/areas-we-serve" className="hover:text-white transition-colors">Sectors</Link></BlurRevealItem>
-                    <BlurRevealItem delay={0.43}><Link to="/contact" className="hover:text-white transition-colors">Contact</Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.31}><Link to="/what-we-do" className="group relative inline-block hover:text-white transition-colors"><span>Services</span><span className="absolute left-0 -bottom-0.5 h-px w-0 bg-white transition-all duration-300 group-hover:w-full" /></Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.34}><Link to="/join-us" className="group relative inline-block hover:text-white transition-colors"><span>Careers</span><span className="absolute left-0 -bottom-0.5 h-px w-0 bg-white transition-all duration-300 group-hover:w-full" /></Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.37}><Link to="/areas-we-serve" className="group relative inline-block hover:text-white transition-colors"><span>Sectors</span><span className="absolute left-0 -bottom-0.5 h-px w-0 bg-white transition-all duration-300 group-hover:w-full" /></Link></BlurRevealItem>
+                    <BlurRevealItem delay={0.43}><Link to="/contact" className="group relative inline-block hover:text-white transition-colors"><span>Contact</span><span className="absolute left-0 -bottom-0.5 h-px w-0 bg-white transition-all duration-300 group-hover:w-full" /></Link></BlurRevealItem>
                   </ul>
                 </div>
 
@@ -243,11 +243,11 @@ export const Footer = () => {
                   <ul className="flex flex-col gap-3 text-neutral-300 text-xs sm:text-sm">
                     <BlurRevealItem delay={0.3} className="flex items-center gap-2.5">
                       <Phone className="w-3.5 h-3.5 text-white flex-shrink-0" />
-                      <a href="tel:+918210198880" className="hover:text-white transition-colors">+91 82101 98880</a>
+                      <a href="tel:+918210198880" className="group relative inline-block hover:text-white transition-colors"><span>+91 82101 98880</span><span className="absolute left-0 -bottom-0.5 h-px w-0 bg-white transition-all duration-300 group-hover:w-full" /></a>
                     </BlurRevealItem>
                     <BlurRevealItem delay={0.35} className="flex items-center gap-2.5">
                       <Mail className="w-3.5 h-3.5 text-white flex-shrink-0" />
-                      <a href="mailto:hello@whycreatives.in" className="hover:text-white transition-colors break-all">hello@whycreatives.in</a>
+                      <a href="mailto:hello@whycreatives.in" className="group relative inline-block hover:text-white transition-colors break-all"><span>hello@whycreatives.in</span><span className="absolute left-0 -bottom-0.5 h-px w-0 bg-white transition-all duration-300 group-hover:w-full" /></a>
                     </BlurRevealItem>
                     <BlurRevealItem delay={0.4} className="flex items-start gap-2.5">
                       <MapPin className="w-3.5 h-3.5 text-white mt-1 flex-shrink-0" />
