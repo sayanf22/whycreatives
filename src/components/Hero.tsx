@@ -127,6 +127,18 @@ export const Hero = () => {
   const actionsRef = useRef<HTMLDivElement>(null);
 
   const [clipPath, setClipPath] = useState<string | null>(null);
+  /**
+   * Phone-only panel height, in px, or `null` on desktop where CSS owns it.
+   *
+   * This has to be measured rather than written as a CSS expression. The panel
+   * needs to be exactly "text card + 16:9 video band" so the video sits directly
+   * under the button with no dead space, and the text card's height is not
+   * something CSS can report — it depends on the headline's clamped font size,
+   * its line count and the button row. A hand-derived `calc()` can approximate
+   * it, but it goes silently wrong the moment any of those change, and the
+   * failure mode is the type overlapping the video.
+   */
+  const [phonePanelH, setPhonePanelH] = useState<number | null>(null);
 
   const measure = useCallback(() => {
     const panel = panelRef.current;
@@ -138,26 +150,15 @@ export const Hero = () => {
       return;
 
     /*
-      The notch is a desktop-only device.
+      The notch runs at every width, phones included.
 
-      On a phone the panel is a 16:9 box roughly 366px wide, so about 206px tall,
-      and the text card alone needs ~200px. There is simply no panel left to cut
-      a staircase out of — the card filled it, the fit test failed, and the whole
-      thing collapsed into overlapping boxes. Below `md` the layout stacks
-      instead: text first, video underneath, each in normal flow. So bail here and
-      leave `clipPath` null, which is also what makes the media box fall back to
-      plain rounded corners.
-
-      Read straight from `matchMedia` rather than from state: putting the
-      breakpoint in state would render the mobile layout on the first frame at
-      every width and then snap to desktop, and the measurement would run against
-      the wrong box.
+      It was briefly disabled below `md` because the panel there was a 16:9 box
+      about 206px tall while the text card alone needs ~200px — no panel left to
+      cut a staircase from, so the fit test failed and the layout collapsed. The
+      answer was not to drop the notch but to stop forcing a *landscape* panel
+      onto a portrait screen. The phone panel is measured tall below, which leaves
+      plenty of room for the cut.
     */
-    if (!window.matchMedia("(min-width: 768px)").matches) {
-      setClipPath(null);
-      return;
-    }
-
     const box = panel.getBoundingClientRect();
     const W = box.width;
     const H = box.height;
@@ -176,6 +177,41 @@ export const Hero = () => {
     const eb = rel(eyebrow);
     const measured = lines.map(rel);
     const ab = rel(actions);
+
+    /*
+      ── PHONE PANEL HEIGHT ──
+
+      A portrait panel that the video covers, which is what the reference does.
+      The previous version sized the panel to "text card + a 16:9 band", so the
+      video was a strip across the bottom with dark above it. Covering instead
+      means the video is the panel's whole surface and the type sits on top of it
+      in the notch.
+
+      Two terms:
+        - `ab.bottom + 24` is the floor: the panel must always clear the button
+          row, whatever the clamped headline does to the card's height. Measured
+          rather than approximated with a `calc()`, because the card's height
+          depends on the font clamp, the line count and the button row, and a
+          hand-derived guess fails silently — the failure mode is type overlapping
+          the video.
+        - `62vh` is the target, so it reads as a tall portrait surface.
+
+      Capped at 600px, and deliberately not taller: on a portrait panel every
+      extra pixel of height is more horizontal crop out of a 16:9 source. Taller
+      panel, narrower slice of video.
+
+      This converges rather than looping. Changing the height re-runs the
+      ResizeObserver, but `ab.bottom` is measured from the panel's top and the
+      card is pinned there, so it does not move when the height changes — the
+      second pass computes the same number and React bails out.
+    */
+    if (!window.matchMedia("(min-width: 768px)").matches) {
+      const floor = ab.bottom + 24;
+      const target = window.innerHeight * 0.62;
+      setPhonePanelH(Math.round(Math.min(Math.max(floor, target), 600)));
+    } else {
+      setPhonePanelH(null);
+    }
 
     // the eyebrow shares the first headline line's edge (matches the reference:
     // the white card is full width from the very top, no step at the eyebrow)
@@ -274,19 +310,6 @@ export const Hero = () => {
         }}
       >
         {/*
-          Phones get a tall portrait panel, now capped at 680px.
-
-          Uncapped it was `100svh - 128px`, which on a 390x844 phone is a 374x716
-          box — an aspect of about 1:1.9. Nothing photographic survives that
-          without being cropped to a sliver, and it also meant the entire first
-          screen was one panel with no hint that the page continued. The cap
-          leaves the notch, the text card and the layout untouched; it only stops
-          the panel growing past the point where the media stops reading.
-
-          The 52vw cap from md up is unchanged — that is the desktop behaviour
-          that already works.
-        */}
-        {/*
           ── PANEL ──
 
           Desktop: `md:aspect-video` and nothing else. That is 16/9 exactly, at
@@ -316,22 +339,33 @@ export const Hero = () => {
           16:9 panel at 88vw cannot be anything else, and shrinking it to fit the
           fold is exactly what made it look small.
 
-          Phone: no aspect ratio at all. Height comes from the two stacked
-          children (text, then video), so the panel is exactly as tall as its
-          content.
-
           The source video is 16:9 (verified: its thumbnail is 640x360, ratio
           1.7778), which is why `aspect-video` here makes the iframe fit with no
           bars on any axis.
+
+          Phone: no aspect ratio — a tall portrait panel with its height measured
+          in JS, and the video covering the whole surface with the type sitting on
+          top of it in the notch. That is the shape the reference uses.
         */}
-        {/* `flex flex-col` on phones purely so the two in-flow children can be
-            ordered. In the DOM the media comes before the text card (it has to —
-            on desktop it paints underneath it), so without an explicit order the
-            phone stack would put the video above the headline. `md:block` hands
-            layout back to normal flow, where both children are absolute anyway. */}
         <div
           ref={panelRef}
-          className="relative flex w-full flex-col md:block md:aspect-video"
+          className="relative w-full md:h-auto md:aspect-video"
+          style={
+            {
+              /* Phone: measured from the content (see `phonePanelH`). Desktop: left
+                 undefined so the `md:aspect-video` class governs. The fallback only
+                 applies for the single frame before the first measurement lands. */
+              height: phonePanelH ? `${phonePanelH}px` : undefined,
+              minHeight: phonePanelH ? undefined : "62vh",
+              /*
+                Republished as a custom property so the iframe's cover width can be
+                derived from it in a class — `height x 16/9`. An inline style on the
+                iframe could carry the number too, but not the `md:` override that
+                switches back to `w-full`, so the value has to reach CSS.
+              */
+              "--panel-h": phonePanelH ? `${phonePanelH}px` : "0px",
+            } as React.CSSProperties
+          }
         >
           {/*
             ── SHADOW CASTER ──
@@ -366,13 +400,14 @@ export const Hero = () => {
             tight contact edge, a mid shadow that does the lifting, and a wide
             ambient pass that grounds it.
           */}
-          {/* Desktop only. On a phone there is no clip-path, so the media box can
-              carry an ordinary `box-shadow` and this whole caster is unnecessary
-              — and it would be wrong anyway, since it is sized to the full panel
-              which on a phone also contains the text block. */}
+          {/* Active at every width again. It was `hidden md:block` while phones
+              used a stacked layout with no clip-path; now the notch is back on
+              phones, so the shadow has to follow the notched silhouette there
+              too — a plain box-shadow would cut straight across the cutout. The
+              spread is smaller below `md` because the panel is much smaller. */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 hidden md:block [filter:drop-shadow(0_3px_8px_rgba(0,0,0,0.10))_drop-shadow(0_26px_44px_rgba(0,0,0,0.20))_drop-shadow(0_56px_90px_rgba(0,0,0,0.16))] dark:[filter:drop-shadow(0_3px_10px_rgba(0,0,0,0.55))_drop-shadow(0_28px_50px_rgba(0,0,0,0.6))_drop-shadow(0_60px_100px_rgba(0,0,0,0.5))]"
+            className="absolute inset-0 [filter:drop-shadow(0_2px_6px_rgba(0,0,0,0.10))_drop-shadow(0_14px_28px_rgba(0,0,0,0.16))] dark:[filter:drop-shadow(0_2px_8px_rgba(0,0,0,0.5))_drop-shadow(0_16px_34px_rgba(0,0,0,0.6))] md:[filter:drop-shadow(0_3px_8px_rgba(0,0,0,0.10))_drop-shadow(0_26px_44px_rgba(0,0,0,0.20))_drop-shadow(0_56px_90px_rgba(0,0,0,0.16))] md:dark:[filter:drop-shadow(0_3px_10px_rgba(0,0,0,0.55))_drop-shadow(0_28px_50px_rgba(0,0,0,0.6))_drop-shadow(0_60px_100px_rgba(0,0,0,0.5))]"
           >
             <div
               className="h-full w-full bg-[#161616] dark:bg-[#202020]"
@@ -385,44 +420,53 @@ export const Hero = () => {
           </div>
 
           {/* ── MEDIA ──
-              Phone: `relative` with its own `aspect-video`, so it sits in normal
-              flow *underneath* the text block and is exactly 16:9 at the full
-              panel width. It carries its own rounded corners and box-shadow,
-              which is safe here precisely because there is no clip-path on this
-              breakpoint to fight with.
-
-              Desktop: `absolute inset-0`, filling the panel and clipped to the
-              notched outline so the text card can sit in the cutout. The panel is
-              16:9, so filling it edge to edge is also the video's exact ratio. */}
+              Fills the panel at every width and is clipped to the notched
+              outline, so the text card sits in the cutout on phones exactly as it
+              does on desktop. */}
           <div
-            className="relative order-2 mt-6 aspect-video w-full overflow-hidden bg-[#161616] shadow-[0_3px_8px_rgba(0,0,0,0.10),0_18px_36px_rgba(0,0,0,0.18)] dark:bg-[#202020] dark:shadow-[0_3px_10px_rgba(0,0,0,0.55),0_20px_44px_rgba(0,0,0,0.65)] md:absolute md:inset-0 md:mt-0 md:aspect-auto md:shadow-none"
+            className="absolute inset-0 overflow-hidden bg-[#161616] dark:bg-[#202020]"
             style={{
               clipPath: clipPath ? `path("${clipPath}")` : undefined,
               WebkitClipPath: clipPath ? `path("${clipPath}")` : undefined,
               /* Radius is inline rather than a class so it can be dropped the
                  moment the clip path resolves — the path draws its own corners,
                  and keeping a border-radius as well would intersect the two and
-                 shave the corners twice. On phones the clip is never set, so this
-                 always applies there. */
+                 shave every corner twice. */
               borderRadius: clipPath ? undefined : "clamp(20px, 2.6vw, 34px)",
             }}
           >
             {/*
-              Both the box and the video are 16:9, so the iframe simply fills it.
-              No oversizing, no centring transforms, nothing to crop.
+              ── COVER, CENTRED ──
 
-              Quality is left entirely to Cloudflare. Stream serves an adaptive
-              HLS ladder and the player picks a rendition from the measured
-              bandwidth and the element's rendered size, so a phone on a weak
-              connection gets a low rung and a desktop on fibre gets the top one —
-              without any of it being pinned here. Forcing a rendition (the
-              obvious "make it lighter on mobile" move) would be worse in both
-              directions: it caps desktop quality and it removes the player's
-              ability to drop down when a phone connection degrades mid-playback.
+              Why black bars kept reappearing: Cloudflare's player fits the video
+              *inside* the iframe and paints its letterbox colour into whatever is
+              left over. Those bars are drawn inside the iframe, so styling the
+              iframe box cannot remove them. The only fix is to make the iframe
+              itself exactly the video's ratio, and then oversize it.
 
-              `preload=true` starts buffering immediately instead of waiting on a
-              play event, and the poster holds the first frame while that happens,
-              so there is no black gap on any connection.
+              `object-fit: cover` would do this in one line but does not apply to
+              iframes, so the maths is done by hand.
+
+              Phone — the panel is portrait, so height is the constraining axis:
+              set the iframe to the panel's full height and give it the width that
+              height implies at 16:9 (`height x 16/9`). That is always wider than a
+              portrait panel, so it overflows horizontally and the parent's
+              `overflow-hidden` plus the clip path crop the sides. Centred on both
+              axes with a 50%/-50% pair, so the middle of the frame is what shows.
+
+              Desktop — the panel is already exactly 16:9, so `w-full h-full` is
+              the same result for less work, and the transforms are switched off.
+
+              This is why the panel height is a custom property: the width here is
+              derived from it, so the two can never drift apart.
+
+              Note the trade-off this makes, because it is real: covering a 366x520
+              phone panel with a 16:9 frame shows roughly its middle 40%. That is
+              inherent to cover — a landscape video cannot fill a portrait box
+              without losing the sides. It suits the reference because its footage
+              is a person; for a graphics-and-text animation the proper fix is a
+              second portrait export of the video, swapped in here with a
+              `matchMedia` check.
             */}
             <iframe
               src="https://customer-8l64zx8lmsynng2s.cloudflarestream.com/a2f314ee5d2cfcc77f3c3b61fddf5c75/iframe?muted=true&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-8l64zx8lmsynng2s.cloudflarestream.com%2Fa2f314ee5d2cfcc77f3c3b61fddf5c75%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
@@ -430,24 +474,18 @@ export const Hero = () => {
               allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
               allowFullScreen
               loading="eager"
-              className="pointer-events-none absolute inset-0 h-full w-full border-none"
+              className="pointer-events-none absolute left-1/2 top-1/2 h-[var(--panel-h)] w-[calc(var(--panel-h)*16/9)] -translate-x-1/2 -translate-y-1/2 border-none md:left-0 md:top-0 md:h-full md:w-full md:translate-x-0 md:translate-y-0"
             />
           </div>
 
-          {/* ── TEXT CARD ──
-              Phone: `relative`, so it is the first item in the panel's normal
-              flow and the video sits below it. No notch, no overlap, no clipping
-              — just a heading followed by a video, which is what actually reads
-              well at that width. `--pad-l` drops to 0 here because there is no
-              longer a dark panel behind the type for the padding to separate it
-              from.
-
-              Desktop: `absolute`, offset into the panel so it lands in the
-              staircase cutout, exactly as before. The offset stays pure CSS so
-              measurement always reads the final position. ── */}
+          {/* ── TEXT CARD ── sits over the notch, on the page background, at
+              every width. The offset is pure CSS so measurement always reads the
+              final position; on phones it goes flush left, which drops the dark
+              strip from the cut and leaves a plain top-left cutout — the same
+              shape the reference uses there. ── */}
           <div
             ref={cardRef}
-            className="relative order-1 z-10 flex flex-col items-start [--pad-l:0px] [--pad-r:0px] md:absolute md:left-[min(7vw,112px)] md:top-0 md:[--pad-l:clamp(14px,1.6vw,24px)] md:[--pad-r:clamp(20px,2vw,30px)]"
+            className="absolute left-0 top-0 z-10 flex flex-col items-start [--pad-l:12px] [--pad-r:16px] md:left-[min(7vw,112px)] md:[--pad-l:clamp(14px,1.6vw,24px)] md:[--pad-r:clamp(20px,2vw,30px)]"
           >
             <div
               ref={eyebrowRef}
@@ -556,14 +594,13 @@ export const Hero = () => {
                   <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.5} />
                 </span>
               </Link>
-              {/* Visible on phones again. It was hidden below md to keep the
-                  button row narrower than the headline, which is what made the
-                  notch step inward — but the phone layout no longer has a notch,
-                  so there is nothing left to protect and no reason to withhold
-                  the link. */}
+              {/* Hidden below md again, for two reasons that both come back with
+                  the notch: the button row has to stay narrower than the headline
+                  or the staircase stops stepping inward, and the reference shows a
+                  single button on a phone. */}
               <Link
                 to="/people"
-                className="group flex items-center gap-1.5 text-[14px] font-semibold text-black transition-opacity hover:opacity-60 lg:text-[15px] dark:text-white"
+                className="group hidden items-center gap-1.5 text-[14px] font-semibold text-black transition-opacity hover:opacity-60 md:flex lg:text-[15px] dark:text-white"
               >
                 Meet the team
                 <ArrowUpRight
