@@ -17,7 +17,21 @@ import { ArrowUpRight } from "lucide-react";
     line and the button row, so it always hugs the text at any viewport / font size.
 */
 
-const HEADLINE = ["One stop solution for", "all your creative needs"] as const;
+/*
+  Line order matters to the shape, not just the reading.
+
+  `buildPanelPath` walks one staircase step per line, so the cut only reads as a
+  clean descending staircase — the reference shape — if each line is *narrower*
+  than the one above it. The previous pair was "One stop solution for" (21 chars)
+  over "all your creative needs" (23), so the second line was wider and the notch
+  stepped outward before stepping back in, producing the bulge on the right edge.
+
+  These descend: 21 chars, then 18, then the button row at roughly 8. Verified to
+  clear the card's usable width at every breakpoint, including 768px where the
+  desktop gutter and the card's own left offset both kick in and leave the least
+  room.
+*/
+const HEADLINE = ["One stop solution for", "all creative needs"] as const;
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 type Row = { right: number; bottom: number };
@@ -393,16 +407,26 @@ export const Hero = () => {
             />
           </div>
 
-          {/* ── TEXT CARD ──
-              Positioned centre-left in the panel like the reference: the card
-              starts roughly 16% down from the top rather than flush at 0. On
-              desktop, `left-[min(7vw,112px)]` indents it from the panel edge so
-              the dark strip can run beside it; on phones it stays flush left. The
-              vertical offset is `top-[14%]` so it centres in the upper 2/3 of the
-              panel, leaving the lower third dominated by the video. ── */}
+          {/*
+            ── TEXT CARD ──
+            Must sit at `top-0`. This is not a style preference — `buildPanelPath`
+            always starts the outline at `M rows[0].right 0` and walks the
+            staircase back up to `V 0`, so the cut reaches the panel's top edge
+            whatever the card does. Offsetting the card downward (I briefly had
+            `top-[14%]`) therefore carves out the full-width region above it and
+            leaves a large empty dark void over the eyebrow, which is exactly the
+            broken shape in the screenshot. The reference has the card flush with
+            the panel's top edge for the same reason.
+
+            `md:left-[min(7vw,112px)]` indents the card from the panel's left edge
+            on desktop, which is what produces the thin dark strip running down
+            beside it — see `hasStrip` in the path builder. On phones the offset is
+            0, the strip is dropped, and the cut degrades to a plain top-left
+            corner.
+          */}
           <div
             ref={cardRef}
-            className="absolute left-0 top-[14%] z-10 flex flex-col items-start [--pad-l:12px] [--pad-r:16px] md:left-[min(7vw,112px)] md:top-[12%] md:[--pad-l:clamp(14px,1.6vw,24px)] md:[--pad-r:clamp(20px,2vw,30px)]"
+            className="absolute left-0 top-0 z-10 flex flex-col items-start [--pad-l:12px] [--pad-r:16px] md:left-[min(7vw,112px)] md:[--pad-l:clamp(14px,1.6vw,24px)] md:[--pad-r:clamp(20px,2vw,30px)]"
           >
             <div
               ref={eyebrowRef}
