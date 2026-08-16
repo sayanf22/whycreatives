@@ -390,10 +390,10 @@ export const Hero = () => {
           full-screen feel is a consequence of the ratio, not a separate height
           rule fighting it.
 
-          Both ratios are pure CSS now. The JS-measured phone height this replaced
-          existed only to reserve room for a video band; with the video covering
-          the whole panel there is nothing to budget, so the measurement, its state
-          and its convergence caveat are all gone.
+          Both ratios are pure CSS. The JS-measured phone height this replaced
+          existed only to reserve room for a video band, and there is nothing left
+          to budget, so the measurement, its state and its convergence caveat are
+          all gone.
         */}
         <div
           ref={panelRef}
@@ -403,9 +403,9 @@ export const Hero = () => {
               /*
                 The panel's own width, in the same terms CSS lays it out with: the
                 viewport less the wrapper's `px-3` gutters. Published so the iframe
-                can derive its cover width from it in a *class*, which an inline
+                can derive its 16:9 height from it in a *class*, which an inline
                 style could not do — the value has to reach CSS for the `md:`
-                override to be able to switch it back to `w-full`.
+                override to switch back to `h-full`.
               */
               "--panel-w": "calc(100vw - 24px)",
             } as React.CSSProperties
@@ -417,10 +417,10 @@ export const Hero = () => {
               nothing left for it to do, and keeping it would mean a second
               clip-path recomputed on every resize for no visual result. */}
 
-          {/* ── MEDIA ──
-              Fills the panel at every width and is clipped to the notched
-              outline, so the text card sits in the cutout on phones exactly as it
-              does on desktop. */}
+          {/* ── MEDIA ── the panel surface, clipped to the notched outline so the
+              text card sits in the cutout. Its background colour is what shows
+              around the video on phones, where the video is contained rather than
+              cropped to fill. */}
           <div
             className="absolute inset-0 overflow-hidden bg-[#161616] dark:bg-[#202020]"
             style={{
@@ -434,40 +434,26 @@ export const Hero = () => {
             }}
           >
             {/*
-              ── COVER, CENTRED ──
+              The iframe must always be exactly the video's 16:9 ratio. Cloudflare's
+              player fits the video *inside* the iframe and paints its letterbox
+              colour into whatever is left over, and those bars are drawn inside the
+              iframe where no amount of styling the box can reach them. Matching the
+              ratio is the only way to have none.
 
-              Why black bars kept reappearing: Cloudflare's player fits the video
-              *inside* the iframe and paints its letterbox colour into whatever is
-              left over. Those bars are drawn inside the iframe, so styling the
-              iframe box cannot remove them. The only fix is to make the iframe
-              itself exactly the video's ratio, and then oversize it.
+              Phone — contained, not covered. Full panel width, its implied 16:9
+              height, centred vertically, so the whole frame is visible and the
+              panel's own colour fills above and below it. That is what the
+              reference does: the media sits in the panel with space around it
+              rather than filling it.
 
-              `object-fit: cover` would do this in one line but does not apply to
-              iframes, so the maths is done by hand.
+              This replaced a cover crop, which was the arithmetic problem I had
+              been describing rather than fixing — filling a 9:16 panel with a 16:9
+              source shows only its middle 32%, so most of a graphics-and-text
+              animation was cut away. Containing it costs nothing here because the
+              panel is tall enough that the video still lands right under the notch.
 
-              Phone — the panel is 9:16, so height is the constraining axis. The
-              iframe takes the panel's full height and the width that height
-              implies at 16:9, which resolves entirely in CSS now that the panel's
-              ratio is known:
-
-                  panelH = panelW x 16/9
-                  coverW = panelH x 16/9 = panelW x (16/9)^2 = panelW x 256/81
-
-              That is always wider than the panel, so it overflows horizontally and
-              the parent's `overflow-hidden` plus the clip path crop the sides.
-              Centred on both axes with a 50%/-50% pair, so the middle of the frame
-              is what shows.
-
-              Desktop — the panel is already exactly 16:9, so `w-full` is the same
-              result for less work and the transforms are switched off.
-
-              The trade-off is real and worth stating plainly: covering a 9:16 panel
-              with a 16:9 source shows about its middle 32%. That is arithmetic, not
-              a setting — a landscape frame cannot fill a portrait box without
-              losing the sides, and a taller panel means a narrower slice. It works
-              for the reference because their phone asset is itself portrait. The
-              only actual fix is a portrait export of this video as a second Stream
-              upload, switched in here on a `matchMedia` check.
+              Desktop — the panel is already exactly 16:9, so `h-full` fills it edge
+              to edge and the centring transform is switched off.
             */}
             <iframe
               src="https://customer-8l64zx8lmsynng2s.cloudflarestream.com/a2f314ee5d2cfcc77f3c3b61fddf5c75/iframe?muted=true&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-8l64zx8lmsynng2s.cloudflarestream.com%2Fa2f314ee5d2cfcc77f3c3b61fddf5c75%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
@@ -475,7 +461,7 @@ export const Hero = () => {
               allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
               allowFullScreen
               loading="eager"
-              className="pointer-events-none absolute left-1/2 top-1/2 h-full w-[calc(var(--panel-w)*256/81)] -translate-x-1/2 -translate-y-1/2 border-none md:left-0 md:top-0 md:w-full md:translate-x-0 md:translate-y-0"
+              className="pointer-events-none absolute left-0 top-1/2 h-[calc(var(--panel-w)*9/16)] w-full -translate-y-1/2 border-none md:top-0 md:h-full md:translate-y-0"
             />
           </div>
 
