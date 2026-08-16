@@ -50,10 +50,14 @@ const arc = (r: number, sweep: 0 | 1, x: number, y: number) =>
  *
  * `rows` are ordered top to bottom; each row's `right`/`bottom` are panel-local px.
  *
- * The card is flush with the panel's left edge, so the only cut is the staircase in
- * the top-left corner. A left-hand notch was tried and removed: the light block at
- * the bottom-left of the reference is media content sitting on the panel, not a cut
- * in it — the reference's card edge runs past the left of frame.
+ * `leftInset` is the card's own offset from the panel's left edge, and it produces the
+ * reference's left-hand notch: the top band still reaches the panel's left edge, but
+ * every band below it starts at `leftInset`, so a block of panel shows through at the
+ * bottom-left. Pass 0 to skip it.
+ *
+ * Taking it from the card's measured offset rather than inventing a number is what
+ * makes it safe — the cut lands exactly on the card's box, so it can never slice into
+ * a glyph no matter what the headline says or how the font clamps.
  *
  * ── Orientation, because the arc sweeps depend on it ──
  * The outline runs clockwise with the panel interior on the right of travel. That is
@@ -68,9 +72,22 @@ function buildPanelPath(
   H: number,
   rows: Row[],
   R: number,
-  r: number
+  r: number,
+  leftInset = 0
 ): string {
   const bottomY = rows[rows.length - 1].bottom;
+  /* Where the card's left edge steps in: the bottom of the top band, which is the
+     row the eyebrow and the first headline line share. */
+  const stepY = rows[0].bottom;
+
+  /*
+    The notch's own fillet, a third of the inset. At a half the two arcs along the
+    top of the notch meet tangentially, the flat run between them collapses to zero
+    length, and the step reads as a rounded hump instead of a corner.
+  */
+  const nr = Math.max(4, Math.min(R * 0.6, leftInset / 3));
+  const hasLeftNotch =
+    leftInset > 12 && stepY >= R + nr && stepY <= bottomY - 2 * nr;
 
   const d: string[] = [];
 
@@ -83,9 +100,28 @@ function buildPanelPath(
   d.push(`H ${n(R)}`);
   d.push(arc(R, 1, 0, H - R));
 
-  // left edge runs straight up past the card, then rounds into the staircase
-  d.push(`V ${n(bottomY + R)}`);
-  d.push(arc(R, 1, R, bottomY));
+  if (hasLeftNotch) {
+    /*
+      Come up the panel's left edge, stop at `stepY`, cut right by `leftInset`, drop
+      to the card's bottom, then head right into the staircase. That encloses the
+      block of panel at the bottom-left while leaving the top band touching the
+      panel's left edge.
+
+      north->east and east->south are right turns (sweep 1, convex corners of the
+      panel block); south->east is a left turn (sweep 0), the concave corner where
+      the panel tucks under the card.
+    */
+    d.push(`V ${n(stepY + nr)}`);
+    d.push(arc(nr, 1, nr, stepY));
+    d.push(`H ${n(leftInset - nr)}`);
+    d.push(arc(nr, 1, leftInset, stepY + nr));
+    d.push(`V ${n(bottomY - nr)}`);
+    d.push(arc(nr, 0, leftInset + nr, bottomY));
+  } else {
+    // left edge runs straight up past the card, then rounds into the staircase
+    d.push(`V ${n(bottomY + R)}`);
+    d.push(arc(R, 1, R, bottomY));
+  }
 
   // ── staircase: walk the notch's right edge from the bottom row up to the top ──
   for (let i = rows.length - 1; i >= 0; i--) {
@@ -240,14 +276,16 @@ export const Hero = () => {
     if (!rows.length) return;
 
     /*
-      No left inset. The card is flush with the panel's left edge.
+      The card's real offset from the panel's left edge, which drives the left notch.
 
-      I added a left-hand notch reading the reference's bottom-left light block as a
-      cut in the panel. It is not — zooming in, the dark card's left edge runs off
-      past the left of frame while that block sits *on* the panel with its own
-      rounded corners. It is media content inside the video, not part of the outline.
+      Read from the DOM rather than derived. Computing it here and writing it to state
+      would measure the text at the *old* offset, leaving the notch a frame behind
+      whenever the breakpoint changed. Reading it means the cut always lands exactly
+      on the card's box, so it can never clip a glyph.
     */
-    setClipPath(buildPanelPath(W, H, rows, R, R));
+    const leftInset = Math.max(0, card.getBoundingClientRect().left - box.left);
+
+    setClipPath(buildPanelPath(W, H, rows, R, R, leftInset));
   }, []);
 
   useLayoutEffect(() => {
@@ -471,7 +509,7 @@ export const Hero = () => {
           */}
           <div
             ref={cardRef}
-            className="absolute left-0 top-0 z-10 flex flex-col items-start [--pad-l:12px] [--pad-r:16px] md:[--pad-l:clamp(20px,2.2vw,34px)] md:[--pad-r:clamp(20px,2vw,30px)]"
+            className="absolute left-0 top-0 z-10 flex flex-col items-start [--pad-l:12px] [--pad-r:16px] md:left-[min(7vw,104px)] md:[--pad-l:clamp(20px,2.2vw,34px)] md:[--pad-r:clamp(20px,2vw,30px)]"
           >
             <div
               ref={eyebrowRef}
