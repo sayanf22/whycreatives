@@ -30,16 +30,16 @@ const SERVICES: Service[] = [
       hiding them would strip the only real content in the list. They read better
       short at every width anyway.
     */
-    title: "Video Editing",
-    blurb: "Editing, colour and sound that hold attention.",
+    /*
+      Motion design is folded in here rather than listed separately. The two rows
+      already pointed at the same page — `/services/video-production` — so the list
+      was spending two of its six slots sending people to one destination. Same
+      duplication the Selected Work grid had with its two website cards.
+    */
+    title: "Video & Motion",
+    blurb: "Editing, colour, sound, titles and motion graphics.",
     href: "/services/video-production",
     image: "/video-gear.webp",
-  },
-  {
-    title: "Motion Design",
-    blurb: "Graphics, titles and explainers, in motion.",
-    href: "/services/video-production",
-    image: "/project-ugc-reel.webp",
   },
   {
     title: "Websites",
@@ -270,40 +270,19 @@ export const Expertise = () => {
               setCursorInside(false);
             }}
           >
-            {/* fills what was dead space beside the list, and says what we do */}
-            <div className="lg:col-span-3 lg:sticky lg:top-28 lg:self-start">
-              <h3
-                className="text-white"
-                style={{
-                  fontSize: "clamp(1.35rem, 1.6vw, 2rem)",
-                  lineHeight: 1.15,
-                  letterSpacing: "-0.03em",
-                  fontWeight: 500,
-                }}
-              >
-                Six disciplines,
-                <br />
-                one team.
-              </h3>
-              {/* Tightened from "From the first cut to launch day we keep video,
-                  web, apps and brand under one roof, so nothing gets lost in a
-                  handover and nothing gets billed twice." Same two claims, roughly
-                  half the words — it ran to four lines on a phone. Shortened for
-                  every width rather than swapped per breakpoint, because two
-                  versions of the same sentence in the DOM is duplicate copy for
-                  crawlers and screen readers. */}
-              <p className="mt-4 max-w-xs text-[13px] leading-relaxed text-white/50">
-                Video, web, apps and brand under one roof. Nothing lost in a
-                handover, nothing billed twice.
-              </p>
-              {/* Desktop-only chrome for the sticky column. On a phone it is a
-                  stray "01 — 06" floating between the intro and the list. */}
-              <div className="mt-6 hidden font-mono text-[10px] uppercase tracking-[0.2em] text-white/35 lg:block">
-                01 &mdash; {String(SERVICES.length).padStart(2, "0")}
-              </div>
-            </div>
+            {/*
+              The sticky "Six disciplines, one team." column that used to sit here is
+              gone, along with its paragraph and the "01 — 06" counter.
 
-            <ul className="lg:col-span-9">
+              It was a third block of introduction on top of the eyebrow, the
+              heading and the header's own support line — and its headline had become
+              wrong anyway, since merging motion design into video editing leaves
+              five services, not six. Hard-coding a number in prose that the array
+              below already reports is exactly the kind of thing that silently drifts.
+
+              The list now runs the full twelve columns instead of nine.
+            */}
+            <ul className="lg:col-span-12">
               {SERVICES.map((service, i) => {
                 const isOn = isDesktop && hoveredIndex === i;
                 const dimmed = isDesktop && active && hoveredIndex !== i;
