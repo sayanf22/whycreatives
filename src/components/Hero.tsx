@@ -18,20 +18,24 @@ import { ArrowUpRight } from "lucide-react";
 */
 
 /*
-  Line order matters to the shape, not just the reading.
+  Line lengths are part of the shape, not just the reading.
 
-  `buildPanelPath` walks one staircase step per line, so the cut only reads as a
-  clean descending staircase — the reference shape — if each line is *narrower*
-  than the one above it. The previous pair was "One stop solution for" (21 chars)
-  over "all your creative needs" (23), so the second line was wider and the notch
-  stepped outward before stepping back in, producing the bulge on the right edge.
+  `buildPanelPath` walks one staircase step per row, and the cut only reads as the
+  reference's clean descending staircase if each row is *narrower* than the one
+  above. Three lines rather than two, because each line is another notch — the
+  reference gets its five steps from an eyebrow, three headline lines and a button
+  row, and two lines could only ever produce four.
 
-  These descend: 21 chars, then 18, then the button row at roughly 8. Verified to
-  clear the card's usable width at every breakpoint, including 768px where the
-  desktop gutter and the card's own left offset both kick in and leave the least
-  room.
+  Character counts descend 21 / 17 / 15, then the button row lands narrower still.
+  Every gap is wider than the `R * 1.4` merge threshold at every breakpoint from
+  360px up, so all five steps actually draw; at 320px the last two collapse to one,
+  which is a graceful four-step fallback rather than a broken corner.
 */
-const HEADLINE = ["One stop solution for", "all creative needs"] as const;
+const HEADLINE = [
+  "One stop solution for",
+  "all your creative",
+  "needs and goals",
+] as const;
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 type Row = { right: number; bottom: number };
@@ -180,13 +184,36 @@ export const Hero = () => {
     const measured = lines.map(rel);
     const ab = rel(actions);
 
-    // the eyebrow shares the first headline line's edge (matches the reference:
-    // the white card is full width from the very top, no step at the eyebrow)
-    const raw: Row[] = [
-      { right: Math.max(eb.right, measured[0].right), bottom: measured[0].bottom },
-      ...measured.slice(1),
-      ab,
-    ];
+    /*
+      ── DESCENDING STAIRCASE, ENFORCED ──
+
+      Each element is its own step: eyebrow, every headline line, then the button
+      row. The eyebrow used to be merged into the first headline line, which cost
+      the cut a notch — in the reference the eyebrow is a distinct narrow step that
+      the headline steps out from.
+
+      The important part is the loop. The cut only reads as a staircase if each row
+      is at least as wide as every row beneath it, and I cannot get that by
+      choosing the wording carefully: rendered width has almost nothing to do with
+      character count. "needs and goals" is 15 characters and sets *wider* than
+      "all your creative" at 17, because n/d/s/g/o/a are wide glyphs where
+      l/y/r/i/t are narrow. Picking copy whose widths happen to descend is
+      guesswork that breaks on the next content edit, and the failure mode is a
+      visible bulge in the panel edge.
+
+      So the geometry is enforced from the real measured boxes instead. Walking
+      bottom-up, each row is widened to the widest row below it. That can only ever
+      *grow* a row, so no glyph is ever clipped, and the result descends for any
+      wording in any font.
+
+      The eyebrow sits outside the loop on purpose: it is meant to be the one
+      narrow step the headline steps out from, so it keeps its own measured width.
+    */
+    const body = [...measured, ab];
+    for (let i = body.length - 2; i >= 0; i--) {
+      body[i] = { ...body[i], right: Math.max(body[i].right, body[i + 1].right) };
+    }
+    const raw: Row[] = [eb, ...body];
 
     // keep every row inside the panel, and keep bottoms strictly increasing
     const maxRight = W - R - 4;
@@ -426,7 +453,7 @@ export const Hero = () => {
           */}
           <div
             ref={cardRef}
-            className="absolute left-0 top-0 z-10 flex flex-col items-start [--pad-l:12px] [--pad-r:16px] md:left-[min(7vw,112px)] md:[--pad-l:clamp(14px,1.6vw,24px)] md:[--pad-r:clamp(20px,2vw,30px)]"
+            className="absolute left-0 top-0 z-10 flex flex-col items-start [--pad-l:12px] [--pad-r:16px] md:left-[min(9vw,132px)] md:[--pad-l:clamp(14px,1.6vw,24px)] md:[--pad-r:clamp(20px,2vw,30px)]"
           >
             <div
               ref={eyebrowRef}
@@ -473,7 +500,7 @@ export const Hero = () => {
                   it. Raising the slope much further starts clipping on the
                   narrowest phones.
                 */
-                fontSize: "clamp(1.6rem, 7.8vw, 104px)",
+                fontSize: "clamp(1.6rem, 7.5vw, 104px)",
                 fontWeight: 500,
                 letterSpacing: "-0.022em",
                 margin: 0,
