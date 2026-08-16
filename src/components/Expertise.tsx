@@ -22,39 +22,46 @@ type Service = {
 
 const SERVICES: Service[] = [
   {
+    /*
+      Blurbs tightened across the board, roughly halved. Six of these stacked under
+      six titles, each with a thumbnail beside it, made the phone layout run for
+      screens — the longest was 88 characters and wrapped to three lines. Shortened
+      rather than clamped or hidden: a `line-clamp` ends a sentence mid-word, and
+      hiding them would strip the only real content in the list. They read better
+      short at every width anyway.
+    */
     title: "Video Editing",
-    blurb:
-      "Professional editing with colour grading, transitions and effects that hold attention.",
+    blurb: "Editing, colour and sound that hold attention.",
     href: "/services/video-production",
     image: "/video-gear.webp",
   },
   {
     title: "Motion Design",
-    blurb: "Animated graphics, titles and explainers that make a brand feel alive.",
+    blurb: "Graphics, titles and explainers, in motion.",
     href: "/services/video-production",
     image: "/project-ugc-reel.webp",
   },
   {
     title: "Websites",
-    blurb: "Modern, responsive sites built on current tech that drive real results.",
+    blurb: "Fast, responsive sites built to convert.",
     href: "/services/web-development",
     image: "/project-nth.webp",
   },
   {
     title: "App Development",
-    blurb: "iOS, Android and web apps shipped on a modern, maintainable stack.",
+    blurb: "iOS, Android and web apps built to last.",
     href: "/services/web-development",
     image: "/whycreatives-app.webp",
   },
   {
     title: "Brand Identity",
-    blurb: "Complete visual identity and digital presence strategy.",
+    blurb: "Visual identity, end to end.",
     href: "/services/logo-design",
     image: "/whycreatives-brand.webp",
   },
   {
     title: "Performance Ads",
-    blurb: "Paid campaigns tuned to turn spend into measurable revenue.",
+    blurb: "Campaigns measured against revenue.",
     href: "/services/performance-marketing",
     image: "/creative-office.webp",
   },
@@ -231,7 +238,14 @@ export const Expertise = () => {
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.6, ease: EASE, delay: 0.2 }}
             >
-              <p className="max-w-sm text-[13px] leading-relaxed text-white/55 lg:text-sm">
+              {/* Hidden on phones. On a single column this sat between the heading
+                  and a second paragraph that says the same thing more concretely,
+                  so the section opened with two stacked blocks of generic copy
+                  before reaching a single service. This is the vaguer of the two —
+                  "professional creative services to elevate your brand" is filler
+                  next to "under one roof, nothing billed twice" — so it is the one
+                  that goes. The button stays. */}
+              <p className="hidden max-w-sm text-[13px] leading-relaxed text-white/55 sm:block lg:text-sm">
                 Professional creative services to elevate your brand and grow your
                 business.
               </p>
@@ -271,12 +285,20 @@ export const Expertise = () => {
                 <br />
                 one team.
               </h3>
+              {/* Tightened from "From the first cut to launch day we keep video,
+                  web, apps and brand under one roof, so nothing gets lost in a
+                  handover and nothing gets billed twice." Same two claims, roughly
+                  half the words — it ran to four lines on a phone. Shortened for
+                  every width rather than swapped per breakpoint, because two
+                  versions of the same sentence in the DOM is duplicate copy for
+                  crawlers and screen readers. */}
               <p className="mt-4 max-w-xs text-[13px] leading-relaxed text-white/50">
-                From the first cut to launch day we keep video, web, apps and brand
-                under one roof, so nothing gets lost in a handover and nothing gets
-                billed twice.
+                Video, web, apps and brand under one roof. Nothing lost in a
+                handover, nothing billed twice.
               </p>
-              <div className="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-white/35">
+              {/* Desktop-only chrome for the sticky column. On a phone it is a
+                  stray "01 — 06" floating between the intro and the list. */}
+              <div className="mt-6 hidden font-mono text-[10px] uppercase tracking-[0.2em] text-white/35 lg:block">
                 01 &mdash; {String(SERVICES.length).padStart(2, "0")}
               </div>
             </div>
@@ -374,7 +396,13 @@ export const Expertise = () => {
                                 {service.blurb}
                               </span>
                             </span>
-                            <span className="ml-auto flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white">
+                            {/* Hidden on phones. Six white circles stacked down
+                                the right edge of a dark panel pulled more
+                                attention than the service names they belonged
+                                to, and they say nothing a tappable row does not
+                                already imply. From `sm` up there is width for
+                                them to sit as a quiet affordance. */}
+                            <span className="ml-auto hidden h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white sm:flex">
                               <ArrowUpRight
                                 className="h-4 w-4 text-black"
                                 strokeWidth={2.5}
