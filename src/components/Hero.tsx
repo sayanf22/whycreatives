@@ -33,8 +33,8 @@ import { ArrowUpRight } from "lucide-react";
 */
 const HEADLINE = [
   "One stop solution for",
-  "all your creative",
-  "needs and goals",
+  "all creative needs",
+  "and goals",
 ] as const;
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -49,24 +49,28 @@ const arc = (r: number, sweep: 0 | 1, x: number, y: number) =>
  * notch removed from the top-left corner.
  *
  * `rows` are ordered top to bottom; each row's `right`/`bottom` are panel-local px.
- * `leftInset` is how far the notch sits in from the panel's left edge, and `stripTop`
- * is where the panel's left edge re-appears above that inset (the thin dark strip
- * running down the left of the text card).
+ *
+ * The card is flush with the panel's left edge, so the only cut is the staircase in
+ * the top-left corner. A left-hand notch was tried and removed: the light block at
+ * the bottom-left of the reference is media content sitting on the panel, not a cut
+ * in it — the reference's card edge runs past the left of frame.
+ *
+ * ── Orientation, because the arc sweeps depend on it ──
+ * The outline runs clockwise with the panel interior on the right of travel. That is
+ * set by the outer rectangle: heading `+x` along the top, the interior is below,
+ * which is the right-hand side when `y` grows downward. Every convex corner is
+ * therefore a right turn and takes `sweep: 1`; every concave corner is a left turn
+ * and takes `sweep: 0`. Getting one of these backwards does not produce a wrong
+ * curve, it produces a self-intersecting path that fills inside out.
  */
 function buildPanelPath(
   W: number,
   H: number,
   rows: Row[],
-  leftInset: number,
-  stripTop: number,
   R: number,
   r: number
 ): string {
   const bottomY = rows[rows.length - 1].bottom;
-  const hasStrip =
-    leftInset >= R + r &&
-    stripTop >= R + r &&
-    stripTop <= bottomY - (R + r);
 
   const d: string[] = [];
 
@@ -79,19 +83,9 @@ function buildPanelPath(
   d.push(`H ${n(R)}`);
   d.push(arc(R, 1, 0, H - R));
 
-  if (hasStrip) {
-    // left edge stops at `stripTop`, then a thin dark strip runs down beside the card
-    d.push(`V ${n(stripTop + R)}`);
-    d.push(arc(R, 1, R, stripTop));
-    d.push(`H ${n(leftInset - r)}`);
-    d.push(arc(r, 1, leftInset, stripTop + r));
-    d.push(`V ${n(bottomY - r)}`);
-    d.push(arc(r, 0, leftInset + r, bottomY));
-  } else {
-    // no strip: the panel's top-left corner sits directly under the card
-    d.push(`V ${n(bottomY + R)}`);
-    d.push(arc(R, 1, R, bottomY));
-  }
+  // left edge runs straight up past the card, then rounds into the staircase
+  d.push(`V ${n(bottomY + R)}`);
+  d.push(arc(R, 1, R, bottomY));
 
   // ── staircase: walk the notch's right edge from the bottom row up to the top ──
   for (let i = rows.length - 1; i >= 0; i--) {
@@ -171,10 +165,6 @@ export const Hero = () => {
     if (W < 2 || H < 2) return;
 
     const R = Math.max(14, Math.min(34, W * 0.026));
-    // Read the card's real offset rather than computing it. Deriving it here and
-    // then writing it to state would measure the text at the *old* offset, which
-    // left the notch behind whenever the breakpoint changed (mobile -> desktop).
-    const leftInset = Math.max(0, card.getBoundingClientRect().left - box.left);
     const rel = (el: Element): Row => {
       const b = el.getBoundingClientRect();
       return { right: b.right - box.left, bottom: b.bottom - box.top };
@@ -206,14 +196,26 @@ export const Hero = () => {
       *grow* a row, so no glyph is ever clipped, and the result descends for any
       wording in any font.
 
-      The eyebrow sits outside the loop on purpose: it is meant to be the one
-      narrow step the headline steps out from, so it keeps its own measured width.
+      The eyebrow does not get a step of its own. It shares the first headline line's
+      right edge, so the card's top edge is one straight run.
+
+      This has now been wrong in both directions, so to be explicit: in the
+      reference, at the eyebrow's height the dark card extends to exactly the same
+      right edge as the first headline line. Any step here — even the 78%-floored one
+      I tried — opens a band of panel between the eyebrow and the headline, which is
+      the cream gap that keeps getting reported.
+
+      The four steps come from the three headline lines and the button row, not from
+      the eyebrow.
     */
     const body = [...measured, ab];
     for (let i = body.length - 2; i >= 0; i--) {
       body[i] = { ...body[i], right: Math.max(body[i].right, body[i + 1].right) };
     }
-    const raw: Row[] = [eb, ...body];
+    const raw: Row[] = [
+      { right: Math.max(eb.right, body[0].right), bottom: body[0].bottom },
+      ...body.slice(1),
+    ];
 
     // keep every row inside the panel, and keep bottoms strictly increasing
     const maxRight = W - R - 4;
@@ -237,10 +239,15 @@ export const Hero = () => {
     }
     if (!rows.length) return;
 
-    // the dark strip beside the card starts level with the first headline line
-    const stripTop = measured[0].bottom;
+    /*
+      No left inset. The card is flush with the panel's left edge.
 
-    setClipPath(buildPanelPath(W, H, rows, leftInset, stripTop, R, R));
+      I added a left-hand notch reading the reference's bottom-left light block as a
+      cut in the panel. It is not — zooming in, the dark card's left edge runs off
+      past the left of frame while that block sits *on* the panel with its own
+      rounded corners. It is media content inside the video, not part of the outline.
+    */
+    setClipPath(buildPanelPath(W, H, rows, R, R));
   }, []);
 
   useLayoutEffect(() => {
@@ -445,15 +452,26 @@ export const Hero = () => {
             broken shape in the screenshot. The reference has the card flush with
             the panel's top edge for the same reason.
 
-            `md:left-[min(7vw,112px)]` indents the card from the panel's left edge
-            on desktop, which is what produces the thin dark strip running down
-            beside it — see `hasStrip` in the path builder. On phones the offset is
-            0, the strip is dropped, and the cut degrades to a plain top-left
-            corner.
+            Flush left at every width — no `md:left-...` offset. That offset was a
+            misreading of the reference. The dark rounded block at the far left of
+            the reference screenshot is a separate decorative element sitting on the
+            page, not part of the media panel: the panel's left edge is where the
+            photograph begins, and the headline starts about three pixels inside it.
+            The card and the panel share a left edge.
+
+            Offsetting the card produced a `leftInset`, which switches on the
+            `hasStrip` branch in the path builder and draws a thin dark column down
+            the side of the card — plus, above that column, an exposed wedge of the
+            panel's own rounded top-left corner. That pair is the "empty top
+            section" in the screenshot, and neither exists in the reference.
+
+            With `leftInset` at 0 the builder takes its else-branch, running the
+            panel's left edge straight down past the card before rounding into the
+            staircase: one clean cut out of the top-left corner.
           */}
           <div
             ref={cardRef}
-            className="absolute left-0 top-0 z-10 flex flex-col items-start [--pad-l:12px] [--pad-r:16px] md:left-[min(9vw,132px)] md:[--pad-l:clamp(14px,1.6vw,24px)] md:[--pad-r:clamp(20px,2vw,30px)]"
+            className="absolute left-0 top-0 z-10 flex flex-col items-start [--pad-l:12px] [--pad-r:16px] md:[--pad-l:clamp(20px,2.2vw,34px)] md:[--pad-r:clamp(20px,2vw,30px)]"
           >
             <div
               ref={eyebrowRef}
