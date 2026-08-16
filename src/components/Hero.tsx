@@ -17,7 +17,7 @@ import { ArrowUpRight } from "lucide-react";
     line and the button row, so it always hugs the text at any viewport / font size.
 */
 
-const HEADLINE = ["A one stop solution", "for video, web, apps", "and branding"] as const;
+const HEADLINE = ["One stop solution for", "all your creative needs"] as const;
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 type Row = { right: number; bottom: number };
@@ -393,14 +393,16 @@ export const Hero = () => {
             />
           </div>
 
-          {/* ── TEXT CARD ── sits over the notch, on the page background, at
-              every width. The offset is pure CSS so measurement always reads the
-              final position; on phones it goes flush left, which drops the dark
-              strip from the cut and leaves a plain top-left cutout — the same
-              shape the reference uses there. ── */}
+          {/* ── TEXT CARD ──
+              Positioned centre-left in the panel like the reference: the card
+              starts roughly 16% down from the top rather than flush at 0. On
+              desktop, `left-[min(7vw,112px)]` indents it from the panel edge so
+              the dark strip can run beside it; on phones it stays flush left. The
+              vertical offset is `top-[14%]` so it centres in the upper 2/3 of the
+              panel, leaving the lower third dominated by the video. ── */}
           <div
             ref={cardRef}
-            className="absolute left-0 top-0 z-10 flex flex-col items-start [--pad-l:12px] [--pad-r:16px] md:left-[min(7vw,112px)] md:[--pad-l:clamp(14px,1.6vw,24px)] md:[--pad-r:clamp(20px,2vw,30px)]"
+            className="absolute left-0 top-[14%] z-10 flex flex-col items-start [--pad-l:12px] [--pad-r:16px] md:left-[min(7vw,112px)] md:top-[12%] md:[--pad-l:clamp(14px,1.6vw,24px)] md:[--pad-r:clamp(20px,2vw,30px)]"
           >
             <div
               ref={eyebrowRef}
@@ -421,24 +423,8 @@ export const Hero = () => {
                 transition={{ duration: 0.5, ease: EASE }}
               >
                 <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-black dark:bg-white" />
-                {/*
-                  Says something the headline does not. The old line — "Hello,
-                  we're WhyCreatives 👋" — spent the slot introducing a name the
-                  logo an inch above already gives, so it carried no information.
-                  This adds the two facts a first-time visitor wants and the
-                  headline has no room for: that the studio is independent, and
-                  where it is.
-
-                  Length is a constraint here, not a preference. This line is
-                  `whitespace-nowrap` and it feeds the notch measurement — the
-                  first staircase row takes `max(eyebrow, headline line 1)`. Too
-                  long and it both overflows the panel and drags the top step wider
-                  than the headline. At 12px this is ~244px against a 278px limit on
-                  a 320px screen, which is why it steps down below `sm`; the fuller
-                  "Independent creative studio" wording measured 298px and clipped.
-                */}
-                <span className="whitespace-nowrap text-[12px] font-normal leading-none text-black sm:text-[13px] lg:text-[15px] dark:text-white">
-                  Independent studio &middot; Guwahati, India
+                <span className="whitespace-nowrap text-[12px] font-medium leading-none text-black sm:text-[13px] lg:text-[15px] dark:text-white">
+                  WhyCreatives
                 </span>
               </motion.span>
             </div>
@@ -463,7 +449,7 @@ export const Hero = () => {
                   it. Raising the slope much further starts clipping on the
                   narrowest phones.
                 */
-                fontSize: "clamp(1.6rem, 8.4vw, 104px)",
+                fontSize: "clamp(1.6rem, 7.8vw, 104px)",
                 fontWeight: 500,
                 letterSpacing: "-0.022em",
                 margin: 0,
@@ -525,15 +511,14 @@ export const Hero = () => {
                   <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.5} />
                 </span>
               </Link>
-              {/* Hidden below md again, for two reasons that both come back with
-                  the notch: the button row has to stay narrower than the headline
-                  or the staircase stops stepping inward, and the reference shows a
-                  single button on a phone. */}
+              {/* Contact link — visible on all screens now since the hero has
+                  no eyebrow above it, the text card is shorter, and the second
+                  line is narrower than "Meet the team". */}
               <Link
-                to="/people"
-                className="group hidden items-center gap-1.5 text-[14px] font-semibold text-black transition-opacity hover:opacity-60 md:flex lg:text-[15px] dark:text-white"
+                to="/contact"
+                className="group flex items-center gap-1.5 text-[14px] font-semibold text-black transition-opacity hover:opacity-60 lg:text-[15px] dark:text-white"
               >
-                Meet the team
+                Start a project
                 <ArrowUpRight
                   className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                   strokeWidth={2.5}
