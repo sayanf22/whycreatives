@@ -440,20 +440,27 @@ export const Hero = () => {
               iframe where no amount of styling the box can reach them. Matching the
               ratio is the only way to have none.
 
-              Phone — contained, not covered. Full panel width, its implied 16:9
-              height, centred vertically, so the whole frame is visible and the
-              panel's own colour fills above and below it. That is what the
-              reference does: the media sits in the panel with space around it
-              rather than filling it.
+              Phone — covered, filling the panel edge to edge. `object-fit: cover`
+              does not apply to iframes, so the maths is by hand: the panel is 9:16,
+              so height is the constraining axis, and the width that height implies
+              at 16:9 resolves in CSS from the panel's own ratio:
 
-              This replaced a cover crop, which was the arithmetic problem I had
-              been describing rather than fixing — filling a 9:16 panel with a 16:9
-              source shows only its middle 32%, so most of a graphics-and-text
-              animation was cut away. Containing it costs nothing here because the
-              panel is tall enough that the video still lands right under the notch.
+                  panelH = panelW x 16/9
+                  coverW = panelH x 16/9 = panelW x 256/81
 
-              Desktop — the panel is already exactly 16:9, so `h-full` fills it edge
-              to edge and the centring transform is switched off.
+              Always wider than the panel, so it overflows horizontally and
+              `overflow-hidden` plus the clip path crop the sides. Centred on x so
+              the middle of the frame is what shows.
+
+              The crop is significant — about the middle 32% of the frame — and it is
+              not tunable. There is no middle setting between this and letterboxing:
+              to leave no bars the video's height has to reach the panel's height,
+              which for a 16:9 source in a 9:16 box means exactly this width. A
+              portrait export of the video, swapped in on a `matchMedia` check, is
+              the only way to have it both full-bleed and uncropped.
+
+              Desktop — the panel is already exactly 16:9, so `w-full` fills it for
+              less work and the centring transform is switched off.
             */}
             <iframe
               src="https://customer-8l64zx8lmsynng2s.cloudflarestream.com/a2f314ee5d2cfcc77f3c3b61fddf5c75/iframe?muted=true&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-8l64zx8lmsynng2s.cloudflarestream.com%2Fa2f314ee5d2cfcc77f3c3b61fddf5c75%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
@@ -461,7 +468,7 @@ export const Hero = () => {
               allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
               allowFullScreen
               loading="eager"
-              className="pointer-events-none absolute left-0 top-1/2 h-[calc(var(--panel-w)*9/16)] w-full -translate-y-1/2 border-none md:top-0 md:h-full md:translate-y-0"
+              className="pointer-events-none absolute left-1/2 top-0 h-full w-[calc(var(--panel-w)*256/81)] -translate-x-1/2 border-none md:left-0 md:w-full md:translate-x-0"
             />
           </div>
 
@@ -589,8 +596,19 @@ export const Hero = () => {
                 paddingBottom: "clamp(14px, 1.6vw, 24px)",
               }}
             >
+              {/*
+                Stacked on phones, side by side from `md`.
+
+                This is also what gives the phone notch its third step. Side by
+                side, the two controls measure ~300px, which is wider than the last
+                headline line ("and goals", ~150px). The descending-staircase pass
+                then widens that line to match the button row, the two collapse into
+                one step, and the cut drops to two steps. Stacked, the row is only as
+                wide as the pill (~190px), so it and the last line merge instead and
+                the three headline bands stay distinct.
+              */}
               <motion.div
-                className="flex items-center gap-5"
+                className="flex flex-col items-start gap-3 md:flex-row md:items-center md:gap-5"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: EASE, delay: 0.45 }}
