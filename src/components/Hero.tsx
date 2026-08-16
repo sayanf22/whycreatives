@@ -625,9 +625,15 @@ export const Hero = () => {
               {/* Contact link — visible on all screens now since the hero has
                   no eyebrow above it, the text card is shorter, and the second
                   line is narrower than "Meet the team". */}
+              {/* `pl-5` on phones to match the pill's own `pl-5`. Stacked, the two
+                  controls share a left edge but not a left *text* edge — the pill's
+                  label is pushed in by its padding while a bare link starts at the
+                  box, so the two labels sat 20px out of line. Dropped at `md`, where
+                  they sit side by side and the pill's padding is what separates
+                  them. */}
               <Link
                 to="/contact"
-                className="group flex items-center gap-1.5 text-[14px] font-semibold text-black transition-opacity hover:opacity-60 lg:text-[15px] dark:text-white"
+                className="group flex items-center gap-1.5 pl-5 text-[14px] font-semibold text-black transition-opacity hover:opacity-60 md:pl-0 lg:text-[15px] dark:text-white"
               >
                 Start a project
                 <ArrowUpRight

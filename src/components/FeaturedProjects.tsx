@@ -78,11 +78,22 @@ const PROJECTS: Project[] = [
   {
     id: 2,
     year: "2024",
-    client: "Web & Mobile Apps",
-    title: "Custom web & mobile apps on production-ready architecture",
+    /*
+      This card absorbed the old "NTH Studio — Website / SEO" entry, which was a
+      duplicate: two of the four cards were both websites, tagged "Web / Apps" and
+      "Website / SEO", so the grid spent half its space saying the same thing.
+
+      Search now rides here as a third tag and a phrase rather than as its own
+      card, which is also the more honest framing — SEO is part of how a site gets
+      built, not a separate piece of work. `href` points at the web development
+      service page instead of the general work index, so clicking through actually
+      lands on the page that explains the build and the technical SEO in it.
+    */
+    client: "Web, Apps & Search",
+    title: "Custom web & mobile apps, built to be found",
     image: "/whycreatives-app.webp",
-    tags: ["Web", "Apps"],
-    href: "/our-work",
+    tags: ["Web", "Apps", "SEO"],
+    href: "/services/web-development",
     /* No vendor names on this section. Naming the stack here dates the work and
        says nothing to a buyer — the specific tools belong on the service pages,
        where the choice can be explained. */
@@ -90,7 +101,7 @@ const PROJECTS: Project[] = [
       tone: "dark",
       phrases: [
         { words: ["Web", "and", "apps"], color: "#67E8F9" },
-        { words: ["Production", "ready"], color: "#A5B4FC" },
+        { words: ["Built", "to", "rank"], color: "#BEF264" },
         { words: ["Grows", "with", "you"], color: "#F9A8D4" },
         { words: ["Secure", "by", "design"], color: "#FFFFFF" },
       ],
@@ -104,9 +115,9 @@ const PROJECTS: Project[] = [
     image: "/whycreatives-ugc.webp",
     tags: ["UGC Reels", "Social"],
     href: "/our-work",
-    /* Dark here, light on card 04 — that flips the grid from two parallel
-       columns (left always light, right always dark) into a checkerboard, so
-       the tones also cross on the diagonal. */
+    /* Dark, sitting under the light opening card in the left column, so the two
+       columns do not each end up a single tone. (This used to be balanced against
+       a fourth light card, which was the duplicate website entry and is gone.) */
     stage: {
       tone: "dark",
       phrases: [
@@ -114,24 +125,6 @@ const PROJECTS: Project[] = [
         { words: ["Hooks", "that", "hold"], color: "#FDE047" },
         { words: ["Real", "product", "stories"], color: "#5EEAD4" },
         { words: ["Made", "to", "convert"], color: "#FFFFFF" },
-      ],
-    },
-  },
-  {
-    id: 4,
-    year: "2023",
-    client: "NTH Studio",
-    title: "Conversion-focused website design and front-end build",
-    image: "/project-nth.webp",
-    tags: ["Website", "SEO"],
-    href: "/our-work",
-    stage: {
-      tone: "light",
-      phrases: [
-        { words: ["Website", "design"], color: "#7C3AED" },
-        { words: ["Front-end", "build"], color: "#0891B2" },
-        { words: ["Fast", "by", "default"], color: "#DB2777" },
-        { words: ["Search", "ready"], color: "#111111" },
       ],
     },
   },
@@ -477,25 +470,25 @@ export const FeaturedProjects = () => {
           </motion.p>
         </div>
 
-        {/* The opening card spans both header rows, which is what creates the
-            asymmetry: the right column starts lower than the left. */}
+        {/*
+          Three cards, placed so neither column ends on a hole.
+
+          The grid was hand-placed for four: two per column, with the fourth
+          carrying a half-card offset. Dropping the duplicate website card left
+          `col-2 / row-3` empty, which reads as a missing card rather than as a
+          deliberate gap.
+
+          Now the left column takes the tall opening card plus one below it, and the
+          right column takes the header plus one card. The right card keeps the
+          half-card offset so it still lands level with the middle of the card
+          beside it — that stagger was the point of the layout and it survives the
+          card count changing.
+        */}
         <ProjectCard
           project={PROJECTS[0]}
           index={0}
           column="left"
           className="lg:col-start-1 lg:row-start-1 lg:row-span-2"
-        />
-        <ProjectCard
-          project={PROJECTS[1]}
-          index={1}
-          column="right"
-          className="lg:col-start-2 lg:row-start-2"
-        />
-        <ProjectCard
-          project={PROJECTS[2]}
-          index={2}
-          column="left"
-          className="lg:col-start-1 lg:row-start-3"
         />
         {/*
           The offset is delivered as a CSS variable and consumed by a `lg:` class,
@@ -504,11 +497,17 @@ export const FeaturedProjects = () => {
           grid is a single column and there is nothing to sit beside.
         */}
         <ProjectCard
-          project={PROJECTS[3]}
-          index={3}
+          project={PROJECTS[1]}
+          index={1}
           column="right"
-          className="lg:col-start-2 lg:row-start-3 lg:mt-[var(--half-card)]"
+          className="lg:col-start-2 lg:row-start-2 lg:mt-[var(--half-card)]"
           style={{ "--half-card": HALF_CARD } as React.CSSProperties}
+        />
+        <ProjectCard
+          project={PROJECTS[2]}
+          index={2}
+          column="left"
+          className="lg:col-start-1 lg:row-start-3"
         />
       </div>
     </section>
