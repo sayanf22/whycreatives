@@ -1,20 +1,19 @@
-import { useCallback, useState } from "react";
+import { useContext } from "react";
+import { RevealContext } from "@/components/PageIntroProvider";
 
 /**
- * Wiring for a page that opens behind `PageIntro`.
+ * Whether this page may start its entrance animations yet.
  *
- * `revealed` gates the page's own entrance animations. It exists because those
- * animations are driven by `whileInView`, and every one of these headers sits above
- * the fold — so without a gate they fire the moment the page mounts, run to
- * completion behind the curtain, and are already sitting there when the colour
- * clears.
+ * Pages need this because their headers sit above the fold, so a `whileInView` reveal
+ * fires the moment the page mounts — which on a curtained route means it runs to
+ * completion behind the colour and is already sitting there when the curtain clears.
+ * Gating on `revealed` starts the copy when the colour starts moving instead.
  *
- * `handoff` is stable across renders. It is a dependency of the curtain's timing
- * effect, so a fresh function each render would tear down and restart the sequence
- * mid-animation.
+ * Reads from context rather than owning state, because the curtain itself lives at
+ * the app root: it has to sit above `Suspense` to cover the route skeleton, which is
+ * higher up the tree than any page.
+ *
+ * On routes with no curtain this is `true` from the first render, so pages animate
+ * normally and need no special case.
  */
-export const usePageIntro = () => {
-  const [revealed, setRevealed] = useState(false);
-  const handoff = useCallback(() => setRevealed(true), []);
-  return { revealed, handoff };
-};
+export const usePageIntro = () => ({ revealed: useContext(RevealContext) });

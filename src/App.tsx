@@ -4,6 +4,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { PageIntroProvider } from "@/components/PageIntroProvider";
+import { SmoothScroll } from "@/components/ui/smooth-scroll";
 import { lazy, Suspense } from "react";
 
 /*
@@ -115,8 +117,17 @@ const App = () => (
         <Toaster />
         <Sonner />
         <ScrollToTop />
-        <Suspense fallback={<PageLoader />}>
-          <Routes>
+        {/*
+          `PageIntroProvider` wraps `Suspense`, not the other way round. Every route
+          but the landing page is `lazy()`, so a curtain rendered inside a page could
+          only start after its chunk had loaded — the skeleton would show first. From
+          out here the curtain starts on the same frame as the navigation and the
+          skeleton loads behind it.
+        */}
+        <SmoothScroll>
+          <PageIntroProvider>
+            <Suspense fallback={<PageLoader />}>
+              <Routes>
             {/* Main Pages */}
             <Route path="/" element={<Index />} />
             <Route path="/what-we-do" element={<WhatWeDo />} />
@@ -147,8 +158,10 @@ const App = () => (
             {/* 404 Page */}
             <Route path="/404" element={<NotFound />} />
             <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Suspense>
+              </Routes>
+            </Suspense>
+          </PageIntroProvider>
+        </SmoothScroll>
       </TooltipProvider>
     </QueryClientProvider>
   </ThemeProvider>

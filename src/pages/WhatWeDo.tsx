@@ -6,7 +6,6 @@ import { ArrowUpRight } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import { BlurLine, BlurLines } from "@/components/BlurLines";
 import { ServiceStack } from "@/components/ServiceStack";
-import { PageIntro } from "@/components/PageIntro";
 import { usePageIntro } from "@/hooks/use-page-intro";
 import { ACCENT_ORANGE } from "@/lib/brand";
 
@@ -132,7 +131,7 @@ const faqSchema = {
 };
 
 const WhatWeDo = () => {
-  const { revealed, handoff } = usePageIntro();
+  const { revealed } = usePageIntro();
 
   return (
     <div className="min-h-screen bg-background font-['Schibsted_Grotesk',sans-serif]">
@@ -163,14 +162,6 @@ const WhatWeDo = () => {
       </Helmet>
 
       <Navigation />
-
-      {/* The curtain the header emerges from. Rendered outside `main` because it is
-          fixed to the viewport and must sit over the navigation too.
-
-          `accent` here, unlike every other page: this page's header panel is orange,
-          so the curtain is orange on the page's own colour and resolves straight into
-          it. Elsewhere the box is the page colour on an inverted backdrop. */}
-      <PageIntro variant="accent" onHandoff={handoff} />
 
       <main
         className="px-4 md:px-[clamp(32px,6vw,120px)]"

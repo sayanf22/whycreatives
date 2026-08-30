@@ -7,11 +7,10 @@ import { FadeInWhenVisible } from "@/components/FadeInWhenVisible";
 import { Mail, Phone, User, FileText } from "lucide-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { PageIntro } from "@/components/PageIntro";
 import { usePageIntro } from "@/hooks/use-page-intro";
 
 const JoinUs = () => {
-  const { revealed, handoff } = usePageIntro();
+  const { revealed } = usePageIntro();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -38,9 +37,6 @@ const JoinUs = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Opening curtain: the page's own colour floods the screen off an inverted
-          backdrop, then the layout below animates in. */}
-      <PageIntro onHandoff={handoff} />
 
       <Navigation />
 

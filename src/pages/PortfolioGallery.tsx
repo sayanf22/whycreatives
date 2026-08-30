@@ -7,7 +7,6 @@ import { MediaRenderer } from "@/components/MediaRenderer";
 import { Globe, Palette, Video, LayoutGrid, X, ExternalLink, Quote } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BlurLine, BlurLines } from "@/components/BlurLines";
-import { PageIntro } from "@/components/PageIntro";
 import { usePageIntro } from "@/hooks/use-page-intro";
 import { useSiteContent } from "@/hooks/use-site-content";
 import { NotchedFrame } from "@/components/NotchedFrame";
@@ -28,7 +27,7 @@ const getCategoryIcon = (category: string, className = "w-4 h-4") => {
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 const PortfolioGallery = () => {
-  const { revealed, handoff } = usePageIntro();
+  const { revealed } = usePageIntro();
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [activeLightboxItem, setActiveLightboxItem] = useState<PortfolioWork | null>(null);
   const { data: portfolioItems, isLoading } = usePortfolioWorks();
@@ -132,9 +131,6 @@ const PortfolioGallery = () => {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-background text-foreground font-['Schibsted_Grotesk',sans-serif]">
-      {/* Opening curtain: the page's own colour floods the screen off an inverted
-          backdrop, then the layout below animates in. */}
-      <PageIntro onHandoff={handoff} />
 
       <Navigation />
       {/* Wider gutters and a wider well: the grid was capped at max-w-7xl

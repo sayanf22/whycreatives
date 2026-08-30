@@ -1,7 +1,6 @@
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { FadeInWhenVisible } from "@/components/FadeInWhenVisible";
-import { PageIntro } from "@/components/PageIntro";
 import { usePageIntro } from "@/hooks/use-page-intro";
 import { Users } from "lucide-react";
 
@@ -9,13 +8,10 @@ import { Users } from "lucide-react";
 const team: any[] = [];
 
 const People = () => {
-  const { revealed, handoff } = usePageIntro();
+  const { revealed } = usePageIntro();
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Opening curtain: the page's own colour floods the screen off an inverted
-          backdrop, then the layout below animates in. */}
-      <PageIntro onHandoff={handoff} />
 
       <Navigation />
 

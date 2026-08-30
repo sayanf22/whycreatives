@@ -116,9 +116,14 @@ body {
     @apply bg-background text-foreground font-sans antialiased;
   }
 
-  html {
-    scroll-behavior: smooth;
-  }
+  /*
+    No `scroll-behavior: smooth` here.
+
+    Lenis owns smooth scrolling now (see `components/ui/smooth-scroll.tsx`), and the
+    two fight: the CSS property makes the browser animate the same scroll position
+    Lenis is already easing, so programmatic jumps get animated twice and land short.
+    Lenis's own documentation is explicit about removing it.
+  */
 
   /*
     Two blanket GPU-promotion rules used to live here and both were hurting
