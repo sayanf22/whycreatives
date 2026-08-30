@@ -75,3 +75,6 @@ Thumbs.db
 # are never served: scripts/build-hero-image.mjs reads from here and writes the
 # optimised, responsive WebP set into public/.
 design-source/
+
+# Kiro settings - may contain sensitive tokens and credentials
+.kiro/settings/
