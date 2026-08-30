@@ -59,12 +59,19 @@ const StackCard = ({
     { clamp: true },
   );
 
-  /* Once a card is covered it settles back slightly, which is what gives the stack
-     depth rather than looking like flat slides. Transform only — no layout. */
+  /*
+    Once a card is covered it settles back slightly, which is what gives the stack
+    depth rather than looking like flat slides. Transform only — no layout.
+
+    The last card is never covered, so its window would be `[1, 1]` — a zero-width
+    input range, which is not a valid interpolation domain. It is given a flat
+    `[0, 1] -> [1, 1]` instead, so the value is constant and the domain stays sane.
+  */
+  const isLast = index === total - 1;
   const scale = useTransform(
     progress,
-    [enterTo, Math.min(1, enterTo + 1 / steps)],
-    [1, index === total - 1 ? 1 : SETTLE_SCALE],
+    isLast ? [0, 1] : [enterTo, enterTo + 1 / steps],
+    isLast ? [1, 1] : [1, SETTLE_SCALE],
     { clamp: true },
   );
 
