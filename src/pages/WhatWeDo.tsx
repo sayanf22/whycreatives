@@ -116,8 +116,22 @@ const WhatWeDo = () => {
           viewport, so with the browser chrome showing, a `100vh` panel is taller
           than the screen and the scroll cue at its foot sits below the fold.
         */}
+        {/*
+          The bottom corners are rounded to the same radius as the service panels
+          below, so the orange reads as the first card in the stack rather than a
+          band of colour cut off with a ruler.
+
+          Only the bottom. The top edge runs to the top of the document, under the
+          fixed navigation — rounding it would put two notches of page background in
+          the top corners of the viewport with the nav floating over them.
+
+          The first service panel's own rounded top corners are invisible at this
+          joint, which is why the seam still looked square: that panel is
+          `bg-background`, the same colour as the page behind it, so its corner
+          cutouts reveal nothing. The visible curve has to come from the orange.
+        */}
         <header
-          className="-mx-4 flex min-h-[100svh] flex-col px-4 md:-mx-[clamp(32px,6vw,120px)] md:px-[clamp(32px,6vw,120px)]"
+          className="-mx-4 flex min-h-[100svh] flex-col rounded-b-[24px] px-4 md:-mx-[clamp(32px,6vw,120px)] md:rounded-b-[40px] md:px-[clamp(32px,6vw,120px)]"
           style={{
             backgroundColor: ACCENT_ORANGE,
             paddingTop: "clamp(104px, 12vw, 168px)",

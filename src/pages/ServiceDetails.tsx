@@ -17,7 +17,20 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 
 const ServiceDetails = () => {
   const { slug } = useParams<{ slug: string }>();
-  const service = slug ? SERVICES[slug] : undefined;
+  /*
+    `SERVICES_BY_SLUG`, not `SERVICES`.
+
+    This page used to own the service copy as a `Record<string, Service>` keyed by
+    slug, so `SERVICES[slug]` was correct. Moving the copy into `@/data/services`
+    made `SERVICES` an ordered array and the lookup started returning `undefined`
+    for every slug, which sent the guard below down the redirect path — so "View
+    more details" bounced straight back to /what-we-do and the page was
+    unreachable. The array is still imported, for the position indicator.
+
+    `noImplicitAny` is off in tsconfig.app.json, which is why indexing an array
+    with a string compiled without complaint.
+  */
+  const service = slug ? SERVICES_BY_SLUG[slug] : undefined;
 
   if (!service) return <Navigate to="/what-we-do" replace />;
 
