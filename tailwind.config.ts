@@ -23,7 +23,7 @@ export default {
           panels that only fit when there is genuine height to fill, so a short window
           gets the condensed panel instead of one that overflows.
         */
-        tall: { raw: "(min-height: 820px)" },
+        tall: { raw: "(min-height: 960px)" },
         /*
           The same idea one step further: where `tall:` decides whether a block appears
           at all, `taller:` opens the vertical rhythm up. A 1080px-plus window has room
