@@ -10,6 +10,7 @@ import {
 import { ArrowUpRight } from "lucide-react";
 import type { Service } from "@/data/services";
 import { SERVICE_CARD_COLOURS } from "@/lib/brand";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -39,53 +40,62 @@ const STEP = {
  * The pile
  * ─────────────────────────────────────────────────────────────────────────────
  *
- * Cards sit in a physical stack. The front one is whole; the two behind it are pushed
- * down and narrowed so their bottom edges show under it, the way a deck of cards fans.
- * Scrolling slides the front card up and off, and the card that was behind it rises into
- * its place.
+ * Cards sit in a physical stack. The front one is whole; the ones behind it are pushed
+ * down and (on a large screen) drawn slightly smaller, so their bottom edges show under
+ * it the way a deck of cards fans. Scrolling slides the front card up and off, and the
+ * card behind rises into its place.
  *
- * ── One sticky element, not six ──
+ * ── Why a phone gets different numbers, not just smaller ones ──
  *
- * This is what fixed the shaking, and it is worth being precise about why.
+ * Two of the things that make this look good on a desktop are, specifically, the two
+ * things that stutter on a phone.
  *
- * Each card used to be its own `sticky` shell, and because sticky leaves consecutive
- * shells a full screen apart, every card needed a transform that cancelled that gap to
- * bring it into the pile. Arithmetically the two agree. In the rendering pipeline they do
- * not: sticky offsets are resolved on the main thread as the scroll is processed, and
- * transforms are applied by the compositor. Two large opposing offsets computed in
- * different places, one frame apart, is a card that visibly trembles as you scroll — and
- * the faster the scroll, the further apart they get.
+ * `scale`. A composited layer that changes scale has to be re-rastered, or its cached
+ * bitmap gets stretched and the text goes soft; browsers choose the re-raster. So every
+ * frame of a scale tween repaints the entire card — a full-screen surface carrying a
+ * headline, a paragraph and a list — and there were three of them scaling at once. On a
+ * phone that is the single most expensive thing on the page. `SCALE_STEP` and
+ * `EXIT_SHRINK` are zero below `md`, which leaves the pile's depth to the offset alone.
  *
- * There is one sticky element now: a stage the size of the viewport, which pins once and
- * then never moves relative to the screen. The cards are absolutely positioned inside it,
- * all in the same place, and every bit of their movement is transform. Nothing cancels
- * anything, and nothing about a card's position is computed on the main thread.
+ * `box-shadow`. Shadows are rasterised on the CPU and are not compositor properties, so a
+ * moving element with a large soft shadow repaints as it moves rather than being shifted
+ * as a finished bitmap. Three full-screen shadows moving together is the second cost, and
+ * it buys nothing here: these cards are distinct colours on a plain backdrop, so the
+ * colour already separates them. The shadow starts at `md`.
  *
- * ── No 3D tilt ──
+ * With both gone, a phone's card only ever has `translateY` and `opacity` applied to it.
+ * Both are compositor properties, so the card is rasterised once and then moved — which is
+ * the cheapest thing a browser can do with a moving element.
  *
- * The card used to tip back on `rotateX` with a perspective, which is what the reference
- * does. It is gone, because a 3D transform puts the element in a 3D rendering context and
- * browsers drop subpixel antialiasing for text there — permanently, on every card, tilted
- * or not. Slightly fuzzy type on all six cards is a bad trade for a flourish on the one
- * that is leaving. The exit is a slide and a shrink, both 2D.
- *
- * ── Why the peek numbers relate to each other ──
- *
- * A card behind the front one is both pushed down and scaled down, and those fight: with
- * the origin at the centre, scaling down lifts the bottom edge by half the height it
- * loses. The push has to beat the lift or the card behind never shows. Both are now
- * percentages of the card's own height, so the visible strip stays proportional instead of
- * shrinking to nothing on a short card.
+ * The pile is also one card shallower on a phone, so two are drawn instead of three.
  */
 
 /** Share of a card's scroll window spent leaving. The rest is spent still, at the front. */
 const EXIT = 0.5;
-/** How far each card behind the front one is pushed down, as a share of its own height. */
-const PEEK_STEP = 0.05;
-/** How much smaller each card behind the front one is drawn. */
-const SCALE_STEP = 0.028;
-/** How many cards deep the pile is visible. Beyond this they are exactly covered. */
-const MAX_DEPTH = 2;
+
+type Tuning = {
+  /** How far each card behind the front one is pushed down, as a share of its height. */
+  peek: number;
+  /** How much smaller each card behind the front one is drawn. */
+  scaleStep: number;
+  /** How much a leaving card shrinks as it goes. */
+  exitShrink: number;
+  /** How many cards deep the pile is visible. Beyond this they are exactly covered. */
+  maxDepth: number;
+};
+
+/**
+ * On a large screen the offset and the scale fight each other, and that is fine as long as
+ * the offset wins: with the origin at the centre, scaling a card down lifts its bottom
+ * edge by half the height it loses, so `peek` has to beat half of `scaleStep` or the card
+ * behind never shows. 0.05 against 0.014 leaves a visible strip of about 3.6% of the
+ * card's height.
+ *
+ * On a phone there is no scale to fight, so the same strip needs less offset.
+ */
+const ROOMY: Tuning = { peek: 0.05, scaleStep: 0.028, exitShrink: 0.05, maxDepth: 2 };
+const PHONE: Tuning = { peek: 0.038, scaleStep: 0, exitShrink: 0, maxDepth: 1 };
+
 /**
  * How far a leaving card travels up, as a share of its own height.
  *
@@ -95,8 +105,6 @@ const MAX_DEPTH = 2;
  * covers that with room, and covers every taller card by more.
  */
 const EXIT_TRAVEL = 1.45;
-/** How much a leaving card shrinks as it goes. */
-const EXIT_SHRINK = 0.05;
 
 /** How far card `index` is through leaving: 0 while it is at the front, 1 once clear. */
 const exitProgress = (position: number, index: number) =>
@@ -120,12 +128,12 @@ const exitProgress = (position: number, index: number) =>
  * stretch the card in front spends leaving — and the card then holds at its new depth for
  * the rest. One card rising as another goes, then stillness.
  */
-const deckDepth = (position: number, index: number) => {
+const deckDepth = (position: number, index: number, maxDepth: number) => {
   const distance = index - Math.max(position, 0);
   if (distance <= 0) return 0;
   const step = Math.floor(distance);
   const withinStep = distance - step;
-  return Math.min(step + clamp((withinStep - (1 - EXIT)) / EXIT, 0, 1), MAX_DEPTH);
+  return Math.min(step + clamp((withinStep - (1 - EXIT)) / EXIT, 0, 1), maxDepth);
 };
 
 /**
@@ -136,28 +144,16 @@ const deckDepth = (position: number, index: number) => {
  * too deep in the pile to see, at a point where they sit exactly behind the deepest
  * visible one, so it cannot be seen happening.
  */
-const deckOpacity = (position: number, index: number) =>
-  clamp(MAX_DEPTH + 1 - (index - Math.max(position, 0)), 0, 1);
+const deckOpacity = (position: number, index: number, maxDepth: number) =>
+  clamp(maxDepth + 1 - (index - Math.max(position, 0)), 0, 1);
 
 /**
  * When a card's copy is on screen.
  *
- * Both ends of this window were wrong, and both showed up as copy missing from a card you
- * could see.
- *
- * The end was `index + EXIT / 2`. A card leaves over `index` to `index + EXIT`, so its
- * text was reset half way through the exit, while the card was still square in the middle
- * of the screen — you watched it go blank and then slide away empty. It now ends exactly
- * where the card finishes clearing the stage.
- *
- * The start was `index - 0.7`, which looks early but is not: a card begins to be uncovered
- * the instant the one in front of it starts to leave, which is `index - 1`. Between those
- * two there was a stretch where a couple of hundred pixels of the next card were exposed
- * and still empty. It now starts at `index - 1`, so the copy is building while the card in
- * front slides away and is settled by the time the card is at the front on its own.
- *
- * Both resets therefore land on a card that is either off screen or fully covered, and
- * scrolling back up runs the sequence again.
+ * Starts when the card in front starts to leave, because that is the instant this one
+ * begins to be uncovered — anything later and you can see an exposed card with no copy on
+ * it. Ends when this card has finished clearing the stage, so the reset lands on something
+ * off screen and scrolling back up runs the sequence again.
  */
 const isRevealed = (position: number, index: number) =>
   position >= index - 1 && position < index + EXIT;
@@ -179,22 +175,17 @@ const isInteractive = (position: number, index: number) =>
  * Whether card `index` is worth drawing at all.
  *
  * Everything outside this is either buried deeper in the pile than can be seen or already
- * gone, and gets `visibility: hidden` — which takes it out of compositing entirely rather
- * than leaving a transparent full-screen layer behind. Three or four cards are live at any
- * moment instead of six.
+ * gone, and gets `visibility: hidden` — which takes it out of painting and compositing
+ * entirely rather than leaving a transparent full-screen layer behind. Three cards are live
+ * at a time on a large screen and two on a phone, out of six.
  */
-const isRendered = (position: number, index: number) =>
-  position >= index - (MAX_DEPTH + 1) && position < index + EXIT + 0.15;
+const isRendered = (position: number, index: number, maxDepth: number) =>
+  position >= index - (maxDepth + 1) && position < index + EXIT + 0.15;
 
 /**
  * A modular type scale, so the card's sizes relate to each other instead of being picked
  * one at a time. Roughly a perfect fourth (1.333) between steps, each a `clamp` so it
  * stays fluid rather than jumping at breakpoints.
- *
- * The ceilings came down when the card stopped filling the screen — an 88px headline was
- * sized for a full-bleed panel and was the main reason the card read as oversized. The
- * body sizes then came back up slightly, because on a coloured card they were doing the
- * legibility no favours.
  */
 const TYPE = {
   micro: "text-[10px] tracking-[0.16em] uppercase sm:text-[11px]",
@@ -218,22 +209,23 @@ const STAGE = "sticky top-0 h-[100svh]";
  * One card's slot inside the stage. The padding is what makes the card smaller than the
  * screen, and it has to clear the navigation, which floats as a capsule from about 14px to
  * 72px down the viewport once the page has scrolled.
- *
- * `items-center` is what stopped the card being oversized. It used to stretch to fill the
- * space reserved for it, so its content sat in the middle of a tall empty box. Centred, the
- * card is as tall as its content and no taller.
  */
 const SLOT = "absolute inset-0 flex items-center px-4 py-[76px] sm:px-8 md:py-[92px] lg:px-12";
 
 /**
  * The card. Its colour comes from the service's position in the pile.
  *
+ * The border is on every size and the shadow only from `md`. On a phone the border is what
+ * separates one card from the next, and it costs nothing: it is part of the card's raster,
+ * which is drawn once and then only moved. See the note at the top for why the shadow is
+ * not.
+ *
  * Type is black in both themes rather than `text-foreground`, for the same reason the page
  * header's is: the card is a light colour either way, so a token that flipped to white in
  * dark mode would be invisible on it.
  */
 const CARD =
-  "mx-auto flex w-full max-w-[1280px] flex-col rounded-[18px] px-5 py-6 text-black shadow-[0_12px_32px_-12px_rgba(0,0,0,0.28)] min-h-[56svh] md:rounded-[26px] md:px-8 md:py-8 lg:px-10";
+  "mx-auto flex w-full max-w-[1280px] flex-col rounded-[18px] border border-black/10 px-5 py-6 text-black min-h-[56svh] md:rounded-[26px] md:px-8 md:py-8 md:shadow-[0_12px_32px_-12px_rgba(0,0,0,0.28)] lg:px-10";
 
 /**
  * One card in the pile.
@@ -249,29 +241,24 @@ const CARD =
  *
  * ── Contrast ──
  *
- * The greys are heavier than they look like they should be. On a mid-tone card the old
+ * The greys are heavier than they look like they should be. On a mid-tone card the lighter
  * values were genuinely too faint: black at 55% over the violet works out around 3.5:1,
- * under the 4.5:1 that body copy needs. Everything moved up a band.
- *
- * ── Why parts of it are height-gated ──
- *
- * The card is sized by its content, so the content is what decides whether the card is
- * balanced or overwhelming — and the width breakpoints cannot see the height it has to fit
- * in. The outcomes block is 175px of it, which is right on a 1080-tall screen and too much
- * on a 900-tall one, so it is gated on a height query rather than tuned for one screen and
- * left to bloat the card on the others.
+ * under the 4.5:1 that body copy needs. Nothing here goes below 70%, which measures 4.83:1
+ * on the worst of the six colours.
  */
 const Panel = ({
   service,
   index,
   total,
   position,
+  tuning,
 }: {
   service: Service;
   index: number;
   total: number;
   /** Cards scrolled past the top of the stack. See `deckDepth`. */
   position: MotionValue<number>;
+  tuning: Tuning;
 }) => {
   /*
     Separate booleans rather than one object: React bails out of a re-render when a
@@ -283,6 +270,8 @@ const Panel = ({
   const [interactive, setInteractive] = useState(false);
   const [rendered, setRendered] = useState(false);
 
+  const { peek, scaleStep, exitShrink, maxDepth } = tuning;
+
   /*
     `useMotionValueEvent` only fires on change, so a card already at the front when the
     component mounts — a reload part-way down the page, or a back navigation that restores
@@ -292,28 +281,28 @@ const Panel = ({
     const value = position.get();
     setRevealed(isRevealed(value, index));
     setInteractive(isInteractive(value, index));
-    setRendered(isRendered(value, index));
-  }, [index, position]);
+    setRendered(isRendered(value, index, maxDepth));
+  }, [index, position, maxDepth]);
 
   useMotionValueEvent(position, "change", (value) => {
     setRevealed(isRevealed(value, index));
     setInteractive(isInteractive(value, index));
-    setRendered(isRendered(value, index));
+    setRendered(isRendered(value, index, maxDepth));
   });
 
   /*
-    Everything below is a plain derived value. No React state and no re-render — Framer
-    writes each one straight to the node, and transform and opacity are both compositor
-    properties, so the pile stays off the layout and paint path.
+    Plain derived values. No React state and no re-render — Framer writes each one straight
+    to the node.
 
-    Both parts of the vertical movement are shares of the card's own height, so they live
-    in one `translateY` and there is no second element to split them across.
+    On a phone `scaleStep` and `exitShrink` are zero, so `cardScale` never leaves 1 and the
+    only thing changing is `translateY` and, for buried cards, `opacity`. Both are
+    compositor properties: the card is rasterised once and then moved.
   */
   const cardY = useTransform(
     position,
     (value) =>
       `${(
-        (deckDepth(value, index) * PEEK_STEP -
+        (deckDepth(value, index, maxDepth) * peek -
           exitProgress(value, index) * EXIT_TRAVEL) *
         100
       ).toFixed(3)}%`,
@@ -322,10 +311,12 @@ const Panel = ({
     position,
     (value) =>
       1 -
-      deckDepth(value, index) * SCALE_STEP -
-      exitProgress(value, index) * EXIT_SHRINK,
+      deckDepth(value, index, maxDepth) * scaleStep -
+      exitProgress(value, index) * exitShrink,
   );
-  const cardOpacity = useTransform(position, (value) => deckOpacity(value, index));
+  const cardOpacity = useTransform(position, (value) =>
+    deckOpacity(value, index, maxDepth),
+  );
 
   /*
     Staged on the way in, and dropped in one quick beat on the way out.
@@ -357,7 +348,7 @@ const Panel = ({
           y: cardY,
           scale: cardScale,
           opacity: cardOpacity,
-          /* See `isRendered` — out of the compositor, not just transparent. */
+          /* See `isRendered` — out of painting entirely, not just transparent. */
           visibility: rendered ? "visible" : "hidden",
           /* See `isInteractive`. A card that has left is off screen but still in front. */
           pointerEvents: interactive ? "auto" : "none",
@@ -371,8 +362,6 @@ const Panel = ({
           <span className={`font-mono text-black/70 ${TYPE.micro}`}>
             {String(index + 1).padStart(2, "0")} / {service.display}
           </span>
-          {/* Position in the pile. Genuinely useful here, where the scrollbar tells you
-              nothing about how many cards are left. */}
           {/* Same weight as the label opposite it rather than a step lighter: at 50% this
               measured 3.03:1 on the orange card, well under the 4.5:1 small text needs. */}
           <span className={`font-mono text-black/70 ${TYPE.micro}`} aria-hidden="true">
@@ -485,9 +474,9 @@ const Panel = ({
 };
 
 /**
- * The services as a pile of cards. The front one is whole, the next two show their bottom
- * edges under it, and scrolling slides the front card up and off so the one behind rises
- * into place.
+ * The services as a pile of cards. The front one is whole, the ones behind it show their
+ * bottom edges under it, and scrolling slides the front card up and off so the one behind
+ * rises into place.
  *
  * ── How the scroll drives it ──
  *
@@ -499,8 +488,8 @@ const Panel = ({
  * One scroll subscription reports how far through the article the page is, as a card count.
  * Every card reads it for the five things it needs: how far down the pile to sit, how far
  * through leaving it is, whether it is worth drawing, whether its copy is showing, and
- * whether it can be clicked. The first two are transform and opacity written straight to
- * the node — no React render per frame and nothing that touches layout. The last three are
+ * whether it can be clicked. The first three are transform and opacity written straight to
+ * the node — no React render per frame and nothing that touches layout. The last two are
  * booleans that change a handful of times across the whole section.
  *
  * ── Two things that will silently break it ──
@@ -522,6 +511,14 @@ export const ServiceStack = ({ services }: { services: Service[] }) => {
   const total = services.length;
 
   /*
+    The breakpoint has to be read in JS, not CSS: it decides the values a scroll-driven
+    transform is built from, and a media query cannot reach into `useTransform`. This is
+    what `useMediaQuery` exists for — its own note says as much.
+  */
+  const roomy = useMediaQuery("(min-width: 768px)");
+  const tuning = roomy ? ROOMY : PHONE;
+
+  /*
     `start end` to `end end` runs the range from the article's top edge entering at the
     bottom of the viewport to its bottom edge reaching there — so the range spans the
     article's full height rather than its scrollable height. That is what makes the
@@ -535,7 +532,7 @@ export const ServiceStack = ({ services }: { services: Service[] }) => {
   });
   const position = useTransform(scrollYProgress, (p) => p * total - 1);
 
-  /* The cards carry the colour now, so the backdrop is the page's own surface — the pile
+  /* The cards carry the colour, so the backdrop is the page's own surface — the pile
      floats on it rather than sitting in a tinted well. */
   return (
     <article
@@ -551,6 +548,7 @@ export const ServiceStack = ({ services }: { services: Service[] }) => {
             index={index}
             total={total}
             position={position}
+            tuning={tuning}
           />
         ))}
       </div>

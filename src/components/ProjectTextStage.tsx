@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { ACCENT_ORANGE } from "@/lib/brand";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -27,8 +28,14 @@ export const ProjectTextStage = ({
   seed = 0,
 }: {
   phrases: Phrase[];
-  /** `light` is an off-white screen, `dark` is near-black. Cards alternate. */
-  tone: "light" | "dark";
+  /**
+   * `light` is an off-white screen, `dark` is near-black, `accent` is the brand orange.
+   *
+   * Anything on `accent` has to be dark type: white on that orange measures 2.83:1, which
+   * fails outright, while black is 7.43:1. The phrases for an accent panel are near-blacks
+   * rather than the brights the other two tones use.
+   */
+  tone: "light" | "dark" | "accent";
   /**
    * Card position in the grid. Offsets both the starting phrase and the cycle
    * itself, so the panels never change in lockstep — four cards flipping on the
@@ -97,7 +104,8 @@ export const ProjectTextStage = ({
   }, [onScreen, reduced, phrases.length, seed]);
 
   const phrase = phrases[index];
-  const isLight = tone === "light";
+  /* Both of these tones carry dark type, so they share the tick treatment. */
+  const onDarkType = tone === "light" || tone === "accent";
 
   return (
     <div
@@ -112,9 +120,11 @@ export const ProjectTextStage = ({
         clip-path fights the notch it sits in: the border followed a plain rect
         while the panel edge stepped around the tags.
       */
-      className={`absolute inset-0 flex items-center justify-center overflow-hidden px-4 sm:px-6 ${
-        isLight ? "bg-[#f1f1ef]" : "bg-[#151515]"
-      }`}
+      className="absolute inset-0 flex items-center justify-center overflow-hidden px-4 sm:px-6"
+      style={{
+        backgroundColor:
+          tone === "light" ? "#f1f1ef" : tone === "accent" ? ACCENT_ORANGE : "#151515",
+      }}
     >
 
       <AnimatePresence mode="wait">
@@ -178,8 +188,8 @@ export const ProjectTextStage = ({
               backgroundColor:
                 i === index
                   ? phrase.color
-                  : isLight
-                    ? "rgba(0,0,0,0.14)"
+                  : onDarkType
+                    ? "rgba(0,0,0,0.22)"
                     : "rgba(255,255,255,0.18)",
             }}
           />

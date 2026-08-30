@@ -102,14 +102,25 @@ export const ServiceClosing = () => {
           style={{ y: gridY }}
         />
 
-        {/* A single soft wash of the accent behind the top of the panel. It is what keeps
-            the black from reading as flat, and it moves furthest of the three layers. */}
+        {/*
+          A single soft wash of the accent behind the top of the panel. It is what keeps the
+          black from reading as flat, and it moves furthest of the three layers.
+
+          No filter on it. It carried a 100px blur, which was pure waste: a radial gradient
+          is already a soft edge, so the blur was spending a full-size GPU pass — on an
+          oversized, moving element, on the same page as the card pile — to soften something
+          that was not hard. Widening the gradient's falloff does the same job for free.
+
+          Written out in words rather than as the utility name on purpose: Tailwind scans
+          this file for class names and does not skip comments, so naming the class here
+          would put the rule back in the stylesheet with nothing using it.
+        */}
         <motion.div
           aria-hidden="true"
-          className="pointer-events-none absolute -inset-y-1/3 inset-x-0 -z-10 opacity-[0.16] blur-[100px]"
+          className="pointer-events-none absolute -inset-y-1/3 inset-x-0 -z-10 opacity-[0.18]"
           style={{
             y: glowY,
-            background: `radial-gradient(45% 40% at 50% 20%, ${ACCENT_ORANGE} 0%, transparent 70%)`,
+            background: `radial-gradient(60% 50% at 50% 22%, ${ACCENT_ORANGE} 0%, ${ACCENT_ORANGE}55 38%, transparent 78%)`,
           }}
         />
 

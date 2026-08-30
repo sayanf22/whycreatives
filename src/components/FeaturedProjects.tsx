@@ -47,7 +47,7 @@ type Project = {
    * When present the card shows an animated text panel instead of a
    * photograph. Panels alternate tone so the grid reads black / white / black.
    */
-  stage?: { tone: "light" | "dark"; phrases: Phrase[] };
+  stage?: { tone: "light" | "dark" | "accent"; phrases: Phrase[] };
 };
 
 /* Images are the already-optimised WebP assets in /public — no new raster
@@ -118,13 +118,16 @@ const PROJECTS: Project[] = [
     /* Dark, sitting under the light opening card in the left column, so the two
        columns do not each end up a single tone. (This used to be balanced against
        a fourth light card, which was the duplicate website entry and is gone.) */
+    /* The accent panel. Its phrases are near-blacks rather than the brights the other
+       two tones use, because they have to sit on the orange: white measures 2.83:1 on
+       it and fails, black is 7.43:1. The variation is in hue, not in lightness. */
     stage: {
-      tone: "dark",
+      tone: "accent",
       phrases: [
-        { words: ["UGC", "reels"], color: "#F9A8D4" },
-        { words: ["Hooks", "that", "hold"], color: "#FDE047" },
-        { words: ["Real", "product", "stories"], color: "#5EEAD4" },
-        { words: ["Made", "to", "convert"], color: "#FFFFFF" },
+        { words: ["UGC", "reels"], color: "#141414" },
+        { words: ["Hooks", "that", "hold"], color: "#3B1002" },
+        { words: ["Real", "product", "stories"], color: "#0C2E22" },
+        { words: ["Made", "to", "convert"], color: "#141414" },
       ],
     },
   },
