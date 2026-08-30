@@ -1,17 +1,18 @@
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { ACCENT_ORANGE } from "@/lib/brand";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-/** Real values, matching the footer. Kept here rather than re-typed as placeholders. */
-const CONTACT = [
-  { icon: Mail, label: "hello@whycreatives.in", href: "mailto:hello@whycreatives.in" },
-  { icon: Phone, label: "+91 82101 98880", href: "tel:+918210198880" },
-  { icon: MapPin, label: "Guwahati, Assam, India", href: null },
-];
+/*
+  The email, phone and location that were listed under the rule are gone. They are all in
+  the footer, which sits directly below this block — the same three lines twice within a
+  screen of each other, the second time without the labels or the layout the footer gives
+  them. This block is the statement and the way through to /contact; the details belong to
+  the footer.
+*/
 
 /**
  * One row of the oversized ghost lettering behind the button.
@@ -69,16 +70,16 @@ const GhostRow = ({
 );
 
 /**
- * The closing block on the landing page: a statement, a rule, the contact details, and the
- * link out, sitting on two rows of oversized moving lettering.
+ * The closing block on the landing page: a statement, a rule, and the link out sitting on
+ * two rows of oversized moving lettering.
  *
  * ── Why the lettering is a CSS animation and the rest is scroll-driven ──
  *
  * The two are doing different jobs. The lettering runs continuously whether you scroll or
  * not, which is what makes the block feel alive when you land on it — that has to be a
  * plain CSS animation on the compositor, because a scroll-driven one stops dead the moment
- * you stop moving. The statement and the rule are scroll-driven, because their job is to
- * respond to you arriving.
+ * you stop moving. The statement arrives once, in sequence, when you reach it, and the rule
+ * draws itself against scroll position.
  */
 export const HomeClosing = () => {
   const ref = useRef<HTMLElement>(null);
@@ -95,9 +96,6 @@ export const HomeClosing = () => {
   /* The rule draws itself as the section arrives. Transform, not width, so it does not
      lay out on every frame. */
   const ruleScale = useTransform(scrollYProgress, [0.1, 0.45], [0, 1]);
-  /* The tag drifts against the headline. A small amount — enough to read as depth, not
-     enough to look like it has come loose. */
-  const tagY = useTransform(scrollYProgress, [0, 1], [26, -26]);
 
   return (
     <section
@@ -105,67 +103,77 @@ export const HomeClosing = () => {
       className="relative overflow-hidden px-4 pb-[clamp(40px,6vw,88px)] pt-[clamp(72px,11vw,168px)] sm:px-6 md:px-[clamp(32px,5vw,96px)]"
     >
       <div className="mx-auto max-w-[1500px]">
-        {/* ── The statement ─────────────────────────────────────── */}
-        <div className="relative">
+        {/*
+          ── The statement ────────────────────────────────────────
+
+          One trigger on the wrapper with `staggerChildren`, rather than a `whileInView`
+          on each part. The three parts used to have their own triggers at different
+          visibility thresholds — 0.6 for the tag, 0.4 for the lines — which means the
+          order they arrived in depended on where the section happened to be on screen
+          and how fast you were scrolling. They were never reliably one after another.
+          Framer sequences the children off the parent's single trigger, so the order is
+          fixed: tag, first line, second line.
+
+          The tag also had a scroll-driven drift on `y`, which had to go: a variant that
+          animates `y` and a `style` prop holding a `y` motion value are the same
+          property, and the style wins. It would have entered with no movement at all.
+        */}
+        <motion.div
+          className="relative"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.35 }}
+          variants={{ show: { transition: { staggerChildren: 0.16 } } }}
+        >
           <motion.span
-            className="mb-4 inline-block rounded-[3px] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-black sm:text-[11px]"
-            style={{ backgroundColor: ACCENT_ORANGE, rotate: -4, y: tagY }}
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, amount: 0.6 }}
-            transition={{ duration: 0.5, ease: EASE }}
+            className="mb-4 inline-block rounded-[3px] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-black sm:mb-5 sm:text-[11px]"
+            style={{ backgroundColor: ACCENT_ORANGE, rotate: -4 }}
+            variants={{
+              hidden: { opacity: 0, y: 18, scale: 0.92 },
+              show: {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                transition: { duration: 0.55, ease: EASE },
+              },
+            }}
           >
             Get in touch
           </motion.span>
 
-          <h2 className="text-[clamp(2.5rem,9vw,8rem)] font-bold uppercase leading-[0.92] tracking-[-0.045em] text-foreground">
-            {["Tell us what", "you're building"].map((line, i) => (
+          {/*
+            Bigger, and the ceiling is set by what fits rather than by taste. The widest
+            line is "YOU'RE BUILDING", which at this weight and tracking runs about 8.1
+            times the font size. At 10.5vw that is 1223px inside the 1296px a 1440-wide
+            window leaves, and 1361px inside the 1500px cap on wider ones. Past that it
+            would wrap, which on a two-line statement reads as a mistake.
+          */}
+          <h2 className="text-[clamp(2.75rem,10.5vw,10.5rem)] font-bold uppercase leading-[0.9] tracking-[-0.045em] text-foreground">
+            {["Tell us what", "you're building"].map((line) => (
               <motion.span
                 key={line}
                 className="block"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.4 }}
-                transition={{ duration: 0.75, ease: EASE, delay: i * 0.09 }}
+                variants={{
+                  hidden: { opacity: 0, y: 36 },
+                  show: {
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 0.8, ease: EASE },
+                  },
+                }}
               >
                 {line}
               </motion.span>
             ))}
           </h2>
-        </div>
+        </motion.div>
 
         {/* ── The rule ──────────────────────────────────────────── */}
         <motion.div
-          className="mt-[clamp(28px,4vw,56px)] h-px origin-left bg-foreground/20"
+          className="mt-[clamp(32px,5vw,72px)] h-px origin-left bg-foreground/20"
           style={{ scaleX: ruleScale }}
         />
 
-        {/* ── Contact, under the rule ───────────────────────────── */}
-        <ul className="mt-6 flex flex-col gap-4 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-10 sm:gap-y-4">
-          {CONTACT.map(({ icon: Icon, label, href }, i) => (
-            <motion.li
-              key={label}
-              initial={{ opacity: 0, y: 14 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.55, ease: EASE, delay: 0.1 + i * 0.08 }}
-              className="flex items-center gap-3 text-sm text-foreground/70 sm:text-base"
-            >
-              <Icon className="h-4 w-4 shrink-0 text-foreground/45" strokeWidth={2} />
-              {href ? (
-                <a
-                  href={href}
-                  className="group relative inline-block transition-colors hover:text-foreground"
-                >
-                  <span>{label}</span>
-                  <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-foreground transition-all duration-300 group-hover:w-full" />
-                </a>
-              ) : (
-                <span>{label}</span>
-              )}
-            </motion.li>
-          ))}
-        </ul>
       </div>
 
       {/* ── The link, on the moving lettering ─────────────────────
