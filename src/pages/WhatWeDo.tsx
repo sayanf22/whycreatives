@@ -237,7 +237,9 @@ const WhatWeDo = () => {
                 from rest instead of snapping back. */}
             <motion.span
               className="block h-6 w-px bg-black/40"
-              animate={{ y: [0, 8, 0], opacity: [0.35, 1, 0.35] }}
+              initial={{ y: 0, opacity: 0.35 }}
+              whileInView={{ y: [0, 8, 0], opacity: [0.35, 1, 0.35] }}
+              viewport={{ margin: "200px 0px" }}
               transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
             />
           </motion.div>

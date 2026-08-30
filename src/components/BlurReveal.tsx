@@ -33,7 +33,6 @@ export const BlurReveal = ({
         ease: [0.25, 0.1, 0.25, 1] // Smooth cubic bezier
       }}
       className={className}
-      style={{ willChange: "opacity, transform, filter" }}
     >
       {children}
     </motion.div>
@@ -65,7 +64,6 @@ export const BlurRevealItem = ({
         ease: "easeOut"
       }}
       className={className}
-      style={{ willChange: "opacity, transform, filter" }}
     >
       {children}
     </motion.div>

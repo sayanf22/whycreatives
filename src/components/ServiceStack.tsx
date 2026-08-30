@@ -456,14 +456,18 @@ export const ServiceStack = ({ services }: { services: Service[] }) => {
   );
 
   /*
-    The one piece of state left in the scroll path, and it is not a visual: `pointer-events`
-    cannot be expressed as a keyframe, and a stack of transparent slots needs exactly one
-    card taking input. `Math.round` on the card count is that card — card 2 is at the front
-    from 1.5 to 2.5 — and the setter is a no-op on the frames where it has not changed.
+    The one piece of state left in the scroll path is not visual: `pointer-events` cannot
+    be expressed as a keyframe, and a stack of transparent slots needs exactly one card
+    taking input. Keep the current integer in a ref so React is entered only when that card
+    actually changes — six updates over the section, not one setter call per scroll frame.
   */
   const [active, setActive] = useState(0);
+  const activeRef = useRef(0);
   useMotionValueEvent(scrollYProgress, "change", (p) => {
-    setActive(clamp(Math.round(p * total - 1), 0, total - 1));
+    const next = clamp(Math.round(p * total - 1), 0, total - 1);
+    if (next === activeRef.current) return;
+    activeRef.current = next;
+    setActive(next);
   });
 
   /* The cards carry the colour, so the backdrop is the page's own surface — the pile

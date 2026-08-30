@@ -28,9 +28,9 @@ export const SmoothScroll = ({ children }: { children: ReactNode }) => (
   <ReactLenis
     root
     options={{
-      /* Just short of half a second of catch-up. Longer reads as the page lagging
-         behind the wheel rather than gliding with it. */
-      duration: 0.9,
+      /* A short easing window keeps wheel movement fluid without extending every input
+         into a long tail of scroll, Motion and paint work. */
+      duration: 0.6,
       smoothWheel: true,
       /* See above — native momentum is better than anything done in JS here. */
       syncTouch: false,
