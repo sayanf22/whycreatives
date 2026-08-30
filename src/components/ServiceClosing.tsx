@@ -85,20 +85,32 @@ export const ServiceClosing = () => {
         style={{ y: panelY, opacity: panelOpacity }}
       >
         {/*
-          The grid is two repeating linear gradients — cheaper than an SVG or an image, and
-          it scales with the cell size rather than resampling.
+          The grid: two repeating linear gradients, cheaper than an SVG or an image and it
+          scales with the cell size rather than resampling.
 
           It is oversized and parallaxed, which is the whole reason it is a separate node:
           `-inset-y-1/4` gives it 25% of the panel's height of slack at each end, so it can
           travel without its edge ever entering the frame.
 
-          Two gradients at two scales rather than one, which is what stopped it looking like
-          graph paper: a fine 12px mesh for texture and a heavier line every 96px reading as
-          the actual grid. The radial mask fades both towards the edges.
+          ── Three things came down from the first version ──
+
+          The fine mesh is gone. There were two grids stacked, a 12px one under a 96px one,
+          on the theory that the fine one would read as texture. At that pitch it does not
+          read as a grid at all, it reads as noise over the whole panel — and it was the
+          thing making this look busy rather than structural. One grid, one pitch.
+
+          The pitch is wider: 120px, and 160px from `md`. A grid is spacing before it is
+          lines, and at 96px there were too many cells for the amount of content sitting on
+          them.
+
+          The lines are fainter, 0.028 rather than 0.055, and the mask now starts falling
+          off immediately from a point near the top rather than holding full strength across
+          the middle third. Between them the grid is a suggestion behind the statement and
+          gone by the closing line, instead of ruled paper reaching the bottom edge.
         */}
         <motion.div
           aria-hidden="true"
-          className="pointer-events-none absolute -inset-y-1/4 inset-x-0 -z-10 bg-[linear-gradient(to_right,rgba(255,255,255,0.055)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.055)_1px,transparent_1px),linear-gradient(to_right,rgba(255,255,255,0.022)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.022)_1px,transparent_1px)] bg-[size:96px_96px,96px_96px,12px_12px,12px_12px] [mask-image:radial-gradient(ellipse_82%_62%_at_50%_38%,#000_38%,transparent_100%)] md:bg-[size:128px_128px,128px_128px,16px_16px,16px_16px]"
+          className="pointer-events-none absolute -inset-y-1/4 inset-x-0 -z-10 bg-[linear-gradient(to_right,rgba(255,255,255,0.028)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.028)_1px,transparent_1px)] bg-[size:120px_120px] [mask-image:radial-gradient(ellipse_72%_44%_at_50%_24%,#000_0%,transparent_80%)] md:bg-[size:160px_160px]"
           style={{ y: gridY }}
         />
 
@@ -115,12 +127,17 @@ export const ServiceClosing = () => {
           this file for class names and does not skip comments, so naming the class here
           would put the rule back in the stylesheet with nothing using it.
         */}
+        {/*
+          Down from 0.18 with a wider spread, which was reading as a brown haze over the top
+          third rather than as a warm edge on the black. It only has to stop the panel being
+          flat; once you can name the colour it is doing too much.
+        */}
         <motion.div
           aria-hidden="true"
-          className="pointer-events-none absolute -inset-y-1/3 inset-x-0 -z-10 opacity-[0.18]"
+          className="pointer-events-none absolute -inset-y-1/3 inset-x-0 -z-10 opacity-[0.11]"
           style={{
             y: glowY,
-            background: `radial-gradient(60% 50% at 50% 22%, ${ACCENT_ORANGE} 0%, ${ACCENT_ORANGE}55 38%, transparent 78%)`,
+            background: `radial-gradient(50% 38% at 50% 16%, ${ACCENT_ORANGE} 0%, ${ACCENT_ORANGE}40 32%, transparent 72%)`,
           }}
         />
 
