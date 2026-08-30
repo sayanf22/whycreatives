@@ -5,6 +5,8 @@ import { ArrowUpRight, Quote } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { PageHeader } from "@/components/PageHeader";
+import { PageIntro } from "@/components/PageIntro";
+import { usePageIntro } from "@/hooks/use-page-intro";
 import { BlurLine, BlurLines } from "@/components/BlurLines";
 import { useSiteContent } from "@/hooks/use-site-content";
 
@@ -80,6 +82,7 @@ const FACTS = [
 ];
 
 const AboutUs = () => {
+  const { revealed, handoff } = usePageIntro();
   const { text } = useSiteContent();
 
   const headingOne = text("about.heading_line_1", "One studio for");
@@ -107,6 +110,10 @@ const AboutUs = () => {
         <meta property="og:type" content="website" />
       </Helmet>
 
+      {/* Opening curtain: the page's own colour floods the screen off an inverted
+          backdrop, then the layout below animates in. */}
+      <PageIntro onHandoff={handoff} />
+
       <Navigation />
 
       <main
@@ -121,6 +128,8 @@ const AboutUs = () => {
               inside line one, oversized masked display lines, support copy set
               low and right. */}
           <PageHeader
+            /* Held until the curtain hands over — see PageHeader's `active`. */
+            active={revealed}
             key={`${headingOne}|${headingTwo}|${headingThree}`}
             eyebrow={text("about.eyebrow", "About")}
             lines={[headingOne, headingTwo, headingThree]}

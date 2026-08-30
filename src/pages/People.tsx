@@ -1,19 +1,29 @@
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { FadeInWhenVisible } from "@/components/FadeInWhenVisible";
+import { PageIntro } from "@/components/PageIntro";
+import { usePageIntro } from "@/hooks/use-page-intro";
 import { Users } from "lucide-react";
 
 // TODO: Fetch team data from database
 const team: any[] = [];
 
 const People = () => {
+  const { revealed, handoff } = usePageIntro();
+
   return (
     <div className="min-h-screen bg-background">
+      {/* Opening curtain: the page's own colour floods the screen off an inverted
+          backdrop, then the layout below animates in. */}
+      <PageIntro onHandoff={handoff} />
+
       <Navigation />
 
       <main className="pt-32 pb-24 px-6">
         <div className="container mx-auto max-w-7xl">
-          <FadeInWhenVisible>
+          {/* Held until the curtain hands over — above the fold, so the viewport
+              driver would have run it behind the colour. */}
+          <FadeInWhenVisible active={revealed}>
             <div className="text-center mb-16">
               <h1 className="text-5xl md:text-7xl font-black text-foreground mb-6">
                 Meet Our Team

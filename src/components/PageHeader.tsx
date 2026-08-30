@@ -19,8 +19,33 @@ type PageHeaderProps = {
   children?: ReactNode;
   /** Override the display scale for pages with much longer headlines. */
   fontSize?: string;
+  /**
+   * Drives the reveal from outside instead of from the viewport.
+   *
+   * Every page using this header puts it above the fold, so `whileInView` fires the
+   * moment the page mounts — which on a page with an intro curtain means the header
+   * animates *behind* it and is already sitting there when the curtain clears. Pages
+   * with a curtain pass their handoff flag here so the reveal starts when the colour
+   * does.
+   *
+   * Left undefined the header reveals on scroll exactly as before, so callers that
+   * have no curtain are untouched.
+   */
+  active?: boolean;
   className?: string;
 };
+
+/**
+ * `whileInView` or `animate`, depending on whether the caller is driving the reveal.
+ *
+ * Kept in one place because the header has three independently animated parts and
+ * they must all switch together — one left on `whileInView` would fire early and
+ * break the sequence.
+ */
+const driver = (active: boolean | undefined, amount: number) =>
+  active === undefined
+    ? ({ whileInView: "show", viewport: { once: true, amount } } as const)
+    : ({ animate: active ? "show" : "hidden" } as const);
 
 /**
  * The page header used across Services, Gallery, About, Insights and Contact.
@@ -46,16 +71,21 @@ export const PageHeader = ({
   support,
   children,
   fontSize = "clamp(2.25rem, 8vw, 8.5rem)",
+  active,
   className = "",
 }: PageHeaderProps) => (
   <header className={`mb-12 lg:mb-20 ${className}`}>
-    {/* Phone: label stacked above the headline. */}
+    {/* Phone: label stacked above the headline. Variants rather than inline targets,
+        so the same `hidden` / `show` names work under either driver. */}
     <motion.div
       className="mb-4 flex items-center gap-2.5 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground sm:hidden"
-      initial={{ opacity: 0, x: -8 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true, amount: 0.6 }}
+      initial="hidden"
+      variants={{
+        hidden: { opacity: 0, x: -8 },
+        show: { opacity: 1, x: 0 },
+      }}
       transition={{ duration: 0.55, ease: EASE }}
+      {...driver(active, 0.6)}
     >
       <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground" />
       {eyebrow}
@@ -63,6 +93,7 @@ export const PageHeader = ({
 
     <h1>
       <BlurLines
+        active={active}
         className="block text-foreground"
         style={{
           fontSize,
@@ -102,10 +133,13 @@ export const PageHeader = ({
       <div className="mt-8 grid grid-cols-1 lg:mt-14 lg:grid-cols-12">
         <motion.div
           className="lg:col-span-6 lg:col-start-7"
-          initial={{ opacity: 0, y: 18, filter: "blur(8px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          viewport={{ once: true, amount: 0.4 }}
+          initial="hidden"
+          variants={{
+            hidden: { opacity: 0, y: 18, filter: "blur(8px)" },
+            show: { opacity: 1, y: 0, filter: "blur(0px)" },
+          }}
           transition={{ duration: 0.7, ease: EASE, delay: 0.26 }}
+          {...driver(active, 0.4)}
         >
           {support && (
             <p className="max-w-[46ch] text-lg font-medium leading-[1.45] tracking-[-0.02em] text-foreground sm:text-xl md:text-2xl">

@@ -5,6 +5,10 @@ import { Footer } from "@/components/Footer";
 import { ArrowUpRight } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import { BlurLine, BlurLines } from "@/components/BlurLines";
+import { ServiceStack } from "@/components/ServiceStack";
+import { PageIntro } from "@/components/PageIntro";
+import { usePageIntro } from "@/hooks/use-page-intro";
+import { ACCENT_ORANGE } from "@/lib/brand";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -127,138 +131,9 @@ const faqSchema = {
   ],
 };
 
-/**
- * One service row: a thin caption strip, then a single enormous display word,
- * then the supporting detail in a two-column read.
- */
-const ServiceRow = ({ service, index }: { service: Service; index: number }) => (
-  /* Row padding opened up on phones (pt-5/pb-12 to pt-7/pb-16). With the display
-     word now 70px instead of 51px the rows were running into each other, and the
-     rule between them needs air on both sides to read as a divider rather than as
-     an underline on the paragraph above it. */
-  <article className="border-t border-border pt-7 pb-16 lg:pt-7 lg:pb-20">
-    {/* Caption strip. The giant word alone would lose the actual service name,
-        so the full title rides here for clarity, SEO and screen readers. */}
-    {/*
-      Stacked on a phone, opposed from `sm` up.
-
-      `justify-between` on a 358px column pushed the number hard left and a
-      29-character tracked-out title hard right, with a void between them — the two
-      halves read as unrelated, and the title sat tight against the edge. Below
-      `sm` they stack flush left instead, so the number labels the row and the
-      title sits directly above the word it names. `flex-wrap` is gone with it:
-      wrapping a right-aligned tracked title mid-phrase was the other half of the
-      mess.
-    */}
-    <motion.div
-      className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-x-6"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true, amount: 0.6 }}
-      transition={{ duration: 0.5, ease: EASE }}
-    >
-      <span className="font-mono text-xs tracking-[0.2em] text-muted-foreground">
-        {String(index + 1).padStart(2, "0")}
-      </span>
-      <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-foreground/70 sm:text-xs sm:tracking-[0.18em]">
-        {service.title}
-      </span>
-    </motion.div>
-
-    {/*
-      The row's single visual anchor: one word, as large as the column allows.
-
-      `13vw` was far too cautious — on a 390px phone it resolved to 51px, so the
-      "anchor" was barely larger than the paragraph beneath it and the row lost its
-      whole point. The real limit is the longest word, "Content": at roughly 0.42em
-      per character it needs about 2.94x the font size, so a 358px column allows
-      ~120px. 18vw gives 70px there with room to spare, and still clears the
-      gutters at 320px.
-
-      Weight 500 to 700. This page was the last thing on the site still at 500 —
-      the gallery, work, about, insights and contact headings are all 700 — so a
-      service word sat visibly lighter than the project titles underneath it.
-    */}
-    <h2 className="mt-3 lg:mt-3">
-      <BlurLines
-        className="block text-foreground"
-        style={{
-          fontSize: "clamp(3.5rem, 18vw, 15rem)",
-          lineHeight: 0.86,
-          letterSpacing: "-0.055em",
-          fontWeight: 700,
-        }}
-      >
-        <BlurLine last>
-          <Link
-            to={service.href}
-            className="inline-block transition-opacity duration-300 ease-out hover:opacity-55"
-          >
-            {service.display}
-            <span className="sr-only"> — {service.title}</span>
-          </Link>
-        </BlurLine>
-      </BlurLines>
-    </h2>
-
-    <div className="mt-8 grid grid-cols-1 gap-8 lg:mt-12 lg:grid-cols-12 lg:gap-10">
-      <motion.div
-        className="lg:col-span-5"
-        initial={{ opacity: 0, y: 18 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.6, ease: EASE }}
-      >
-        <p className="text-lg font-semibold text-foreground sm:text-xl">
-          {service.tagline}
-        </p>
-        {/* `text-foreground/70` rather than `text-muted-foreground`. On the dark
-            theme the muted token sat low enough against near-black that the body
-            copy read as disabled text on a phone. A percentage of the foreground
-            is predictable in both themes and clears contrast either way. */}
-        <p className="mt-4 text-base leading-relaxed text-foreground/70 sm:text-lg">
-          {service.body}
-        </p>
-      </motion.div>
-
-      <motion.div
-        className="lg:col-span-7"
-        initial={{ opacity: 0, y: 18 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.25 }}
-        transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
-      >
-        <ul className="space-y-3">
-          {service.points.map((point, i) => (
-            <motion.li
-              key={point}
-              className="flex items-start gap-3 text-base text-foreground/80 sm:text-lg"
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.6 }}
-              transition={{ duration: 0.45, ease: EASE, delay: i * 0.06 }}
-            >
-              <span className="mt-[0.55em] h-1.5 w-1.5 shrink-0 rounded-full bg-foreground" />
-              {point}
-            </motion.li>
-          ))}
-        </ul>
-
-        <Link
-          to={service.href}
-          className="group mt-8 inline-flex items-center gap-2.5 rounded-full bg-foreground px-6 py-3 text-sm font-bold text-background transition-[opacity,transform] duration-300 ease-out hover:opacity-85 active:scale-[0.98] motion-reduce:transform-none"
-        >
-          Explore the service
-          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-background/15 transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transform-none">
-            <ArrowUpRight className="h-4 w-4" strokeWidth={2.5} />
-          </span>
-        </Link>
-      </motion.div>
-    </div>
-  </article>
-);
-
 const WhatWeDo = () => {
+  const { revealed, handoff } = usePageIntro();
+
   return (
     <div className="min-h-screen bg-background font-['Schibsted_Grotesk',sans-serif]">
       <Helmet>
@@ -289,32 +164,82 @@ const WhatWeDo = () => {
 
       <Navigation />
 
+      {/* The curtain the header emerges from. Rendered outside `main` because it is
+          fixed to the viewport and must sit over the navigation too.
+
+          `accent` here, unlike every other page: this page's header panel is orange,
+          so the curtain is orange on the page's own colour and resolves straight into
+          it. Elsewhere the box is the page colour on an inverted backdrop. */}
+      <PageIntro variant="accent" onHandoff={handoff} />
+
       <main
         className="px-4 md:px-[clamp(32px,6vw,120px)]"
-        style={{
-          paddingTop: "clamp(104px, 12vw, 168px)",
-          paddingBottom: "clamp(56px, 7vw, 120px)",
-        }}
+        style={{ paddingBottom: "clamp(56px, 7vw, 120px)" }}
       >
         {/* ── PAGE HEADER ─────────────────────────────────────────── */}
-        <header className="mb-12 lg:mb-20">
+        {/*
+          A full-bleed orange panel, which is what the intro curtain resolves into —
+          same colour, so the curtain appears to recede into it rather than vanish.
+
+          The negative margins cancel `main`'s padding and the matching positive ones
+          put the gutters back inside, so the colour reaches the viewport edges while
+          the copy stays on the page's measure.
+
+          The page's top padding lives here rather than on `main`: on `main` it would
+          leave a band of page background above the panel, and the orange has to run
+          right up under the navigation for the curtain to land on it seamlessly.
+
+          Type is black in both themes, not `text-foreground` — the panel is orange
+          either way, so a token that flips to white would fail in dark mode.
+        */}
+        {/*
+          Full viewport height, which is the fix for the curtain landing badly.
+
+          The curtain covers the whole screen; the panel previously covered only its
+          own content. So the moment the curtain cleared you saw orange at the top
+          and page background beneath — the "half orange, half dark" split. Matching
+          the panel to the viewport means nothing visibly changes when the curtain
+          goes, and the section below is reached by scrolling rather than by being
+          revealed underneath.
+
+          `100svh`, not `100vh`: on a phone `vh` is measured against the *largest*
+          viewport, so with the browser chrome showing, a `100vh` panel is taller
+          than the screen and the scroll cue at its foot sits below the fold.
+        */}
+        <header
+          className="-mx-4 flex min-h-[100svh] flex-col px-4 md:-mx-[clamp(32px,6vw,120px)] md:px-[clamp(32px,6vw,120px)]"
+          style={{
+            backgroundColor: ACCENT_ORANGE,
+            paddingTop: "clamp(104px, 12vw, 168px)",
+          }}
+        >
+          {/* Centres the statement in the panel and lets the scroll cue sit on the
+              floor, rather than the copy hugging the top of a full-height block with
+              a screen of empty orange under it. */}
+          <div className="flex flex-1 flex-col justify-center">
           {/* On phones the label sits above the headline. Inline, it plus
               "We're a creative" is wider than a 375px viewport's content box,
               so line one would overflow the gutter. */}
+          {/* Step 1 of the sequence. Driven by the handoff rather than by the
+              viewport: this sits above the fold, so `whileInView` would fire it
+              behind the curtain and it would already be there when the orange
+              cleared. */}
           <motion.div
-            className="mb-4 flex items-center gap-2 text-[11px] font-medium tracking-[0.04em] text-muted-foreground sm:hidden"
+            className="mb-4 flex items-center gap-2 text-[11px] font-medium tracking-[0.04em] text-black/70 sm:hidden"
             initial={{ opacity: 0, x: -8 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.6 }}
-            transition={{ duration: 0.55, ease: EASE }}
+            animate={revealed ? { opacity: 1, x: 0 } : { opacity: 0, x: -8 }}
+            transition={{ duration: 0.5, ease: EASE }}
           >
-            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground" />
+            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-black/60" />
             Services
           </motion.div>
 
           <h1>
+          {/* Step 2. Its three lines carry their own stagger, so the headline builds
+              line by line once the curtain hands over. */}
           <BlurLines
-            className="block text-foreground"
+            active={revealed}
+            className="block text-black"
             style={{
               /* 700 to match the h1 on every other page — this was the last 500
                  left on the site, which made the services heading read lighter
@@ -341,8 +266,8 @@ const WhatWeDo = () => {
                   className="hidden shrink-0 sm:block"
                   style={{ marginTop: "0.36em", lineHeight: 0 }}
                 >
-                  <span className="flex items-center gap-2 whitespace-nowrap text-xs font-medium tracking-[0.04em] text-muted-foreground">
-                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground" />
+                  <span className="flex items-center gap-2 whitespace-nowrap text-xs font-medium tracking-[0.04em] text-black/70">
+                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-black/60" />
                     Services
                   </span>
                 </span>
@@ -360,23 +285,60 @@ const WhatWeDo = () => {
               foreground rather than muted grey — in the reference it reads as
               a second statement, not as fine print. */}
           <div className="mt-8 grid grid-cols-1 lg:mt-14 lg:grid-cols-12">
+            {/* Step 3, last. The delay clears the headline's own three-line stagger
+                so the support line arrives after the statement has finished
+                building rather than racing it. */}
             <motion.p
-              className="max-w-[30ch] text-lg leading-[1.35] text-foreground sm:text-xl md:text-[1.4rem] lg:col-span-5 lg:col-start-7"
+              className="max-w-[30ch] text-lg leading-[1.35] text-black sm:text-xl md:text-[1.4rem] lg:col-span-5 lg:col-start-7"
               initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.7, ease: EASE, delay: 0.3 }}
+              animate={revealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
+              transition={{ duration: 0.7, ease: EASE, delay: 0.62 }}
             >
               We bring craft and clear thinking to ambitious brands, and build
               work that earns attention.
             </motion.p>
           </div>
+          </div>
+
+          {/* Step 4. The panel now fills the screen, so it needs to say that there
+              is more below it — otherwise a full bleed of colour reads as the whole
+              page. Arrives last, once the statement has settled. */}
+          <motion.div
+            className="flex items-center gap-3 pb-10 text-[11px] font-semibold uppercase tracking-[0.18em] text-black/70"
+            initial={{ opacity: 0, y: 10 }}
+            animate={revealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+            transition={{ duration: 0.6, ease: EASE, delay: 0.95 }}
+          >
+            Scroll
+            {/* Travels down and fades at the end of its run, so the loop restarts
+                from rest instead of snapping back. */}
+            <motion.span
+              className="block h-6 w-px bg-black/40"
+              animate={{ y: [0, 8, 0], opacity: [0.35, 1, 0.35] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </motion.div>
         </header>
 
         {/* ── SERVICES ────────────────────────────────────────────── */}
-        {SERVICES.map((service, i) => (
-          <ServiceRow key={service.title} service={service} index={i} />
-        ))}
+        {/*
+          A pinned stack: the section holds still and each card slides up over the
+          last, so scrolling swaps the service instead of moving the page past it.
+
+          This replaced the drawn ribbon, which is gone entirely. Two reasons. It was
+          the most expensive thing in the codebase per frame — `pathLength` is a dash
+          pattern, which is not compositable, so every frame of the draw repainted a
+          full-bleed SVG as tall as the whole list, while a spring-driven
+          `getPointAtLength` walked a ~35-segment path on the side. And it was
+          decoration: it carried no information about the services it ran past.
+
+          Full bleed here — the stack owns the whole width, so it sits outside the
+          page's content gutters. `main`'s padding is cancelled and each card applies
+          its own.
+        */}
+        <div className="-mx-4 md:-mx-[clamp(32px,6vw,120px)]">
+          <ServiceStack services={SERVICES} />
+        </div>
 
         {/* ── CLOSING CTA ─────────────────────────────────────────── */}
         <motion.div

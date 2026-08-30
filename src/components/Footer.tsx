@@ -3,6 +3,85 @@ import { Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { BlurReveal, BlurRevealItem } from "@/components/BlurReveal";
 
+/**
+ * Geometry of the white social rail punched into the card's top-left corner.
+ *
+ * All of it derives from the buttons, which is the point. The rail's box and its
+ * three corner masks used to be hard-coded pixels — `w-[56px] h-[220px]`, masks
+ * at `top-[196px]` / `top-[220px]` / `left-[32px]` / `left-[56px]` — while the
+ * buttons inside them are sized in rem (`w-9`, `gap-2.5`, `top-4`). Those two
+ * only agree at a 16px root font size. Raise the root to 20px, which is what
+ * Android's "large" display font and any bumped browser default do, and the four
+ * buttons need 237px of a rail that is still 220px: the last one hangs out of the
+ * rail and lands on the black corner mask. That is the overlap.
+ *
+ * Everything below is therefore in rem too, so the rail grows with its contents
+ * instead of staying a fixed box around them. `--rail-notch` is the exception and
+ * stays in px on purpose: it is a corner radius, matched to the card's own
+ * `rounded-[24px]`, which is also px.
+ */
+const RAIL = {
+  /** Must equal the buttons' rendered size — they read it from here. */
+  "--rail-icon": "2.25rem",
+  /** Vertical space between buttons. */
+  "--rail-gap": "0.625rem",
+  /** Space from a button to the rail's left, right and bottom edges. */
+  "--rail-inset": "0.625rem",
+  /** Top offset, clear of the card's rounded top-left corner. */
+  "--rail-top": "1rem",
+  /** Radius of the three concave corner fillets. */
+  "--rail-notch": "24px",
+  "--rail-w": "calc(2 * var(--rail-inset) + var(--rail-icon))",
+  "--rail-h":
+    "calc(var(--rail-top) + var(--rail-count) * var(--rail-icon) + (var(--rail-count) - 1) * var(--rail-gap) + var(--rail-inset) + var(--rail-notch))",
+} as React.CSSProperties;
+
+/** Read by each button, so the rail's width can never disagree with them. */
+const RAIL_ICON = {
+  width: "var(--rail-icon)",
+  height: "var(--rail-icon)",
+} as React.CSSProperties;
+
+/**
+ * The rail's buttons, as data.
+ *
+ * `--rail-count` is taken from this array's length rather than written down, so
+ * the rail resizes itself when a network is added or dropped. These were four
+ * hand-copied anchors under a comment that said "Stack of 5", which is exactly
+ * the drift this removes — with the old fixed height, adding the fifth would have
+ * pushed it out of the rail and onto the card.
+ */
+const SOCIALS: { href: string; label: string; glyph: React.ReactNode }[] = [
+  {
+    href: "https://www.linkedin.com/company/whycreatives/",
+    label: "LinkedIn",
+    glyph: <span className="text-xs font-bold">in</span>,
+  },
+  {
+    href: "https://wa.me/918210198880",
+    label: "WhatsApp",
+    glyph: (
+      <svg className="w-4 h-4 fill-black" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+      </svg>
+    ),
+  },
+  {
+    href: "https://twitter.com/why_creatives",
+    label: "X",
+    glyph: <span className="text-xs font-bold">X</span>,
+  },
+  {
+    href: "https://www.instagram.com/areyparo",
+    label: "Instagram",
+    glyph: (
+      <svg className="w-4 h-4 fill-black" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+      </svg>
+    ),
+  },
+];
+
 export const Footer = () => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -17,80 +96,93 @@ export const Footer = () => {
        off pure black instead of sitting at #0d0d0d, which had made the card
        edge, its rounded corners and the notches invisible against the page. */
     <div className="w-full bg-background p-3 sm:p-5 md:p-6 mt-12 sm:mt-16 font-['Schibsted_Grotesk',sans-serif] [--footer-card:#0d0d0d] [--footer-frame:hsl(var(--background))] dark:[--footer-card:#1c1c1c]">
-      <div className="relative w-full overflow-hidden">
-        
+      {/* The rail's measurements are declared here and consumed by the rail, its
+          masks and its buttons below, so a change to any one of them cannot leave
+          the others behind. `--rail-count` comes off the array. */}
+      <div
+        className="relative w-full overflow-hidden"
+        style={{ ...RAIL, "--rail-count": SOCIALS.length } as React.CSSProperties}
+      >
         {/* ========================================================
-            LEFT WHITE SOCIAL STRIP (MADEBYSHAPE EXACT SPEC)
+            LEFT WHITE SOCIAL RAIL
            ======================================================== */}
-        
-        {/* White Social Strip Container (Positioned top-0 left-0) */}
-        {/* radius here must match the card's, or this strip's square corner
+
+        {/* radius here must match the card's, or this rail's square corner
             pokes out past the card's rounded top-left */}
-        <div className="absolute top-0 left-0 w-[56px] h-[220px] bg-[var(--footer-frame)] rounded-br-[24px] rounded-tl-[24px] md:rounded-tl-[32px] z-20">
-          {/* Inner Corner Mask (Bottom-Right concave curve) */}
-          <div className="absolute top-[196px] left-[32px] w-[24px] h-[24px] bg-[var(--footer-card)] z-20">
+        <div
+          className="absolute top-0 left-0 bg-[var(--footer-frame)] rounded-br-[24px] rounded-tl-[24px] md:rounded-tl-[32px] z-20"
+          style={{ width: "var(--rail-w)", height: "var(--rail-h)" }}
+        >
+          {/* Inner Corner Mask (Bottom-Right concave curve). Pinned to the rail's
+              own bottom-right, so it follows the rail when it grows rather than
+              sitting where a 220px-tall rail used to end. */}
+          <div
+            className="absolute bg-[var(--footer-card)] z-20"
+            style={{
+              top: "calc(var(--rail-h) - var(--rail-notch))",
+              left: "calc(var(--rail-w) - var(--rail-notch))",
+              width: "var(--rail-notch)",
+              height: "var(--rail-notch)",
+            }}
+          >
             <div className="w-full h-full bg-[var(--footer-frame)] rounded-br-[24px]" />
           </div>
 
-          {/* Top-Right Transition Mask (Curves top edge down alongside social strip) */}
-          <div className="absolute top-0 left-[56px] w-[24px] h-[24px] bg-[var(--footer-frame)] z-20">
+          {/* Top-Right Transition Mask (curves the card's top edge down alongside
+              the rail) */}
+          <div
+            className="absolute top-0 bg-[var(--footer-frame)] z-20"
+            style={{
+              left: "var(--rail-w)",
+              width: "var(--rail-notch)",
+              height: "var(--rail-notch)",
+            }}
+          >
             <div className="w-full h-full bg-[var(--footer-card)] rounded-tl-[24px]" />
           </div>
 
-          {/* Bottom-Left Transition Mask (Curves black edge under social strip) */}
-          <div className="absolute top-[220px] left-0 w-[24px] h-[24px] bg-[var(--footer-frame)] z-20">
+          {/* Bottom-Left Transition Mask (curves the card's edge back under the
+              rail) */}
+          <div
+            className="absolute left-0 bg-[var(--footer-frame)] z-20"
+            style={{
+              top: "var(--rail-h)",
+              width: "var(--rail-notch)",
+              height: "var(--rail-notch)",
+            }}
+          >
             <div className="w-full h-full bg-[var(--footer-card)] rounded-tl-[24px]" />
           </div>
         </div>
 
-        {/* Vertical Stack of 5 White Circle Social Buttons */}
-        <motion.div 
+        {/* The buttons. Sized, spaced and inset from the same values the rail
+            is built from, so the rail is always exactly big enough to hold
+            them at any root font size. */}
+        <motion.div
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="absolute top-4 left-[10px] flex flex-col gap-2.5 z-30"
+          className="absolute flex flex-col z-30"
+          style={{
+            top: "var(--rail-top)",
+            left: "var(--rail-inset)",
+            gap: "var(--rail-gap)",
+          }}
         >
-          <a 
-            href="https://www.linkedin.com/company/whycreatives/" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center font-bold text-xs hover:scale-110 active:scale-95 transition-all select-none"
-            aria-label="LinkedIn"
-          >
-            in
-          </a>
-          <a 
-            href="https://wa.me/918210198880" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 active:scale-95 transition-all select-none"
-            aria-label="WhatsApp"
-          >
-            <svg className="w-4 h-4 fill-black" viewBox="0 0 24 24">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-            </svg>
-          </a>
-          <a 
-            href="https://twitter.com/why_creatives" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center font-bold text-xs hover:scale-110 active:scale-95 transition-all select-none"
-            aria-label="X"
-          >
-            X
-          </a>
-          <a 
-            href="https://www.instagram.com/areyparo" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 active:scale-95 transition-all select-none"
-            aria-label="Instagram"
-          >
-            <svg className="w-4 h-4 fill-black" viewBox="0 0 24 24">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-            </svg>
-          </a>
+          {SOCIALS.map(({ href, label, glyph }) => (
+            <a
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full bg-white text-black flex items-center justify-center hover:scale-110 active:scale-95 transition-all select-none"
+              style={RAIL_ICON}
+              aria-label={label}
+            >
+              {glyph}
+            </a>
+          ))}
         </motion.div>
 
         {/* ========================================================

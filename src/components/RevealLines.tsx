@@ -31,9 +31,27 @@ const HIDDEN_Y = "118%";
 const useIsoLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
+/**
+ * One visual line.
+ *
+ * A bare string is the common case. The object form exists so a caller can set
+ * type on a per-line basis — the phone statement in AgencyIntro sets a
+ * descending `font-size` ramp down its lines, and each step needs its own
+ * tracking, because a `-0.045em` that is correct at 44px is far too tight at
+ * 19px.
+ *
+ * Anything passed here lands on the line's *mask* element, which is deliberate:
+ * the descender padding and the hidden offset below are both relative to that
+ * element, so a per-line `font-size` is picked up by the reveal geometry
+ * automatically instead of having to be threaded through it.
+ */
+export type RevealLine =
+  | string
+  | { text: string; className?: string; style?: React.CSSProperties };
+
 type RevealLinesProps = {
   /** One entry per visual line. Line breaks are intentional, not automatic. */
-  lines: readonly string[];
+  lines: readonly RevealLine[];
   className?: string;
   style?: React.CSSProperties;
   /** Pins one visual line per entry from lg up. */
@@ -71,6 +89,12 @@ export const RevealLines = ({
 }: RevealLinesProps) => {
   const wrapRef = useRef<HTMLSpanElement>(null);
   const innerRefs = useRef<(HTMLSpanElement | null)[]>([]);
+
+  /* Normalised once so the rest of the component never has to branch on the
+     string / object union. */
+  const items = lines.map((line) =>
+    typeof line === "string" ? { text: line } : line,
+  );
 
   /* Stored in em, not px: every line width scales linearly with font-size, so
      the ratio is viewport-independent and survives the font-size clamp without
@@ -143,20 +167,27 @@ export const RevealLines = ({
     >
       {/* The visual lines are split across elements, so they are hidden from
           assistive tech and the full sentence is exposed once, here. */}
-      <span className="sr-only">{lines.join(" ")}</span>
+      <span className="sr-only">{items.map((item) => item.text).join(" ")}</span>
 
-      {lines.map((line, i) => (
+      {items.map((item, i) => (
         <span
-          key={line}
+          key={item.text}
           aria-hidden="true"
           className={
-            "block overflow-hidden" + (nowrapFromLg ? " lg:whitespace-nowrap" : "")
+            "block overflow-hidden" +
+            (nowrapFromLg ? " lg:whitespace-nowrap" : "") +
+            (item.className ? ` ${item.className}` : "")
           }
+          /* Caller style first, so the geometry below always wins. The two
+             em-based values resolve against this element, so a per-line
+             font-size scales its own descender room rather than inheriting the
+             wrapper's. */
           style={{
+            ...item.style,
             paddingBottom: DESCENDER,
             // Collapse the descender room between lines so the visual leading
             // stays exactly what line-height asks for.
-            marginBottom: i === lines.length - 1 ? 0 : `-${DESCENDER}`,
+            marginBottom: i === items.length - 1 ? 0 : `-${DESCENDER}`,
             paddingLeft: i === 0 ? indent : undefined,
           }}
         >
@@ -169,7 +200,7 @@ export const RevealLines = ({
             transition={{ duration, ease: EASE, delay: baseDelay + i * stagger }}
             style={{ willChange: "transform" }}
           >
-            {line}
+            {item.text}
           </motion.span>
         </span>
       ))}

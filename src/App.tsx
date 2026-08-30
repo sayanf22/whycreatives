@@ -6,12 +6,22 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { lazy, Suspense } from "react";
 
-// Eager load homepage and insights for instant display
+/*
+  Only the landing page is eager. It is the route most first visits actually hit, so
+  it is worth having in the entry chunk.
+
+  Insights and InsightArticle used to be eager too, "for instant display". That was
+  costing every visitor a lot: `InsightArticle` pulls `react-markdown` and
+  `remark-gfm`, whose unified/micromark dependency tree is one of the largest things
+  in the project — and it was landing in the entry chunk for people who never opened
+  an article. Both are lazy now, so the markdown pipeline is fetched only when an
+  article is.
+*/
 import Index from "./pages/Index";
-import Insights from "./pages/Insights";
-import InsightArticle from "./pages/InsightArticle";
 
 // Lazy load all other pages
+const Insights = lazy(() => import("./pages/Insights"));
+const InsightArticle = lazy(() => import("./pages/InsightArticle"));
 const WhatWeDo = lazy(() => import("./pages/WhatWeDo"));
 const OurWork = lazy(() => import("./pages/OurWork"));
 const PortfolioGallery = lazy(() => import("./pages/PortfolioGallery"));
@@ -99,8 +109,9 @@ const App = () => (
   <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <Toaster />
-        <Sonner />
+        {/* One each. Both were mounted twice, which meant two toast portal roots and
+            two Sonner instances — each with its own state and its own fixed
+            container — rendering every toast twice. */}
         <Toaster />
         <Sonner />
         <ScrollToTop />

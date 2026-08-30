@@ -50,9 +50,21 @@ export const ProjectTextStage = ({
     Phones get a much smaller radius instead of losing the effect: at 6px the
     words still resolve into focus, but the pass is a fraction of the work.
   */
+  /*
+    Phones drop the blur entirely rather than getting a smaller one.
+
+    Reducing the radius to 6px was not enough. The cost that matters is not the
+    radius but the fact that `filter` is animated at all: every frame of it is a full
+    repaint plus a GPU pass over the type, and this section renders three of these
+    panels on a cycle that never ends while it is on screen. Three continuous filter
+    tweens is the heaviest thing on the homepage on a phone.
+
+    The words still travel and fade, which carries the effect. Desktop keeps the blur
+    at a slightly reduced radius, where there is headroom for it.
+  */
   const roomy = useMediaQuery("(min-width: 768px)");
-  const blurIn = roomy ? 18 : 6;
-  const blurOut = roomy ? 16 : 5;
+  const blurIn = roomy ? 14 : 0;
+  const blurOut = roomy ? 12 : 0;
 
   /* Only animate while the card is actually on screen. Four of these looping
      behind the fold would burn frames for nothing. */

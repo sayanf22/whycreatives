@@ -7,6 +7,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { PageHeader } from "@/components/PageHeader";
+import { PageIntro } from "@/components/PageIntro";
+import { usePageIntro } from "@/hooks/use-page-intro";
 import { useSiteContent } from "@/hooks/use-site-content";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -63,6 +65,7 @@ const ArticleMeta = ({ article }: { article: Article }) => (
 );
 
 const Insights = () => {
+  const { revealed, handoff } = usePageIntro();
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -126,6 +129,10 @@ const Insights = () => {
         <link rel="canonical" href="https://whycreatives.in/insights" />
       </Helmet>
 
+      {/* Opening curtain: the page's own colour floods the screen off an inverted
+          backdrop, then the layout below animates in. */}
+      <PageIntro onHandoff={handoff} />
+
       <Navigation />
 
       <main
@@ -141,6 +148,8 @@ const Insights = () => {
               nothing enforced, so it is gone; the type now matches every other
               page on the site. */}
           <PageHeader
+            /* Held until the curtain hands over — see PageHeader's `active`. */
+            active={revealed}
             key={`${headingOne}|${headingTwo}`}
             eyebrow={text("insights.eyebrow", "Insights")}
             lines={[headingOne, headingTwo]}

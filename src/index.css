@@ -286,12 +286,21 @@ body {
   }
 }
 
-/* Reduce paint on scroll */
-.fixed,
-[class*="fixed"] {
-  transform: translateZ(0);
-  will-change: transform;
-}
+/*
+  A blanket `will-change` rule used to live here:
+
+      .fixed, [class*="fixed"] { transform: translateZ(0); will-change: transform; }
+
+  It was removed for the same reason the two rules documented near the top of this
+  file were. `[class*="fixed"]` is a substring match on the whole class attribute, so
+  it caught every `fixed`, `md:fixed` and `lg:fixed` element — and `will-change`
+  forces the browser to allocate and *hold* a compositor layer for each one, for the
+  life of the page, whether or not anything is animating. On a phone that is layers
+  competing for limited GPU memory, which is slower than no promotion at all.
+
+  Promote deliberately, per element, where there is a measured problem. The hero
+  panel and the nav already do that themselves.
+*/
 
 /* Optimize backdrop-blur on mobile */
 @media (max-width: 768px) {

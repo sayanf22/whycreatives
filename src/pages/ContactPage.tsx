@@ -15,6 +15,8 @@ import {
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { PageHeader } from "@/components/PageHeader";
+import { PageIntro } from "@/components/PageIntro";
+import { usePageIntro } from "@/hooks/use-page-intro";
 import { useSiteContent } from "@/hooks/use-site-content";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -89,6 +91,7 @@ const SERVICES = [
 ];
 
 const ContactPage = () => {
+  const { revealed, handoff } = usePageIntro();
   const { text } = useSiteContent();
   const { toast } = useToast();
 
@@ -174,6 +177,10 @@ const ContactPage = () => {
         <link rel="canonical" href="https://whycreatives.in/contact" />
       </Helmet>
 
+      {/* Opening curtain: the page's own colour floods the screen off an inverted
+          backdrop, then the layout below animates in. */}
+      <PageIntro onHandoff={handoff} />
+
       <Navigation />
 
       <main
@@ -185,6 +192,8 @@ const ContactPage = () => {
       >
         <div className="mx-auto max-w-[1920px]">
           <PageHeader
+            /* Held until the curtain hands over — see PageHeader's `active`. */
+            active={revealed}
             key={`${headingOne}|${headingTwo}`}
             eyebrow={text("contact.eyebrow", "Contact")}
             lines={[headingOne, headingTwo]}

@@ -56,18 +56,33 @@ export const BlurLines = ({
   className,
   style,
   amount = 0.2,
+  active,
 }: {
   children: ReactNode;
   className?: string;
   style?: React.CSSProperties;
   amount?: number;
+  /**
+   * Drives the reveal from outside instead of from the viewport.
+   *
+   * For copy that has to wait on something other than being scrolled to — the
+   * services heading holds until the intro curtain hands over. Left undefined the
+   * component behaves exactly as before and reveals on scroll, so the pages already
+   * using it are untouched.
+   *
+   * Note this is not the same as passing a delay: the heading sits above the fold,
+   * so `whileInView` fires immediately and a delay would still let the lines start
+   * on their own schedule rather than on the curtain's.
+   */
+  active?: boolean;
 }) => (
   <motion.span
     className={className}
     style={style}
     initial="hidden"
-    whileInView="show"
-    viewport={{ once: true, amount }}
+    {...(active === undefined
+      ? { whileInView: "show", viewport: { once: true, amount } }
+      : { animate: active ? "show" : "hidden" })}
   >
     {children}
   </motion.span>

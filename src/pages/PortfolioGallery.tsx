@@ -7,6 +7,8 @@ import { MediaRenderer } from "@/components/MediaRenderer";
 import { Globe, Palette, Video, LayoutGrid, X, ExternalLink, Quote } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BlurLine, BlurLines } from "@/components/BlurLines";
+import { PageIntro } from "@/components/PageIntro";
+import { usePageIntro } from "@/hooks/use-page-intro";
 import { useSiteContent } from "@/hooks/use-site-content";
 import { NotchedFrame } from "@/components/NotchedFrame";
 
@@ -26,6 +28,7 @@ const getCategoryIcon = (category: string, className = "w-4 h-4") => {
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 const PortfolioGallery = () => {
+  const { revealed, handoff } = usePageIntro();
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [activeLightboxItem, setActiveLightboxItem] = useState<PortfolioWork | null>(null);
   const { data: portfolioItems, isLoading } = usePortfolioWorks();
@@ -129,6 +132,10 @@ const PortfolioGallery = () => {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-background text-foreground font-['Schibsted_Grotesk',sans-serif]">
+      {/* Opening curtain: the page's own colour floods the screen off an inverted
+          backdrop, then the layout below animates in. */}
+      <PageIntro onHandoff={handoff} />
+
       <Navigation />
       {/* Wider gutters and a wider well: the grid was capped at max-w-7xl
           inside 120px gutters, which left the cards far narrower than the
@@ -143,11 +150,12 @@ const PortfolioGallery = () => {
               Every string here is editable from the admin dashboard, with the
               original copy kept as the fallback. */}
           <header className="mb-10 lg:mb-20">
+            {/* Held until the curtain hands over. Above the fold, so `whileInView`
+                would have run it to completion behind the colour. */}
             <motion.div
               className="mb-4 flex items-center gap-2.5 text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground sm:text-xs"
               initial={{ opacity: 0, x: -8 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, amount: 0.6 }}
+              animate={revealed ? { opacity: 1, x: 0 } : { opacity: 0, x: -8 }}
               transition={{ duration: 0.55, ease: EASE }}
             >
               <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground" />
@@ -156,6 +164,7 @@ const PortfolioGallery = () => {
 
             <h1>
               <BlurLines
+                active={revealed}
                 key={`${headingOne}|${headingTwo}`}
                 className="block text-foreground"
                 style={{
@@ -179,7 +188,11 @@ const PortfolioGallery = () => {
               <motion.blockquote
                 className="flex gap-3 sm:gap-4 lg:col-span-6 lg:col-start-7"
                 initial={{ opacity: 0, y: 18, filter: "blur(8px)" }}
-                whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                animate={
+                  revealed
+                    ? { opacity: 1, y: 0, filter: "blur(0px)" }
+                    : { opacity: 0, y: 18, filter: "blur(8px)" }
+                }
                 viewport={{ once: true, amount: 0.5 }}
                 transition={{ duration: 0.7, ease: EASE, delay: 0.28 }}
               >

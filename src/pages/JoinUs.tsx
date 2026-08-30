@@ -7,8 +7,11 @@ import { FadeInWhenVisible } from "@/components/FadeInWhenVisible";
 import { Mail, Phone, User, FileText } from "lucide-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { PageIntro } from "@/components/PageIntro";
+import { usePageIntro } from "@/hooks/use-page-intro";
 
 const JoinUs = () => {
+  const { revealed, handoff } = usePageIntro();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -35,12 +38,17 @@ const JoinUs = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Opening curtain: the page's own colour floods the screen off an inverted
+          backdrop, then the layout below animates in. */}
+      <PageIntro onHandoff={handoff} />
+
       <Navigation />
 
       <main className="pt-20 sm:pt-28 md:pt-32 pb-12 sm:pb-20 md:pb-24 px-4 sm:px-6">
         <div className="container mx-auto max-w-5xl">
-          {/* Hero Section */}
-          <FadeInWhenVisible>
+          {/* Hero Section. Held until the curtain hands over — above the fold, so
+              the viewport driver would have run it behind the colour. */}
+          <FadeInWhenVisible active={revealed}>
             <div className="text-center mb-10 sm:mb-14 md:mb-16">
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black text-foreground mb-4 sm:mb-6">
                 Join Our Team

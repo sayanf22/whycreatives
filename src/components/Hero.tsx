@@ -293,18 +293,40 @@ export const Hero = () => {
     const panel = panelRef.current;
     const card = cardRef.current;
     if (!panel || !card) return;
+
+    /*
+      Coalesced to one run per frame.
+
+      `measure()` is expensive — seven forced layout reads, then a `clip-path: path()`
+      rewrite that repaints the whole hero. It used to be wired to a ResizeObserver
+      *and* a bare `resize` listener, so a genuine window resize ran the whole thing
+      twice per event, unthrottled.
+
+      That mattered most on phones, where the browser fires `resize` as its own
+      address bar collapses during scroll — so this was doing seven layout reads and a
+      full-hero repaint mid-scroll, which is exactly when there are no frames to
+      spare.
+
+      `orientationchange` is gone too: it is followed by a `resize` on every browser
+      that matters, and the ResizeObserver catches the panel's new box regardless.
+    */
+    let queued = 0;
+    const schedule = () => {
+      if (queued) return;
+      queued = requestAnimationFrame(() => {
+        queued = 0;
+        measure();
+      });
+    };
+
     // watch the card too: its width changes with the font-size clamp, and its
     // offset changes at the breakpoint, neither of which resizes the panel
-    const ro = new ResizeObserver(() => measure());
+    const ro = new ResizeObserver(schedule);
     ro.observe(panel);
     ro.observe(card);
-    const onResize = () => measure();
-    window.addEventListener("resize", onResize);
-    window.addEventListener("orientationchange", onResize);
     return () => {
       ro.disconnect();
-      window.removeEventListener("resize", onResize);
-      window.removeEventListener("orientationchange", onResize);
+      if (queued) cancelAnimationFrame(queued);
     };
   }, [measure]);
 

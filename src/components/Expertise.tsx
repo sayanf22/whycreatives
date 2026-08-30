@@ -131,12 +131,29 @@ export const Expertise = () => {
       }
     };
     sync();
+
+    /*
+      Coalesced to one run per frame. `sync` writes two pieces of React state, which
+      re-renders this whole five-row motion tree — and it was attached to a bare,
+      unthrottled `resize`. On a phone the browser fires that as its own address bar
+      collapses during scroll, so this was re-rendering the section mid-scroll.
+    */
+    let queued = 0;
+    const schedule = () => {
+      if (queued) return;
+      queued = requestAnimationFrame(() => {
+        queued = 0;
+        sync();
+      });
+    };
+
     mq.addEventListener("change", sync);
-    window.addEventListener("resize", sync);
+    window.addEventListener("resize", schedule, { passive: true });
 
     return () => {
       mq.removeEventListener("change", sync);
-      window.removeEventListener("resize", sync);
+      window.removeEventListener("resize", schedule);
+      if (queued) cancelAnimationFrame(queued);
     };
   }, []);
 
@@ -168,21 +185,34 @@ export const Expertise = () => {
         {isDesktop && (
           <motion.div
             aria-hidden="true"
-            className="pointer-events-none fixed left-0 top-0 z-[100] flex items-center justify-center rounded-full"
+            /*
+              Fixed at its full 80px and scaled down, rather than animating width and
+              height between 16 and 80.
+
+              Two separate costs were removed here. Width and height are layout
+              properties, so morphing them on a `position: fixed` element was a layout
+              plus paint on every frame of the morph — the note further down this file
+              records fixing exactly that mistake on the hover thumbnail, but the
+              cursor still had it. `scale` is a compositor transform, so the same
+              morph is now free.
+
+              `mix-blend-mode: difference` is gone as well, and it was the more
+              expensive of the two: blending forces the browser to read back the
+              backdrop and composite against it, so an element that both blends *and*
+              moves every frame invalidates a viewport-sized region continuously and
+              defeats layer isolation entirely. The panel this sits on is a fixed
+              near-black, so the blend was buying contrast the dot already had.
+            */
+            className="pointer-events-none fixed left-0 top-0 z-[100] flex h-20 w-20 items-center justify-center rounded-full bg-white"
             style={{
               x: cursorX,
               y: cursorY,
               translateX: "-50%",
               translateY: "-50%",
-              // blend keeps the idle dot readable over dark and light alike;
-              // dropped once expanded so the solid white puck stays crisp.
-              mixBlendMode: active ? "normal" : "difference",
             }}
             initial={false}
             animate={{
-              width: active ? 80 : 16,
-              height: active ? 80 : 16,
-              backgroundColor: "#ffffff",
+              scale: active ? 1 : 0.2,
               opacity: cursorInside ? 1 : 0,
             }}
             transition={{ type: "spring", stiffness: 320, damping: 26, mass: 0.6 }}

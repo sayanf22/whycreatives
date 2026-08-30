@@ -9,6 +9,8 @@ import { MediaRenderer } from "@/components/MediaRenderer";
 import { Globe, Palette, Video, LayoutGrid, ArrowUpRight } from "lucide-react";
 import { NotchedFrame } from "@/components/NotchedFrame";
 import { PageHeader } from "@/components/PageHeader";
+import { PageIntro } from "@/components/PageIntro";
+import { usePageIntro } from "@/hooks/use-page-intro";
 import { useSiteContent } from "@/hooks/use-site-content";
 
 const getCategoryIcon = (category: string, className = "w-4 h-4") => {
@@ -35,6 +37,7 @@ const TRACK = "mx-auto w-full max-w-[1680px]";
 const SLIDE = "flex-[0_0_100%] md:flex-[0_0_88%] xl:flex-[0_0_82%]";
 
 const OurWork = () => {
+  const { revealed, handoff } = usePageIntro();
   const { data: portfolioWorks, isLoading } = usePortfolioWorks();
   const { text } = useSiteContent();
 
@@ -192,6 +195,11 @@ const OurWork = () => {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-background font-['Schibsted_Grotesk',sans-serif]">
+      {/* Opening curtain. The box is this page's own colour on an inverted backdrop,
+          so the page colour is what floods the screen — white in light mode, black in
+          dark. The existing layout then animates in behind it, unchanged. */}
+      <PageIntro onHandoff={handoff} />
+
       <Navigation />
       <div
         className={SHELL}
@@ -204,6 +212,10 @@ const OurWork = () => {
           {/* Now the shared header, which also brings the headline to weight 700
               — it was still 500 here while the gallery beside it was 700. */}
           <PageHeader
+            /* Held until the curtain hands over. This header is above the fold, so
+               its own `whileInView` would otherwise run it to completion behind the
+               curtain and it would already be sitting there when the colour cleared. */
+            active={revealed}
             key={`${headingOne}|${headingTwo}`}
             eyebrow={text("work.eyebrow", "Our Work")}
             lines={[headingOne, headingTwo]}
