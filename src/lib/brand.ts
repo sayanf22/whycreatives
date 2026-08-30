@@ -24,12 +24,20 @@ export const ACCENT_ORANGE = "#FF6B42";
  * All six are light enough to carry black type, and they keep it in both themes for the
  * same reason the header does: the card is this colour either way, so a token that
  * flipped to white would fail in one of them.
+ *
+ * Saturation is deliberately high. The first pass sat around 30-40% and read as dull
+ * against the accent orange, which is fully saturated — a muted violet next to a hot
+ * orange looks like a mistake rather than a palette. These are pushed up to sit with it.
+ *
+ * They are also all still light enough for the type on them to clear WCAG AA, which is
+ * the ceiling on how far the saturation can go: the cards carry body copy, and more
+ * saturation means a darker surface and less contrast under black text.
  */
 export const SERVICE_CARD_COLOURS = [
   ACCENT_ORANGE, // Video
-  "#AFA4F7", // Build
-  "#FFC76B", // Brand
-  "#9FD6A6", // Growth
-  "#8CC7E6", // Content
-  "#F4A2B6", // Design
+  "#9B8AFF", // Build
+  "#FFB43D", // Brand
+  "#4FD16B", // Growth
+  "#5BB8E5", // Content
+  "#FF8CA6", // Design
 ] as const;

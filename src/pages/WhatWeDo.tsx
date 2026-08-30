@@ -1,11 +1,10 @@
-import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
-import { ArrowUpRight } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import { BlurLine, BlurLines } from "@/components/BlurLines";
 import { ServiceStack } from "@/components/ServiceStack";
+import { ServiceClosing } from "@/components/ServiceClosing";
 import { SERVICES } from "@/data/services";
 import { usePageIntro } from "@/hooks/use-page-intro";
 import { ACCENT_ORANGE } from "@/lib/brand";
@@ -264,37 +263,20 @@ const WhatWeDo = () => {
           <ServiceStack services={SERVICES} />
         </div>
 
-        {/* ── CLOSING CTA ─────────────────────────────────────────── */}
-        <motion.div
-          className="border-t border-border pt-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.7, ease: EASE }}
-        >
-          <h2
-            className="text-foreground"
-            style={{
-              fontSize: "clamp(1.6rem, 3vw, 3rem)",
-              lineHeight: 1.05,
-              letterSpacing: "-0.04em",
-              fontWeight: 700,
-            }}
-          >
-            Not sure where to start?
-          </h2>
-          <p className="mt-3 max-w-lg text-base text-foreground/70 sm:text-lg">
-            Tell us what you are trying to achieve and we will tell you honestly
-            what it needs.
-          </p>
-          <Link
-            to="/contact"
-            className="group mt-7 inline-flex items-center gap-2.5 rounded-full border border-foreground/25 px-6 py-3 text-sm font-semibold text-foreground transition-[background-color,border-color,color,transform] duration-300 ease-out hover:border-foreground hover:bg-foreground hover:text-background active:scale-[0.98] motion-reduce:transform-none"
-          >
-            Start a conversation
-            <ArrowUpRight className="h-4 w-4" strokeWidth={2.5} />
-          </Link>
-        </motion.div>
+        {/* ── CLOSING PANEL ───────────────────────────────────────── */}
+        {/*
+          Replaces the previous closing CTA — a bordered block with "Not sure where to
+          start?" and a "Start a conversation" pill. Two closing calls to action on one
+          page is one too many, and the new panel does the same job with more weight at
+          the point where someone has just read all six services.
+
+          Full bleed, like the stack above it: `main`'s padding is cancelled and the
+          panel applies its own, so the dark surface reaches the viewport edges while its
+          copy stays on the page's measure.
+        */}
+        <div className="-mx-4 md:-mx-[clamp(32px,6vw,120px)]">
+          <ServiceClosing />
+        </div>
       </main>
 
       <Footer />
