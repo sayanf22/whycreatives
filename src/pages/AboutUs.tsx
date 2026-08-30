@@ -7,6 +7,7 @@ import { Footer } from "@/components/Footer";
 import { PageHeader } from "@/components/PageHeader";
 import { usePageIntro } from "@/hooks/use-page-intro";
 import { BlurLine, BlurLines } from "@/components/BlurLines";
+import { StudioTimeline } from "@/components/StudioTimeline";
 import { useSiteContent } from "@/hooks/use-site-content";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -262,6 +263,18 @@ const AboutUs = () => {
               ))}
             </ol>
           </section>
+
+          {/* ── TIMELINE ──
+              Full bleed: `main`'s padding and this page's `max-w-[1920px]` well are both
+              cancelled, because the track has to be able to run off the edge of the screen.
+              A horizontally scrolling row inside a centred column reads as a widget rather
+              than as the page moving sideways.
+
+              It sits after "how we work" on purpose — how the studio operates, then how it
+              got there. */}
+          <div className="mt-20 -mx-4 md:-mx-[clamp(20px,2.6vw,52px)] lg:mt-36">
+            <StudioTimeline />
+          </div>
 
           {/* ── DISCIPLINES ── a plain list of rows, each one a link. */}
           <section className="mt-20 lg:mt-36">

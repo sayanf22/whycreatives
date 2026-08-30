@@ -12,28 +12,8 @@ import type { Service } from "@/data/services";
 import { SERVICE_CARD_COLOURS } from "@/lib/brand";
 import { useMediaQuery } from "@/hooks/use-media-query";
 
-const EASE = [0.16, 1, 0.3, 1] as const;
-
 const clamp = (value: number, min: number, max: number) =>
   Math.min(Math.max(value, min), max);
-
-/**
- * Order the card's parts arrive in, in seconds from the card reaching the front.
- *
- * One trigger per card, with the sequence expressed as delays off it. The parts used to
- * observe the viewport individually, which on a card taller than the screen means they
- * fire in an order that changes with scroll speed.
- */
-const STEP = {
-  meta: 0,
-  title: 0.06,
-  lead: 0.16,
-  listLabel: 0.2,
-  outcomes: 0.24,
-  /** Gap between consecutive list items, used by both lists. */
-  item: 0.05,
-  cta: 0.46,
-} as const;
 
 /**
  * ─────────────────────────────────────────────────────────────────────────────
@@ -45,6 +25,21 @@ const STEP = {
  * it the way a deck of cards fans. Scrolling slides the front card up and off, and the
  * card behind rises into its place.
  *
+ * ── The copy does not animate ──
+ *
+ * It used to: a staged reveal, part by part, retriggered every time a card reached the
+ * front. That is gone, and the card is better for it in two ways.
+ *
+ * It reads better. The card is already moving — it rises into place, holds, and slides
+ * off. Animating the words inside a surface that is itself in motion means two things
+ * competing for the same attention, and the copy loses. Now the card arrives whole.
+ *
+ * It costs far less. Every part of every card was a `motion` element: two labels, a
+ * headline, a paragraph, four deliverables, three outcomes, a link — about fifteen per
+ * card, ninety across the six, each with its own tween firing on the transition. On a
+ * phone that burst landed in the middle of the scroll it was reacting to. The card is now
+ * one `motion` element with plain markup inside it.
+ *
  * ── Why a phone gets different numbers, not just smaller ones ──
  *
  * Two of the things that make this look good on a desktop are, specifically, the two
@@ -52,22 +47,16 @@ const STEP = {
  *
  * `scale`. A composited layer that changes scale has to be re-rastered, or its cached
  * bitmap gets stretched and the text goes soft; browsers choose the re-raster. So every
- * frame of a scale tween repaints the entire card — a full-screen surface carrying a
- * headline, a paragraph and a list — and there were three of them scaling at once. On a
- * phone that is the single most expensive thing on the page. `SCALE_STEP` and
- * `EXIT_SHRINK` are zero below `md`, which leaves the pile's depth to the offset alone.
+ * frame of a scale tween repaints the entire card. `SCALE_STEP` and `EXIT_SHRINK` are zero
+ * below `md`, which leaves the pile's depth to the offset alone.
  *
  * `box-shadow`. Shadows are rasterised on the CPU and are not compositor properties, so a
  * moving element with a large soft shadow repaints as it moves rather than being shifted
- * as a finished bitmap. Three full-screen shadows moving together is the second cost, and
- * it buys nothing here: these cards are distinct colours on a plain backdrop, so the
- * colour already separates them. The shadow starts at `md`.
+ * as a finished bitmap. It buys nothing here: these cards are distinct colours on a plain
+ * backdrop, so the colour already separates them. The shadow starts at `md`.
  *
  * With both gone, a phone's card only ever has `translateY` and `opacity` applied to it.
- * Both are compositor properties, so the card is rasterised once and then moved — which is
- * the cheapest thing a browser can do with a moving element.
- *
- * The pile is also one card shallower on a phone, so two are drawn instead of three.
+ * Both are compositor properties, so the card is rasterised once and then moved.
  */
 
 /** Share of a card's scroll window spent leaving. The rest is spent still, at the front. */
@@ -88,10 +77,8 @@ type Tuning = {
  * On a large screen the offset and the scale fight each other, and that is fine as long as
  * the offset wins: with the origin at the centre, scaling a card down lifts its bottom
  * edge by half the height it loses, so `peek` has to beat half of `scaleStep` or the card
- * behind never shows. 0.05 against 0.014 leaves a visible strip of about 3.6% of the
- * card's height.
- *
- * On a phone there is no scale to fight, so the same strip needs less offset.
+ * behind never shows. On a phone there is no scale to fight, so the same strip needs less
+ * offset.
  */
 const ROOMY: Tuning = { peek: 0.05, scaleStep: 0.028, exitShrink: 0.05, maxDepth: 2 };
 const PHONE: Tuning = { peek: 0.038, scaleStep: 0, exitShrink: 0, maxDepth: 1 };
@@ -148,17 +135,6 @@ const deckOpacity = (position: number, index: number, maxDepth: number) =>
   clamp(maxDepth + 1 - (index - Math.max(position, 0)), 0, 1);
 
 /**
- * When a card's copy is on screen.
- *
- * Starts when the card in front starts to leave, because that is the instant this one
- * begins to be uncovered — anything later and you can see an exposed card with no copy on
- * it. Ends when this card has finished clearing the stage, so the reset lands on something
- * off screen and scrolling back up runs the sequence again.
- */
-const isRevealed = (position: number, index: number) =>
-  position >= index - 1 && position < index + EXIT;
-
-/**
  * When a card's links can be clicked.
  *
  * Cards that have left are still stacked in front of the current one — `z-index` runs
@@ -186,11 +162,16 @@ const isRendered = (position: number, index: number, maxDepth: number) =>
  * A modular type scale, so the card's sizes relate to each other instead of being picked
  * one at a time. Roughly a perfect fourth (1.333) between steps, each a `clamp` so it
  * stays fluid rather than jumping at breakpoints.
+ *
+ * The headline is set uppercase, which is the reference's most distinctive feature after
+ * the two-tone split. It is also why the ceiling is lower than it looks like it should be:
+ * uppercase runs about a fifth wider than the same string in sentence case, and the
+ * longest of these titles has to fit half a card.
  */
 const TYPE = {
   micro: "text-[10px] tracking-[0.16em] uppercase sm:text-[11px]",
   title:
-    "text-[clamp(1.75rem,3.4vw,3.5rem)] font-bold leading-[1.02] tracking-[-0.04em]",
+    "text-[clamp(1.5rem,2.9vw,2.75rem)] font-bold uppercase leading-[1.04] tracking-[-0.035em]",
   lead: "text-[clamp(1rem,1.15vw,1.375rem)] leading-[1.45] tracking-[-0.01em]",
   item: "text-[clamp(0.9375rem,0.9vw,1rem)] leading-[1.35]",
 } as const;
@@ -213,19 +194,30 @@ const STAGE = "sticky top-0 h-[100svh]";
 const SLOT = "absolute inset-0 flex items-center px-4 py-[76px] sm:px-8 md:py-[92px] lg:px-12";
 
 /**
- * The card. Its colour comes from the service's position in the pile.
+ * The card.
  *
- * The border is on every size and the shadow only from `md`. On a phone the border is what
- * separates one card from the next, and it costs nothing: it is part of the card's raster,
- * which is drawn once and then only moved. See the note at the top for why the shadow is
- * not.
+ * ── The two-tone split ──
  *
- * Type is black in both themes rather than `text-foreground`, for the same reason the page
- * header's is: the card is a light colour either way, so a token that flipped to white in
- * dark mode would be invisible on it.
+ * The reference card is one colour split down the middle, lighter on the copy side and
+ * fuller on the other. That is the `lg:bg-[linear-gradient(...)]`: white at 14% over the
+ * left half with a hard stop at the midpoint, composited on top of the service's colour,
+ * which comes in as an inline `backgroundColor`.
+ *
+ * White over the base rather than a second hex means it works for all six colours without
+ * a palette of tints to keep in step — and it lightens, which can only help the contrast
+ * of the black type sitting on it. The right half is untouched, so the figures already
+ * measured for it still hold.
+ *
+ * It starts at `lg` because that is where the card is actually two columns. Below it the
+ * content is a single column and a split at 50% width would cut through the middle of a
+ * paragraph.
+ *
+ * The border is on every size and the shadow only from `md` — on a phone the border is
+ * what separates one card from the next, and it costs nothing because it is part of a
+ * raster that is drawn once and then only moved.
  */
 const CARD =
-  "mx-auto flex w-full max-w-[1280px] flex-col rounded-[18px] border border-black/10 px-5 py-6 text-black min-h-[56svh] md:rounded-[26px] md:px-8 md:py-8 md:shadow-[0_12px_32px_-12px_rgba(0,0,0,0.28)] lg:px-10";
+  "mx-auto flex w-full max-w-[1280px] flex-col rounded-[18px] border border-black/10 px-5 py-6 text-black min-h-[56svh] md:rounded-[26px] md:px-8 md:py-8 md:shadow-[0_12px_32px_-12px_rgba(0,0,0,0.28)] lg:bg-[linear-gradient(90deg,rgba(255,255,255,0.14)_0_50%,rgba(255,255,255,0)_50%)] lg:px-10";
 
 /**
  * One card in the pile.
@@ -237,14 +229,15 @@ const CARD =
  *
  * The middle band is a 12-column grid. Row one is the headline, lead and — where there is
  * height for it — the outcomes on the left (cols 1–6), against the deliverables on the
- * right (cols 7–12). Row two is the link to the full service page, under the headline.
+ * right (cols 7–12). Row two is the link to the full service page, under the headline. At
+ * `lg` that puts the copy on the lighter half of the split and the list on the fuller one.
  *
  * ── Contrast ──
  *
  * The greys are heavier than they look like they should be. On a mid-tone card the lighter
  * values were genuinely too faint: black at 55% over the violet works out around 3.5:1,
  * under the 4.5:1 that body copy needs. Nothing here goes below 70%, which measures 4.83:1
- * on the worst of the six colours.
+ * on the worst of the six colours — and better than that on the tinted half.
  */
 const Panel = ({
   service,
@@ -264,9 +257,8 @@ const Panel = ({
     Separate booleans rather than one object: React bails out of a re-render when a
     `useState` setter is handed the value it already holds, and an object literal is never
     equal to the last one. With these the handler below runs on every scroll frame and
-    re-renders on a dozen or so across the whole section.
+    re-renders only when one of the two actually flips.
   */
-  const [revealed, setRevealed] = useState(false);
   const [interactive, setInteractive] = useState(false);
   const [rendered, setRendered] = useState(false);
 
@@ -275,17 +267,15 @@ const Panel = ({
   /*
     `useMotionValueEvent` only fires on change, so a card already at the front when the
     component mounts — a reload part-way down the page, or a back navigation that restores
-    scroll — would sit blank until the next scroll event. Seed it.
+    scroll — would be unclickable until the next scroll event. Seed it.
   */
   useEffect(() => {
     const value = position.get();
-    setRevealed(isRevealed(value, index));
     setInteractive(isInteractive(value, index));
     setRendered(isRendered(value, index, maxDepth));
   }, [index, position, maxDepth]);
 
   useMotionValueEvent(position, "change", (value) => {
-    setRevealed(isRevealed(value, index));
     setInteractive(isInteractive(value, index));
     setRendered(isRendered(value, index, maxDepth));
   });
@@ -295,8 +285,7 @@ const Panel = ({
     to the node.
 
     On a phone `scaleStep` and `exitShrink` are zero, so `cardScale` never leaves 1 and the
-    only thing changing is `translateY` and, for buried cards, `opacity`. Both are
-    compositor properties: the card is rasterised once and then moved.
+    only thing changing is `translateY` and, for buried cards, `opacity`.
   */
   const cardY = useTransform(
     position,
@@ -317,21 +306,6 @@ const Panel = ({
   const cardOpacity = useTransform(position, (value) =>
     deckOpacity(value, index, maxDepth),
   );
-
-  /*
-    Staged on the way in, and dropped in one quick beat on the way out.
-
-    The exit deliberately does not inherit `delay`. A card resets once it is off the top,
-    and running the stagger in reverse there means the parts are still settling when it
-    comes back to the front, which reads as a stutter.
-  */
-  const rise = (delay: number) => ({
-    initial: { opacity: 0, y: 12 },
-    animate: revealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 },
-    transition: revealed
-      ? { duration: 0.5, ease: EASE, delay }
-      : { duration: 0.2, ease: EASE, delay: 0 },
-  });
 
   return (
     /*
@@ -355,10 +329,7 @@ const Panel = ({
         }}
       >
         {/* ── Band 1: meta rule ── */}
-        <motion.div
-          {...rise(STEP.meta)}
-          className="flex items-baseline justify-between gap-4 border-b border-black/20 pb-3"
-        >
+        <div className="flex items-baseline justify-between gap-4 border-b border-black/20 pb-3">
           <span className={`font-mono text-black/70 ${TYPE.micro}`}>
             {String(index + 1).padStart(2, "0")} / {service.display}
           </span>
@@ -367,23 +338,18 @@ const Panel = ({
           <span className={`font-mono text-black/70 ${TYPE.micro}`} aria-hidden="true">
             {String(index + 1).padStart(2, "0")} — {String(total).padStart(2, "0")}
           </span>
-        </motion.div>
+        </div>
 
         {/* ── Band 2: the substance ── */}
         <div className="flex flex-1 flex-col justify-center py-6 md:py-8">
           <div className="grid gap-7 lg:grid-cols-12 lg:gap-x-10">
             {/* Left: headline, lead, outcomes */}
             <div className="lg:col-span-6">
-              <motion.h3 {...rise(STEP.title)} className={TYPE.title}>
-                {service.title}
-              </motion.h3>
+              <h3 className={TYPE.title}>{service.title}</h3>
 
-              <motion.p
-                {...rise(STEP.lead)}
-                className={`mt-4 max-w-[42ch] text-black/80 lg:mt-5 ${TYPE.lead}`}
-              >
+              <p className={`mt-4 max-w-[42ch] text-black/80 lg:mt-5 ${TYPE.lead}`}>
                 {service.subtitle}
-              </motion.p>
+              </p>
 
               {/*
                 The outcomes, on tall screens only. Real copy from the service record
@@ -392,18 +358,12 @@ const Panel = ({
                 overwhelming one, and the link below goes to the full detail anyway.
               */}
               <div className="mt-7 hidden lg:tall:block">
-                <motion.p
-                  {...rise(STEP.outcomes)}
-                  className={`font-mono text-black/70 ${TYPE.micro}`}
-                >
-                  What changes
-                </motion.p>
+                <p className={`font-mono text-black/70 ${TYPE.micro}`}>What changes</p>
 
                 <ul className="mt-3 space-y-2">
-                  {service.outcomes.map((item, i) => (
-                    <motion.li
+                  {service.outcomes.map((item) => (
+                    <li
                       key={item}
-                      {...rise(STEP.outcomes + 0.08 + i * STEP.item)}
                       className={`flex items-start gap-3 text-black/80 ${TYPE.item}`}
                     >
                       {/* A short rule as the marker, matching the hairlines the rest of
@@ -414,7 +374,7 @@ const Panel = ({
                         aria-hidden="true"
                       />
                       <span>{item}</span>
-                    </motion.li>
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -426,18 +386,12 @@ const Panel = ({
                 actually has two columns, and only from `xl`, where the 40px it takes from
                 the column is width the deliverables do not need. */}
             <div className="lg:col-span-6 lg:col-start-7 xl:border-l xl:border-black/15 xl:pl-10">
-              <motion.p
-                {...rise(STEP.listLabel)}
-                className={`font-mono text-black/70 ${TYPE.micro}`}
-              >
-                What you get
-              </motion.p>
+              <p className={`font-mono text-black/70 ${TYPE.micro}`}>What you get</p>
 
               <ul className="mt-3 lg:mt-4">
                 {service.deliverables.map((item, i) => (
-                  <motion.li
+                  <li
                     key={item}
-                    {...rise(STEP.listLabel + 0.08 + i * STEP.item)}
                     className={`flex items-baseline gap-3.5 border-b border-black/15 py-2.5 text-black/90 ${TYPE.item}`}
                   >
                     <span
@@ -447,25 +401,32 @@ const Panel = ({
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span>{item}</span>
-                  </motion.li>
+                  </li>
                 ))}
               </ul>
             </div>
 
             {/* Row two of the left column at `lg`; last in the single column below it. */}
-            <motion.div {...rise(STEP.cta)} className="lg:col-span-6 lg:col-start-1">
+            <div className="lg:col-span-6 lg:col-start-1">
               <Link
                 to={`/services/${service.slug}`}
-                /* `py-3` and not `py-2.5`: with the 13px label this clears 44px, which is
-                   the smallest comfortable touch target. */
-                className="group inline-flex items-center gap-2.5 rounded-full bg-black px-5 py-3 text-[13px] font-bold text-white transition-opacity duration-300 ease-out hover:opacity-80"
+                /*
+                  Outlined rather than the solid black pill it was, which is how the
+                  reference draws it — on a saturated card a black fill is the heaviest
+                  thing on the surface and pulls the eye off the headline. The border
+                  fills in on hover so it still reads as the primary action.
+
+                  `py-3` and not `py-2.5`: with the 13px label this clears 44px, which is
+                  the smallest comfortable touch target.
+                */
+                className="group inline-flex items-center gap-2.5 rounded-full border-2 border-black px-5 py-3 text-[13px] font-bold text-black transition-colors duration-300 ease-out hover:bg-black hover:text-white"
               >
                 View more details
-                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transform-none">
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-black/15 transition-[transform,background-color] duration-300 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:bg-white/20 motion-reduce:transform-none">
                   <ArrowUpRight className="h-3 w-3" strokeWidth={3} />
                 </span>
               </Link>
-            </motion.div>
+            </div>
           </div>
         </div>
       </motion.div>
@@ -486,11 +447,11 @@ const Panel = ({
  * stage, in the same place.
  *
  * One scroll subscription reports how far through the article the page is, as a card count.
- * Every card reads it for the five things it needs: how far down the pile to sit, how far
- * through leaving it is, whether it is worth drawing, whether its copy is showing, and
- * whether it can be clicked. The first three are transform and opacity written straight to
- * the node — no React render per frame and nothing that touches layout. The last two are
- * booleans that change a handful of times across the whole section.
+ * Every card reads it for four things: how far down the pile to sit, how far through
+ * leaving it is, whether it is worth drawing, and whether it can be clicked. The first two
+ * are transform and opacity written straight to the node — no React render per frame and
+ * nothing that touches layout. The last two are booleans that change a handful of times
+ * across the whole section.
  *
  * ── Two things that will silently break it ──
  *
