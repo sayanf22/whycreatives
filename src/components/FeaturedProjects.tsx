@@ -235,6 +235,18 @@ const ProjectCard = ({
     cursorY.jump(point.y);
   };
 
+  /*
+    The bezel's colour, chosen against what it frames.
+
+    A near-black bezel is what the reference uses and it is right on the light and accent
+    panels. Around the dark panel it is invisible — that stage is `#151515`, so a `#141414`
+    border is the same colour as the thing it is supposed to be framing, and the card just
+    reads as a slightly larger black rectangle. The dark panel gets a lifted grey instead,
+    which is the one value that shows against it without becoming the brightest thing on
+    the card.
+  */
+  const bezel = project.stage?.tone === "dark" ? "#3a3a3a" : "#141414";
+
   return (
     <motion.article
       className={className}
@@ -268,6 +280,10 @@ const ProjectCard = ({
              These cards had no shadow at all, which is why the light panels read
              as holes cut in the page instead of as surfaces on top of it. */
           shadowClassName="[filter:drop-shadow(0_2px_4px_rgba(0,0,0,0.06))_drop-shadow(0_18px_36px_rgba(0,0,0,0.13))] group-hover:[filter:drop-shadow(0_3px_6px_rgba(0,0,0,0.08))_drop-shadow(0_30px_56px_rgba(0,0,0,0.2))] dark:[filter:drop-shadow(0_2px_5px_rgba(0,0,0,0.5))_drop-shadow(0_22px_44px_rgba(0,0,0,0.65))] dark:group-hover:[filter:drop-shadow(0_3px_8px_rgba(0,0,0,0.6))_drop-shadow(0_34px_64px_rgba(0,0,0,0.8))]"
+          /* Drawn by NotchedFrame from the same path as the outline, which is the only way
+             it stays a constant thickness around the notches. */
+          bezelWidth={8}
+          bezelColor={bezel}
           tagsClassName="gap-2.5"
           tagsPaddedClassName="pb-5 pl-6"
           metaClassName="gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-muted-foreground"
@@ -357,47 +373,28 @@ const ProjectCard = ({
           }
         >
           <>
-            {/*
-              The bezel — the dark border the media sits inside, so each card reads as a
-              screen rather than as a bare picture.
-
-              It goes *inside* the notched frame, not around it, and that is deliberate.
-              The frame's silhouette is a clip-path with two corners cut away for the tags
-              and the meta; a border drawn on that element follows a plain rectangle while
-              the edge steps around the notches, which is the same trap `ProjectTextStage`
-              already documents for its own inner frame. Padding plus a background on a
-              child stays entirely within the clip and cannot disagree with it.
-
-              Padding rather than `border`, so there is no box-sizing interaction with the
-              `h-full` inside it. Lighter in dark mode: at #141414 the bezel would vanish
-              into a near-black page and the card would lose its edge completely.
-            */}
-            <div className="h-full w-full bg-[#141414] p-[5px] sm:p-[7px] md:p-[9px] dark:bg-[#2e2e2e]">
-              <div className="h-full w-full overflow-hidden rounded-[10px] md:rounded-[16px]">
-                {project.stage ? (
-                  /* The zoom stays on a wrapper so the panel scales like the photo
-                     it replaces, while the type inside is never transformed —
-                     scaling text mid-blur reads as a rendering glitch. */
-                  <div className="h-full w-full transition-transform duration-500 ease-out group-hover:scale-[1.03] motion-reduce:transform-none">
-                    <ProjectTextStage
-                      tone={project.stage.tone}
-                      phrases={project.stage.phrases}
-                      seed={index}
-                    />
-                  </div>
-                ) : (
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    width={1200}
-                    height={900}
-                    loading={index === 0 ? "eager" : "lazy"}
-                    decoding="async"
-                    className="h-full w-full grayscale contrast-110 object-cover transition-[filter,transform] duration-500 ease-out group-hover:scale-105 group-hover:contrast-125 motion-reduce:transform-none"
-                  />
-                )}
+            {project.stage ? (
+              /* The zoom stays on a wrapper so the panel scales like the photo
+                 it replaces, while the type inside is never transformed —
+                 scaling text mid-blur reads as a rendering glitch. */
+              <div className="h-full w-full transition-transform duration-500 ease-out group-hover:scale-[1.03] motion-reduce:transform-none">
+                <ProjectTextStage
+                  tone={project.stage.tone}
+                  phrases={project.stage.phrases}
+                  seed={index}
+                />
               </div>
-            </div>
+            ) : (
+              <img
+                src={project.image}
+                alt={project.title}
+                width={1200}
+                height={900}
+                loading={index === 0 ? "eager" : "lazy"}
+                decoding="async"
+                className="h-full w-full grayscale contrast-110 object-cover transition-[filter,transform] duration-500 ease-out group-hover:scale-105 group-hover:contrast-125 motion-reduce:transform-none"
+              />
+            )}
 
             {/* Hover info: a soft veil lifts the type off the photo, and the
                 label wipes up from behind its own mask. */}

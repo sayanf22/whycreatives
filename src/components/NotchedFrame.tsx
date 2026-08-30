@@ -79,6 +79,8 @@ export const NotchedFrame = ({
   metaClassName = "gap-2",
   metaPaddedClassName = "pr-5 pt-4",
   shadowClassName = "",
+  bezelWidth = 0,
+  bezelColor = "#141414",
   onMouseEnter,
   onMouseMove,
   onMouseLeave,
@@ -105,6 +107,20 @@ export const NotchedFrame = ({
   /** `drop-shadow(...)` utilities. Must be a filter, not a box-shadow — see the
    *  note on the wrapper below. */
   shadowClassName?: string;
+  /**
+   * Thickness in px of a border drawn *inside* the outline, so the media reads as a screen
+   * in a bezel. Omit for no bezel.
+   *
+   * It has to be built here rather than by the caller, and the reason is the whole point of
+   * this component: the outline is a measured `clip-path`, so padding plus a background on
+   * a child gives a border whose inner edge is a plain rounded rectangle. That disagrees
+   * with the silhouette in two places at once — it collapses to nothing where the notches
+   * step in, and its corner radii are not concentric with the card's. See the note by the
+   * bezel itself for how this avoids both.
+   */
+  bezelWidth?: number;
+  /** The bezel's colour. Any CSS colour; the caller picks it per card. */
+  bezelColor?: string;
   onMouseEnter?: (e: React.MouseEvent) => void;
   onMouseMove?: (e: React.MouseEvent) => void;
   onMouseLeave?: (e: React.MouseEvent) => void;
@@ -115,6 +131,8 @@ export const NotchedFrame = ({
   const tagsRef = useRef<HTMLDivElement>(null);
   const metaRef = useRef<HTMLDivElement>(null);
   const [clip, setClip] = useState<string | null>(null);
+  /* The measured box, kept so the bezel's SVG can share the path's coordinate system. */
+  const [size, setSize] = useState<{ w: number; h: number } | null>(null);
 
   const measure = useCallback(() => {
     const frame = frameRef.current;
@@ -130,6 +148,8 @@ export const NotchedFrame = ({
     // Radius is read back from CSS rather than hard-coded, so the clipped shape
     // always agrees with whatever `rounded-*` utility is in play here.
     const R = parseFloat(window.getComputedStyle(frame).borderTopLeftRadius) || 16;
+
+    setSize({ w: W, h: H });
 
     if (W < 2 || H < 2) return setClip(null);
     if (top.w < 2 || top.h < 2 || bottom.w < 2 || bottom.h < 2)
@@ -251,13 +271,60 @@ export const NotchedFrame = ({
       {/* The media itself, on the same outline but with no filter above it. */}
       <div className="absolute inset-0">
         <div
-          className={`h-full w-full overflow-hidden ${radiusClassName} ${surfaceClassName}`}
+          /* `relative` so the bezel's SVG is positioned against this box — the one the
+             clip and the measured `size` both describe — and not against whatever
+             positioned ancestor happens to be above it. */
+          className={`relative h-full w-full overflow-hidden ${radiusClassName} ${surfaceClassName}`}
           style={{
             clipPath: clip ? `path("${clip}")` : undefined,
             WebkitClipPath: clip ? `path("${clip}")` : undefined,
+            /*
+              ── BEZEL, no-notch fallback ──
+              When the strips are too big for a notch the outline is a plain rounded
+              rectangle, and an inset box-shadow follows `border-radius` exactly. It does
+              not follow `clip-path`, which is why the clipped case is handled separately
+              below rather than with this.
+            */
+            boxShadow:
+              bezelWidth && !clip
+                ? `inset 0 0 0 ${bezelWidth}px ${bezelColor}`
+                : undefined,
           }}
         >
           {children}
+
+          {/*
+            ── BEZEL, notched ──
+            The outline stroked at twice the bezel width, sitting inside the same clip as
+            the media.
+
+            Stroking rather than insetting is what makes this exact. A stroke is centred on
+            the path, so its outer half falls outside the clip and is discarded, leaving
+            precisely `bezelWidth` of it on the inside — following every notch step, every
+            fillet and both card corners, because it *is* the same path. The alternative is
+            offsetting the path inward, which needs the convex corners to lose the bezel
+            width while the notches' reflex elbows gain it, and two of the three radii here
+            are a single shared value. This needs no offset maths at all.
+
+            `viewBox` is the measured pixel box, so one user unit is one CSS pixel and the
+            stroke width means what it says.
+          */}
+          {bezelWidth > 0 && clip && size ? (
+            <svg
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0"
+              width={size.w}
+              height={size.h}
+              viewBox={`0 0 ${size.w} ${size.h}`}
+            >
+              <path
+                d={clip}
+                fill="none"
+                stroke={bezelColor}
+                strokeWidth={bezelWidth * 2}
+              />
+            </svg>
+          ) : null}
         </div>
       </div>
 
