@@ -6,98 +6,17 @@ import { ArrowUpRight } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import { BlurLine, BlurLines } from "@/components/BlurLines";
 import { ServiceStack } from "@/components/ServiceStack";
+import { SERVICES } from "@/data/services";
 import { usePageIntro } from "@/hooks/use-page-intro";
 import { ACCENT_ORANGE } from "@/lib/brand";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-type Service = {
-  /** The single enormous display word for the row. */
-  display: string;
-  /** Full service name, kept visible for clarity, SEO and screen readers. */
-  title: string;
-  tagline: string;
-  body: string;
-  points: string[];
-  href: string;
-};
-
-const SERVICES: Service[] = [
-  {
-    display: "Video",
-    title: "Video Editing & Motion Design",
-    tagline: "You send the footage. We turn it into the finished cut.",
-    /* Post-production only — we do not shoot. Claiming cinematography and
-       on-location crews sets an expectation the studio does not deliver. */
-    body: "We work from the footage you already have, shaping the edit, pacing, sound, colour and motion into something ready to publish.",
-    points: [
-      "Editing, pacing and story structure",
-      "Motion graphics, titles and captions",
-      "Colour grading, sound design and final delivery",
-    ],
-    href: "/services/video-production",
-  },
-  {
-    display: "Build",
-    title: "Web & App Development",
-    tagline: "A practical product stack, selected around your users and operations.",
-    body: "We design and build high-performance marketing sites, SaaS platforms, dashboards, e-commerce systems and mobile applications—from interface to backend, deployment and handover.",
-    points: [
-      "React, Next.js, Vite, React Native and Flutter",
-      "Node.js, Supabase and Cloudflare Workers backends",
-      "Databases, authentication, APIs, payments and technical SEO",
-    ],
-    href: "/services/web-development",
-  },
-  {
-    display: "Brand",
-    title: "Brand Presence",
-    tagline: "Cultivating communities and driving engagement.",
-    body: "We don't just post. We curate a cohesive identity that resonates with your audience across every channel.",
-    points: [
-      "Cross-platform strategy and production",
-      "Audience analytics and community engagement",
-      "Influencer partnerships",
-    ],
-    href: "/services/brand-presence",
-  },
-  {
-    display: "Growth",
-    title: "Performance Marketing",
-    tagline: "Turning ad spend into measurable revenue.",
-    body: "Our campaigns are built on data, optimised for conversion and scaled for return on investment.",
-    points: [
-      "Multi-channel campaigns across Meta, Google and LinkedIn",
-      "Conversion rate optimisation and funnel tuning",
-      "Retargeting and ROI analytics",
-    ],
-    href: "/services/performance-marketing",
-  },
-  {
-    display: "Content",
-    title: "UGC & Collabs",
-    tagline: "UGC reels and joint collaborations.",
-    body: "Tailored content strategy, scriptwriting and high-impact reels to lift your brand presence.",
-    points: [
-      "Tailored content strategy and ideation",
-      "UGC reel and joint collaboration formats",
-      "End-to-end creative and post-production management",
-    ],
-    href: "/services/ugc-collaborations",
-  },
-  {
-    display: "Design",
-    title: "Logo & Brand Identity",
-    tagline: "Crafting logos that leave lasting impressions.",
-    body: "Your logo is the face of your brand. We design unique, versatile marks that stand out in any market.",
-    points: [
-      "Multiple concept designs and guidelines",
-      "Unlimited revisions and print-ready files",
-      "Social media identity asset kit",
-    ],
-    href: "/services/logo-design",
-  },
-];
+/*
+  The service copy lives in `src/data/services.ts`, shared with the detail pages. It
+  was declared here too, as a shorter parallel list, and the two had already drifted
+  apart on the third service's title.
+*/
 
 const faqSchema = {
   "@context": "https://schema.org",
