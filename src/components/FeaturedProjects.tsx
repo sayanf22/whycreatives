@@ -357,28 +357,47 @@ const ProjectCard = ({
           }
         >
           <>
-            {project.stage ? (
-              /* The zoom stays on a wrapper so the panel scales like the photo
-                 it replaces, while the type inside is never transformed —
-                 scaling text mid-blur reads as a rendering glitch. */
-              <div className="h-full w-full transition-transform duration-500 ease-out group-hover:scale-[1.03] motion-reduce:transform-none">
-                <ProjectTextStage
-                  tone={project.stage.tone}
-                  phrases={project.stage.phrases}
-                  seed={index}
-                />
+            {/*
+              The bezel — the dark border the media sits inside, so each card reads as a
+              screen rather than as a bare picture.
+
+              It goes *inside* the notched frame, not around it, and that is deliberate.
+              The frame's silhouette is a clip-path with two corners cut away for the tags
+              and the meta; a border drawn on that element follows a plain rectangle while
+              the edge steps around the notches, which is the same trap `ProjectTextStage`
+              already documents for its own inner frame. Padding plus a background on a
+              child stays entirely within the clip and cannot disagree with it.
+
+              Padding rather than `border`, so there is no box-sizing interaction with the
+              `h-full` inside it. Lighter in dark mode: at #141414 the bezel would vanish
+              into a near-black page and the card would lose its edge completely.
+            */}
+            <div className="h-full w-full bg-[#141414] p-[5px] sm:p-[7px] md:p-[9px] dark:bg-[#2e2e2e]">
+              <div className="h-full w-full overflow-hidden rounded-[10px] md:rounded-[16px]">
+                {project.stage ? (
+                  /* The zoom stays on a wrapper so the panel scales like the photo
+                     it replaces, while the type inside is never transformed —
+                     scaling text mid-blur reads as a rendering glitch. */
+                  <div className="h-full w-full transition-transform duration-500 ease-out group-hover:scale-[1.03] motion-reduce:transform-none">
+                    <ProjectTextStage
+                      tone={project.stage.tone}
+                      phrases={project.stage.phrases}
+                      seed={index}
+                    />
+                  </div>
+                ) : (
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    width={1200}
+                    height={900}
+                    loading={index === 0 ? "eager" : "lazy"}
+                    decoding="async"
+                    className="h-full w-full grayscale contrast-110 object-cover transition-[filter,transform] duration-500 ease-out group-hover:scale-105 group-hover:contrast-125 motion-reduce:transform-none"
+                  />
+                )}
               </div>
-            ) : (
-              <img
-                src={project.image}
-                alt={project.title}
-                width={1200}
-                height={900}
-                loading={index === 0 ? "eager" : "lazy"}
-                decoding="async"
-                className="h-full w-full grayscale contrast-110 object-cover transition-[filter,transform] duration-500 ease-out group-hover:scale-105 group-hover:contrast-125 motion-reduce:transform-none"
-              />
-            )}
+            </div>
 
             {/* Hover info: a soft veil lifts the type off the photo, and the
                 label wipes up from behind its own mask. */}

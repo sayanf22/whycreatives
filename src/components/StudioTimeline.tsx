@@ -60,6 +60,21 @@ export const StudioTimeline = () => {
     target: sectionRef,
     offset: ["start start", "end end"],
   });
+
+  /*
+    This section's height depends on `travel`, which is not known until the effect above has
+    measured it — so the scrollable area changes once, just after mount. Browsers give no
+    callback for a content-size change, and this version of Framer Motion has no
+    `trackContentSize` option, so `useScroll` would go on using the range it measured when
+    the section was one screen tall until something else made it re-measure.
+    
+    It does re-measure on resize, so one synthetic resize after the height has been
+    committed is enough. Guarded on a real measurement and on the value actually changing,
+    so it fires once rather than on every render.
+  */
+  useEffect(() => {
+    if (travel > 0) window.dispatchEvent(new Event("resize"));
+  }, [travel]);
   const x = useTransform(scrollYProgress, [0, 1], [0, -travel]);
 
   return (

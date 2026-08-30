@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   motion,
@@ -25,38 +25,36 @@ const clamp = (value: number, min: number, max: number) =>
  * it the way a deck of cards fans. Scrolling slides the front card up and off, and the
  * card behind rises into its place.
  *
- * ── The copy does not animate ──
+ * ── Why this is keyframes and not a function ──
  *
- * It used to: a staged reveal, part by part, retriggered every time a card reached the
- * front. That is gone, and the card is better for it in two ways.
+ * This is the fix for the stutter, and it is worth being exact about.
  *
- * It reads better. The card is already moving — it rises into place, holds, and slides
- * off. Animating the words inside a surface that is itself in motion means two things
- * competing for the same attention, and the copy loses. Now the card arrives whole.
+ * Motion can run a scroll-linked animation on the compositor, off the browser's native
+ * `ScrollTimeline`: no scroll measurement, no main-thread work per frame, and it stays
+ * smooth even while the rest of the page is busy. Its documentation is specific about what
+ * qualifies — `scrollYProgress` has to reach a compositable style either directly, or
+ * through `useTransform`, and the mapping has to be one Motion can express as keyframes.
  *
- * It costs far less. Every part of every card was a `motion` element: two labels, a
- * headline, a paragraph, four deliverables, three outcomes, a link — about fifteen per
- * card, ninety across the six, each with its own tween firing on the transition. On a
- * phone that burst landed in the middle of the scroll it was reacting to. The card is now
- * one `motion` element with plain markup inside it.
+ * The previous version disqualified itself twice over. It derived an intermediate motion
+ * value (`position`) and chained off *that* rather than off `scrollYProgress`, and its
+ * transformers were arbitrary JavaScript — `Math.floor`, clamps, branches, and a template
+ * string rebuilt on every frame for six cards. None of that can become a native timeline,
+ * so every frame went through the main thread: measure the scroll, run eighteen
+ * transformers, allocate six strings, parse six percentages, write eighteen styles.
  *
- * ── Why a phone gets different numbers, not just smaller ones ──
+ * The motion itself was always piecewise linear, though. So it is now precomputed: for each
+ * card, the exact scroll positions where its motion changes direction, and its value at
+ * each of those points. That is a keyframe list, handed straight to `useTransform` off
+ * `scrollYProgress`. The maths below still defines the shape — it just runs six times at
+ * mount instead of eighteen times a frame.
  *
- * Two of the things that make this look good on a desktop are, specifically, the two
- * things that stutter on a phone.
+ * ── Why a phone gets different numbers ──
  *
- * `scale`. A composited layer that changes scale has to be re-rastered, or its cached
- * bitmap gets stretched and the text goes soft; browsers choose the re-raster. So every
- * frame of a scale tween repaints the entire card. `SCALE_STEP` and `EXIT_SHRINK` are zero
- * below `md`, which leaves the pile's depth to the offset alone.
- *
- * `box-shadow`. Shadows are rasterised on the CPU and are not compositor properties, so a
- * moving element with a large soft shadow repaints as it moves rather than being shifted
- * as a finished bitmap. It buys nothing here: these cards are distinct colours on a plain
- * backdrop, so the colour already separates them. The shadow starts at `md`.
- *
- * With both gone, a phone's card only ever has `translateY` and `opacity` applied to it.
- * Both are compositor properties, so the card is rasterised once and then moved.
+ * `scale` re-rasters. A composited layer that changes scale has to be redrawn, or its
+ * cached bitmap gets stretched and the text goes soft; browsers choose the redraw. And
+ * `box-shadow` is rasterised on the CPU and is not a compositor property, so a moving
+ * element with a large soft shadow repaints as it moves. Both are off below `md`, which
+ * leaves a phone's card with `translateY` and `opacity` only.
  */
 
 /** Share of a card's scroll window spent leaving. The rest is spent still, at the front. */
@@ -93,29 +91,27 @@ const PHONE: Tuning = { peek: 0.038, scaleStep: 0, exitShrink: 0, maxDepth: 1 };
  */
 const EXIT_TRAVEL = 1.45;
 
+/* ── The shape of the motion, in card-count space ──────────────────────────────
+   These three run at mount to build the keyframe lists, not on every frame. */
+
 /** How far card `index` is through leaving: 0 while it is at the front, 1 once clear. */
-const exitProgress = (position: number, index: number) =>
+const exitAt = (position: number, index: number) =>
   clamp((position - index) / EXIT, 0, 1);
 
 /**
  * Where card `index` sits in the pile: 0 at the front, 1 for the one behind it, and so on.
  *
- * Measured from the front card rather than from the top of the stack, so the pile stays
- * correct before the section has been reached — at which point the front card is card 0
- * and `position` is still negative.
+ * Measured from the front card rather than from the top of the stack — hence the
+ * `Math.max(position, 0)` — so the pile is already assembled while the section is still
+ * scrolling into view, when the front card is card 0 and `position` is still negative.
  *
- * ── Why this is not just the distance ──
- *
- * Taken literally, a card's depth would fall smoothly from 1 to 0 across its whole window,
- * so it would be creeping forward the entire time and would reach full size only at the
- * instant it started to leave. There would be no moment where a card is simply sitting
- * there being read.
- *
- * So each step forward is compressed into the first `EXIT` of the window — the same
- * stretch the card in front spends leaving — and the card then holds at its new depth for
- * the rest. One card rising as another goes, then stillness.
+ * Each step forward is compressed into the first `EXIT` of a window, the same stretch the
+ * card in front spends leaving, and the card then holds at its new depth for the rest.
+ * Taken literally the depth would fall smoothly across the whole window, so a card would
+ * be creeping forward the entire time and would reach full size only at the instant it
+ * started to leave — never once simply sitting there being read.
  */
-const deckDepth = (position: number, index: number, maxDepth: number) => {
+const depthAt = (position: number, index: number, maxDepth: number) => {
   const distance = index - Math.max(position, 0);
   if (distance <= 0) return 0;
   const step = Math.floor(distance);
@@ -131,42 +127,50 @@ const deckDepth = (position: number, index: number, maxDepth: number) => {
  * too deep in the pile to see, at a point where they sit exactly behind the deepest
  * visible one, so it cannot be seen happening.
  */
-const deckOpacity = (position: number, index: number, maxDepth: number) =>
+const opacityAt = (position: number, index: number, maxDepth: number) =>
   clamp(maxDepth + 1 - (index - Math.max(position, 0)), 0, 1);
 
 /**
- * When a card's links can be clicked.
+ * The keyframes for one card, as `useTransform` wants them: an ascending list of
+ * `scrollYProgress` values and the card's y, scale and opacity at each.
  *
- * Cards that have left are still stacked in front of the current one — `z-index` runs
- * backwards so the front card can slide off and reveal the next. One that has travelled
- * off screen but stayed clickable would swallow every click meant for the card behind it.
- *
- * The windows tile exactly: this one ends at `index + EXIT`, where the next one begins.
- * No two cards are ever interactive at once, and none of them is ever dead.
+ * The stops are every point where one of the three functions above changes gradient — the
+ * half-steps of the pile, the two ends of the exit, and zero, where `Math.max(position, 0)`
+ * takes over. Between any two of them all three functions are straight lines, so linear
+ * interpolation between the values reproduces them exactly rather than approximating.
  */
-const isInteractive = (position: number, index: number) =>
-  position >= index - (1 - EXIT) && position < index + EXIT;
+const buildKeyframes = (index: number, total: number, tuning: Tuning) => {
+  const { peek, scaleStep, exitShrink, maxDepth } = tuning;
 
-/**
- * Whether card `index` is worth drawing at all.
- *
- * Everything outside this is either buried deeper in the pile than can be seen or already
- * gone, and gets `visibility: hidden` — which takes it out of painting and compositing
- * entirely rather than leaving a transparent full-screen layer behind. Three cards are live
- * at a time on a large screen and two on a phone, out of six.
- */
-const isRendered = (position: number, index: number, maxDepth: number) =>
-  position >= index - (maxDepth + 1) && position < index + EXIT + 0.15;
+  const knots = new Set<number>([0, index + EXIT]);
+  for (let d = 0; d <= maxDepth + 1; d += 0.5) knots.add(index - d);
+  const positions = [...knots].sort((a, b) => a - b);
+
+  return {
+    /* `position` is `progress * total - 1`, so this is that read backwards. */
+    progress: positions.map((p) => (p + 1) / total),
+    y: positions.map(
+      (p) =>
+        `${((depthAt(p, index, maxDepth) * peek - exitAt(p, index) * EXIT_TRAVEL) * 100).toFixed(3)}%`,
+    ),
+    scale: positions.map(
+      (p) =>
+        1 - depthAt(p, index, maxDepth) * scaleStep - exitAt(p, index) * exitShrink,
+    ),
+    opacity: positions.map((p) => opacityAt(p, index, maxDepth)),
+  };
+};
+
+type Keyframes = ReturnType<typeof buildKeyframes>;
 
 /**
  * A modular type scale, so the card's sizes relate to each other instead of being picked
- * one at a time. Roughly a perfect fourth (1.333) between steps, each a `clamp` so it
- * stays fluid rather than jumping at breakpoints.
+ * one at a time.
  *
- * The headline is set uppercase, which is the reference's most distinctive feature after
- * the two-tone split. It is also why the ceiling is lower than it looks like it should be:
- * uppercase runs about a fifth wider than the same string in sentence case, and the
- * longest of these titles has to fit half a card.
+ * The headline is uppercase, which is the reference's most distinctive feature after the
+ * two-tone split, and that is why the ceiling is lower than it looks like it should be:
+ * uppercase runs about a fifth wider than the same string in sentence case, and the longest
+ * of these titles has to fit half a card.
  */
 const TYPE = {
   micro: "text-[10px] tracking-[0.16em] uppercase sm:text-[11px]",
@@ -187,30 +191,32 @@ const TYPE = {
 const STAGE = "sticky top-0 h-[100svh]";
 
 /**
- * One card's slot inside the stage. The padding is what makes the card smaller than the
- * screen, and it has to clear the navigation, which floats as a capsule from about 14px to
- * 72px down the viewport once the page has scrolled.
+ * One card's slot inside the stage.
+ *
+ * `pointer-events-none` is not decoration — it is the fix for "View more details" doing
+ * nothing. Six of these are stacked on `absolute inset-0`, each covering the whole stage,
+ * and `z-index` runs backwards so the *earliest* card's slot is the top-most. A transparent
+ * div still receives clicks, so once you had scrolled past card 1 its slot was sitting over
+ * everything below it and swallowing every click meant for the card you were looking at.
+ * Marking the slots transparent to input and re-enabling it on the one active card is what
+ * lets the click through.
  */
-const SLOT = "absolute inset-0 flex items-center px-4 py-[76px] sm:px-8 md:py-[92px] lg:px-12";
+const SLOT =
+  "pointer-events-none absolute inset-0 flex items-center px-4 py-[76px] sm:px-8 md:py-[92px] lg:px-12";
 
 /**
  * The card.
  *
  * ── The two-tone split ──
  *
- * The reference card is one colour split down the middle, lighter on the copy side and
- * fuller on the other. That is the `lg:bg-[linear-gradient(...)]`: white at 14% over the
- * left half with a hard stop at the midpoint, composited on top of the service's colour,
- * which comes in as an inline `backgroundColor`.
- *
- * White over the base rather than a second hex means it works for all six colours without
- * a palette of tints to keep in step — and it lightens, which can only help the contrast
- * of the black type sitting on it. The right half is untouched, so the figures already
- * measured for it still hold.
+ * White at 14% over the left half with a hard stop at the midpoint, composited on the
+ * service's colour, which arrives as an inline `backgroundColor`. White over the base
+ * rather than a second hex means one rule covers all six colours with no tints to keep in
+ * step — and it lightens, so it can only raise the contrast of the black type sitting on
+ * it. The right half is untouched, so the figures already measured for it still hold.
  *
  * It starts at `lg` because that is where the card is actually two columns. Below it the
- * content is a single column and a split at 50% width would cut through the middle of a
- * paragraph.
+ * content is a single column and a split at 50% width would cut through a paragraph.
  *
  * The border is on every size and the shadow only from `md` — on a phone the border is
  * what separates one card from the next, and it costs nothing because it is part of a
@@ -222,8 +228,6 @@ const CARD =
 /**
  * One card in the pile.
  *
- * ── The layout ──
- *
  * Two bands: a meta rule at the top and the substance below it. The substance takes
  * `flex-1` and centres itself within the card.
  *
@@ -232,100 +236,56 @@ const CARD =
  * right (cols 7–12). Row two is the link to the full service page, under the headline. At
  * `lg` that puts the copy on the lighter half of the split and the list on the fuller one.
  *
- * ── Contrast ──
+ * The copy does not animate. It used to, part by part, retriggered whenever a card reached
+ * the front: about fifteen `motion` elements a card, ninety across the six, each firing a
+ * tween in the middle of the scroll that triggered it. It also read badly — the card is
+ * already moving, and animating the words inside a surface that is itself in motion puts
+ * two things in competition for the same attention.
  *
- * The greys are heavier than they look like they should be. On a mid-tone card the lighter
- * values were genuinely too faint: black at 55% over the violet works out around 3.5:1,
- * under the 4.5:1 that body copy needs. Nothing here goes below 70%, which measures 4.83:1
- * on the worst of the six colours — and better than that on the tinted half.
+ * Nothing here goes below 70% black. On a mid-tone card the lighter values were genuinely
+ * too faint: 55% over the violet works out around 3.5:1, under the 4.5:1 body copy needs.
  */
 const Panel = ({
   service,
   index,
   total,
-  position,
-  tuning,
+  progress,
+  keyframes,
+  active,
 }: {
   service: Service;
   index: number;
   total: number;
-  /** Cards scrolled past the top of the stack. See `deckDepth`. */
-  position: MotionValue<number>;
-  tuning: Tuning;
+  progress: MotionValue<number>;
+  keyframes: Keyframes;
+  /** Only the front card takes pointer events. See `SLOT`. */
+  active: boolean;
 }) => {
   /*
-    Separate booleans rather than one object: React bails out of a re-render when a
-    `useState` setter is handed the value it already holds, and an object literal is never
-    equal to the last one. With these the handler below runs on every scroll frame and
-    re-renders only when one of the two actually flips.
+    Straight off `scrollYProgress` with keyframe arrays, which is the form Motion can hand
+    to the compositor. No intermediate motion value, no transformer function, nothing
+    allocated per frame.
   */
-  const [interactive, setInteractive] = useState(false);
-  const [rendered, setRendered] = useState(false);
-
-  const { peek, scaleStep, exitShrink, maxDepth } = tuning;
-
-  /*
-    `useMotionValueEvent` only fires on change, so a card already at the front when the
-    component mounts — a reload part-way down the page, or a back navigation that restores
-    scroll — would be unclickable until the next scroll event. Seed it.
-  */
-  useEffect(() => {
-    const value = position.get();
-    setInteractive(isInteractive(value, index));
-    setRendered(isRendered(value, index, maxDepth));
-  }, [index, position, maxDepth]);
-
-  useMotionValueEvent(position, "change", (value) => {
-    setInteractive(isInteractive(value, index));
-    setRendered(isRendered(value, index, maxDepth));
-  });
-
-  /*
-    Plain derived values. No React state and no re-render — Framer writes each one straight
-    to the node.
-
-    On a phone `scaleStep` and `exitShrink` are zero, so `cardScale` never leaves 1 and the
-    only thing changing is `translateY` and, for buried cards, `opacity`.
-  */
-  const cardY = useTransform(
-    position,
-    (value) =>
-      `${(
-        (deckDepth(value, index, maxDepth) * peek -
-          exitProgress(value, index) * EXIT_TRAVEL) *
-        100
-      ).toFixed(3)}%`,
-  );
-  const cardScale = useTransform(
-    position,
-    (value) =>
-      1 -
-      deckDepth(value, index, maxDepth) * scaleStep -
-      exitProgress(value, index) * exitShrink,
-  );
-  const cardOpacity = useTransform(position, (value) =>
-    deckOpacity(value, index, maxDepth),
-  );
+  const y = useTransform(progress, keyframes.progress, keyframes.y);
+  const scale = useTransform(progress, keyframes.progress, keyframes.scale);
+  const opacity = useTransform(progress, keyframes.progress, keyframes.opacity);
 
   return (
     /*
       `zIndex` runs backwards, and it has to: the front card slides off to reveal the one
       behind it, so it must be painted in front of it, while document order puts later
-      cards on top. It is a static value, not a scroll-driven one, so there is no frame
-      where the order is wrong.
+      cards on top. It is a static value, so there is no frame where the order is wrong.
     */
     <div className={SLOT} style={{ zIndex: total - index }}>
       <motion.div
         className={CARD}
         style={{
           backgroundColor: SERVICE_CARD_COLOURS[index % SERVICE_CARD_COLOURS.length],
-          y: cardY,
-          scale: cardScale,
-          opacity: cardOpacity,
-          /* See `isRendered` — out of painting entirely, not just transparent. */
-          visibility: rendered ? "visible" : "hidden",
-          /* See `isInteractive`. A card that has left is off screen but still in front. */
-          pointerEvents: interactive ? "auto" : "none",
+          y,
+          scale,
+          opacity,
+          /* Re-enables what `SLOT` turns off, on the one card in front. */
+          pointerEvents: active ? "auto" : "none",
         }}
       >
         {/* ── Band 1: meta rule ── */}
@@ -446,12 +406,10 @@ const Panel = ({
  * viewport for the whole section, and all six cards are absolutely positioned in that
  * stage, in the same place.
  *
- * One scroll subscription reports how far through the article the page is, as a card count.
- * Every card reads it for four things: how far down the pile to sit, how far through
- * leaving it is, whether it is worth drawing, and whether it can be clicked. The first two
- * are transform and opacity written straight to the node — no React render per frame and
- * nothing that touches layout. The last two are booleans that change a handful of times
- * across the whole section.
+ * One scroll subscription feeds every card's transform through keyframes, which is the
+ * form Motion can put on the compositor. The only thing left on the main thread is a single
+ * integer: which card is at the front, so that one card can take pointer events. It changes
+ * six times across the whole section.
  *
  * ── Two things that will silently break it ──
  *
@@ -472,9 +430,9 @@ export const ServiceStack = ({ services }: { services: Service[] }) => {
   const total = services.length;
 
   /*
-    The breakpoint has to be read in JS, not CSS: it decides the values a scroll-driven
-    transform is built from, and a media query cannot reach into `useTransform`. This is
-    what `useMediaQuery` exists for — its own note says as much.
+    The breakpoint has to be read in JS, not CSS: it decides the numbers the keyframes are
+    built from, and a media query cannot reach into `useTransform`. This is what
+    `useMediaQuery` exists for — its own note says as much.
   */
   const roomy = useMediaQuery("(min-width: 768px)");
   const tuning = roomy ? ROOMY : PHONE;
@@ -482,16 +440,31 @@ export const ServiceStack = ({ services }: { services: Service[] }) => {
   /*
     `start end` to `end end` runs the range from the article's top edge entering at the
     bottom of the viewport to its bottom edge reaching there — so the range spans the
-    article's full height rather than its scrollable height. That is what makes the
-    conversion below a plain card count: at progress `p` the page has scrolled
-    `p * total - 1` cards past the top of the article, which is 0 exactly when the stage
-    reaches the top of the viewport and pins.
+    article's full height rather than its scrollable height. That is what makes
+    `progress * total - 1` a plain card count, which is the space the keyframes are
+    defined in.
   */
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end end"],
   });
-  const position = useTransform(scrollYProgress, (p) => p * total - 1);
+
+  /* Rebuilt only when the breakpoint flips, not on render. */
+  const keyframes = useMemo(
+    () => services.map((_, index) => buildKeyframes(index, total, tuning)),
+    [services, total, tuning],
+  );
+
+  /*
+    The one piece of state left in the scroll path, and it is not a visual: `pointer-events`
+    cannot be expressed as a keyframe, and a stack of transparent slots needs exactly one
+    card taking input. `Math.round` on the card count is that card — card 2 is at the front
+    from 1.5 to 2.5 — and the setter is a no-op on the frames where it has not changed.
+  */
+  const [active, setActive] = useState(0);
+  useMotionValueEvent(scrollYProgress, "change", (p) => {
+    setActive(clamp(Math.round(p * total - 1), 0, total - 1));
+  });
 
   /* The cards carry the colour, so the backdrop is the page's own surface — the pile
      floats on it rather than sitting in a tinted well. */
@@ -508,8 +481,9 @@ export const ServiceStack = ({ services }: { services: Service[] }) => {
             service={service}
             index={index}
             total={total}
-            position={position}
-            tuning={tuning}
+            progress={scrollYProgress}
+            keyframes={keyframes[index]}
+            active={active === index}
           />
         ))}
       </div>
