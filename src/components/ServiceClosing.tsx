@@ -1,7 +1,9 @@
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SERVICES } from "@/data/services";
+import { ACCENT_ORANGE } from "@/lib/brand";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -45,25 +47,71 @@ const STRIP = [
  * Swap both together when there are real quotes and real logos to use. The layout will
  * take them unchanged.
  */
-export const ServiceClosing = () => (
-  <section className="px-3 pt-[clamp(48px,7vw,104px)] sm:px-5 md:px-6">
-    <motion.div
-      /*
-        The grid is two repeating linear gradients — cheaper than an SVG or an image, and
-        it scales with the cell size rather than resampling. The mask fades it out towards
-        the edges so it reads as texture instead of as graph paper, and the cells are
-        smaller on a phone so the pattern stays in proportion to the panel.
-      */
-      className="relative isolate overflow-hidden rounded-[24px] bg-[#0a0a0a] px-5 py-10 text-white sm:px-8 sm:py-14 md:rounded-[40px] md:px-12 md:py-20 lg:px-16"
-      initial={{ opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      transition={{ duration: 0.8, ease: EASE }}
+export const ServiceClosing = () => {
+  const ref = useRef<HTMLElement>(null);
+
+  /*
+    `start end` to `end start` covers the whole time the panel is anywhere on screen, so
+    the parallax has its full travel rather than being crammed into the last stretch.
+  */
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  /*
+    Three layers at three rates, which is what parallax is: the further back a layer sits,
+    the less it moves. The grid travels most, the glow about half as far and in the same
+    direction, and the content is left alone — a panel whose copy slides around while you
+    read it is harder to read, not more alive.
+
+    All of it is `transform` and `opacity` on a handful of nodes, written straight to the
+    DOM by Framer without a React render, so this costs a compositor pass and nothing else.
+  */
+  const gridY = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"]);
+  const glowY = useTransform(scrollYProgress, [0, 1], ["-30%", "18%"]);
+  /* The panel lifts into place as it arrives and settles. Continuous rather than a
+     one-shot `whileInView`, so scrolling back up runs it in reverse. */
+  const panelY = useTransform(scrollYProgress, [0, 0.35], [56, 0]);
+  const panelOpacity = useTransform(scrollYProgress, [0, 0.22], [0, 1]);
+
+  return (
+    <section
+      ref={ref}
+      className="px-3 pb-[clamp(24px,4vw,56px)] pt-[clamp(72px,11vw,176px)] sm:px-5 md:px-6"
     >
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgba(255,255,255,0.07)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.07)_1px,transparent_1px)] bg-[size:38px_38px] [mask-image:radial-gradient(ellipse_75%_65%_at_50%_35%,#000_45%,transparent_100%)] md:bg-[size:56px_56px]"
-      />
+      <motion.div
+        className="relative isolate overflow-hidden rounded-[24px] bg-[#0a0a0a] px-5 py-14 text-white sm:px-8 sm:py-20 md:rounded-[40px] md:px-12 md:py-28 lg:px-16 lg:py-32"
+        style={{ y: panelY, opacity: panelOpacity }}
+      >
+        {/*
+          The grid is two repeating linear gradients — cheaper than an SVG or an image, and
+          it scales with the cell size rather than resampling.
+
+          It is oversized and parallaxed, which is the whole reason it is a separate node:
+          `-inset-y-1/4` gives it 25% of the panel's height of slack at each end, so it can
+          travel without its edge ever entering the frame.
+
+          Two gradients at two scales rather than one, which is what stopped it looking like
+          graph paper: a fine 12px mesh for texture and a heavier line every 96px reading as
+          the actual grid. The radial mask fades both towards the edges.
+        */}
+        <motion.div
+          aria-hidden="true"
+          className="pointer-events-none absolute -inset-y-1/4 inset-x-0 -z-10 bg-[linear-gradient(to_right,rgba(255,255,255,0.055)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.055)_1px,transparent_1px),linear-gradient(to_right,rgba(255,255,255,0.022)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.022)_1px,transparent_1px)] bg-[size:96px_96px,96px_96px,12px_12px,12px_12px] [mask-image:radial-gradient(ellipse_82%_62%_at_50%_38%,#000_38%,transparent_100%)] md:bg-[size:128px_128px,128px_128px,16px_16px,16px_16px]"
+          style={{ y: gridY }}
+        />
+
+        {/* A single soft wash of the accent behind the top of the panel. It is what keeps
+            the black from reading as flat, and it moves furthest of the three layers. */}
+        <motion.div
+          aria-hidden="true"
+          className="pointer-events-none absolute -inset-y-1/3 inset-x-0 -z-10 opacity-[0.16] blur-[100px]"
+          style={{
+            y: glowY,
+            background: `radial-gradient(45% 40% at 50% 20%, ${ACCENT_ORANGE} 0%, transparent 70%)`,
+          }}
+        />
 
       {/* ── The strip ───────────────────────────────────────────────
           `aria-hidden` and duplicated: it is decoration, and a screen reader
@@ -186,6 +234,7 @@ export const ServiceClosing = () => (
           </p>
         </motion.div>
       </div>
-    </motion.div>
-  </section>
-);
+      </motion.div>
+    </section>
+  );
+};

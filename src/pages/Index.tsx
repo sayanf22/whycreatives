@@ -1,6 +1,7 @@
 import { Navigation } from "@/components/Navigation";
 import { Hero } from "@/components/Hero";
 import { AgencyIntro } from "@/components/AgencyIntro";
+import { HomeClosing } from "@/components/HomeClosing";
 import { FeaturedProjects } from "@/components/FeaturedProjects";
 import { Expertise } from "@/components/Expertise";
 import { ClientStory } from "@/components/ClientStory";
@@ -72,8 +73,10 @@ const Index = () => {
           blur() every frame, which was the biggest cause of scroll lag on
           phones. MarqueeLine covers the same "big type" beat far cheaper. */}
       <MarqueeLine />
-      {/* Last block before the footer. */}
       <AskAI />
+      {/* Last block before the footer: the statement, the contact details and the way
+          out, on two rows of moving lettering. */}
+      <HomeClosing />
       <Footer />
     </div>
   );
