@@ -1,13 +1,19 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion, useInView } from "framer-motion";
+import {
+  motion,
+  useMotionValueEvent,
+  useScroll,
+  useTransform,
+  type MotionValue,
+} from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import type { Service } from "@/data/services";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 /**
- * Order the panel's parts arrive in, in seconds from the panel entering view.
+ * Order the panel's parts arrive in, in seconds from the panel reaching the front.
  *
  * One trigger per panel, with the sequence expressed as delays off it. The parts used
  * to observe the viewport individually, which on a panel taller than the screen means
@@ -21,7 +27,8 @@ const STEP = {
   outcomes: 0.34,
   /** Gap between consecutive list items, used by both lists. */
   item: 0.07,
-  footer: 0.7,
+  cta: 0.66,
+  footer: 0.74,
 } as const;
 
 /**
@@ -61,20 +68,65 @@ const TYPE = {
 const MEASURE = "mx-auto w-full max-w-[1600px]";
 
 /**
+ * The panel's own horizontal padding.
+ *
+ * These are the page's gutters, not the panel's. The stack is full bleed — the services
+ * page cancels its `main` padding with a negative margin and each panel puts the gutter
+ * back — so if these values drift from `main`'s the panel copy no longer shares a left
+ * edge with the orange header above it or the closing CTA below it. They were `px-5
+ * sm:px-8` against the page's `px-4 md:px-[clamp(...)]`, which put every panel 4px
+ * further in than the rest of the page on a phone.
+ */
+const GUTTER = "px-4 md:px-[clamp(32px,6vw,120px)]";
+
+/**
+ * Whether panel `index` is the one at the front of the stack, given how many panel
+ * heights have been scrolled past the top of the stack.
+ *
+ * ── Why this is not `useInView` ──
+ *
+ * It was, and it could not do what is being asked here. Every pinned panel keeps
+ * intersecting the viewport: panel 2 stays parked at the top while 3, 4 and 5 slide
+ * over it, so an IntersectionObserver reports all of them as visible at once. Scrolling
+ * back up therefore *uncovers* a panel that never left view, and its text was already
+ * on screen — nothing to replay.
+ *
+ * Position in the stack is the thing that actually changes, so that is what is measured.
+ * At `position === index` the panel's top edge sits at the top of the viewport.
+ *
+ *   `>= index - 0.75`  the panel covers a quarter of the screen from below. Early
+ *                      enough that the text stages in while the panel is still sliding
+ *                      up, rather than snapping in once it has arrived.
+ *   `<  index + 1`     the next panel has not yet covered it completely. Resetting any
+ *                      earlier would fade out copy that is still visible; at exactly
+ *                      this point the panel is hidden, so the reset is never seen — and
+ *                      it is what allows the sequence to replay on the way back up.
+ */
+const isAtFront = (position: number, index: number) =>
+  position >= index - 0.75 && position < index + 1;
+
+/**
  * One pinned panel.
  *
  * ── The layout ──
  *
- * Three bands: a meta rule at the top, the substance in the middle, a tools-and-CTA
- * rule at the foot. The middle band takes `flex-1` and centres itself, which is what
- * removed the void — the previous version used `justify-between` on two short blocks,
- * so on a wide screen the panel was a header, a footer, and half a screen of nothing
- * between them.
+ * Three bands: a meta rule at the top, the substance in the middle, a toolkit rule at
+ * the foot. The middle band takes `flex-1` and centres itself, which is what removed
+ * the void — the previous version used `justify-between` on two short blocks, so on a
+ * wide screen the panel was a header, a footer, and half a screen of nothing between
+ * them.
  *
- * The middle band is a 12-column grid: the headline, the lead paragraph and — where
- * there is height for it — the outcomes on the left (cols 1–6), the deliverables on the
- * right (cols 7–12). Two columns of real content side by side fill the width at the same
- * time as the type fills the height.
+ * The middle band is a 12-column grid. Row one is the headline, lead and — where there
+ * is height for it — the outcomes on the left (cols 1–6), against the deliverables on
+ * the right (cols 7–12). Row two is the link to the full service page, under the
+ * headline. Two columns of real content side by side fill the width at the same time as
+ * the type fills the height.
+ *
+ * The link is a grid item rather than part of the footer rule for two reasons. Sat in
+ * the footer it was a lone pill in the bottom-right corner, the farthest point on the
+ * panel from the copy it refers to. And as the third grid child it needs no responsive
+ * duplication: in one column it falls after the deliverables, which is the right
+ * reading order on a phone; at `lg` it takes row two of the left column.
  *
  * ── Why parts of it are height-gated ──
  *
@@ -88,45 +140,67 @@ const Panel = ({
   service,
   index,
   total,
+  position,
 }: {
   service: Service;
   index: number;
   total: number;
+  /** Panel heights scrolled past the top of the stack. See `isAtFront`. */
+  position: MotionValue<number>;
 }) => {
-  const ref = useRef<HTMLElement>(null);
-  /*
-    `amount: 0.25` — a quarter of the panel visible. These panels are a full screen
-    tall, so a larger share can never be satisfied on a short viewport and the content
-    would never reveal at all.
-  */
-  const inView = useInView(ref, { once: true, amount: 0.25 });
+  const [atFront, setAtFront] = useState(false);
 
+  /*
+    `useMotionValueEvent` only fires on change, so a panel that is already at the front
+    when the component mounts — a reload part-way down the page, or a back navigation
+    that restores scroll — would sit invisible until the next scroll event. Seed it.
+  */
+  useEffect(() => {
+    setAtFront(isAtFront(position.get(), index));
+  }, [index, position]);
+
+  useMotionValueEvent(position, "change", (value) => {
+    setAtFront(isAtFront(value, index));
+  });
+
+  /*
+    Staged on the way in, and dropped in one quick beat on the way out.
+
+    The exit deliberately does not inherit `delay`. A panel resets while it is hidden
+    behind the next one, and running the 0.74s stagger in reverse there means the parts
+    are still settling when it comes back to the front, which reads as a stutter.
+  */
   const rise = (delay: number) => ({
     initial: { opacity: 0, y: 14 },
-    animate: inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 },
-    transition: { duration: 0.55, ease: EASE, delay },
+    animate: atFront ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 },
+    transition: atFront
+      ? { duration: 0.55, ease: EASE, delay }
+      : { duration: 0.2, ease: EASE, delay: 0 },
   });
+
+  const isLast = index === total - 1;
 
   return (
     <section
-      ref={ref}
       /*
-        Every panel after the first carries a rounded top edge and a shadow above it,
-        so an incoming panel reads as a card sliding over the last rather than the page
-        changing colour. Both are static, so they cost one paint, not one per frame.
+        Every panel carries a rounded top edge and a shadow above it, so an incoming
+        panel reads as a card sliding over the last rather than the page changing
+        colour. Both are static, so they cost one paint, not one per frame.
 
-        `top` is staggered by index so a few pixels of each previous panel's edge stay
-        visible above the current one — the stack then reads as a physical pile rather
-        than a single replacing surface. Zero on phones, where the vertical space is
-        worth more than the depth cue.
+        The first panel gets them too. It was square, on the reasoning that nothing
+        slides over it — but it slides over the orange header, and it was the one card
+        in the stack meeting the panel above it with a hard edge. The last panel also
+        rounds its bottom, so the stack closes as a card instead of ending on a
+        full-width cut against the page background.
+
+        The radius runs to the viewport edges; the panel stays full bleed. `top` is
+        staggered by index so a few pixels of each previous panel's rounded edge stay
+        visible above the current one, which is what makes the stack read as a physical
+        pile rather than one surface replacing another.
       */
-      className={`sticky flex min-h-[100svh] flex-col px-5 pb-8 pt-24 sm:px-8 sm:pb-10 sm:pt-28 lg:px-[clamp(32px,6vw,120px)] lg:pb-12 lg:pt-32 ${
+      className={`sticky flex min-h-[100svh] flex-col rounded-t-[24px] pb-8 pt-24 shadow-[0_-20px_44px_-16px_rgba(0,0,0,0.2)] md:rounded-t-[40px] md:pb-12 md:pt-32 dark:shadow-[0_-20px_44px_-16px_rgba(0,0,0,0.65)] ${GUTTER} ${
         index % 2 === 0 ? "bg-background" : "bg-muted"
-      } ${
-        index === 0
-          ? ""
-          : "rounded-t-[24px] shadow-[0_-20px_44px_-16px_rgba(0,0,0,0.2)] md:rounded-t-[36px] dark:shadow-[0_-20px_44px_-16px_rgba(0,0,0,0.65)]"
-      }`}
+      } ${isLast ? "rounded-b-[24px] md:rounded-b-[40px]" : ""}`}
       style={{ top: `calc(${index} * var(--stack-step))` }}
     >
       {/* ── Band 1: meta rule ── */}
@@ -148,9 +222,9 @@ const Panel = ({
       </motion.div>
 
       {/* ── Band 2: the substance ── */}
-      <div className={`flex flex-1 flex-col justify-center py-8 lg:py-10 ${MEASURE}`}>
+      <div className={`flex flex-1 flex-col justify-center py-7 md:py-10 ${MEASURE}`}>
         <div className="grid gap-8 lg:grid-cols-12 lg:gap-x-10">
-          {/* Left: headline + lead */}
+          {/* Left: headline, lead, outcomes */}
           <div className="lg:col-span-6">
             <motion.h3 {...rise(STEP.title)} className={`text-foreground ${TYPE.title}`}>
               {service.title}
@@ -171,7 +245,7 @@ const Panel = ({
               three lines the detail page shows. It is hidden below `lg:tall` on
               purpose: the panel is one screen per service, and on a short window the
               extra 175px turns that into nearly two screens of scrolling per service.
-              The CTA at the foot goes to the page that carries the full detail.
+              The link at the foot of the copy goes to the full detail.
             */}
             <div className="mt-9 hidden taller:mt-12 lg:tall:block">
               <motion.p
@@ -234,18 +308,38 @@ const Panel = ({
               ))}
             </ul>
           </div>
+
+          {/* Row two of the left column at `lg`; last in the single column below it. */}
+          <motion.div {...rise(STEP.cta)} className="lg:col-span-6 lg:col-start-1">
+            <Link
+              to={`/services/${service.slug}`}
+              /* `py-3` and not `py-2.5`: with the 14px label this clears 44px, which is
+                 the smallest comfortable touch target. */
+              className="group inline-flex items-center gap-2.5 rounded-full bg-foreground px-6 py-3 text-sm font-bold text-background transition-opacity duration-300 ease-out hover:opacity-85"
+            >
+              View more details
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-background/15 transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transform-none">
+                <ArrowUpRight className="h-3 w-3" strokeWidth={3} />
+              </span>
+            </Link>
+          </motion.div>
         </div>
       </div>
 
-      {/* ── Band 3: tools + CTA ── */}
+      {/* ── Band 3: the toolkit rule ── */}
+      {/* Labelled and split to the two ends, so it echoes the meta rule at the top
+          instead of reading as a stray line of text once the link moved out of it. */}
       <motion.div
         {...rise(STEP.footer)}
-        className={`flex flex-col gap-5 border-t border-foreground/12 pt-5 sm:flex-row sm:items-center sm:justify-between ${MEASURE}`}
+        className={`flex flex-col gap-2 border-t border-foreground/12 pt-5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6 ${MEASURE}`}
       >
+        <span className={`font-mono shrink-0 text-muted-foreground ${TYPE.micro}`}>
+          Toolkit
+        </span>
         {/* The stack, as plain tracked text rather than pills. Pills would add six to
             twelve boxes per panel and turn a quiet footer into the busiest thing on
             the card. Capped at five with a count, because Build alone lists twelve. */}
-        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground/80">
+        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground/80 sm:text-right">
           {service.tools.slice(0, 5).join("  ·  ")}
           {service.tools.length > 5 && (
             <span className="text-muted-foreground/50">
@@ -254,16 +348,6 @@ const Panel = ({
             </span>
           )}
         </p>
-
-        <Link
-          to={`/services/${service.slug}`}
-          className="group inline-flex shrink-0 items-center gap-2.5 rounded-full bg-foreground px-5 py-2.5 text-[13px] font-bold text-background transition-opacity duration-300 ease-out hover:opacity-85"
-        >
-          Explore {service.display}
-          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-background/15 transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transform-none">
-            <ArrowUpRight className="h-3 w-3" strokeWidth={3} />
-          </span>
-        </Link>
       </motion.div>
     </section>
   );
@@ -278,8 +362,13 @@ const Panel = ({
  *
  * Consecutive `position: sticky` siblings each pin at the same offset, so panel N holds
  * while panel N+1 scrolls up and covers it. That is the whole effect and it costs
- * nothing — no scroll listener, no per-frame transform, nothing to fall out of sync
- * when a frame is dropped. Only the text reveal uses JS, once per panel.
+ * nothing — no per-frame transform, nothing to fall out of sync when a frame is
+ * dropped.
+ *
+ * The one scroll subscription here is not driving the pinning. It reports how far
+ * through the stack the page is, as a panel count, which the panels read to decide
+ * whether they are at the front. Nothing interpolates and nothing writes to style on
+ * every frame; each panel flips a boolean five times over the whole scroll.
  *
  * ── Two things that will silently break it ──
  *
@@ -292,20 +381,40 @@ const Panel = ({
  *    no way to reach it. `min-h` lets a long panel grow and pin slightly later.
  *
  * `svh`, not `vh`: on a phone `vh` resolves against the largest viewport, so a `100vh`
- * panel is taller than the screen while the browser chrome shows and the footer band
- * sits under the address bar.
+ * panel is taller than the screen and the footer band sits under the address bar.
  */
-export const ServiceStack = ({ services }: { services: Service[] }) => (
-  /* `--stack-step` is the per-panel offset that leaves a sliver of the previous panel
-     showing. Declared here so every panel derives its `top` from one value. */
-  <article className="[--stack-step:0px] md:[--stack-step:8px]">
-    {services.map((service, index) => (
-      <Panel
-        key={service.slug}
-        service={service}
-        index={index}
-        total={services.length}
-      />
-    ))}
-  </article>
-);
+export const ServiceStack = ({ services }: { services: Service[] }) => {
+  const ref = useRef<HTMLElement>(null);
+  const total = services.length;
+
+  /*
+    `start end` to `end end` runs the range from the stack's top edge entering at the
+    bottom of the viewport to its bottom edge reaching there — so the range spans the
+    stack's full height rather than its scrollable height. That is what makes the
+    conversion below a plain panel count: at progress `p` the page has scrolled
+    `p * total - 1` panel heights past the top of the stack, which is 0 exactly when the
+    first panel's top edge reaches the top of the viewport.
+  */
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end end"],
+  });
+  const position = useTransform(scrollYProgress, (p) => p * total - 1);
+
+  return (
+    /* `--stack-step` is the per-panel offset that leaves a sliver of the previous panel
+       showing. Declared here so every panel derives its `top` from one value. Zero on
+       phones, where the vertical space is worth more than the depth cue. */
+    <article ref={ref} className="[--stack-step:0px] md:[--stack-step:10px] lg:[--stack-step:12px]">
+      {services.map((service, index) => (
+        <Panel
+          key={service.slug}
+          service={service}
+          index={index}
+          total={total}
+          position={position}
+        />
+      ))}
+    </article>
+  );
+};
