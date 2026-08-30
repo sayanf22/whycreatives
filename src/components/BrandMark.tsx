@@ -41,9 +41,13 @@ const MARK: Record<string, { slug?: string; monogram?: string }> = {
   Swift: { slug: "swift" },
   Kotlin: { slug: "kotlin" },
   "Node.js": { slug: "nodedotjs" },
+  "Tailwind CSS": { slug: "tailwindcss" },
   Supabase: { slug: "supabase" },
   "Cloudflare Workers": { slug: "cloudflareworkers" },
   "D1 / KV / R2": { slug: "cloudflare" },
+  /* Neon's own mark is not in Simple Icons — the only "neon" in the set is KDE neon,
+     an unrelated Linux distribution, which would be worse than no mark at all. */
+  Neon: { monogram: "Ne" },
   PostgreSQL: { slug: "postgresql" },
   "REST / GraphQL": { slug: "graphql" },
 

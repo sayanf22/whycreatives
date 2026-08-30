@@ -84,16 +84,27 @@ const TYPE = {
 const MEASURE = "mx-auto w-full max-w-[1600px]";
 
 /**
- * The panel's own horizontal padding.
+ * The gap between the card and the edge of the screen.
  *
- * These are the page's gutters, not the panel's. The stack is full bleed — the services
- * page cancels its `main` padding with a negative margin and each panel puts the gutter
- * back — so if these values drift from `main`'s the panel copy no longer shares a left
- * edge with the orange header above it or the closing CTA below it. They were `px-5
- * sm:px-8` against the page's `px-4 md:px-[clamp(...)]`, which put every panel 4px
- * further in than the rest of the page on a phone.
+ * This is padding on the positioning shell, not margin on the card, because the shell is
+ * what sticky pins and what the dwell transform moves. Keeping the card as a plain
+ * stretched child means its size is a consequence of the shell's box rather than a second
+ * set of numbers to keep in step.
+ *
+ * The top value is larger than the others: it has to clear the navigation, which floats
+ * as a capsule from about 14px to 72px down the viewport once the page has scrolled.
  */
-const GUTTER = "px-4 md:px-[clamp(32px,6vw,120px)]";
+const INSET = "px-3 pb-3 pt-[84px] md:px-5 md:pb-5 md:pt-[92px] lg:px-6 lg:pb-6";
+
+/**
+ * The card itself.
+ *
+ * A border as well as a shadow. The shadow alone reads on a tinted backdrop but not in
+ * every theme, and the border is what guarantees the card's edge is legible — the whole
+ * point of insetting it is that you can see where it stops.
+ */
+const CARD =
+  "flex flex-1 flex-col rounded-[20px] border border-foreground/[0.09] bg-background px-5 py-7 shadow-[0_16px_44px_-14px_rgba(0,0,0,0.16)] md:rounded-[30px] md:px-9 md:py-9 lg:px-12 lg:py-10 dark:shadow-[0_16px_50px_-12px_rgba(0,0,0,0.7)]";
 
 /**
  * Whether panel `index` is the one at the front of the stack, given how many panel
@@ -137,9 +148,10 @@ const isAtFront = (position: number, index: number) =>
  * it is safe: if this never runs the offset is zero, and zero is exactly the CSS-only
  * stack that already worked.
  *
- * Panel 0 is exempt. There is no panel behind it to fill the space it would vacate —
- * only the page background, so holding it down opens a visible gap under the orange
- * header. It slides in at the scroll rate, directly beneath the header, as before.
+ * Panel 0 is exempt. Every other panel vacates space that the panel behind it is already
+ * filling; panel 0 has nothing behind it but bare backdrop, so holding it down leaves a
+ * band of empty tint under the orange header. It slides in at the scroll rate, directly
+ * beneath the header, as before.
  */
 const dwellOffset = (position: number, index: number) => {
   if (index === 0) return 0;
@@ -235,31 +247,28 @@ const Panel = ({
       : { duration: 0.2, ease: EASE, delay: 0 },
   });
 
-  const isLast = index === total - 1;
-
   return (
+    /*
+      The shell. Transparent, a full screen tall, and the only thing that moves: sticky
+      pins it and the dwell transform shifts it. The card is a stretched child, so it is
+      whatever is left after `INSET`.
+
+      Splitting the two is what lets the card be smaller than the screen without
+      touching the mechanism. The shell still occupies exactly one screen of flow, so the
+      scroll length, the pinning and the dwell maths are all unchanged — the card just
+      no longer fills what the shell reserves. A shorter *shell* would have broken the
+      stack, because the next panel would start scrolling into view before this one had
+      finished being read.
+
+      `top` is staggered by index, so each previous card's top edge stays visible above
+      the current one. That now shows through the shell's own transparent padding, which
+      is why the pile reads more clearly inset than it did full bleed.
+    */
     <motion.section
-      /*
-        Every panel carries a rounded top edge and a shadow above it, so an incoming
-        panel reads as a card sliding over the last rather than the page changing
-        colour. Both are static, so they cost one paint, not one per frame.
-
-        The first panel gets them too. It was square, on the reasoning that nothing
-        slides over it — but it slides over the orange header, and it was the one card
-        in the stack meeting the panel above it with a hard edge. The last panel also
-        rounds its bottom, so the stack closes as a card instead of ending on a
-        full-width cut against the page background.
-
-        The radius runs to the viewport edges; the panel stays full bleed. `top` is
-        staggered by index so a few pixels of each previous panel's rounded edge stay
-        visible above the current one, which is what makes the stack read as a physical
-        pile rather than one surface replacing another.
-      */
-      className={`sticky flex min-h-[100svh] flex-col rounded-t-[24px] pb-8 pt-24 shadow-[0_-20px_44px_-16px_rgba(0,0,0,0.2)] md:rounded-t-[40px] md:pb-12 md:pt-32 dark:shadow-[0_-20px_44px_-16px_rgba(0,0,0,0.65)] ${GUTTER} ${
-        index % 2 === 0 ? "bg-background" : "bg-muted"
-      } ${isLast ? "rounded-b-[24px] md:rounded-b-[40px]" : ""}`}
+      className={`sticky flex min-h-[100svh] ${INSET}`}
       style={{ top: `calc(${index} * var(--stack-step))`, y }}
     >
+      <div className={CARD}>
       {/* ── Band 1: meta rule ── */}
       <motion.div
         {...rise(STEP.meta)}
@@ -382,6 +391,7 @@ const Panel = ({
           </motion.div>
         </div>
       </div>
+      </div>
     </motion.section>
   );
 };
@@ -440,10 +450,22 @@ export const ServiceStack = ({ services }: { services: Service[] }) => {
   const position = useTransform(scrollYProgress, (p) => p * total - 1);
 
   return (
-    /* `--stack-step` is the per-panel offset that leaves a sliver of the previous panel
-       showing. Declared here so every panel derives its `top` from one value. Zero on
-       phones, where the vertical space is worth more than the depth cue. */
-    <article ref={ref} className="[--stack-step:0px] md:[--stack-step:10px] lg:[--stack-step:12px]">
+    /*
+      `--stack-step` is the per-panel offset that leaves a sliver of the previous card
+      showing. Declared here so every panel derives its `top` from one value. Zero on
+      phones, where the vertical space is worth more than the depth cue.
+
+      `bg-muted` is the backdrop the cards are inset against, and it is what makes them
+      read as cards at all. The panels used to alternate `bg-background` / `bg-muted`
+      between themselves, which is how you tell two full-bleed surfaces apart. Inset,
+      that alternation stopped working: every other card was the same colour as the page
+      behind it, so half of them showed no inset. One tint behind, one surface on top,
+      and every card sits visibly on something.
+    */
+    <article
+      ref={ref}
+      className="bg-muted [--stack-step:0px] md:[--stack-step:10px] lg:[--stack-step:12px]"
+    >
       {services.map((service, index) => (
         <Panel
           key={service.slug}
