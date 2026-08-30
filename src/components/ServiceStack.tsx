@@ -21,15 +21,31 @@ const EASE = [0.16, 1, 0.3, 1] as const;
  */
 const STEP = {
   meta: 0,
-  title: 0.08,
-  lead: 0.24,
-  listLabel: 0.3,
-  outcomes: 0.34,
+  title: 0.06,
+  lead: 0.16,
+  listLabel: 0.2,
+  outcomes: 0.24,
   /** Gap between consecutive list items, used by both lists. */
-  item: 0.07,
-  cta: 0.66,
-  footer: 0.74,
+  item: 0.05,
+  cta: 0.46,
 } as const;
+
+/**
+ * How much of each panel's scroll window the slide itself takes. The rest is dwell,
+ * with the card held still and fully readable.
+ *
+ * ── The problem this solves ──
+ *
+ * Consecutive sticky panels slide at exactly the scroll rate, which means the incoming
+ * card is mid-transition for the *entire* window — there is no point at which one card
+ * is alone on the screen. You are always looking at part of two of them, and the whole
+ * section feels like one long continuous slide.
+ *
+ * At 0.4, a card arrives over the first 40% of its window and then holds for the other
+ * 60%. Same total scroll, roughly a third as much motion, and every card gets a stretch
+ * where it is the only thing on screen.
+ */
+const SLIDE = 0.4;
 
 /**
  * A modular type scale, so the panel's sizes relate to each other instead of being
@@ -94,27 +110,58 @@ const GUTTER = "px-4 md:px-[clamp(32px,6vw,120px)]";
  * Position in the stack is the thing that actually changes, so that is what is measured.
  * At `position === index` the panel's top edge sits at the top of the viewport.
  *
- *   `>= index - 0.75`  the panel covers a quarter of the screen from below. Early
- *                      enough that the text stages in while the panel is still sliding
- *                      up, rather than snapping in once it has arrived.
+ *   `>= index - SLIDE * 0.75`  the panel covers a quarter of the screen from below.
+ *                      Early enough that the text stages in while the panel is still
+ *                      sliding up, rather than snapping in once it has arrived. Scaled
+ *                      by `SLIDE` because the panel now spends most of its window held
+ *                      out of sight: a fixed 0.75 would start the sequence before the
+ *                      card had appeared at all, and it would be over before you saw it.
  *   `<  index + 1`     the next panel has not yet covered it completely. Resetting any
  *                      earlier would fade out copy that is still visible; at exactly
  *                      this point the panel is hidden, so the reset is never seen — and
  *                      it is what allows the sequence to replay on the way back up.
  */
 const isAtFront = (position: number, index: number) =>
-  position >= index - 0.75 && position < index + 1;
+  position >= index - SLIDE * 0.75 && position < index + 1;
+
+/**
+ * How far to hold panel `index` below where sticky alone would put it, in `svh`.
+ *
+ * This is the dwell. Sticky gives the panel a visual top of `distance` screens, falling
+ * to 0 at the moment it pins. Pushing it back down to a full screen for as long as
+ * `distance` exceeds `SLIDE` keeps it off screen through the dwell, then letting the
+ * offset fall away over the remaining `SLIDE` of the window slides it in over the same
+ * distance in less scroll.
+ *
+ * It is layered over the sticky pinning rather than replacing it, which is the reason
+ * it is safe: if this never runs the offset is zero, and zero is exactly the CSS-only
+ * stack that already worked.
+ *
+ * Panel 0 is exempt. There is no panel behind it to fill the space it would vacate —
+ * only the page background, so holding it down opens a visible gap under the orange
+ * header. It slides in at the scroll rate, directly beneath the header, as before.
+ */
+const dwellOffset = (position: number, index: number) => {
+  if (index === 0) return 0;
+  const distance = index - position;
+  if (distance <= 0 || distance >= 1) return 0;
+  return distance >= SLIDE ? 1 - distance : distance * (1 / SLIDE - 1);
+};
 
 /**
  * One pinned panel.
  *
  * ── The layout ──
  *
- * Three bands: a meta rule at the top, the substance in the middle, a toolkit rule at
- * the foot. The middle band takes `flex-1` and centres itself, which is what removed
- * the void — the previous version used `justify-between` on two short blocks, so on a
- * wide screen the panel was a header, a footer, and half a screen of nothing between
- * them.
+ * Two bands: a meta rule at the top and the substance below it. The substance takes
+ * `flex-1` and centres itself, which is what removed the void — an earlier version used
+ * `justify-between` on two short blocks, so on a wide screen the panel was a header, a
+ * footer, and half a screen of nothing between them.
+ *
+ * There was a third band, a rule listing the service's toolkit. It is gone. A card whose
+ * job is to say what a service is does not also need to name the software, and the
+ * detail page already has a section for exactly that — with the full list rather than
+ * the five that fitted here.
  *
  * The middle band is a 12-column grid. Row one is the headline, lead and — where there
  * is height for it — the outcomes on the left (cols 1–6), against the deliverables on
@@ -164,24 +211,34 @@ const Panel = ({
   });
 
   /*
+    The dwell, as a plain derived value. No React state and no re-render — Framer writes
+    the transform straight to the node, and `translateY` is a compositor property, so
+    this stays off the layout and paint path.
+  */
+  const y = useTransform(
+    position,
+    (value) => `${(dwellOffset(value, index) * 100).toFixed(2)}svh`,
+  );
+
+  /*
     Staged on the way in, and dropped in one quick beat on the way out.
 
     The exit deliberately does not inherit `delay`. A panel resets while it is hidden
-    behind the next one, and running the 0.74s stagger in reverse there means the parts
-    are still settling when it comes back to the front, which reads as a stutter.
+    behind the next one, and running the stagger in reverse there means the parts are
+    still settling when it comes back to the front, which reads as a stutter.
   */
   const rise = (delay: number) => ({
     initial: { opacity: 0, y: 14 },
     animate: atFront ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 },
     transition: atFront
-      ? { duration: 0.55, ease: EASE, delay }
+      ? { duration: 0.5, ease: EASE, delay }
       : { duration: 0.2, ease: EASE, delay: 0 },
   });
 
   const isLast = index === total - 1;
 
   return (
-    <section
+    <motion.section
       /*
         Every panel carries a rounded top edge and a shadow above it, so an incoming
         panel reads as a card sliding over the last rather than the page changing
@@ -201,7 +258,7 @@ const Panel = ({
       className={`sticky flex min-h-[100svh] flex-col rounded-t-[24px] pb-8 pt-24 shadow-[0_-20px_44px_-16px_rgba(0,0,0,0.2)] md:rounded-t-[40px] md:pb-12 md:pt-32 dark:shadow-[0_-20px_44px_-16px_rgba(0,0,0,0.65)] ${GUTTER} ${
         index % 2 === 0 ? "bg-background" : "bg-muted"
       } ${isLast ? "rounded-b-[24px] md:rounded-b-[40px]" : ""}`}
-      style={{ top: `calc(${index} * var(--stack-step))` }}
+      style={{ top: `calc(${index} * var(--stack-step))`, y }}
     >
       {/* ── Band 1: meta rule ── */}
       <motion.div
@@ -325,31 +382,7 @@ const Panel = ({
           </motion.div>
         </div>
       </div>
-
-      {/* ── Band 3: the toolkit rule ── */}
-      {/* Labelled and split to the two ends, so it echoes the meta rule at the top
-          instead of reading as a stray line of text once the link moved out of it. */}
-      <motion.div
-        {...rise(STEP.footer)}
-        className={`flex flex-col gap-2 border-t border-foreground/12 pt-5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6 ${MEASURE}`}
-      >
-        <span className={`font-mono shrink-0 text-muted-foreground ${TYPE.micro}`}>
-          Toolkit
-        </span>
-        {/* The stack, as plain tracked text rather than pills. Pills would add six to
-            twelve boxes per panel and turn a quiet footer into the busiest thing on
-            the card. Capped at five with a count, because Build alone lists twelve. */}
-        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground/80 sm:text-right">
-          {service.tools.slice(0, 5).join("  ·  ")}
-          {service.tools.length > 5 && (
-            <span className="text-muted-foreground/50">
-              {"  ·  +"}
-              {service.tools.length - 5}
-            </span>
-          )}
-        </p>
-      </motion.div>
-    </section>
+    </motion.section>
   );
 };
 
@@ -358,17 +391,22 @@ const Panel = ({
  * panel slides up over it, so scrolling swaps the service rather than moving the page
  * past it.
  *
- * ── Why the pinning is pure CSS ──
+ * ── The pinning is CSS; the timing is layered on top ──
  *
  * Consecutive `position: sticky` siblings each pin at the same offset, so panel N holds
- * while panel N+1 scrolls up and covers it. That is the whole effect and it costs
- * nothing — no per-frame transform, nothing to fall out of sync when a frame is
- * dropped.
+ * while panel N+1 scrolls up and covers it. That is the stack, and it needs no
+ * JavaScript at all.
  *
- * The one scroll subscription here is not driving the pinning. It reports how far
- * through the stack the page is, as a panel count, which the panels read to decide
- * whether they are at the front. Nothing interpolates and nothing writes to style on
- * every frame; each panel flips a boolean five times over the whole scroll.
+ * What it cannot do is dwell. Sticky slides the incoming panel at exactly the scroll
+ * rate, so the transition fills the entire window and no card is ever alone on screen.
+ * So one scroll subscription reports how far through the stack the page is, as a panel
+ * count, and the panels use it for two things: whether they are at the front, and how
+ * far to hold themselves below their sticky position (`dwellOffset`).
+ *
+ * The offset is a `translateY` written straight to the node by Framer — no React render,
+ * and a compositor property, so it stays off layout and paint. And because it is layered
+ * over the sticky positioning rather than replacing it, a zero offset is exactly the
+ * CSS-only stack: if the subscription never runs, the section still works.
  *
  * ── Two things that will silently break it ──
  *
@@ -381,7 +419,7 @@ const Panel = ({
  *    no way to reach it. `min-h` lets a long panel grow and pin slightly later.
  *
  * `svh`, not `vh`: on a phone `vh` resolves against the largest viewport, so a `100vh`
- * panel is taller than the screen and the footer band sits under the address bar.
+ * panel is taller than the screen and its lower band sits under the address bar.
  */
 export const ServiceStack = ({ services }: { services: Service[] }) => {
   const ref = useRef<HTMLElement>(null);

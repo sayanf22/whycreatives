@@ -5,6 +5,10 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import { Footer } from "@/components/Footer";
 import { Navigation } from "@/components/Navigation";
 import { BlurLine, BlurLines } from "@/components/BlurLines";
+import { BrandMark } from "@/components/BrandMark";
+/* The full mark set is imported here and nowhere else. This page is lazy-loaded, which
+   is what keeps 27KB of tool logos out of the entry chunk. */
+import { BRAND_MARKS } from "@/data/brand-marks";
 import { SERVICES, SERVICES_BY_SLUG } from "@/data/services";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -130,7 +134,10 @@ const ServiceDetails = () => {
             </div>
             <div className="flex content-start flex-wrap gap-2 lg:col-span-8">
               {service.tools.map((tool, index) => (
-                <motion.span key={tool} initial={{ opacity: 0, scale: 0.92 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: index * 0.035 }} className="rounded-full border border-border px-3.5 py-2 text-[13px] font-bold text-foreground/80 transition-colors hover:border-foreground hover:bg-foreground hover:text-background sm:px-4 sm:py-2.5 sm:text-sm">
+                <motion.span key={tool} initial={{ opacity: 0, scale: 0.92 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: index * 0.035 }} className="inline-flex items-center gap-2 rounded-full border border-border px-3.5 py-2 text-[13px] font-bold text-foreground/80 transition-colors hover:border-foreground hover:bg-foreground hover:text-background sm:px-4 sm:py-2.5 sm:text-sm">
+                  {/* Drawn in `currentColor`, so the mark inverts with the chip on
+                      hover instead of staying a fixed colour on a flipped surface. */}
+                  <BrandMark name={tool} marks={BRAND_MARKS} className="h-[15px] w-[15px]" />
                   {tool}
                 </motion.span>
               ))}

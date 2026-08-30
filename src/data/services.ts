@@ -75,7 +75,7 @@ export const SERVICES: Service[] = [
     subtitle:
       "Fast, maintainable digital products designed around real business workflows.",
     description:
-      "We design and engineer marketing sites, web applications, SaaS products, dashboards, e-commerce experiences and mobile apps. Every build is scoped around users, content, integrations, security and measurable performance—not a pre-selected template.",
+      "We design and engineer marketing sites, web applications, SaaS products, dashboards, e-commerce experiences and mobile apps. Mobile work is built cross-platform in Flutter or React Native where one codebase serves both stores, and fully native in Swift or Kotlin where the app depends on platform features that a shared layer cannot reach. Every build is scoped around users, content, integrations, security and measurable performance—not a pre-selected template.",
     outcomes: [
       "A product people can use confidently",
       "Fast pages and resilient infrastructure",
@@ -84,7 +84,7 @@ export const SERVICES: Service[] = [
     deliverables: [
       "Product discovery, UX flows and UI systems",
       "Responsive websites and progressive web apps",
-      "iOS and Android apps with shared or native UI",
+      "Flutter and React Native apps, or fully native iOS and Android",
       "APIs, authentication, databases, CMS and payments",
     ],
     process: [
@@ -98,8 +98,10 @@ export const SERVICES: Service[] = [
       "React",
       "TypeScript",
       "Vite",
-      "React Native",
       "Flutter",
+      "React Native",
+      "Swift",
+      "Kotlin",
       "Node.js",
       "Supabase",
       "Cloudflare Workers",
