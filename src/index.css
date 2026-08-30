@@ -21,11 +21,27 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Prevent horizontal scroll on mobile */
+/*
+  Prevent horizontal scroll — with `clip`, not `hidden`.
+
+  This mattered more than it looks. `overflow-x: hidden` on `html`/`body` makes them
+  a *scroll container*, and `position: sticky` resolves against its nearest scrolling
+  ancestor — so every sticky element on the site was pinning to a container that never
+  scrolls, which silently does nothing. That is why the pinned service panels on
+  /what-we-do had no effect: the CSS was correct and this rule was cancelling it.
+
+  `overflow-x: clip` gives the same protection against sideways scroll without
+  establishing a scroll container, so sticky keeps working. Supported in every current
+  browser (Chrome 90+, Firefox 81+, Safari 16+).
+
+  `max-width: 100%` rather than `100vw`: `vw` includes the vertical scrollbar's width,
+  so on a page tall enough to scroll, `100vw` is *wider* than the space available and
+  the rule was capable of causing the very overflow it was added to prevent.
+*/
 html,
 body {
-  overflow-x: hidden;
-  max-width: 100vw;
+  overflow-x: clip;
+  max-width: 100%;
 }
 
 /* Better touch targets for mobile */
@@ -219,10 +235,12 @@ body {
     will-change: transform;
   }
 
-  .smooth-scroll {
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-  }
+  /*
+    A `.smooth-scroll` utility used to sit here setting `scroll-behavior: smooth`.
+    Nothing applied it, and Lenis owns smooth scrolling now — the two fight, because
+    the CSS property animates the same scroll position Lenis is already easing.
+    Removed rather than left as a trap.
+  */
 }
 
 /* Contact Section Bubble Animation */
