@@ -21,6 +21,7 @@
  * as one line of meaning ("Now building — web apps") rather than a word floating on its
  * own. Every `loop` item must finish `lead` grammatically, and every one must be something
  * the year's `body` already says. Keep them to 14 characters or fewer so each fits one line.
+ * @version 1.1.0
  */
 export type TimelineYear = {
   year: string;
