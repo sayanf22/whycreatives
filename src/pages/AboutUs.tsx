@@ -90,7 +90,10 @@ const AboutUs = () => {
   const headingThree = text("about.heading_line_3", "and video");
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-background text-foreground font-['Schibsted_Grotesk',sans-serif]">
+    // `overflow-x-clip`, not `hidden`: `hidden` makes this div a scroll container, and the
+    // timeline's sticky stage would pin to it instead of the viewport, so the section slid
+    // away while the track was still moving. See index.css.
+    <div className="min-h-screen overflow-x-clip bg-background text-foreground font-['Schibsted_Grotesk',sans-serif]">
       <Helmet>
         <title>About WhyCreatives | Creative Studio in Guwahati, Assam</title>
         <meta
@@ -272,10 +275,16 @@ const AboutUs = () => {
 
               It sits after "how we work" on purpose — how the studio operates, then how it
               got there. */}
-          <div className="mt-20 -mx-4 md:-mx-[clamp(20px,2.6vw,52px)] lg:mt-36">
-            <StudioTimeline />
-          </div>
+        </div>
 
+        {/* Outside the `max-w-[1920px]` well: on screens wider than 1920px the well clipped
+            the track on both sides. The negative margin cancels `main`'s padding; the
+            component re-applies a matching gutter to its own content. */}
+        <div className="mt-20 -mx-4 md:-mx-[clamp(20px,2.6vw,52px)] lg:mt-36">
+          <StudioTimeline />
+        </div>
+
+        <div className="mx-auto max-w-[1920px]">
           {/* ── DISCIPLINES ── a plain list of rows, each one a link. */}
           <section className="mt-20 lg:mt-36">
             <h2 className="mb-10 lg:mb-16">
