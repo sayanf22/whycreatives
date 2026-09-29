@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button";
 import { FadeInWhenVisible } from "@/components/FadeInWhenVisible";
 import { Link, useParams, Navigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { Spotlight } from "@/components/ui/spotlight-aceternity";
-import { ArrowRight, Video, Globe, Share2, Megaphone, Instagram, Palette, Phone, Mail, MapPin, Star, Users, Clock, Shield, CheckCircle2, TrendingUp } from "lucide-react";
+import { ArrowRight, Video, Globe, Share2, Megaphone, Instagram, Palette, Mail, MapPin, Star, Users, Clock, Shield, CheckCircle2, TrendingUp } from "lucide-react";
+import { BrandMark } from "@/components/BrandMark";
+import { SOCIAL_MARKS } from "@/data/social-marks";
 import { getLocationData, getMisspellingRedirect, isValidLocationSlug } from "@/data/seoLocations";
 
 // Service summaries; scope and commercial details are shared after discovery.
@@ -377,14 +378,14 @@ const LocationPage = () => {
                     </Link>
                   </Button>
                   <Button size="lg" variant="outline" asChild className="border-2 border-foreground text-lg px-10 py-7 rounded-full font-bold">
-                    <a href="tel:+918210198880">
-                      <Phone className="mr-2 h-5 w-5" /> Call Now
+                    <a href="https://wa.me/918210198880" target="_blank" rel="noopener noreferrer">
+                      <BrandMark name="WhatsApp" marks={SOCIAL_MARKS} className="mr-2 h-5 w-5" /> Chat on WhatsApp
                     </a>
                   </Button>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center text-sm text-muted-foreground">
-                  <a href="tel:+918210198880" className="flex items-center gap-2 hover:text-white transition-colors bg-white/5 px-4 py-2 rounded-full">
-                    <Phone className="w-4 h-4" /> +91 82101 98880
+                  <a href="https://wa.me/918210198880" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-white transition-colors bg-white/5 px-4 py-2 rounded-full">
+                    <BrandMark name="WhatsApp" marks={SOCIAL_MARKS} className="w-4 h-4" /> WhatsApp
                   </a>
                   <a href="mailto:hello@whycreatives.in" className="flex items-center gap-2 hover:text-white transition-colors bg-white/5 px-4 py-2 rounded-full">
                     <Mail className="w-4 h-4" /> hello@whycreatives.in

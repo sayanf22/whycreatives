@@ -135,7 +135,7 @@ const JoinUs = () => {
                   </label>
                   <Input
                     type="tel"
-                    placeholder="+91 82101 98880"
+                    placeholder="+91 98765 43210"
                     className="bg-background border-border/50 text-foreground placeholder:text-muted-foreground focus:border-foreground/40 transition-colors rounded-xl"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}

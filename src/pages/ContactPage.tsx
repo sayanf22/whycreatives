@@ -8,8 +8,6 @@ import {
   Loader2,
   Mail,
   MapPin,
-  MessageCircle,
-  Phone,
   Send,
 } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
@@ -19,6 +17,7 @@ import { usePageIntro } from "@/hooks/use-page-intro";
 import { useSiteContent } from "@/hooks/use-site-content";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { SOCIAL_MARKS } from "@/data/social-marks";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -39,8 +38,19 @@ const FIELD = {
   },
 } as const;
 
+const WhatsAppIcon = ({ className = "h-3.5 w-3.5" }: { className?: string }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={`shrink-0 ${className}`}
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path d={SOCIAL_MARKS.whatsapp} />
+  </svg>
+);
+
 const EMAIL = "hello@whycreatives.in";
-const PHONE_DISPLAY = "+91 82101 98880";
 const PHONE_E164 = "918210198880";
 
 const CHANNELS = [
@@ -51,10 +61,10 @@ const CHANNELS = [
     icon: Mail,
   },
   {
-    label: "Phone / WhatsApp",
-    value: PHONE_DISPLAY,
-    href: `tel:+${PHONE_E164}`,
-    icon: Phone,
+    label: "WhatsApp",
+    value: "Chat on WhatsApp",
+    href: `https://wa.me/${PHONE_E164}`,
+    icon: WhatsAppIcon,
   },
   {
     label: "Studio",
@@ -273,6 +283,8 @@ const ContactPage = () => {
                         {href ? (
                           <a
                             href={href}
+                            target={href.startsWith("http") ? "_blank" : undefined}
+                            rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
                             className="block py-6 transition-opacity duration-300 hover:opacity-55 lg:py-8"
                           >
                             {inner}
@@ -316,7 +328,7 @@ const ContactPage = () => {
                     aria-label="WhatsApp"
                     className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-border text-foreground transition-colors duration-300 hover:border-foreground hover:bg-foreground hover:text-background"
                   >
-                    <MessageCircle className="h-5 w-5" />
+                    <WhatsAppIcon className="h-5 w-5" />
                   </a>
                 </div>
               </motion.div>

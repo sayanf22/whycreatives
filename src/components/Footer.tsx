@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
+import { Mail, MapPin, ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { BlurReveal, BlurRevealItem } from "@/components/BlurReveal";
 import { BrandMark } from "@/components/BrandMark";
@@ -322,8 +322,8 @@ export const Footer = () => {
                   </BlurReveal>
                   <ul className="flex flex-col gap-3 text-neutral-300 text-xs sm:text-sm">
                     <BlurRevealItem delay={0.3} className="flex items-center gap-2.5">
-                      <Phone className="w-3.5 h-3.5 text-white flex-shrink-0" />
-                      <a href="tel:+918210198880" className="group relative inline-block hover:text-white transition-colors"><span>+91 82101 98880</span><span className="absolute left-0 -bottom-0.5 h-px w-0 bg-white transition-all duration-300 group-hover:w-full" /></a>
+                      <BrandMark name="WhatsApp" marks={SOCIAL_MARKS} className="w-3.5 h-3.5 text-white flex-shrink-0" />
+                      <a href="https://wa.me/918210198880" target="_blank" rel="noopener noreferrer" className="group relative inline-block hover:text-white transition-colors"><span>Chat on WhatsApp</span><span className="absolute left-0 -bottom-0.5 h-px w-0 bg-white transition-all duration-300 group-hover:w-full" /></a>
                     </BlurRevealItem>
                     <BlurRevealItem delay={0.35} className="flex items-center gap-2.5">
                       <Mail className="w-3.5 h-3.5 text-white flex-shrink-0" />
